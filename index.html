@@ -95,10 +95,11 @@ h2 .n{font-family:var(--mono);font-size:.7rem;font-weight:500;background:var(--b
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 table{width:100%;border-collapse:collapse;font-size:.78rem;}
 th{text-align:left;font-weight:600;color:var(--text3);font-size:.66rem;text-transform:uppercase;letter-spacing:.03em;
-  padding:6px 7px;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;background:var(--card);}
-td{padding:6px 7px;border-bottom:1px solid var(--border);white-space:nowrap;vertical-align:middle;}
+  padding:6px 8px;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;background:var(--card);}
+td{padding:6px 8px;border-bottom:1px solid var(--border);white-space:nowrap;vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
-.num{font-family:var(--mono);font-weight:500;text-align:right;}
+tr:nth-child(even){background:var(--card2);}
+.num{font-family:var(--mono);font-weight:500;text-align:right;min-width:70px;}
 .pos{color:var(--green);}.neg{color:var(--red);}
 .tag{display:inline-block;padding:2px 6px;border-radius:12px;font-size:.66rem;font-weight:600;font-family:var(--mono);}
 .tag-buy{background:var(--green-bg);color:var(--green);}
@@ -387,7 +388,7 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
     a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td style="white-space:normal;max-width:160px;font-size:.7rem;">${e.motiu}</td></tr>`;});}
   else if(sTab==='mantenir'){h+='<th>Símbol</th><th>Compra</th><th>Ara</th><th>P&L</th><th>Estat</th></tr></thead><tbody>';
     a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td style="white-space:normal;max-width:180px;font-size:.7rem;">${e.estat||''}<br><span style="color:var(--text3)">${e.sl_accio||''}</span></td></tr>`;});}
-  else if(sTab==='vendes_gen'){h+='<th>Símbol</th><th>Preu</th><th>SMA350</th><th>Marge</th><th>MFI</th></tr></thead><tbody>';
+  else if(sTab==='vendes_gen'){h+='<th>Símbol</th><th>Preu</th><th>SL Trailing</th><th>Marge</th><th>MFI</th></tr></thead><tbody>';
     a.d.sort((x,y)=>(x.preu/x.sma350)-(y.preu/y.sma350));
     a.d.forEach(e=>{const m=(e.preu/e.sma350-1)*100;h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.sma350,2)}</td><td class="num ${m<5?'neg':m<10?'':'pos'}">${fP(m)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
   else if(sTab==='cooldowns'){h+='<th>Símbol</th><th>Preu</th><th>Setmanes</th></tr></thead><tbody>';
