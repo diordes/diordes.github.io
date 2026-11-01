@@ -297,6 +297,8 @@ select{cursor:pointer;}
   <hr style="border:none;border-top:1px solid var(--border);margin:10px 0;">
   <div style="display:flex;gap:6px;flex-wrap:wrap;">
     <button class="btn bs" onclick="expAll()">📤 Exportar</button>
+    <button class="btn bs" onclick="document.getElementById('impFile').click()">📥 Importar</button>
+    <input type="file" id="impFile" accept=".json" style="display:none">
     <button class="btn bs bd" onclick="resAll()">🗑️ Reset</button>
   </div>
   <div class="ma"><button class="btn" onclick="cmo('mSt')">Cancel·lar</button><button class="btn bp" onclick="savS()">Guardar</button></div>
@@ -378,18 +380,22 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
   tb.innerHTML=T.map(x=>`<button class="stab ${sTab===x.id?'on':''}" onclick="sTab='${x.id}';rS()">${x.l}<span class="c">${x.d.length}</span></button>`).join('');
   const a=T.find(x=>x.id===sTab);if(!a||!a.d.length){ct.innerHTML='<div class="empty">Cap senyal</div>';return;}
   let h='<div class="tw"><table><thead><tr>';const pe=S.cash>=500?Math.round(S.cash*0.20/10)*10:0;
+  // Helper: check if already bought
+  const bought=new Set((S.positions||[]).map(p=>p.sym));
+
   if(sTab==='compres'){
-    h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>%SMA300</th><th>MFI</th><th>Stop Loss</th><th>Accions</th><th></th></tr></thead><tbody>';
+    h+='<th>Símbol</th><th>Preu compra</th><th>Suport</th><th>%SMA300</th><th>MFI</th><th>Stop Loss</th><th>Quantes</th><th></th></tr></thead><tbody>';
     a.d.forEach((e,idx)=>{const ac=pe>0&&e.preu>0?Math.floor(pe/e.preu):0;
-      h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num">${fP(e.pct*100)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num" style="color:var(--red);font-weight:700">${e.cur}${fm(e.sl,2)}</td><td class="num">${ac>0?ac+' acc':'—'}</td><td><button class="btn bs" style="background:var(--green-bg);color:var(--green);border-color:var(--green)" onclick="quickBuy('${e.sym}',${e.preu},${ac},${e.sl})">Comprar</button></td></tr>`;});}
+      const ja=bought.has(e.sym)?'<span style="color:var(--green);font-size:.7rem;margin-left:4px">✅</span>':'';
+      h+=`<tr><td><strong>${e.sym}</strong>${ja}<br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num" style="font-size:.95rem;font-weight:700">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num">${fP(e.pct*100)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num" style="color:var(--red);font-size:.95rem;font-weight:700">${e.cur}${fm(e.sl,2)}</td><td class="num" style="font-size:.95rem;font-weight:700">${ac>0?ac+' acc':'—'}</td><td><button class="btn bs" style="background:var(--green-bg);color:var(--green);border-color:var(--green)" onclick="quickBuy('${e.sym}',${e.preu},${ac},${e.sl})">Comprar</button></td></tr>`;});}
 
   else if(sTab==='vigilar'){
     h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>Distància</th><th>MFI</th></tr></thead><tbody>';
-    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num ${e.distancia<3?'neg':'pos'}">${fP(e.distancia)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
+    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num ${e.distancia<3?'neg':'pos'}">${fP(e.distancia)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
 
   else if(sTab==='vendes_pos'){
     h+='<th>Símbol</th><th>Compra</th><th>Ara</th><th>Guany</th><th>Motiu</th></tr></thead><tbody>';
-    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td style="white-space:normal;font-size:.72rem">${e.motiu}</td></tr>`;});}
+    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td style="white-space:normal;font-size:.72rem">${e.motiu}</td></tr>`;});}
 
   else if(sTab==='mantenir'){
     h+='<th>Símbol</th><th>Compra</th><th>Ara</th><th>Guany</th><th>Stop Loss</th><th>Marge</th></tr></thead><tbody>';
@@ -398,16 +404,16 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
       const m1=(e.estat||'').match(/SMA350=\$([\d,.]+)/);
       if(m1){slVal='$'+m1[1];const sv=parseFloat(m1[1].replace(',','.'));if(sv>0)marge=fP((e.preu_ara/sv-1)*100);}
       else{const m2=(e.sl_accio||'').match(/\$([\d,.]+)/);if(m2)slVal='$'+m2[1];}
-      h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td class="num" style="color:var(--red);font-weight:700">${slVal}</td><td class="num">${marge}</td></tr>`;});}
+      h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td class="num" style="color:var(--red);font-weight:700">${slVal}</td><td class="num">${marge}</td></tr>`;});}
 
   else if(sTab==='vendes_gen'){
     h+='<th>Símbol</th><th>Preu</th><th>Stop Loss</th><th>Marge</th><th>MFI</th></tr></thead><tbody>';
     a.d.sort((x,y)=>(x.preu/x.sma350)-(y.preu/y.sma350));
-    a.d.forEach(e=>{const m=(e.preu/e.sma350-1)*100;h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num" style="color:var(--red);font-weight:700">${e.cur}${fm(e.sma350,2)}</td><td class="num ${m<5?'neg':m<10?'':'pos'}">${fP(m)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
+    a.d.forEach(e=>{const m=(e.preu/e.sma350-1)*100;h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num" style="color:var(--red);font-weight:700">${e.cur}${fm(e.sma350,2)}</td><td class="num ${m<5?'neg':m<10?'':'pos'}">${fP(m)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
 
   else if(sTab==='cooldowns'){
     h+='<th>Símbol</th><th>Preu</th><th>Setmanes</th></tr></thead><tbody>';
-    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.rest} set</td></tr>`;});}
+    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.rest} set</td></tr>`;});}
 
   h+='</tbody></table></div>';ct.innerHTML=h;}
 
@@ -498,7 +504,7 @@ function editInici(y){
 function bY(){const ys=new Set();const cY=new Date().getFullYear();
   (S.closed||[]).forEach(c=>{if(c.data_venda)ys.add(yK(c.data_venda));});
   (S.moviments||[]).forEach(m=>{if(m.data)ys.add(yK(m.data));});
-  if(S.positions.length>0||S.cash>0)ys.add(cY);
+  ys.add(cY);
   Object.keys(S.valorInici||{}).forEach(y=>ys.add(parseInt(y)));
   return[...ys].sort().map(y=>{const isCur=y===cY;
     // Només aportacions i retirades reals (ajusts són correccions, no diners nous)
@@ -618,6 +624,16 @@ function aMov(){const tp=document.getElementById('mvT').value,imp=parseFloat(doc
   cmo('mMv');save();renderAll();}
 function expAll(){const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='screener_backup.json';a.click();}
+document.getElementById('impFile').addEventListener('change',function(ev){
+  const f=ev.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=function(e){
+    try{
+      const d=JSON.parse(e.target.result);
+      if(!confirm('Importar backup? Substituirà totes les dades actuals.'))return;
+      Object.assign(S,d);save();cmo('mSt');renderAll();
+      toast('✅ Backup importat');
+    }catch(err){alert('Error: '+err.message);}
+  };r.readAsText(f);ev.target.value='';});
 function resAll(){if(!confirm('Segur? Tot esborrat.'))return;if(!confirm('Última oportunitat.'))return;
   localStorage.removeItem(K);S=def();renderAll();}
 
