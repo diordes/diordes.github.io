@@ -379,9 +379,9 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
   const a=T.find(x=>x.id===sTab);if(!a||!a.d.length){ct.innerHTML='<div class="empty">Cap senyal</div>';return;}
   let h='<div class="tw"><table><thead><tr>';const pe=S.cash>=500?Math.round(S.cash*0.20/10)*10:0;
   if(sTab==='compres'){
-    h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>%SMA300</th><th>MFI</th><th>Stop Loss</th><th>Accions</th></tr></thead><tbody>';
-    a.d.forEach(e=>{const ac=pe>0&&e.preu>0?Math.floor(pe/e.preu):0;
-      h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num">${fP(e.pct*100)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num" style="color:var(--red);font-weight:700">${e.cur}${fm(e.sl,2)}</td><td class="num">${ac>0?ac+' acc':'—'}</td></tr>`;});}
+    h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>%SMA300</th><th>MFI</th><th>Stop Loss</th><th>Accions</th><th></th></tr></thead><tbody>';
+    a.d.forEach((e,idx)=>{const ac=pe>0&&e.preu>0?Math.floor(pe/e.preu):0;
+      h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num">${fP(e.pct*100)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num" style="color:var(--red);font-weight:700">${e.cur}${fm(e.sl,2)}</td><td class="num">${ac>0?ac+' acc':'—'}</td><td><button class="btn bs" style="background:var(--green-bg);color:var(--green);border-color:var(--green)" onclick="quickBuy('${e.sym}',${e.preu},${ac},${e.sl})">Comprar</button></td></tr>`;});}
 
   else if(sTab==='vigilar'){
     h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>Distància</th><th>MFI</th></tr></thead><tbody>';
@@ -575,6 +575,13 @@ function savEd(){
   },100);
 }
 
+function quickBuy(sym,preu,shares,sl){
+  document.getElementById('apS').value=sym;
+  document.getElementById('apP').value=preu;
+  document.getElementById('apH').value=shares;
+  document.getElementById('apL').value=sl;
+  document.getElementById('apD').value=new Date().toISOString().split('T')[0];
+  document.getElementById('mAP').classList.add('show');}
 function showAP(){['apS','apP','apH','apL'].forEach(x=>document.getElementById(x).value='');
   document.getElementById('apD').value=new Date().toISOString().split('T')[0];document.getElementById('mAP').classList.add('show');}
 function aPos(){const sym=document.getElementById('apS').value.trim().toUpperCase(),preu=parseFloat(document.getElementById('apP').value),
