@@ -417,7 +417,13 @@ function rM(){const el=document.getElementById('mL'),em=document.getElementById(
     const cl=m.tipus==='aportacio'||m.tipus==='ajust_up'?'pos':'neg';
     const tag=m.auto?'<span style="font-size:.58rem;background:var(--blue-bg);color:var(--blue);padding:1px 5px;border-radius:8px;margin-left:4px;">auto</span>'
       :m.tipus==='ajust_up'||m.tipus==='ajust_down'?'<span style="font-size:.58rem;background:var(--purple-bg);color:var(--purple);padding:1px 5px;border-radius:8px;margin-left:4px;">ajust</span>':'';
-    return`<div class="mvi"><span class="num ${cl}" style="font-size:.82rem;">${sg}€${fm(m.import||0)}</span><span style="color:var(--text3);font-size:.7rem;margin-left:8px;">${m.data||''}${m.nota?' · '+m.nota:''}${tag}</span></div>`;}).join('');}
+    const del=m.auto?`<button class="btn bs bd" onclick="dMov(${S.moviments.length-1-i})" style="margin-left:auto;flex-shrink:0;">✕</button>`:'';
+    return`<div class="mvi"><span class="num ${cl}" style="font-size:.82rem;">${sg}€${fm(m.import||0)}</span><span style="color:var(--text3);font-size:.7rem;margin-left:8px;">${m.data||''}${m.nota?' · '+m.nota:''}${tag}</span>${del}</div>`;}).join('');}
+
+function dMov(i){if(!confirm('Eliminar aportació automàtica?'))return;
+  const m=S.moviments[i];
+  S.brokerTotal=Math.max(0,(S.brokerTotal||S.cash||0)-(m.import||0));S.cash=S.brokerTotal;
+  S.moviments.splice(i,1);save();renderAll();}
 
 // ═══ RETURNS ═══
 let rChart=null;
