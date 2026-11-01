@@ -93,7 +93,7 @@ h2 .n{font-family:var(--mono);font-size:.7rem;font-weight:500;background:var(--b
 
 /* Tables */
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-table{width:100%;border-collapse:collapse;font-size:.78rem;table-layout:fixed;}
+table{width:100%;border-collapse:collapse;font-size:.78rem;}
 th{text-align:left;font-weight:600;color:var(--text3);font-size:.66rem;text-transform:uppercase;letter-spacing:.03em;
   padding:6px 8px;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;background:var(--card);}
 td{padding:6px 8px;border-bottom:1px solid var(--border);white-space:nowrap;vertical-align:middle;}
@@ -379,38 +379,35 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
   tb.innerHTML=T.map(x=>`<button class="stab ${sTab===x.id?'on':''}" onclick="sTab='${x.id}';rS()">${x.l}<span class="c">${x.d.length}</span></button>`).join('');
   const a=T.find(x=>x.id===sTab);if(!a||!a.d.length){ct.innerHTML='<div class="empty">Cap senyal</div>';return;}
   let h='<div class="tw"><table><thead><tr>';const pe=S.cash>=500?Math.round(S.cash*0.20/10)*10:0;
-  // Cada pestanya genera les seves files com a cards/files simples
   if(sTab==='compres'){
-    h+='<th style="width:18%">Símbol</th><th style="width:14%">Preu</th><th style="width:14%">Suport</th><th style="width:13%">%SMA300</th><th style="width:8%">MFI</th><th style="width:14%">⛔ SL</th><th style="width:19%">Invertir</th></tr></thead><tbody>';
+    h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>%SMA300</th><th>MFI</th><th>⛔ SL</th><th>Accions</th></tr></thead><tbody>';
     a.d.forEach(e=>{const ac=pe>0&&e.preu>0?Math.floor(pe/e.preu):0;
-      h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num">${fP(e.pct*100)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num" style="color:var(--red);font-weight:700;">${e.cur}${fm(e.sl,2)}</td><td class="num">${pe>0?'€'+fm(pe,0)+' → '+ac:''}</td></tr>`;});}
+      h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num">${fP(e.pct*100)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num" style="color:var(--red);font-weight:700">${e.cur}${fm(e.sl,2)}</td><td class="num">${ac>0?ac+' acc':'—'}</td></tr>`;});}
 
   else if(sTab==='vigilar'){
-    h+='<th style="width:22%">Símbol</th><th style="width:20%">Preu</th><th style="width:20%">Suport</th><th style="width:20%">Distància</th><th style="width:18%">MFI</th></tr></thead><tbody>';
+    h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>Distància</th><th>MFI</th></tr></thead><tbody>';
     a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num ${e.distancia<3?'neg':'pos'}">${fP(e.distancia)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
 
   else if(sTab==='vendes_pos'){
-    h+='<th style="width:18%">Símbol</th><th style="width:16%">Compra</th><th style="width:16%">Ara</th><th style="width:14%">P&L</th><th style="width:36%">Motiu</th></tr></thead><tbody>';
-    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td style="white-space:normal;font-size:.72rem;">${e.motiu}</td></tr>`;});}
+    h+='<th>Símbol</th><th>Compra</th><th>Ara</th><th>P&L</th><th>Motiu</th></tr></thead><tbody>';
+    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td style="white-space:normal;font-size:.72rem">${e.motiu}</td></tr>`;});}
 
   else if(sTab==='mantenir'){
-    h+='<th style="width:14%">Símbol</th><th style="width:14%">Compra</th><th style="width:14%">Ara</th><th style="width:10%">P&L</th><th style="width:18%">⛔ SL</th><th style="width:30%">Estat</th></tr></thead><tbody>';
+    h+='<th>Símbol</th><th>Compra</th><th>Ara</th><th>P&L</th><th>⛔ SL</th><th>Marge</th></tr></thead><tbody>';
     a.d.forEach(e=>{
-      // Extreure el valor SL de sl_accio o estat
-      let slVal='';
-      const slMatch=(e.sl_accio||'').match(/\$[\d,.]+/);
-      if(slMatch)slVal=slMatch[0];
-      else{const m2=(e.estat||'').match(/SMA350=\$([\d,.]+)/);if(m2)slVal='$'+m2[1];}
-      if(!slVal){const m3=(e.sl_accio||'').match(/\$([\d,.]+)/);if(m3)slVal='$'+m3[1];}
-      h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td class="num" style="color:var(--red);font-weight:700;">${slVal}</td><td style="white-space:normal;font-size:.7rem;">${e.estat||''}</td></tr>`;});}
+      let slVal='—',marge='';
+      const m1=(e.estat||'').match(/SMA350=\$([\d,.]+)/);
+      if(m1){slVal='$'+m1[1];const sv=parseFloat(m1[1].replace(',','.'));if(sv>0)marge=fP((e.preu_ara/sv-1)*100);}
+      else{const m2=(e.sl_accio||'').match(/\$([\d,.]+)/);if(m2)slVal='$'+m2[1];}
+      h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td class="num" style="color:var(--red);font-weight:700">${slVal}</td><td class="num">${marge}</td></tr>`;});}
 
   else if(sTab==='vendes_gen'){
-    h+='<th style="width:20%">Símbol</th><th style="width:18%">Preu</th><th style="width:22%">⛔ SL Trailing</th><th style="width:20%">Marge</th><th style="width:20%">MFI</th></tr></thead><tbody>';
+    h+='<th>Símbol</th><th>Preu</th><th>⛔ SL Trailing</th><th>Marge</th><th>MFI</th></tr></thead><tbody>';
     a.d.sort((x,y)=>(x.preu/x.sma350)-(y.preu/y.sma350));
-    a.d.forEach(e=>{const m=(e.preu/e.sma350-1)*100;h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num" style="color:var(--red);font-weight:700;">${e.cur}${fm(e.sma350,2)}</td><td class="num ${m<5?'neg':m<10?'':'pos'}">${fP(m)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
+    a.d.forEach(e=>{const m=(e.preu/e.sma350-1)*100;h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num" style="color:var(--red);font-weight:700">${e.cur}${fm(e.sma350,2)}</td><td class="num ${m<5?'neg':m<10?'':'pos'}">${fP(m)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
 
   else if(sTab==='cooldowns'){
-    h+='<th style="width:40%">Símbol</th><th style="width:30%">Preu</th><th style="width:30%">Setmanes</th></tr></thead><tbody>';
+    h+='<th>Símbol</th><th>Preu</th><th>Setmanes</th></tr></thead><tbody>';
     a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.rest} set</td></tr>`;});}
 
   h+='</tbody></table></div>';ct.innerHTML=h;}
