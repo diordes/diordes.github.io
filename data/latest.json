@@ -1,0 +1,80 @@
+{
+  "data": "2026-11-01T15:22:48.123995",
+  "eurUsd": 1.08,
+  "config": {
+    "cash": 15000,
+    "aportacio_mes": 10000,
+    "posicions": [
+      {
+        "sym": "MSFT",
+        "preu": 392.16,
+        "shares": 4,
+        "data": "2026-11-19",
+        "sl": 333.34,
+        "trailing_sl": 0,
+        "tipus": "full"
+      },
+      {
+        "sym": "ORCL",
+        "preu": 130.7,
+        "shares": 12,
+        "data": "2027-01-07",
+        "sl": 111.09,
+        "trailing_sl": 0,
+        "tipus": "full"
+      },
+      {
+        "sym": "TSLA",
+        "preu": 381.56,
+        "shares": 4,
+        "data": "2026-01-01",
+        "sl": 324.33,
+        "trailing_sl": 0,
+        "tipus": "full"
+      }
+    ],
+    "returns": []
+  },
+  "resum": {
+    "patrimoni": 15000,
+    "cash": 15000,
+    "valor_posicions": 0,
+    "cost_posicions": 0,
+    "pl_pct": 0,
+    "per_entrada": 3000.0,
+    "n_posicions": 3
+  },
+  "compres": [],
+  "vigilar": [],
+  "vendes_gen": [
+    {
+      "sym": "IS20.DE",
+      "nom": "SP20 Top20 ETF (teu)",
+      "preu": 5.9670000076293945,
+      "cur": "\u20ac",
+      "sma350": 5.3239557089124405,
+      "mfi": 41.22556214557074
+    }
+  ],
+  "vendes_pos": [],
+  "mantenir": [],
+  "cooldowns": [],
+  "tots": [
+    {
+      "sym": "IS20.DE",
+      "nom": "SP20 Top20 ETF (teu)",
+      "preu": 5.97,
+      "cur": "\u20ac",
+      "sma300": 5.44,
+      "sma350": 5.32,
+      "pct": 9.8,
+      "mfi": 41.0,
+      "support": 5.7,
+      "resist": 6.34,
+      "sl": 5.07,
+      "above_sma": true,
+      "mc": 0.0
+    }
+  ],
+  "bench": {}
+}
