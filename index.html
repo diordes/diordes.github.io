@@ -379,7 +379,7 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
   tb.innerHTML=T.map(x=>`<button class="stab ${sTab===x.id?'on':''}" onclick="sTab='${x.id}';rS()">${x.l}<span class="c">${x.d.length}</span></button>`).join('');
   const a=T.find(x=>x.id===sTab);if(!a||!a.d.length){ct.innerHTML='<div class="empty">Cap senyal</div>';return;}
   let h='<div class="tw"><table><thead><tr>';const pe=S.cash>=500?Math.round(S.cash*0.20/10)*10:0;
-  if(sTab==='compres'){h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>vs SMA</th><th>MFI</th><th>SL</th><th>Invertir</th></tr></thead><tbody>';
+  if(sTab==='compres'){h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>% SMA300</th><th>MFI</th><th>SL</th><th>Invertir</th></tr></thead><tbody>';
     a.d.forEach(e=>{const ac=pe>0&&e.preu>0?Math.floor(pe/e.preu):0;
       h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text3)">${e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num">${fP(e.pct*100)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num neg">${e.cur}${fm(e.sl,2)}</td><td class="num">${pe>0?'€'+fm(pe,0)+' → '+ac:''}</td></tr>`;});}
   else if(sTab==='vigilar'){h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>Dist.</th><th>MFI</th></tr></thead><tbody>';
