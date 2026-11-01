@@ -253,7 +253,7 @@ select{cursor:pointer;}
 
 <!-- TAB 3: RENDIBILITAT -->
 <div class="pane" id="p3">
-  <div class="ch" style="margin-bottom:12px;"><canvas id="rCh"></canvas></div>
+  <div class="ch" id="rChWrap" style="margin-bottom:12px;display:none;"><canvas id="rCh"></canvas></div>
   <div id="rCards"></div>
   <div class="empty" id="rE"><span class="ic">📈</span>Posa el patrimoni a 1 de gener per calcular rendibilitat</div>
 </div>
@@ -435,12 +435,13 @@ function rC(){const tb=document.getElementById('cTb'),em=document.getElementById
 function rM(){const el=document.getElementById('mL'),em=document.getElementById('mE');
   const mv=(S.moviments||[]).slice().reverse();document.getElementById('mCnt').textContent=mv.length;
   if(!mv.length){el.innerHTML='';em.style.display='';return;}em.style.display='none';
-  el.innerHTML=mv.map(m=>{
+  el.innerHTML=mv.map((m,i)=>{
+    const ri=S.moviments.length-1-i;
     const sg=m.tipus==='aportacio'||m.tipus==='ajust_up'?'+':'−';
     const cl=m.tipus==='aportacio'||m.tipus==='ajust_up'?'pos':'neg';
     const tag=m.auto?'<span style="font-size:.58rem;background:var(--blue-bg);color:var(--blue);padding:1px 5px;border-radius:8px;margin-left:4px;">auto</span>'
       :m.tipus==='ajust_up'||m.tipus==='ajust_down'?'<span style="font-size:.58rem;background:var(--purple-bg);color:var(--purple);padding:1px 5px;border-radius:8px;margin-left:4px;">ajust</span>':'';
-    const del=m.auto?`<button class="btn bs bd" onclick="dMov(${S.moviments.length-1-i})" style="margin-left:auto;flex-shrink:0;">✕</button>`:'';
+    const del=m.auto?`<button class="btn bs bd" onclick="dMov(${ri})" style="margin-left:auto;flex-shrink:0;">✕</button>`:'';
     return`<div class="mvi"><span class="num ${cl}" style="font-size:.82rem;">${sg}€${fm(m.import||0)}</span><span style="color:var(--text3);font-size:.7rem;margin-left:8px;">${m.data||''}${m.nota?' · '+m.nota:''}${tag}</span>${del}</div>`;}).join('');}
 
 function dMov(i){if(!confirm('Eliminar aportació automàtica?'))return;
@@ -451,7 +452,9 @@ function dMov(i){if(!confirm('Eliminar aportació automàtica?'))return;
 // ═══ RETURNS ═══
 let rChart=null;
 function rR(){const el=document.getElementById('rCards'),em=document.getElementById('rE');
-  const yrs=bY();if(!yrs.length){el.innerHTML='';em.style.display='';if(rChart){rChart.destroy();rChart=null;}return;}
+  let yrs=[];
+  try{yrs=bY();}catch(e){console.error('bY error:',e);}
+  if(!yrs.length){el.innerHTML='';em.style.display='';if(rChart){rChart.destroy();rChart=null;}return;}
   em.style.display='none';
 
   el.innerHTML=yrs.slice().reverse().map(y=>{
@@ -480,15 +483,20 @@ function rR(){const el=document.getElementById('rCards'),em=document.getElementB
     </div>`;
   }).join('');
 
-  // Chart
-  const lb=yrs.map(y=>String(y.y)),rt=yrs.map(y=>{const g=y.f-y.i-y.a;const b=y.i+(y.a/2);return b>0?+(g/b*100).toFixed(1):0;});
-  const co=rt.map(r=>r>=0?'rgba(52,211,153,0.7)':'rgba(248,113,113,0.7)');
-  const cx=document.getElementById('rCh');if(rChart)rChart.destroy();
-  if(yrs.some(y=>y.i>0)){
-    rChart=new Chart(cx,{type:'bar',data:{labels:lb,datasets:[{data:rt,backgroundColor:co,borderRadius:4,barThickness:yrs.length>8?undefined:44}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+'%'}}},
-        scales:{x:{grid:{display:false},ticks:{color:'#9ca3af',font:{family:"'JetBrains Mono'"}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#9ca3af',callback:v=>v+'%',font:{family:"'JetBrains Mono'"}}}}}}); 
-  }
+  // Chart - only show with 2+ years
+  const cw=document.getElementById('rChWrap');
+  try{
+    const yrsWithData=yrs.filter(y=>y.i>0);
+    if(yrsWithData.length>=2){
+      cw.style.display='';
+      const lb=yrs.map(y=>String(y.y)),rt=yrs.map(y=>{const g=y.f-y.i-y.a;const b=y.i+(y.a/2);return b>0?+(g/b*100).toFixed(1):0;});
+      const co=rt.map(r=>r>=0?'rgba(52,211,153,0.7)':'rgba(248,113,113,0.7)');
+      const cx=document.getElementById('rCh');if(rChart)rChart.destroy();
+      rChart=new Chart(cx,{type:'bar',data:{labels:lb,datasets:[{data:rt,backgroundColor:co,borderRadius:4,barThickness:yrs.length>8?undefined:44}]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+'%'}}},
+          scales:{x:{grid:{display:false},ticks:{color:'#9ca3af',font:{family:"'JetBrains Mono'"}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#9ca3af',callback:v=>v+'%',font:{family:"'JetBrains Mono'"}}}}}}); 
+    } else {cw.style.display='none';if(rChart){rChart.destroy();rChart=null;}}
+  }catch(e){console.error('Chart error:',e);cw.style.display='none';}
 }
 
 // Edit inici directament des de la targeta (usa el modal mEd)
@@ -598,7 +606,7 @@ function aPos(){const sym=document.getElementById('apS').value.trim().toUpperCas
   const costEur=isEur?preu*shares:(preu*shares)/(S.eurUsd||1.08);
   S.positions.push({sym,preu,shares,data,sl,trailing_sl:0});
   S.cash=Math.max(0,(S.cash||0)-costEur);
-  cmo('mAP');save();renderAll();}
+  cmo('mAP');save();renderAll();syncConfig();}
 let clI=-1;
 function showCP(i){clI=i;const p=S.positions[i];document.getElementById('cpS').textContent=p.sym;
   document.getElementById('cpP').value=gP(p.sym)||p.preu;document.getElementById('cpD').value=new Date().toISOString().split('T')[0];document.getElementById('mCP').classList.add('show');}
@@ -607,8 +615,34 @@ function cPos(){if(clI<0)return;const p=S.positions[clI],pv=parseFloat(document.
   if(!pv){alert('Preu de venda');return;}const pl=(pv/p.preu-1)*100;if(!S.closed)S.closed=[];
   S.closed.push({sym:p.sym,preu_compra:p.preu,preu_venda:pv,shares:p.shares,data_compra:p.data,data_venda:dv,pl:+pl.toFixed(1),motiu:mot});
   const saleEur=isEurSym(p.sym)?pv*(p.shares||0):(pv*(p.shares||0))/(S.eurUsd||1.08);
-  S.cash+=saleEur;S.positions.splice(clI,1);cmo('mCP');save();renderAll();}
-function dP(i){if(!confirm('Eliminar '+S.positions[i].sym+'?'))return;S.positions.splice(i,1);save();renderAll();}
+  S.cash+=saleEur;S.positions.splice(clI,1);cmo('mCP');save();renderAll();syncConfig();}
+function dP(i){if(!confirm('Eliminar '+S.positions[i].sym+'?'))return;S.positions.splice(i,1);save();renderAll();syncConfig();}
+
+// ═══ SYNC CONFIG.JSON AL REPO PRIVAT ═══
+async function syncConfig(){
+  const token=localStorage.getItem(GH_TOKEN_KEY);
+  if(!token){toast('⚠️ Posa el GitHub token a Executar per sincronitzar','err');return;}
+  const cfg=JSON.stringify({
+    cash_actual:Math.round(S.brokerTotal||S.cash||0),
+    aportacio_mes:S.aportMes||0,
+    posicions:S.positions.map(p=>({sym:p.sym,preu:p.preu,shares:p.shares,data:p.data,sl:p.sl,trailing_sl:p.trailing_sl||0})),
+    sl_historial:[]
+  },null,2);
+  try{
+    // Get current file SHA
+    const r1=await fetch('https://api.github.com/repos/'+GH_REPO+'/contents/config.json',{
+      headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github.v3+json'}});
+    if(!r1.ok){toast('⚠️ No s\'ha pogut llegir config.json','err');return;}
+    const f1=await r1.json();
+    // Update file
+    const r2=await fetch('https://api.github.com/repos/'+GH_REPO+'/contents/config.json',{
+      method:'PUT',
+      headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:'📊 Sync posicions',content:btoa(unescape(encodeURIComponent(cfg))),sha:f1.sha})});
+    if(r2.ok){toast('✅ Posicions sincronitzades al repo');}
+    else{toast('⚠️ Error sincronitzant','err');}
+  }catch(e){toast('⚠️ Error de connexió','err');}
+}
 function dC(i){if(!confirm('Eliminar?'))return;S.closed.splice(i,1);save();renderAll();}
 
 function showMov(){document.getElementById('mvI').value=S.aportMes||10000;
