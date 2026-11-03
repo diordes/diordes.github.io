@@ -216,7 +216,9 @@ select{cursor:pointer;}
     <div class="hv" id="hT">—</div>
     <div class="hpl pos" id="hP"></div>
   </div>
-  <div style="font-size:.65rem;color:var(--text3);font-family:var(--mono);margin:-6px 0 4px;" id="hFx"></div>
+  <div style="font-size:.78rem;color:var(--text3);font-family:var(--mono);margin:-4px 0 0;" id="hTu"></div>
+  <div style="font-size:.82rem;margin:2px 0 4px;" id="hG"></div>
+  <div style="font-size:.65rem;color:var(--text3);font-family:var(--mono);margin:-2px 0 4px;" id="hFx"></div>
   <div class="h-grid">
     <div class="h-cell"><div class="h-lbl">Total al broker</div><div class="h-val ed" id="sBrok" onclick="editV('broker')">— <span class="pencil">✏️</span></div><div class="h-sub" id="sCashSub"></div></div>
     <div class="h-cell"><div class="h-lbl">Per trade (20%)</div><div class="h-val" id="sT">—</div><div class="h-sub" id="sTn"></div></div>
@@ -248,6 +250,7 @@ select{cursor:pointer;}
   <div class="sec">
     <h2>Posicions obertes <span class="n" id="pCnt">0</span></h2>
     <div style="margin-bottom:8px;"><button class="btn bs" onclick="showAP()">+ Afegir</button></div>
+    <div id="pSum" style="display:none;margin-bottom:10px;padding:8px 12px;background:var(--card-bg);border-radius:8px;font-family:var(--mono);font-size:.82rem;"></div>
     <div class="tw"><table><thead><tr><th>Símbol</th><th>Compra</th><th>Shares</th><th>Data</th><th>Ara</th><th>Guany real</th><th>Stop Loss</th><th></th></tr></thead><tbody id="pTb"></tbody></table></div>
     <div class="empty" id="pE" style="display:none"><span class="ic">📭</span>Cap posició oberta</div>
   </div>
@@ -357,7 +360,7 @@ function posVal(){let v=0,c=0;S.positions.forEach(p=>{
 function tot(){const{v,c}=posVal();
   const cash=Math.max(0,(S.brokerTotal||S.cash||0)-v);
   const pl=c>0?(v/c-1)*100:0;const t=(S.brokerTotal||S.cash||0);
-  const pt=t>=500?Math.round(t*0.20/10)*10:0;return{v,c,pl,t,cash,pt};}
+  const pt=t>=500?Math.round(t*0.20/10)*10:0;const ge=v-c;const fx=S.eurUsd||1.08;return{v,c,pl,t,cash,pt,ge,fx};}
 function yK(d){return new Date(d).getFullYear();}
 
 // ═══ TABS ═══
@@ -365,17 +368,21 @@ function goTab(i){for(let x=0;x<4;x++){document.getElementById('p'+x).classList.
 goTab(S.tab||0);
 
 // ═══ HERO ═══
-function rH(){const{v,c,pl,t,cash,pt}=tot();
+function rH(){const{v,c,pl,t,cash,pt,ge,fx}=tot();
   document.getElementById('hT').textContent=fM(t);
   const e=document.getElementById('hP');
   if(c>0){e.textContent=fP(pl)+' invertit';e.className='hpl '+pC(pl);}
   else{e.textContent='';e.className='hpl';}
-
+  const hTu=document.getElementById('hTu');
+  if(hTu)hTu.textContent='$'+fm(t*fx,2);
+  const hG=document.getElementById('hG');
+  if(hG&&c>0){hG.innerHTML='<span class="'+pC(ge)+'">'+fM(ge)+'</span> <span style="font-size:.68rem;color:var(--text3);">($'+fm(ge*fx,2)+')</span>';hG.style.display='';}
+  else if(hG){hG.style.display='none';}
   const fxEl=document.getElementById('hFx');
-  if(fxEl)fxEl.textContent='EUR/USD '+fm(S.eurUsd||1.08,4);
-  document.getElementById('sBrok').innerHTML=fM(S.brokerTotal||S.cash||0)+' <span class="pencil">✏️</span>';
-  document.getElementById('sCashSub').textContent='Cash lliure: '+fM(cash);
-  document.getElementById('sT').textContent=pt>0?fM(pt):'—';
+  if(fxEl)fxEl.textContent='EUR/USD '+fm(fx,4);
+  document.getElementById('sBrok').innerHTML=fM(S.brokerTotal||S.cash||0)+' <span style="font-size:.62rem;color:var(--text3);">($'+fm((S.brokerTotal||S.cash||0)*fx,2)+')</span> <span class="pencil">✏️</span>';
+  document.getElementById('sCashSub').textContent='Cash lliure: '+fM(cash)+' ($'+fm(cash*fx,2)+')';
+  document.getElementById('sT').textContent=pt>0?fM(pt)+' ($'+fm(pt*fx,0)+')':'—';
   document.getElementById('sTn').textContent=pt>0?Math.floor(cash/pt)+' entrades possibles':'';
   document.getElementById('sA').innerHTML=fM(S.aportMes)+'/mes <span class="pencil">✏️</span>';
   document.getElementById('sN').textContent=S.positions.length;
@@ -534,14 +541,19 @@ function genConText(){
   return o;}
 
 // ═══ POSITIONS ═══
-function rP(){const tb=document.getElementById('pTb'),em=document.getElementById('pE');
+function rP(){const tb=document.getElementById('pTb'),em=document.getElementById('pE'),ps=document.getElementById('pSum');
   document.getElementById('pCnt').textContent=S.positions.length;
-  if(!S.positions.length){tb.innerHTML='';em.style.display='';return;}em.style.display='none';
+  if(!S.positions.length){tb.innerHTML='';em.style.display='';if(ps)ps.style.display='none';return;}em.style.display='none';
+  const fxR=S.eurUsd||1.08;let totGE=0,totGU=0,totVE=0,totCE=0,hasPr=false;
   tb.innerHTML=S.positions.map((p,i)=>{const c=gP(p.sym),pr=c||p.preu,pl=(pr/p.preu-1)*100,vv=pr*(p.shares||0),cost=p.preu*(p.shares||0),gain=vv-cost;
+    const eS=isEurSym(p.sym);const gE=eS?gain:gain/fxR;const gU=eS?gain*fxR:gain;
+    if(c){totGE+=gE;totGU+=gU;totVE+=eS?vv:vv/fxR;totCE+=eS?cost:cost/fxR;hasPr=true;}
     let nom=p.nom||'';if(!nom&&S.signals&&S.signals.tots){const t=S.signals.tots.find(x=>x.sym===p.sym);if(t&&t.nom)nom=t.nom;}
     const tsl=p.trailing_sl||0;const slEfectiu=Math.max(p.sl,tsl);
     const slTxt=tsl>0?'$'+fm(slEfectiu,2)+'<br><span style="font-size:.58rem;color:var(--text3)">trailing</span>':'$'+fm(p.sl,2)+'<br><span style="font-size:.58rem;color:var(--text3)">fix -15%</span>';
-    return`<tr><td><strong>${p.sym}</strong>${nom?'<br><span style="font-size:.66rem;color:var(--text2)">'+nom+'</span>':''}</td><td class="num">$${fm(p.preu,2)}</td><td class="num">${p.shares}</td><td style="font-size:.7rem;">${p.data||''}</td><td class="num">${c?'$'+fm(c,2):'—'}</td><td class="num ${pC(pl)}">${c?fP(pl):'—'}${c?'<br><span style="font-size:.66rem;color:var(--text2)">'+fM(gain,'$')+'</span>':''}</td><td class="num neg">${slTxt}</td><td><button class="btn bs" onclick="editPos(${i})">✏️</button> <button class="btn bs" onclick="showCP(${i})">Tancar</button> <button class="btn bs bd" onclick="dP(${i})">✕</button></td></tr>`;}).join('');}
+    return`<tr><td><strong>${p.sym}</strong>${nom?'<br><span style="font-size:.66rem;color:var(--text2)">'+nom+'</span>':''}</td><td class="num">$${fm(p.preu,2)}</td><td class="num">${p.shares}</td><td style="font-size:.7rem;">${p.data||''}</td><td class="num">${c?'$'+fm(c,2):'—'}</td><td class="num ${pC(pl)}">${c?fP(pl):'—'}${c?'<br><span style="font-size:.68rem;font-weight:600;">'+fM(gE)+'</span><br><span style="font-size:.6rem;color:var(--text3);">($'+fm(gU,2)+')</span>':''}</td><td class="num neg">${slTxt}</td><td><button class="btn bs" onclick="editPos(${i})">✏️</button> <button class="btn bs" onclick="showCP(${i})">Tancar</button> <button class="btn bs bd" onclick="dP(${i})">✕</button></td></tr>`;}).join('');
+  if(ps&&hasPr){const tpl=totCE>0?(totVE/totCE-1)*100:0;ps.innerHTML='<span style="color:var(--text3);">Total posicions:</span> <strong class="'+pC(totGE)+'">'+fM(totGE)+'</strong> <span style="color:var(--text3);font-size:.72rem;">($'+fm(totGU,2)+')</span> <span class="'+pC(tpl)+'" style="margin-left:6px;">'+fP(tpl)+'</span>';ps.style.display='';}
+  else if(ps){ps.style.display='none';}}
 
 // ═══ CLOSED ═══
 function rC(){const tb=document.getElementById('cTb'),em=document.getElementById('cE');
@@ -576,17 +588,18 @@ function rR(){const el=document.getElementById('rCards'),em=document.getElementB
   if(!yrs.length){el.innerHTML='';em.style.display='';if(rChart){rChart.destroy();rChart=null;}return;}
   em.style.display='none';
 
+  const fxR=S.eurUsd||1.08;
   el.innerHTML=yrs.slice().reverse().map(y=>{
     const g=y.f-y.i-y.a;
     const b=y.i+(y.a/2);
     const r=b>0?(g/b)*100:0;
     const badge=y.cur?'<span class="yr-badge" style="background:var(--blue-bg);color:var(--blue);">en curs</span>':'';
     const iniciHtml=y.i
-      ?`<button class="yv ed" onclick="editInici(${y.y})" style="font-size:inherit;">${fM(y.i)} ✏️</button>`
+      ?`<button class="yv ed" onclick="editInici(${y.y})" style="font-size:inherit;">${fM(y.i)} <span style="font-size:.62rem;color:var(--text3);">($${fm(y.i*fxR,0)})</span> ✏️</button>`
       :`<button class="yv ed" onclick="editInici(${y.y})" style="font-size:inherit;color:var(--yellow);">⚠️ Posa valor inici</button>`;
     const resultHtml=y.i
       ?`<div class="yr-result">
-          <div><span class="yl">Guany net</span><br><span class="yv ${pC(g)}">${fM(g)}</span></div>
+          <div><span class="yl">Guany net</span><br><span class="yv ${pC(g)}">${fM(g)}</span><br><span style="font-size:.65rem;color:var(--text3);">($${fm(g*fxR,0)})</span></div>
           <div style="text-align:right;"><span class="yl">Rendibilitat</span><br><span class="yr-pct ${pC(r)}">${fP(r)}</span></div>
         </div>`
       :`<div style="font-size:.75rem;color:var(--text3);padding:4px 0;">Posa el valor d'inici per veure la rendibilitat</div>`;
@@ -594,8 +607,8 @@ function rR(){const el=document.getElementById('rCards'),em=document.getElementB
       <div class="yr-head"><span class="yr-title">${y.y}</span>${badge}</div>
       <div class="yr-rows">
         <div class="yr-row"><span class="yl">Inici 1 de gener</span>${iniciHtml}</div>
-        <div class="yr-row"><span class="yl">± Aportacions</span><span class="yv">${fM(y.a)}</span></div>
-        <div class="yr-row"><span class="yl">${y.cur?'Valor actual':'Valor final'}</span><span class="yv">${fM(y.f)}</span></div>
+        <div class="yr-row"><span class="yl">± Aportacions</span><span class="yv">${fM(y.a)} <span style="font-size:.62rem;color:var(--text3);">($${fm(y.a*fxR,0)})</span></span></div>
+        <div class="yr-row"><span class="yl">${y.cur?'Valor actual':'Valor final'}</span><span class="yv">${fM(y.f)} <span style="font-size:.62rem;color:var(--text3);">($${fm(y.f*fxR,0)})</span></span></div>
       </div>
       <div class="yr-div"></div>
       ${resultHtml}
