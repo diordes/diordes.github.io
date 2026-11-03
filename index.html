@@ -422,7 +422,7 @@ function rP(){const tb=document.getElementById('pTb'),em=document.getElementById
   document.getElementById('pCnt').textContent=S.positions.length;
   if(!S.positions.length){tb.innerHTML='';em.style.display='';return;}em.style.display='none';
   tb.innerHTML=S.positions.map((p,i)=>{const c=gP(p.sym),pr=c||p.preu,pl=(pr/p.preu-1)*100,vv=pr*(p.shares||0);
-    return`<tr><td><strong>${p.sym}</strong></td><td class="num">$${fm(p.preu,2)}</td><td class="num">${p.shares}</td><td style="font-size:.7rem;">${p.data||''}</td><td class="num">${c?'$'+fm(c,2):'—'}</td><td class="num ${pC(pl)}">${c?fP(pl):'—'}${c?'<br><span style="font-size:.66rem;color:var(--text2)">'+fM(vv,'$')+'</span>':''}</td><td class="num neg">$${fm(p.sl,2)}</td><td><button class="btn bs" onclick="showCP(${i})">Tancar</button> <button class="btn bs bd" onclick="dP(${i})">✕</button></td></tr>`;}).join('');}
+    return`<tr><td><strong>${p.sym}</strong></td><td class="num">$${fm(p.preu,2)}</td><td class="num">${p.shares}</td><td style="font-size:.7rem;">${p.data||''}</td><td class="num">${c?'$'+fm(c,2):'—'}</td><td class="num ${pC(pl)}">${c?fP(pl):'—'}${c?'<br><span style="font-size:.66rem;color:var(--text2)">'+fM(vv,'$')+'</span>':''}</td><td class="num neg">$${fm(p.sl,2)}</td><td><button class="btn bs" onclick="editPos(${i})">✏️</button> <button class="btn bs" onclick="showCP(${i})">Tancar</button> <button class="btn bs bd" onclick="dP(${i})">✕</button></td></tr>`;}).join('');}
 
 // ═══ CLOSED ═══
 function rC(){const tb=document.getElementById('cTb'),em=document.getElementById('cE');
@@ -589,23 +589,39 @@ function savEd(){
   },100);
 }
 
-function quickBuy(sym,preu,shares,sl){
+let editingPos=-1;
+function editPos(i){
+  editingPos=i;const p=S.positions[i];
+  document.getElementById('apS').value=p.sym;
+  document.getElementById('apP').value=p.preu;
+  document.getElementById('apH').value=p.shares;
+  document.getElementById('apD').value=p.data||new Date().toISOString().split('T')[0];
+  document.getElementById('apL').value=p.sl;
+  document.getElementById('mAP').classList.add('show');}
+function quickBuy(sym,preu,shares,sl){editingPos=-1;
   document.getElementById('apS').value=sym;
   document.getElementById('apP').value=preu;
   document.getElementById('apH').value=shares;
   document.getElementById('apL').value=sl;
   document.getElementById('apD').value=new Date().toISOString().split('T')[0];
   document.getElementById('mAP').classList.add('show');}
-function showAP(){['apS','apP','apH','apL'].forEach(x=>document.getElementById(x).value='');
+function showAP(){editingPos=-1;['apS','apP','apH','apL'].forEach(x=>document.getElementById(x).value='');
   document.getElementById('apD').value=new Date().toISOString().split('T')[0];document.getElementById('mAP').classList.add('show');}
 function aPos(){const sym=document.getElementById('apS').value.trim().toUpperCase(),preu=parseFloat(document.getElementById('apP').value),
   shares=parseInt(document.getElementById('apH').value),data=document.getElementById('apD').value,
   sl=parseFloat(document.getElementById('apL').value)||+(preu*0.85).toFixed(2);
   if(!sym||!preu||!shares){alert('Omple símbol, preu i shares');return;}
-  const isEur=isEurSym(sym);
-  const costEur=isEur?preu*shares:(preu*shares)/(S.eurUsd||1.08);
-  S.positions.push({sym,preu,shares,data,sl,trailing_sl:0});
-  S.cash=Math.max(0,(S.cash||0)-costEur);
+  if(editingPos>=0){
+    // Editant posició existent — no tocar cash
+    S.positions[editingPos]={sym,preu,shares,data,sl,trailing_sl:S.positions[editingPos].trailing_sl||0};
+    editingPos=-1;
+  } else {
+    // Nova posició — restar cash
+    const isEur=isEurSym(sym);
+    const costEur=isEur?preu*shares:(preu*shares)/(S.eurUsd||1.08);
+    S.positions.push({sym,preu,shares,data,sl,trailing_sl:0});
+    S.cash=Math.max(0,(S.cash||0)-costEur);
+  }
   cmo('mAP');save();renderAll();syncConfig();}
 let clI=-1;
 function showCP(i){clI=i;const p=S.positions[i];document.getElementById('cpS').textContent=p.sym;
@@ -788,8 +804,6 @@ renderAll();
     if(jd>ld){S.signals=j;S._lf=j.data;S.lastUpd=new Date(j.data).toLocaleString('ca-ES');
       if(j.tots&&Array.isArray(j.tots)){S.prices={};j.tots.forEach(t=>{if(t.sym&&t.preu)S.prices[t.sym]=t.preu;});}
       if(j.eurUsd)S.eurUsd=j.eurUsd;
-      if(j.config){S.cash=j.config.cash??S.cash;S.aportMes=j.config.aportacio_mes??S.aportMes;
-        if(j.config.posicions)S.positions=j.config.posicions;}
       save();}
     renderAll();
   }catch(e){S._fetching=false;S._fetchDone=true;rS();}
