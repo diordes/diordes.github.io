@@ -357,7 +357,7 @@ function posVal(){let v=0,c=0;S.positions.forEach(p=>{
 function tot(){const{v,c}=posVal();
   const cash=Math.max(0,(S.brokerTotal||S.cash||0)-v);
   const pl=c>0?(v/c-1)*100:0;const t=(S.brokerTotal||S.cash||0);
-  const pt=cash>=500?Math.round(cash*0.20/10)*10:0;return{v,c,pl,t,cash,pt};}
+  const pt=t>=500?Math.round(t*0.20/10)*10:0;return{v,c,pl,t,cash,pt};}
 function yK(d){return new Date(d).getFullYear();}
 
 // ═══ TABS ═══
@@ -931,17 +931,19 @@ renderAll();
           lp.preu=cp.preu||lp.preu;lp.shares=cp.shares||lp.shares;
           lp.data=cp.data||lp.data;lp.sl=cp.sl||lp.sl;
           if(cp.trailing_sl>0){lp.trailing_sl=Math.max(lp.trailing_sl||0,cp.trailing_sl);}
-          if(cp.nom)lp.nom=cp.nom;
+          if(cp.nom&&cp.nom!==cp.sym)lp.nom=cp.nom;
         } else {
-          S.positions.push({sym:cp.sym,nom:cp.nom||(_noms[cp.sym]||''),preu:cp.preu,shares:cp.shares||0,data:cp.data||'',sl:cp.sl||0,trailing_sl:cp.trailing_sl||0,tipus:cp.tipus||'full'});
+          S.positions.push({sym:cp.sym,nom:(cp.nom&&cp.nom!==cp.sym?cp.nom:'')||(_noms[cp.sym]||''),preu:cp.preu,shares:cp.shares||0,data:cp.data||'',sl:cp.sl||0,trailing_sl:cp.trailing_sl||0,tipus:cp.tipus||'full'});
         }
       });
       S.positions=S.positions.filter(p=>cfgPos.some(cp=>cp.sym===p.sym));
     }
-    // Sync noms from tots
+    // Sync noms from tots (only if real name, not ticker)
     if(j.tots&&Array.isArray(j.tots)){j.tots.forEach(t=>{
       const lp=S.positions.find(p=>p.sym===t.sym);
-      if(lp&&t.nom)lp.nom=t.nom;});}
+      if(lp&&t.nom&&t.nom!==t.sym)lp.nom=t.nom;});}
+    // Always re-apply _noms dictionary as definitive source
+    S.positions.forEach(p=>{if(_noms[p.sym])p.nom=_noms[p.sym];});
     save();
     renderAll();
   }catch(e){S._fetching=false;S._fetchDone=true;rS();}
