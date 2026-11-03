@@ -176,6 +176,21 @@ select{cursor:pointer;}
 .run-btn:disabled{opacity:.5;cursor:not-allowed;}
 .run-btn .spinner{width:12px;height:12px;border-width:1.5px;margin:0;}
 
+/* Console card */
+.con-toggle{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:var(--radius-sm);
+  border:1px solid var(--border);background:var(--card);color:var(--text2);font-size:.68rem;font-weight:600;
+  cursor:pointer;font-family:var(--mono);margin:0 0 6px 0;transition:all .15s;}
+.con-toggle:hover{border-color:var(--text3);}
+.con-toggle .arr{transition:transform .2s;display:inline-block;}
+.con-toggle.open .arr{transform:rotate(90deg);}
+.con-card{background:#1a1b26;color:#c0caf5;border-radius:var(--radius);padding:12px 14px;
+  font-family:var(--mono);font-size:.68rem;line-height:1.55;white-space:pre-wrap;word-break:break-word;
+  max-height:420px;overflow-y:auto;margin-bottom:10px;border:1px solid #2a2b3d;display:none;}
+.con-card.show{display:block;}
+.con-card::-webkit-scrollbar{width:6px;}.con-card::-webkit-scrollbar-thumb{background:#3b3d57;border-radius:3px;}
+.cc-h{color:#7aa2f7;font-weight:700;}.cc-g{color:#9ece6a;}.cc-r{color:#f7768e;}.cc-y{color:#e0af68;}
+.cc-b{color:#7aa2f7;}.cc-d{color:#565f89;}.cc-p{color:#bb9af7;}
+
 /* Responsive */
 @media(max-width:640px){
   .w{padding:10px;}.hv{font-size:1.35rem;}
@@ -222,6 +237,8 @@ select{cursor:pointer;}
 <!-- TAB 0: SENYALS -->
 <div class="pane on" id="p0">
   <div class="stabs" id="sTb"></div>
+  <div id="conRow" style="margin:6px 0 2px;display:none;"><button class="con-toggle" onclick="toggleCon()"><span class="arr">▶</span> Terminal</button></div>
+  <div id="conCt" class="con-card"></div>
   <div id="sCt"><div class="loading-row"><span class="spinner"></span>Carregant últimes dades…</div></div>
   <div class="ssub" id="sDate" style="text-align:right;margin-top:6px;"></div>
 </div>
@@ -313,12 +330,16 @@ select{cursor:pointer;}
 <script>
 const K='scr_v3';
 function def(){return{cash:15000,aportMes:10000,
-  positions:[{sym:"MSFT",preu:392.16,shares:4,data:"2026-11-19",sl:333.34,trailing_sl:0,tipus:"full"},
-    {sym:"ORCL",preu:130.70,shares:12,data:"2027-01-07",sl:111.09,trailing_sl:0,tipus:"full"},
-    {sym:"TSLA",preu:381.56,shares:4,data:"2026-01-01",sl:324.33,trailing_sl:0,tipus:"full"}],
+  positions:[{sym:"MSFT",nom:"Microsoft",preu:392.16,shares:4,data:"2026-11-19",sl:333.34,trailing_sl:0,tipus:"full"},
+    {sym:"ORCL",nom:"Oracle",preu:130.70,shares:12,data:"2027-01-07",sl:111.09,trailing_sl:0,tipus:"full"},
+    {sym:"TSLA",nom:"Tesla",preu:381.56,shares:4,data:"2026-01-01",sl:324.33,trailing_sl:0,tipus:"full"}],
   closed:[],moviments:[],valorInici:{},signals:null,lastUpd:null,prices:{},tab:0,eurUsd:1.08}}
 let S;try{const r=localStorage.getItem(K);S=r?{...def(),...JSON.parse(r)}:def();}catch(e){S=def();}
+// Migrar noms a posicions existents (sempre sobreescriu del diccionari)
+const _noms={MSFT:'Microsoft',ORCL:'Oracle',TSLA:'Tesla',NFLX:'Netflix',T:'AT&T',AAPL:'Apple',GOOGL:'Alphabet',GOOG:'Alphabet',AMZN:'Amazon',NVDA:'NVIDIA',META:'Meta',JPM:'JPMorgan Chase',V:'Visa',MA:'Mastercard',UNH:'UnitedHealth',HD:'Home Depot',PG:'Procter & Gamble',JNJ:'Johnson & Johnson',CRM:'Salesforce',AVGO:'Broadcom',ADBE:'Adobe',COST:'Costco',CSCO:'Cisco',ACN:'Accenture',TXN:'Texas Instruments',AMD:'AMD',INTC:'Intel',CAT:'Caterpillar',HOOD:'Robinhood'};
+let _migrated=false;S.positions.forEach(p=>{if(_noms[p.sym]&&p.nom!==_noms[p.sym]){p.nom=_noms[p.sym];_migrated=true;}});
 function save(){try{localStorage.setItem(K,JSON.stringify(S));}catch(e){}}
+if(_migrated)save();
 
 const fm=(n,d=0)=>n!=null?n.toLocaleString('ca-ES',{minimumFractionDigits:d,maximumFractionDigits:d}):'—';
 const fP=n=>n!=null?(n>=0?'+':'')+n.toFixed(1)+'%':'—';
@@ -379,7 +400,8 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
     {id:'vendes_pos',l:nVen>0?'🔴⚠️ Vendre':'🔴 Vendre',d:s.vendes_pos||[]},
     {id:'mantenir',l:nPuj>0?'📈⚠️ Mantenir':'📈 Mantenir',d:s.mantenir||[]},
     {id:'vendes_gen',l:'🔵 Trailing',d:(s.vendes_gen||[]).filter(e=>e.sma350>0&&((e.preu/e.sma350-1)*100)<15)},
-    {id:'cooldowns',l:'⏳ Cooldown',d:s.cooldowns||[]}];
+    {id:'cooldowns',l:'⏳ Cooldown',d:s.cooldowns||[]},
+    {id:'filtrats',l:'🚫 Filtrat',d:s.filtrats||[]}];
   tb.innerHTML=T.map(x=>`<button class="stab ${sTab===x.id?'on':''}" onclick="sTab='${x.id}';rS()">${x.l}<span class="c">${x.d.length}</span></button>`).join('');
   const a=T.find(x=>x.id===sTab);if(!a||!a.d.length){ct.innerHTML='<div class="empty">Cap senyal</div>';return;}
   let h='<div class="tw"><table><thead><tr>';const pe=S.cash>=500?Math.round(S.cash*0.20/10)*10:0;
@@ -387,18 +409,21 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
   const bought=new Set((S.positions||[]).map(p=>p.sym));
 
   if(sTab==='compres'){
-    h+='<th>Símbol</th><th>Preu compra</th><th>Suport</th><th>%SMA300</th><th>MFI</th><th>Stop Loss</th><th>Quantes</th><th></th></tr></thead><tbody>';
+    h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>%SMA</th><th>MFI</th><th>Vol.</th><th>Stop Loss</th><th>Quantes</th><th></th></tr></thead><tbody>';
     a.d.forEach((e,idx)=>{const ac=pe>0&&e.preu>0?Math.floor(pe/e.preu):0;
       const ja=bought.has(e.sym)?'<span style="color:var(--green);font-size:.7rem;margin-left:4px">✅</span>':'';
-      h+=`<tr><td><strong>${e.sym}</strong>${ja}<br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num" style="font-size:.95rem;font-weight:700">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num">${fP(e.pct*100)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num" style="color:var(--red);font-size:.95rem;font-weight:700">${e.cur}${fm(e.sl,2)}</td><td class="num" style="font-size:.95rem;font-weight:700">${ac>0?ac+' acc':'—'}</td><td><button class="btn bs" style="background:var(--green-bg);color:var(--green);border-color:var(--green)" onclick="quickBuy('${e.sym}',${e.preu},${ac},${e.sl})">Comprar</button></td></tr>`;});}
+      const vr=e.vol_rel||0;const vrCl=vr>=1.5?'pos':vr<0.7?'neg':'';const vrTxt=vr>0?vr.toFixed(1)+'x':'—';
+      h+=`<tr><td><strong>${e.sym}</strong>${ja}<br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num" style="font-size:.95rem;font-weight:700">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num">${fP(e.pct*100)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num ${vrCl}" style="font-weight:700">${vrTxt}</td><td class="num" style="color:var(--red);font-size:.95rem;font-weight:700">${e.cur}${fm(e.sl,2)}</td><td class="num" style="font-size:.95rem;font-weight:700">${ac>0?ac+' acc':'—'}</td><td><button class="btn bs" style="background:var(--green-bg);color:var(--green);border-color:var(--green)" onclick="quickBuy('${e.sym}',${e.preu},${ac},${e.sl})">Comprar</button></td></tr>`;});}
 
   else if(sTab==='vigilar'){
-    h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>Distància</th><th>MFI</th></tr></thead><tbody>';
-    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num ${e.distancia<3?'neg':'pos'}">${fP(e.distancia)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
+    h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>Distància</th><th>MFI</th><th>Vol.</th></tr></thead><tbody>';
+    a.d.forEach(e=>{const vr=e.vol_rel||0;const vrCl=vr>=1.5?'pos':vr<0.7?'neg':'';const vrTxt=vr>0?vr.toFixed(1)+'x':'—';
+      h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num ${e.distancia<3?'neg':'pos'}">${fP(e.distancia)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num ${vrCl}" style="font-weight:700">${vrTxt}</td></tr>`;});}
 
   else if(sTab==='vendes_pos'){
-    h+='<th>Símbol</th><th>Compra</th><th>Ara</th><th>Guany</th><th>Motiu</th></tr></thead><tbody>';
-    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td style="white-space:normal;font-size:.72rem">${e.motiu}</td></tr>`;});}
+    h+='<th>Símbol</th><th>Compra</th><th>Ara</th><th>Guany</th><th>Trailing SL</th><th>Motiu</th></tr></thead><tbody>';
+    a.d.forEach(e=>{const tsl=e.trailing_sl||0;
+      h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td class="num" style="color:var(--red);font-weight:700">${tsl>0?'$'+fm(tsl,2):'—'}</td><td style="white-space:normal;font-size:.72rem">${e.motiu}</td></tr>`;});}
 
   else if(sTab==='mantenir'){
     h+='<th>Símbol</th><th>Compra</th><th>Ara</th><th>Guany</th><th>Stop Loss</th><th>Dist. SL</th><th>Acció</th></tr></thead><tbody>';
@@ -427,15 +452,96 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
     h+='<th>Símbol</th><th>Preu</th><th>Setmanes</th></tr></thead><tbody>';
     a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.rest} set</td></tr>`;});}
 
-  h+='</tbody></table></div>';ct.innerHTML=h;}
+  else if(sTab==='filtrats'){
+    h+='<th>Símbol</th><th>Preu</th><th>Motiu rebuig</th></tr></thead><tbody>';
+    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur||'$'}${fm(e.preu,2)}</td><td style="font-size:.72rem;white-space:normal;color:var(--text2)">${e.motiu||''}</td></tr>`;});}
+
+  h+='</tbody></table></div>';ct.innerHTML=h;
+  updateCon();}
+
+// ═══ CONSOLE ═══
+function toggleCon(){
+  const b=document.querySelector('.con-toggle'),c=document.getElementById('conCt');
+  b.classList.toggle('open');c.classList.toggle('show');}
+
+function updateCon(){
+  const row=document.getElementById('conRow'),ct=document.getElementById('conCt');
+  if(!S.signals||!S.signals.data){row.style.display='none';return;}
+  row.style.display='';ct.innerHTML=genConText();}
+
+function genConText(){
+  const s=S.signals;if(!s||!s.data)return'';
+  const d=new Date(s.data).toLocaleString('ca-ES');
+  const reg=s.regim||'NORMAL';
+  const regC=reg==='NORMAL'?'cc-g':reg==='CRISI'?'cc-r':'cc-y';
+  const comp=s.compres||[],vig=s.vigilar||[],vp=s.vendes_pos||[],mant=s.mantenir||[],
+        trail=(s.vendes_gen||[]).filter(e=>e.sma350>0&&((e.preu/e.sma350-1)*100)<15),
+        cool=s.cooldowns||[],filt=s.filtrats||[];
+  // Delay info
+  const delC=comp.filter(e=>e.vol_rel&&e.vol_rel>=1.5).length;
+  const delV=vig.filter(e=>e.vol_rel&&e.vol_rel>=1.5).length;
+  let o='';
+  o+=`<span class="cc-h">═══════════════════════════════════════════</span>\n`;
+  o+=`<span class="cc-h">  📊 SCREENER HÍBRID — ${d}</span>\n`;
+  o+=`<span class="cc-h">═══════════════════════════════════════════</span>\n\n`;
+  // Regim
+  o+=`<span class="cc-d">▸ Règim SPY:</span> <span class="${regC}">${reg}</span>\n`;
+  // Bench
+  if(s.bench){for(const[k,b]of Object.entries(s.bench)){
+    const r1=b.ret_1m!=null?fP(b.ret_1m):'—',ry=b.ret_ytd!=null?fP(b.ret_ytd):'—';
+    o+=`<span class="cc-d">▸ ${b.nom||k}:</span> 1m <span class="${b.ret_1m>=0?'cc-g':'cc-r'}">${r1}</span>  YTD <span class="${b.ret_ytd>=0?'cc-g':'cc-r'}">${ry}</span>\n`;}}
+  o+='\n';
+  // Compres
+  o+=`<span class="cc-g">🟢 COMPRA (${comp.length})</span>\n`;
+  if(comp.length){comp.forEach(e=>{
+    const vr=e.vol_rel?e.vol_rel.toFixed(1)+'x':'';const dl=e.vol_rel&&e.vol_rel>=1.5?' ⏳DELAY':'';
+    o+=`   ${e.sym.padEnd(7)} ${(e.cur||'$')+fm(e.preu,2).padStart(8)}  sup ${(e.cur||'$')+fm(e.support,2).padStart(8)}  SL ${(e.cur||'$')+fm(e.sl,2).padStart(8)}  MFI:${fm(e.mfi,0).padStart(3)}  vol:${vr}<span class="cc-y">${dl}</span>\n`;});}
+  else o+=`   <span class="cc-d">(cap)</span>\n`;
+  // Delay
+  if(delC+delV>0){o+=`\n<span class="cc-y">⏳ DELAY VOL (${delC+delV})</span>\n`;
+    o+=`   <span class="cc-d">Complets: ${delC} | Pendents: ${delV}</span>\n`;}
+  // Filtrats
+  if(filt.length){o+=`\n<span class="cc-p">🚫 FILTRAT (${filt.length})</span>\n`;
+    filt.forEach(e=>{o+=`   ${e.sym.padEnd(7)} ${(e.cur||'$')+fm(e.preu,2).padStart(8)}  <span class="cc-d">${e.motiu||''}</span>\n`;});}
+  // Vigilar
+  o+=`\n<span class="cc-y">🟡 VIGILAR (${vig.length})</span>\n`;
+  if(vig.length){vig.forEach(e=>{
+    const vr=e.vol_rel?e.vol_rel.toFixed(1)+'x':'';
+    o+=`   ${e.sym.padEnd(7)} ${(e.cur||'$')+fm(e.preu,2).padStart(8)}  sup ${(e.cur||'$')+fm(e.support,2).padStart(8)}  dist:${fP(e.distancia).padStart(6)}  MFI:${fm(e.mfi,0).padStart(3)}  vol:${vr}\n`;});}
+  else o+=`   <span class="cc-d">(cap)</span>\n`;
+  // Vendes
+  o+=`\n<span class="cc-r">🔴 VENDRE (${vp.length})</span>\n`;
+  if(vp.length){vp.forEach(e=>{o+=`   ${e.sym.padEnd(7)} compra $${fm(e.preu_compra,2).padStart(8)}  ara $${fm(e.preu_ara,2).padStart(8)}  <span class="${e.pl>=0?'cc-g':'cc-r'}">${fP(e.pl)}</span>  ${e.motiu}\n`;});}
+  else o+=`   <span class="cc-d">(cap)</span>\n`;
+  // Mantenir
+  o+=`\n<span class="cc-b">📈 MANTENIR (${mant.length})</span>\n`;
+  if(mant.length){mant.forEach(e=>{o+=`   ${e.sym.padEnd(7)} compra $${fm(e.preu_compra,2).padStart(8)}  ara $${fm(e.preu_ara,2).padStart(8)}  <span class="${e.pl>=0?'cc-g':'cc-r'}">${fP(e.pl)}</span>  ${e.sl_accio||''}\n`;});}
+  else o+=`   <span class="cc-d">(cap)</span>\n`;
+  // Trailing
+  o+=`\n<span class="cc-b">🔵 TRAILING (${trail.length})</span>\n`;
+  if(trail.length){trail.forEach(e=>{const m=(e.preu/e.sma350-1)*100;
+    o+=`   ${e.sym.padEnd(7)} ${(e.cur||'$')+fm(e.preu,2).padStart(8)}  SMA350 ${(e.cur||'$')+fm(e.sma350,2).padStart(8)}  dist:<span class="${m<5?'cc-r':m<10?'cc-y':'cc-g'}">${fP(m)}</span>\n`;});}
+  else o+=`   <span class="cc-d">(cap)</span>\n`;
+  // Cooldowns
+  o+=`\n<span class="cc-d">⏳ COOLDOWN (${cool.length})</span>\n`;
+  if(cool.length){cool.forEach(e=>{o+=`   ${e.sym.padEnd(7)} ${(e.cur||'$')+fm(e.preu,2).padStart(8)}  resten ${e.rest} set\n`;});}
+  else o+=`   <span class="cc-d">(cap)</span>\n`;
+  // Resum
+  o+=`\n<span class="cc-h">───────────────────────────────────────────</span>\n`;
+  o+=`<span class="cc-h">  RESUM:</span> ${comp.length} compra · ${vig.length} vigilar · ${vp.length} vendre · ${mant.length} mantenir · ${trail.length} trailing · ${cool.length} cooldown`;
+  if(filt.length)o+=` · ${filt.length} filtrat`;
+  o+='\n';
+  return o;}
 
 // ═══ POSITIONS ═══
 function rP(){const tb=document.getElementById('pTb'),em=document.getElementById('pE');
   document.getElementById('pCnt').textContent=S.positions.length;
   if(!S.positions.length){tb.innerHTML='';em.style.display='';return;}em.style.display='none';
   tb.innerHTML=S.positions.map((p,i)=>{const c=gP(p.sym),pr=c||p.preu,pl=(pr/p.preu-1)*100,vv=pr*(p.shares||0),cost=p.preu*(p.shares||0),gain=vv-cost;
-    let nom='';if(S.signals&&S.signals.tots){const t=S.signals.tots.find(x=>x.sym===p.sym);if(t&&t.nom)nom=t.nom;}
-    return`<tr><td><strong>${p.sym}</strong>${nom?'<br><span style="font-size:.66rem;color:var(--text2)">'+nom+'</span>':''}</td><td class="num">$${fm(p.preu,2)}</td><td class="num">${p.shares}</td><td style="font-size:.7rem;">${p.data||''}</td><td class="num">${c?'$'+fm(c,2):'—'}</td><td class="num ${pC(pl)}">${c?fP(pl):'—'}${c?'<br><span style="font-size:.66rem;color:var(--text2)">'+fM(gain,'$')+'</span>':''}</td><td class="num neg">$${fm(p.sl,2)}</td><td><button class="btn bs" onclick="editPos(${i})">✏️</button> <button class="btn bs" onclick="showCP(${i})">Tancar</button> <button class="btn bs bd" onclick="dP(${i})">✕</button></td></tr>`;}).join('');}
+    let nom=p.nom||'';if(!nom&&S.signals&&S.signals.tots){const t=S.signals.tots.find(x=>x.sym===p.sym);if(t&&t.nom)nom=t.nom;}
+    const tsl=p.trailing_sl||0;const slEfectiu=Math.max(p.sl,tsl);
+    const slTxt=tsl>0?'$'+fm(slEfectiu,2)+'<br><span style="font-size:.58rem;color:var(--text3)">trailing</span>':'$'+fm(p.sl,2)+'<br><span style="font-size:.58rem;color:var(--text3)">fix -15%</span>';
+    return`<tr><td><strong>${p.sym}</strong>${nom?'<br><span style="font-size:.66rem;color:var(--text2)">'+nom+'</span>':''}</td><td class="num">$${fm(p.preu,2)}</td><td class="num">${p.shares}</td><td style="font-size:.7rem;">${p.data||''}</td><td class="num">${c?'$'+fm(c,2):'—'}</td><td class="num ${pC(pl)}">${c?fP(pl):'—'}${c?'<br><span style="font-size:.66rem;color:var(--text2)">'+fM(gain,'$')+'</span>':''}</td><td class="num neg">${slTxt}</td><td><button class="btn bs" onclick="editPos(${i})">✏️</button> <button class="btn bs" onclick="showCP(${i})">Tancar</button> <button class="btn bs bd" onclick="dP(${i})">✕</button></td></tr>`;}).join('');}
 
 // ═══ CLOSED ═══
 function rC(){const tb=document.getElementById('cTb'),em=document.getElementById('cE');
@@ -626,13 +732,13 @@ function aPos(){const sym=document.getElementById('apS').value.trim().toUpperCas
   if(!sym||!preu||!shares){alert('Omple símbol, preu i shares');return;}
   if(editingPos>=0){
     // Editant posició existent — no tocar cash
-    S.positions[editingPos]={sym,preu,shares,data,sl,trailing_sl:S.positions[editingPos].trailing_sl||0};
+    S.positions[editingPos]={sym,preu,shares,data,sl,trailing_sl:S.positions[editingPos].trailing_sl||0,nom:S.positions[editingPos].nom||''};
     editingPos=-1;
   } else {
     // Nova posició — restar cash
     const isEur=isEurSym(sym);
     const costEur=isEur?preu*shares:(preu*shares)/(S.eurUsd||1.08);
-    S.positions.push({sym,preu,shares,data,sl,trailing_sl:0});
+    S.positions.push({sym,preu,shares,data,sl,trailing_sl:0,nom:''});
     S.cash=Math.max(0,(S.cash||0)-costEur);
   }
   cmo('mAP');save();renderAll();syncConfig();}
@@ -654,7 +760,7 @@ async function syncConfig(){
   const cfg=JSON.stringify({
     cash_actual:Math.round(S.brokerTotal||S.cash||0),
     aportacio_mes:S.aportMes||0,
-    posicions:S.positions.map(p=>({sym:p.sym,preu:p.preu,shares:p.shares,data:p.data,sl:p.sl,trailing_sl:p.trailing_sl||0})),
+    posicions:S.positions.map(p=>({sym:p.sym,nom:p.nom||'',preu:p.preu,shares:p.shares,data:p.data,sl:p.sl,trailing_sl:p.trailing_sl||0})),
     sl_historial:[]
   },null,2);
   try{
@@ -816,6 +922,30 @@ renderAll();
     if(jd>ld){S.signals=j;S._lf=j.data;S.lastUpd=new Date(j.data).toLocaleString('ca-ES');
       if(j.tots&&Array.isArray(j.tots)){S.prices={};j.tots.forEach(t=>{if(t.sym&&t.preu)S.prices[t.sym]=t.preu;});}
       if(j.eurUsd)S.eurUsd=j.eurUsd;
+      // ── SYNC COMPLET posicions des de config (cross-browser) ──
+      if(j.config&&j.config.posicions&&j.config.posicions.length){
+        const cfgPos=j.config.posicions;
+        // Per cada posició del config, actualitzar o afegir
+        cfgPos.forEach(cp=>{
+          const lp=S.positions.find(p=>p.sym===cp.sym);
+          if(lp){
+            // Actualitzar camps sense perdre dades locals
+            lp.preu=cp.preu||lp.preu;lp.shares=cp.shares||lp.shares;
+            lp.data=cp.data||lp.data;lp.sl=cp.sl||lp.sl;
+            if(cp.trailing_sl>0){lp.trailing_sl=Math.max(lp.trailing_sl||0,cp.trailing_sl);}
+            if(cp.nom)lp.nom=cp.nom;
+          } else {
+            // Nova posició del config que no tenim local
+            S.positions.push({sym:cp.sym,nom:cp.nom||(_noms[cp.sym]||''),preu:cp.preu,shares:cp.shares||0,data:cp.data||'',sl:cp.sl||0,trailing_sl:cp.trailing_sl||0,tipus:cp.tipus||'full'});
+          }
+        });
+        // Treure posicions locals que ja no estan al config (venudes)
+        S.positions=S.positions.filter(p=>cfgPos.some(cp=>cp.sym===p.sym));
+      }
+      // Sync noms from tots
+      if(j.tots&&Array.isArray(j.tots)){j.tots.forEach(t=>{
+        const lp=S.positions.find(p=>p.sym===t.sym);
+        if(lp&&t.nom)lp.nom=t.nom;});}
       save();}
     renderAll();
   }catch(e){S._fetching=false;S._fetchDone=true;rS();}
