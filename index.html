@@ -413,17 +413,17 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
     a.d.forEach((e,idx)=>{const ac=pe>0&&e.preu>0?Math.floor(pe/e.preu):0;
       const ja=bought.has(e.sym)?'<span style="color:var(--green);font-size:.7rem;margin-left:4px">✅</span>':'';
       const vr=e.vol_rel||0;const vrCl=vr>=1.5?'pos':vr<0.7?'neg':'';const vrTxt=vr>0?vr.toFixed(1)+'x':'—';
-      h+=`<tr><td><strong>${e.sym}</strong>${ja}<br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num" style="font-size:.95rem;font-weight:700">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num">${fP(e.pct*100)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num ${vrCl}" style="font-weight:700">${vrTxt}</td><td class="num" style="color:var(--red);font-size:.95rem;font-weight:700">${e.cur}${fm(e.sl,2)}</td><td class="num" style="font-size:.95rem;font-weight:700">${ac>0?ac+' acc':'—'}</td><td><button class="btn bs" style="background:var(--green-bg);color:var(--green);border-color:var(--green)" onclick="quickBuy('${e.sym}',${e.preu},${ac},${e.sl})">Comprar</button></td></tr>`;});}
+      h+=`<tr><td><strong>${e.sym}</strong>${ja}<br><span style="font-size:.66rem;color:var(--text2)">${_noms[e.sym]||e.nom||''}</span></td><td class="num" style="font-size:.95rem;font-weight:700">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num">${fP(e.pct*100)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num ${vrCl}" style="font-weight:700">${vrTxt}</td><td class="num" style="color:var(--red);font-size:.95rem;font-weight:700">${e.cur}${fm(e.sl,2)}</td><td class="num" style="font-size:.95rem;font-weight:700">${ac>0?ac+' acc':'—'}</td><td><button class="btn bs" style="background:var(--green-bg);color:var(--green);border-color:var(--green)" onclick="quickBuy('${e.sym}',${e.preu},${ac},${e.sl})">Comprar</button></td></tr>`;});}
 
   else if(sTab==='vigilar'){
     h+='<th>Símbol</th><th>Preu</th><th>Suport</th><th>Distància</th><th>MFI</th><th>Vol.</th></tr></thead><tbody>';
     a.d.forEach(e=>{const vr=e.vol_rel||0;const vrCl=vr>=1.5?'pos':vr<0.7?'neg':'';const vrTxt=vr>0?vr.toFixed(1)+'x':'—';
-      h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num ${e.distancia<3?'neg':'pos'}">${fP(e.distancia)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num ${vrCl}" style="font-weight:700">${vrTxt}</td></tr>`;});}
+      h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${_noms[e.sym]||e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.cur}${fm(e.support,2)}</td><td class="num ${e.distancia<3?'neg':'pos'}">${fP(e.distancia)}</td><td class="num">${fm(e.mfi,0)}</td><td class="num ${vrCl}" style="font-weight:700">${vrTxt}</td></tr>`;});}
 
   else if(sTab==='vendes_pos'){
     h+='<th>Símbol</th><th>Compra</th><th>Ara</th><th>Guany</th><th>Trailing SL</th><th>Motiu</th></tr></thead><tbody>';
     a.d.forEach(e=>{const tsl=e.trailing_sl||0;
-      h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td class="num" style="color:var(--red);font-weight:700">${tsl>0?'$'+fm(tsl,2):'—'}</td><td style="white-space:normal;font-size:.72rem">${e.motiu}</td></tr>`;});}
+      h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${_noms[e.sym]||e.nom||''}</span></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td class="num" style="color:var(--red);font-weight:700">${tsl>0?'$'+fm(tsl,2):'—'}</td><td style="white-space:normal;font-size:.72rem">${e.motiu}</td></tr>`;});}
 
   else if(sTab==='mantenir'){
     h+='<th>Símbol</th><th>Compra</th><th>Ara</th><th>Guany</th><th>Stop Loss</th><th>Dist. SL</th><th>Acció</th></tr></thead><tbody>';
@@ -441,20 +441,20 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
       } else {
         accio='<span style="color:var(--text3)">No tocar</span>';
       }
-      h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td class="num" style="color:var(--red);font-weight:700">${slVal}</td><td class="num">${dist}</td><td>${accio}</td></tr>`;});}
+      h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${_noms[e.sym]||e.nom||''}</span></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td class="num" style="color:var(--red);font-weight:700">${slVal}</td><td class="num">${dist}</td><td>${accio}</td></tr>`;});}
 
   else if(sTab==='vendes_gen'){
     h+='<th>Símbol</th><th>Preu</th><th>Stop Loss</th><th>Dist. SL</th><th>MFI</th></tr></thead><tbody>';
     a.d.sort((x,y)=>x.sym.localeCompare(y.sym));
-    a.d.forEach(e=>{const m=(e.preu/e.sma350-1)*100;h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num" style="color:var(--red);font-weight:700">${e.cur}${fm(e.sma350,2)}</td><td class="num ${m<5?'neg':m<10?'':'pos'}">${fP(m)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
+    a.d.forEach(e=>{const m=(e.preu/e.sma350-1)*100;h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${_noms[e.sym]||e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num" style="color:var(--red);font-weight:700">${e.cur}${fm(e.sma350,2)}</td><td class="num ${m<5?'neg':m<10?'':'pos'}">${fP(m)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
 
   else if(sTab==='cooldowns'){
     h+='<th>Símbol</th><th>Preu</th><th>Setmanes</th></tr></thead><tbody>';
-    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.rest} set</td></tr>`;});}
+    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${_noms[e.sym]||e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num">${e.rest} set</td></tr>`;});}
 
   else if(sTab==='filtrats'){
     h+='<th>Símbol</th><th>Preu</th><th>Motiu rebuig</th></tr></thead><tbody>';
-    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur||'$'}${fm(e.preu,2)}</td><td style="font-size:.72rem;white-space:normal;color:var(--text2)">${e.motiu||''}</td></tr>`;});}
+    a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${_noms[e.sym]||e.nom||''}</span></td><td class="num">${e.cur||'$'}${fm(e.preu,2)}</td><td style="font-size:.72rem;white-space:normal;color:var(--text2)">${e.motiu||''}</td></tr>`;});}
 
   h+='</tbody></table></div>';ct.innerHTML=h;
   updateCon();}
