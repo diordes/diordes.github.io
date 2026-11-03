@@ -231,7 +231,7 @@ select{cursor:pointer;}
   <div class="sec">
     <h2>Posicions obertes <span class="n" id="pCnt">0</span></h2>
     <div style="margin-bottom:8px;"><button class="btn bs" onclick="showAP()">+ Afegir</button></div>
-    <div class="tw"><table><thead><tr><th>Símbol</th><th>Compra</th><th>Shares</th><th>Data</th><th>Ara</th><th>Guany</th><th>Stop Loss</th><th></th></tr></thead><tbody id="pTb"></tbody></table></div>
+    <div class="tw"><table><thead><tr><th>Símbol</th><th>Compra</th><th>Shares</th><th>Data</th><th>Ara</th><th>Guany real</th><th>Stop Loss</th><th></th></tr></thead><tbody id="pTb"></tbody></table></div>
     <div class="empty" id="pE" style="display:none"><span class="ic">📭</span>Cap posició oberta</div>
   </div>
 </div>
@@ -373,8 +373,11 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
       :'<div class="loading-row"><span class="spinner"></span>Carregant…</div>';
     dt.textContent='';return;}
   const s=S.signals;dt.textContent='Últim: '+new Date(s.data).toLocaleString('ca-ES');
+  const nVen=(s.vendes_pos||[]).length;
+  const nPuj=(s.mantenir||[]).filter(e=>(e.sl_accio||'').includes('ACTIVA')||(e.sl_accio||'').includes('PUJA')).length;
   const T=[{id:'compres',l:'🟢 Compra',d:s.compres||[]},{id:'vigilar',l:'🟡 Vigilar',d:s.vigilar||[]},
-    {id:'vendes_pos',l:'🔴 Vendre',d:s.vendes_pos||[]},{id:'mantenir',l:'📈 Mantenir',d:s.mantenir||[]},
+    {id:'vendes_pos',l:nVen>0?'🔴⚠️ Vendre':'🔴 Vendre',d:s.vendes_pos||[]},
+    {id:'mantenir',l:nPuj>0?'📈⚠️ Mantenir':'📈 Mantenir',d:s.mantenir||[]},
     {id:'vendes_gen',l:'🔵 Trailing',d:(s.vendes_gen||[]).filter(e=>e.sma350>0&&((e.preu/e.sma350-1)*100)<15)},
     {id:'cooldowns',l:'⏳ Cooldown',d:s.cooldowns||[]}];
   tb.innerHTML=T.map(x=>`<button class="stab ${sTab===x.id?'on':''}" onclick="sTab='${x.id}';rS()">${x.l}<span class="c">${x.d.length}</span></button>`).join('');
@@ -398,16 +401,25 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
     a.d.forEach(e=>{h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td style="white-space:normal;font-size:.72rem">${e.motiu}</td></tr>`;});}
 
   else if(sTab==='mantenir'){
-    h+='<th>Símbol</th><th>Compra</th><th>Ara</th><th>Guany</th><th>Stop Loss</th><th>Marge</th></tr></thead><tbody>';
+    h+='<th>Símbol</th><th>Compra</th><th>Ara</th><th>Guany</th><th>Stop Loss</th><th>Dist. SL</th><th>Acció</th></tr></thead><tbody>';
     a.d.forEach(e=>{
-      let slVal='—',marge='';
-      const m1=(e.estat||'').match(/SMA350=\$([\d,.]+)/);
-      if(m1){slVal='$'+m1[1];const sv=parseFloat(m1[1].replace(',','.'));if(sv>0)marge=fP((e.preu_ara/sv-1)*100);}
-      else{const m2=(e.sl_accio||'').match(/\$([\d,.]+)/);if(m2)slVal='$'+m2[1];}
-      h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td class="num" style="color:var(--red);font-weight:700">${slVal}</td><td class="num">${marge}</td></tr>`;});}
+      let slVal='—',dist='',accio='';
+      // Extreure SL: buscar el $ seguit de digits i punt (sense coma final)
+      const m1=(e.estat||'').match(/SMA350=\$([\d]+\.[\d]+)/);
+      if(m1){slVal='$'+m1[1];const sv=parseFloat(m1[1]);if(sv>0)dist=fP((e.preu_ara/sv-1)*100);}
+      else{const m2=(e.sl_accio||'').match(/\$([\d]+\.[\d]+)/);if(m2)slVal='$'+m2[1];}
+      // Acció necessària
+      if((e.sl_accio||'').includes('ACTIVA')||( e.sl_accio||'').includes('PUJA')){
+        accio='<span style="color:var(--yellow);font-weight:700">⚠️ Pujar SL</span>';
+      } else if((e.sl_accio||'').includes('MANTÉ')){
+        accio='<span style="color:var(--green)">✅ OK</span>';
+      } else {
+        accio='<span style="color:var(--text3)">No tocar</span>';
+      }
+      h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">$${fm(e.preu_compra,2)}</td><td class="num">$${fm(e.preu_ara,2)}</td><td class="num ${pC(e.pl)}">${fP(e.pl)}</td><td class="num" style="color:var(--red);font-weight:700">${slVal}</td><td class="num">${dist}</td><td>${accio}</td></tr>`;});}
 
   else if(sTab==='vendes_gen'){
-    h+='<th>Símbol</th><th>Preu</th><th>Stop Loss</th><th>Marge</th><th>MFI</th></tr></thead><tbody>';
+    h+='<th>Símbol</th><th>Preu</th><th>Stop Loss</th><th>Dist. SL</th><th>MFI</th></tr></thead><tbody>';
     a.d.sort((x,y)=>(x.preu/x.sma350)-(y.preu/y.sma350));
     a.d.forEach(e=>{const m=(e.preu/e.sma350-1)*100;h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num" style="color:var(--red);font-weight:700">${e.cur}${fm(e.sma350,2)}</td><td class="num ${m<5?'neg':m<10?'':'pos'}">${fP(m)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
 
@@ -421,8 +433,9 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
 function rP(){const tb=document.getElementById('pTb'),em=document.getElementById('pE');
   document.getElementById('pCnt').textContent=S.positions.length;
   if(!S.positions.length){tb.innerHTML='';em.style.display='';return;}em.style.display='none';
-  tb.innerHTML=S.positions.map((p,i)=>{const c=gP(p.sym),pr=c||p.preu,pl=(pr/p.preu-1)*100,vv=pr*(p.shares||0);
-    return`<tr><td><strong>${p.sym}</strong></td><td class="num">$${fm(p.preu,2)}</td><td class="num">${p.shares}</td><td style="font-size:.7rem;">${p.data||''}</td><td class="num">${c?'$'+fm(c,2):'—'}</td><td class="num ${pC(pl)}">${c?fP(pl):'—'}${c?'<br><span style="font-size:.66rem;color:var(--text2)">'+fM(vv,'$')+'</span>':''}</td><td class="num neg">$${fm(p.sl,2)}</td><td><button class="btn bs" onclick="editPos(${i})">✏️</button> <button class="btn bs" onclick="showCP(${i})">Tancar</button> <button class="btn bs bd" onclick="dP(${i})">✕</button></td></tr>`;}).join('');}
+  tb.innerHTML=S.positions.map((p,i)=>{const c=gP(p.sym),pr=c||p.preu,pl=(pr/p.preu-1)*100,vv=pr*(p.shares||0),cost=p.preu*(p.shares||0),gain=vv-cost;
+    let nom='';if(S.signals&&S.signals.tots){const t=S.signals.tots.find(x=>x.sym===p.sym);if(t&&t.nom)nom=t.nom;}
+    return`<tr><td><strong>${p.sym}</strong>${nom?'<br><span style="font-size:.66rem;color:var(--text2)">'+nom+'</span>':''}</td><td class="num">$${fm(p.preu,2)}</td><td class="num">${p.shares}</td><td style="font-size:.7rem;">${p.data||''}</td><td class="num">${c?'$'+fm(c,2):'—'}</td><td class="num ${pC(pl)}">${c?fP(pl):'—'}${c?'<br><span style="font-size:.66rem;color:var(--text2)">'+fM(gain,'$')+'</span>':''}</td><td class="num neg">$${fm(p.sl,2)}</td><td><button class="btn bs" onclick="editPos(${i})">✏️</button> <button class="btn bs" onclick="showCP(${i})">Tancar</button> <button class="btn bs bd" onclick="dP(${i})">✕</button></td></tr>`;}).join('');}
 
 // ═══ CLOSED ═══
 function rC(){const tb=document.getElementById('cTb'),em=document.getElementById('cE');
@@ -716,23 +729,22 @@ async function runScreener(){
       method:'POST',headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
       body:JSON.stringify({ref:'main'})});
     if(r.status===204){
-      toast('✅ Screener llançat! Dades en ~5 min.');
+      toast('✅ Screener llançat!');
       btn.innerHTML='⏳ Executant…';
-      // Poll for new data every 30s for 10 min
+      // Poll every 15s for 8 min
       let polls=0;const poll=setInterval(async()=>{
-        polls++;if(polls>20){clearInterval(poll);btn.disabled=false;btn.innerHTML='▶ Executar';return;}
+        polls++;if(polls>32){clearInterval(poll);btn.disabled=false;btn.innerHTML='▶ Executar';toast('⏱️ Temps exhaurit — recarrega la pàgina');return;}
         try{const r2=await fetch('data/latest.json?t='+Date.now());if(!r2.ok)return;
           const j=await r2.json();if(!j.data)return;
           const jd=new Date(j.data).getTime(),ld=S._lf?new Date(S._lf).getTime():0;
           if(jd>ld){clearInterval(poll);
             S.signals=j;S._lf=j.data;S.lastUpd=new Date(j.data).toLocaleString('ca-ES');
             if(j.tots){S.prices={};j.tots.forEach(t=>{if(t.sym&&t.preu)S.prices[t.sym]=t.preu;});}
-            if(j.config){S.cash=j.config.cash??S.cash;S.aportMes=j.config.aportacio_mes??S.aportMes;
-              if(j.config.posicions)S.positions=j.config.posicions;}
+            if(j.eurUsd)S.eurUsd=j.eurUsd;
             save();renderAll();toast('✅ Dades actualitzades!');
             btn.disabled=false;btn.innerHTML='▶ Executar';}
         }catch(e){}
-      },30000);
+      },15000);
     } else if(r.status===401||r.status===403){
       localStorage.removeItem(GH_TOKEN_KEY);
       toast('❌ Token invàlid. Torna a provar.','err');
