@@ -445,7 +445,7 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
 
   else if(sTab==='vendes_gen'){
     h+='<th>Símbol</th><th>Preu</th><th>Stop Loss</th><th>Dist. SL</th><th>MFI</th></tr></thead><tbody>';
-    a.d.sort((x,y)=>(x.preu/x.sma350)-(y.preu/y.sma350));
+    a.d.sort((x,y)=>x.sym.localeCompare(y.sym));
     a.d.forEach(e=>{const m=(e.preu/e.sma350-1)*100;h+=`<tr><td><strong>${e.sym}</strong><br><span style="font-size:.66rem;color:var(--text2)">${e.nom||''}</span></td><td class="num">${e.cur}${fm(e.preu,2)}</td><td class="num" style="color:var(--red);font-weight:700">${e.cur}${fm(e.sma350,2)}</td><td class="num ${m<5?'neg':m<10?'':'pos'}">${fP(m)}</td><td class="num">${fm(e.mfi,0)}</td></tr>`;});}
 
   else if(sTab==='cooldowns'){
@@ -921,32 +921,28 @@ renderAll();
     const jd=new Date(j.data).getTime(),ld=S._lf?new Date(S._lf).getTime():0;
     if(jd>ld){S.signals=j;S._lf=j.data;S.lastUpd=new Date(j.data).toLocaleString('ca-ES');
       if(j.tots&&Array.isArray(j.tots)){S.prices={};j.tots.forEach(t=>{if(t.sym&&t.preu)S.prices[t.sym]=t.preu;});}
-      if(j.eurUsd)S.eurUsd=j.eurUsd;
-      // ── SYNC COMPLET posicions des de config (cross-browser) ──
-      if(j.config&&j.config.posicions&&j.config.posicions.length){
-        const cfgPos=j.config.posicions;
-        // Per cada posició del config, actualitzar o afegir
-        cfgPos.forEach(cp=>{
-          const lp=S.positions.find(p=>p.sym===cp.sym);
-          if(lp){
-            // Actualitzar camps sense perdre dades locals
-            lp.preu=cp.preu||lp.preu;lp.shares=cp.shares||lp.shares;
-            lp.data=cp.data||lp.data;lp.sl=cp.sl||lp.sl;
-            if(cp.trailing_sl>0){lp.trailing_sl=Math.max(lp.trailing_sl||0,cp.trailing_sl);}
-            if(cp.nom)lp.nom=cp.nom;
-          } else {
-            // Nova posició del config que no tenim local
-            S.positions.push({sym:cp.sym,nom:cp.nom||(_noms[cp.sym]||''),preu:cp.preu,shares:cp.shares||0,data:cp.data||'',sl:cp.sl||0,trailing_sl:cp.trailing_sl||0,tipus:cp.tipus||'full'});
-          }
-        });
-        // Treure posicions locals que ja no estan al config (venudes)
-        S.positions=S.positions.filter(p=>cfgPos.some(cp=>cp.sym===p.sym));
-      }
-      // Sync noms from tots
-      if(j.tots&&Array.isArray(j.tots)){j.tots.forEach(t=>{
-        const lp=S.positions.find(p=>p.sym===t.sym);
-        if(lp&&t.nom)lp.nom=t.nom;});}
-      save();}
+      if(j.eurUsd)S.eurUsd=j.eurUsd;}
+    // ── SYNC COMPLET posicions des de config (SEMPRE, cross-browser) ──
+    if(j.config&&j.config.posicions&&j.config.posicions.length){
+      const cfgPos=j.config.posicions;
+      cfgPos.forEach(cp=>{
+        const lp=S.positions.find(p=>p.sym===cp.sym);
+        if(lp){
+          lp.preu=cp.preu||lp.preu;lp.shares=cp.shares||lp.shares;
+          lp.data=cp.data||lp.data;lp.sl=cp.sl||lp.sl;
+          if(cp.trailing_sl>0){lp.trailing_sl=Math.max(lp.trailing_sl||0,cp.trailing_sl);}
+          if(cp.nom)lp.nom=cp.nom;
+        } else {
+          S.positions.push({sym:cp.sym,nom:cp.nom||(_noms[cp.sym]||''),preu:cp.preu,shares:cp.shares||0,data:cp.data||'',sl:cp.sl||0,trailing_sl:cp.trailing_sl||0,tipus:cp.tipus||'full'});
+        }
+      });
+      S.positions=S.positions.filter(p=>cfgPos.some(cp=>cp.sym===p.sym));
+    }
+    // Sync noms from tots
+    if(j.tots&&Array.isArray(j.tots)){j.tots.forEach(t=>{
+      const lp=S.positions.find(p=>p.sym===t.sym);
+      if(lp&&t.nom)lp.nom=t.nom;});}
+    save();
     renderAll();
   }catch(e){S._fetching=false;S._fetchDone=true;rS();}
 })();
