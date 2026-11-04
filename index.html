@@ -221,7 +221,7 @@ select{cursor:pointer;}
   <div style="font-size:.65rem;color:var(--text3);font-family:var(--mono);margin:-2px 0 4px;" id="hFx"></div>
   <div class="h-grid">
     <div class="h-cell"><div class="h-lbl">Total al broker</div><div class="h-val ed" id="sBrok" onclick="editV('broker')">— <span class="pencil">✏️</span></div><div class="h-sub" id="sCashSub"></div></div>
-    <div class="h-cell"><div class="h-lbl">Per trade (20%)</div><div class="h-val" id="sT">—</div><div class="h-sub" id="sTn"></div></div>
+    <div class="h-cell"><div class="h-lbl">Per trade (35%)</div><div class="h-val" id="sT">—</div><div class="h-sub" id="sTn"></div></div>
     <div class="h-cell"><div class="h-lbl">Aportació / mes</div><div class="h-val ed" id="sA" onclick="editV('aport')">— <span class="pencil">✏️</span></div></div>
     <div class="h-cell vc" style="text-align:center;"><div class="h-lbl">Posicions obertes</div><div class="h-val" id="sN" style="font-size:1.1rem;">0</div></div>
   </div>
@@ -360,7 +360,7 @@ function posVal(){let v=0,c=0;S.positions.forEach(p=>{
 function tot(){const{v,c}=posVal();
   const cash=Math.max(0,(S.brokerTotal||S.cash||0)-v);
   const pl=c>0?(v/c-1)*100:0;const t=(S.brokerTotal||S.cash||0);
-  const pt=t>=500?Math.round(t*0.20/10)*10:0;const ge=v-c;const fx=S.eurUsd||1.08;return{v,c,pl,t,cash,pt,ge,fx};}
+  const pt=t>=500?Math.round(t*0.35/10)*10:0;const ge=v-c;const fx=S.eurUsd||1.08;return{v,c,pl,t,cash,pt,ge,fx};}
 function yK(d){return new Date(d).getFullYear();}
 
 // ═══ TABS ═══
@@ -411,7 +411,7 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
     {id:'filtrats',l:'🚫 Filtrat',d:s.filtrats||[]}];
   tb.innerHTML=T.map(x=>`<button class="stab ${sTab===x.id?'on':''}" onclick="sTab='${x.id}';rS()">${x.l}<span class="c">${x.d.length}</span></button>`).join('');
   const a=T.find(x=>x.id===sTab);if(!a||!a.d.length){ct.innerHTML='<div class="empty">Cap senyal</div>';return;}
-  let h='<div class="tw"><table><thead><tr>';const pe=S.cash>=500?Math.round(S.cash*0.20/10)*10:0;
+  let h='<div class="tw"><table><thead><tr>';const pe=S.cash>=500?Math.round(S.cash*0.35/10)*10:0;
   // Helper: check if already bought
   const bought=new Set((S.positions||[]).map(p=>p.sym));
 
@@ -550,7 +550,7 @@ function rP(){const tb=document.getElementById('pTb'),em=document.getElementById
     if(c){totGE+=gE;totGU+=gU;totVE+=eS?vv:vv/fxR;totCE+=eS?cost:cost/fxR;hasPr=true;}
     let nom=p.nom||'';if(!nom&&S.signals&&S.signals.tots){const t=S.signals.tots.find(x=>x.sym===p.sym);if(t&&t.nom)nom=t.nom;}
     const tsl=p.trailing_sl||0;const slEfectiu=Math.max(p.sl,tsl);
-    const slTxt=tsl>0?'$'+fm(slEfectiu,2)+'<br><span style="font-size:.58rem;color:var(--text3)">trailing</span>':'$'+fm(p.sl,2)+'<br><span style="font-size:.58rem;color:var(--text3)">fix -15%</span>';
+    const slTxt=tsl>0?'$'+fm(slEfectiu,2)+'<br><span style="font-size:.58rem;color:var(--text3)">trailing</span>':'$'+fm(p.sl,2)+'<br><span style="font-size:.58rem;color:var(--text3)">fix -12%</span>';
     return`<tr><td><strong>${p.sym}</strong>${nom?'<br><span style="font-size:.66rem;color:var(--text2)">'+nom+'</span>':''}</td><td class="num">$${fm(p.preu,2)}</td><td class="num">${p.shares}</td><td style="font-size:.7rem;">${p.data||''}</td><td class="num">${c?'$'+fm(c,2):'—'}</td><td class="num ${pC(pl)}">${c?fP(pl):'—'}${c?'<br><span style="font-size:.68rem;font-weight:600;">'+fM(gE)+'</span><br><span style="font-size:.6rem;color:var(--text3);">($'+fm(gU,2)+')</span>':''}</td><td class="num neg">${slTxt}</td><td><button class="btn bs" onclick="editPos(${i})">✏️</button> <button class="btn bs" onclick="showCP(${i})">Tancar</button> <button class="btn bs bd" onclick="dP(${i})">✕</button></td></tr>`;}).join('');
   if(ps&&hasPr){const tpl=totCE>0?(totVE/totCE-1)*100:0;ps.innerHTML='<span style="color:var(--text3);">Total posicions:</span> <strong class="'+pC(totGE)+'">'+fM(totGE)+'</strong> <span style="color:var(--text3);font-size:.72rem;">($'+fm(totGU,2)+')</span> <span class="'+pC(tpl)+'" style="margin-left:6px;">'+fP(tpl)+'</span>';ps.style.display='';}
   else if(ps){ps.style.display='none';}}
