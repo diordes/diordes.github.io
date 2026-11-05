@@ -206,7 +206,7 @@ select{cursor:pointer;}
 <!-- HERO -->
 <div class="hero">
   <div class="h-row1">
-    <div class="h-title">📊 Screener Híbrid</div>
+    <div class="h-title">📊 Screener Híbrid <span style="font-size:.55rem;color:var(--text3);font-weight:400;margin-left:6px;">v2026.11.05 · SL12/Pos50cash</span></div>
     <div class="h-btns">
       <button class="run-btn" id="runBtn" onclick="runScreener()">▶ Executar</button>
       <button class="bg" onclick="showSett()">⚙️</button>
@@ -221,7 +221,7 @@ select{cursor:pointer;}
   <div style="font-size:.65rem;color:var(--text3);font-family:var(--mono);margin:-2px 0 4px;" id="hFx"></div>
   <div class="h-grid">
     <div class="h-cell"><div class="h-lbl">Total al broker</div><div class="h-val ed" id="sBrok" onclick="editV('broker')">— <span class="pencil">✏️</span></div><div class="h-sub" id="sCashSub"></div></div>
-    <div class="h-cell"><div class="h-lbl">Per trade (50%)</div><div class="h-val" id="sT">—</div><div class="h-sub" id="sTn"></div></div>
+    <div class="h-cell"><div class="h-lbl">Per trade (50% cash)</div><div class="h-val" id="sT">—</div><div class="h-sub" id="sTn"></div></div>
     <div class="h-cell"><div class="h-lbl">Aportació / mes</div><div class="h-val ed" id="sA" onclick="editV('aport')">— <span class="pencil">✏️</span></div></div>
     <div class="h-cell vc" style="text-align:center;"><div class="h-lbl">Posicions obertes</div><div class="h-val" id="sN" style="font-size:1.1rem;">0</div></div>
   </div>
@@ -360,7 +360,7 @@ function posVal(){let v=0,c=0;S.positions.forEach(p=>{
 function tot(){const{v,c}=posVal();
   const cash=Math.max(0,(S.brokerTotal||S.cash||0)-v);
   const pl=c>0?(v/c-1)*100:0;const t=(S.brokerTotal||S.cash||0);
-  const pt=t>=500?Math.round(t*0.50/10)*10:0;const ge=v-c;const fx=S.eurUsd||1.08;return{v,c,pl,t,cash,pt,ge,fx};}
+  const pt=cash>=500?Math.round(cash*0.50/10)*10:0;const ge=v-c;const fx=S.eurUsd||1.08;return{v,c,pl,t,cash,pt,ge,fx};}
 function yK(d){return new Date(d).getFullYear();}
 
 // ═══ TABS ═══
@@ -411,7 +411,7 @@ function rS(){const tb=document.getElementById('sTb'),ct=document.getElementById
     {id:'filtrats',l:'🚫 Filtrat',d:s.filtrats||[]}];
   tb.innerHTML=T.map(x=>`<button class="stab ${sTab===x.id?'on':''}" onclick="sTab='${x.id}';rS()">${x.l}<span class="c">${x.d.length}</span></button>`).join('');
   const a=T.find(x=>x.id===sTab);if(!a||!a.d.length){ct.innerHTML='<div class="empty">Cap senyal</div>';return;}
-  let h='<div class="tw"><table><thead><tr>';const pe=S.cash>=500?Math.round(S.cash*0.50/10)*10:0;
+  let h='<div class="tw"><table><thead><tr>';const{cash:_ca}=tot();const pe=_ca>=500?Math.round(_ca*0.50/10)*10:0;
   // Helper: check if already bought
   const bought=new Set((S.positions||[]).map(p=>p.sym));
 
