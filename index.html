@@ -192,7 +192,7 @@ a{color:var(--acc);text-decoration:none;}
 .toast.err{border-color:var(--red);background:#2d1215;}
 
 /* ═══ USER SYSTEM ═══ */
-.login-overlay{position:fixed;inset:0;background:var(--bg);z-index:500;display:flex;align-items:center;justify-content:center;}
+.login-overlay{position:fixed;inset:0;background:var(--bg);z-index:500;display:none;align-items:center;justify-content:center;}
 .login-box{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--radius2);padding:30px;width:92%;max-width:380px;text-align:center;}
 .login-box h2{margin-bottom:4px;font-size:1.2rem;}
 .login-box .sub{font-size:.8rem;color:var(--tx2);margin-bottom:20px;}
@@ -248,7 +248,7 @@ a{color:var(--acc);text-decoration:none;}
   <div class="app-hdr-top">
     <div class="app-title">Screener <span>Híbrid</span></div>
     <div class="app-controls">
-      <div class="hdr-user" id="hdrUser" onclick="showLoginScreen()" style="display:none;">
+      <div class="hdr-user" id="hdrUser" style="display:none;">
         <div class="mini-av" id="hdrAvatar">D</div>
         <span id="hdrName">—</span>
       </div>
@@ -494,7 +494,8 @@ a{color:var(--acc);text-decoration:none;}
 <!-- LOGIN OVERLAY -->
 <!-- ═══════════════════════════════════════════════════ -->
 <div class="login-overlay" id="loginOverlay">
-  <div class="login-box">
+  <div class="login-box" style="position:relative;">
+    <button onclick="cancelLogin()" style="position:absolute;top:8px;right:12px;background:none;border:none;font-size:1.2rem;color:var(--tx2);cursor:pointer;">✕</button>
     <h2>📊 Screener Híbrid</h2>
     <div class="sub">Selecciona el teu perfil</div>
     <div class="user-list" id="loginUserList"></div>
@@ -506,7 +507,10 @@ a{color:var(--acc);text-decoration:none;}
         <button class="login-btn login-btn-s" onclick="cancelLogin()">Cancel·lar</button>
       </div>
     </div>
-    <div id="loginAdminSection" style="margin-top:16px;border-top:1px solid var(--brd);padding-top:12px;display:none;">
+    <div id="loginLogoutSection" style="margin-top:12px;display:none;">
+      <button class="login-btn login-btn-s" style="width:100%;border:1px solid var(--brd)" onclick="logoutUser()">🚪 Tancar sessió</button>
+    </div>
+    <div id="loginAdminSection" style="margin-top:8px;border-top:1px solid var(--brd);padding-top:12px;display:none;">
       <button class="login-btn login-btn-s" style="width:100%" onclick="openUserMgmt()">👥 Gestionar usuaris</button>
     </div>
   </div>
@@ -529,6 +533,7 @@ a{color:var(--acc);text-decoration:none;}
   <input type="number" id="setupDca" step="500" value="10000">
   <div class="btn-row">
     <button class="btn btn-p" onclick="doSetup()">Crear perfil</button>
+    <button class="btn" onclick="cmo('mSetup')">Cancel·lar</button>
   </div>
 </div>
 </div>
@@ -606,10 +611,26 @@ let _selectedUserId=null;
 
 function initUserSystem(){
   const users=getUsers();
-  if(users.length===0){showSetupWizard();return;}
   const cur=getCurUser();
   if(cur){onUserLogin(cur);return;}
-  showLoginScreen();
+  // No blocking — just update header for optional access
+  updateHeaderUserArea();
+}
+
+function updateHeaderUserArea(){
+  const hdr=document.getElementById('hdrUser');
+  const users=getUsers();
+  hdr.style.display='flex';
+  const av=document.getElementById('hdrAvatar');
+  if(users.length===0){
+    hdr.onclick=function(){showSetupWizard()};
+    document.getElementById('hdrName').textContent='Perfils';
+    av.textContent='👤';av.style.background='transparent';av.style.fontSize='.85rem';
+  }else{
+    hdr.onclick=function(){showLoginScreen()};
+    document.getElementById('hdrName').textContent='Entrar';
+    av.textContent='👤';av.style.background='transparent';av.style.fontSize='.85rem';
+  }
 }
 
 function showSetupWizard(){
@@ -646,7 +667,6 @@ function showLoginScreen(){
       <div class="user-avatar" style="background:${col}">${avInitial(u.name)}</div>
       <div class="user-info">
         ${u.name}${u.isAdmin?'<span class="user-admin-tag">ADMIN</span>':''}
-        <div class="user-dca">DCA: ${u.dca?u.dca.toLocaleString('ca-ES')+'€':'—'}</div>
       </div>
     </div>`;
   });
@@ -654,7 +674,10 @@ function showLoginScreen(){
   document.getElementById('loginPassSection').classList.remove('show');
   document.getElementById('loginError').style.display='none';
   document.getElementById('loginPassInput').value='';
-  // Show admin section if any admin is logged or if current context allows
+  // Show logout if currently logged in
+  const curUser=getCurUser();
+  document.getElementById('loginLogoutSection').style.display=curUser?'block':'none';
+  // Show admin section if any admin exists
   const hasAdmin=users.some(u=>u.isAdmin);
   document.getElementById('loginAdminSection').style.display=hasAdmin?'block':'none';
 }
@@ -688,9 +711,8 @@ function cancelLogin(){
   _selectedUserId=null;
   document.querySelectorAll('.user-btn').forEach(b=>b.classList.remove('selected'));
   document.getElementById('loginPassSection').classList.remove('show');
-  // If already logged in (just changing user), restore current
-  const cur=getCurUser();
-  if(cur){document.getElementById('loginOverlay').style.display='none';}
+  // Always allow closing — login is optional
+  document.getElementById('loginOverlay').style.display='none';
 }
 
 function onUserLogin(user){
@@ -699,18 +721,28 @@ function onUserLogin(user){
   // Update header
   const hdr=document.getElementById('hdrUser');
   hdr.style.display='flex';
+  hdr.onclick=function(){showLoginScreen()};
   document.getElementById('hdrName').textContent=user.name;
   const av=document.getElementById('hdrAvatar');
   av.textContent=avInitial(user.name);
   av.style.background=avColor(user.name);
+  av.style.fontSize='.6rem';
   // Apply user's DCA
   ETF.dca=user.dca||10000;
   saveEtf();
   document.getElementById('dcaDisplay').textContent=fM(ETF.dca).replace('€','');
   if(ETF._lastData)renderEtfOrders(ETF._lastData);
-  // Show/hide admin features
-  const settingsBtn=document.querySelector('.app-controls button[onclick="openSettings()"]');
-  // Admin sees the gear; others still see it but without token/advanced options
+}
+
+function logoutUser(){
+  localStorage.removeItem(CUR_USER_KEY);
+  document.getElementById('loginOverlay').style.display='none';
+  updateHeaderUserArea();
+  // Reset DCA to default
+  ETF.dca=10000;saveEtf();
+  document.getElementById('dcaDisplay').textContent=fM(ETF.dca).replace('€','');
+  if(ETF._lastData)renderEtfOrders(ETF._lastData);
+  toast('Sessió tancada');
 }
 
 function openUserMgmt(){
