@@ -1,0 +1,343 @@
+{
+  "data": "2026-11-06",
+  "generatedAt": "2026-11-08T17:17:41",
+  "fred": {
+    "t10y3m": {
+      "value": 0.67,
+      "date": "2026-11-06"
+    },
+    "oas": {
+      "value": 3.48,
+      "date": "2026-11-05"
+    }
+  },
+  "thresholds": {
+    "t10y3m": 0.5,
+    "oas": 4.0
+  },
+  "fase": "danger",
+  "mode": "hibrid_a8",
+  "modeLabel": "HÍBRID-A8 (Tots 8 ETFs)",
+  "dca": 10000,
+  "top3": [
+    "HC",
+    "ENRG",
+    "STAP"
+  ],
+  "ranking": [
+    {
+      "etf": "HC",
+      "ticker": "XLV",
+      "mom1m": 9.9,
+      "mom3m": 10.13,
+      "mom6m": 29.85,
+      "mom12m": 28.99,
+      "score": 19.72,
+      "inExp": true,
+      "inDef": true,
+      "isTop3": true,
+      "ucitsTicker": "XDWH.DE",
+      "ucitsIsin": "IE00BM67HK77",
+      "ucitsName": "Xtrackers MSCI World HC Acc",
+      "lastPrice": 184.8000030517578
+    },
+    {
+      "etf": "ENRG",
+      "ticker": "XLE",
+      "mom1m": -5.55,
+      "mom3m": 3.0,
+      "mom6m": 12.09,
+      "mom12m": 44.99,
+      "score": 13.63,
+      "inExp": true,
+      "inDef": true,
+      "isTop3": true,
+      "ucitsTicker": "IUES.DE",
+      "ucitsIsin": "IE00B42NKQ00",
+      "ucitsName": "iShares S&P 500 Energy Acc",
+      "lastPrice": 61.619998931884766
+    },
+    {
+      "etf": "STAP",
+      "ticker": "XLP",
+      "mom1m": 7.98,
+      "mom3m": 6.74,
+      "mom6m": 8.46,
+      "mom12m": 21.88,
+      "score": 11.27,
+      "inExp": false,
+      "inDef": true,
+      "isTop3": true,
+      "ucitsTicker": "XDWS.DE",
+      "ucitsIsin": "IE00BM67HN09",
+      "ucitsName": "Xtrackers MSCI World Staples Acc",
+      "lastPrice": 90.08000183105469
+    },
+    {
+      "etf": "UTIL",
+      "ticker": "XLU",
+      "mom1m": 5.02,
+      "mom3m": 0.74,
+      "mom6m": -2.23,
+      "mom12m": -0.15,
+      "score": 0.84,
+      "inExp": false,
+      "inDef": true,
+      "isTop3": false,
+      "ucitsTicker": "XDWU.DE",
+      "ucitsIsin": "IE00BM67HQ30",
+      "ucitsName": "Xtrackers MSCI World Utilities Acc",
+      "lastPrice": 43.130001068115234
+    },
+    {
+      "etf": "GOLD",
+      "ticker": "GLD",
+      "mom1m": -1.61,
+      "mom3m": -7.46,
+      "mom6m": -14.12,
+      "mom12m": 1.64,
+      "score": -5.39,
+      "inExp": false,
+      "inDef": true,
+      "isTop3": false,
+      "ucitsTicker": "8PSG.DE",
+      "ucitsIsin": "IE00B579F325",
+      "ucitsName": "Invesco Physical Gold ETC",
+      "lastPrice": 372.5199890136719
+    },
+    {
+      "etf": "TECH",
+      "ticker": "XLK",
+      "mom1m": -16.71,
+      "mom3m": -11.48,
+      "mom6m": -5.92,
+      "mom12m": 12.23,
+      "score": -5.47,
+      "inExp": true,
+      "inDef": false,
+      "isTop3": false,
+      "ucitsTicker": "QDVE.DE",
+      "ucitsIsin": "IE00B3WJKG14",
+      "ucitsName": "iShares S&P 500 IT Sector Acc",
+      "lastPrice": 164.74000549316406
+    },
+    {
+      "etf": "QQQ",
+      "ticker": "QQQ",
+      "mom1m": -12.24,
+      "mom3m": -8.89,
+      "mom6m": -7.55,
+      "mom12m": 5.76,
+      "score": -5.73,
+      "inExp": true,
+      "inDef": false,
+      "isTop3": false,
+      "ucitsTicker": "EQQB.DE",
+      "ucitsIsin": "IE00BFZXGZ54",
+      "ucitsName": "Invesco Nasdaq 100 UCITS Acc",
+      "lastPrice": 656.0999755859375
+    },
+    {
+      "etf": "SEMI",
+      "ticker": "SMH",
+      "mom1m": -23.6,
+      "mom3m": -18.52,
+      "mom6m": -18.11,
+      "mom12m": 29.46,
+      "score": -7.69,
+      "inExp": true,
+      "inDef": false,
+      "isTop3": false,
+      "ucitsTicker": "SMH",
+      "ucitsIsin": "IE00BMC38736",
+      "ucitsName": "VanEck Semiconductor UCITS",
+      "lastPrice": 463.9599914550781
+    }
+  ],
+  "evolution": [
+    {
+      "date": "2026-11-06",
+      "topExp": [
+        {
+          "etf": "HC",
+          "score": 19.72
+        },
+        {
+          "etf": "ENRG",
+          "score": 13.63
+        },
+        {
+          "etf": "TECH",
+          "score": -5.47
+        }
+      ],
+      "topDef": [
+        {
+          "etf": "HC",
+          "score": 19.72
+        },
+        {
+          "etf": "ENRG",
+          "score": 13.63
+        },
+        {
+          "etf": "STAP",
+          "score": 11.27
+        }
+      ],
+      "topHibrid": [
+        {
+          "etf": "HC",
+          "score": 19.72
+        },
+        {
+          "etf": "ENRG",
+          "score": 13.63
+        },
+        {
+          "etf": "STAP",
+          "score": 11.27
+        }
+      ]
+    },
+    {
+      "date": "2026-10-08",
+      "topExp": [
+        {
+          "etf": "SEMI",
+          "score": 31.74
+        },
+        {
+          "etf": "TECH",
+          "score": 22.67
+        },
+        {
+          "etf": "ENRG",
+          "score": 21.23
+        }
+      ],
+      "topDef": [
+        {
+          "etf": "ENRG",
+          "score": 21.23
+        },
+        {
+          "etf": "HC",
+          "score": 9.59
+        },
+        {
+          "etf": "STAP",
+          "score": 2.97
+        }
+      ],
+      "topHibrid": [
+        {
+          "etf": "SEMI",
+          "score": 31.74
+        },
+        {
+          "etf": "TECH",
+          "score": 22.67
+        },
+        {
+          "etf": "ENRG",
+          "score": 21.23
+        }
+      ]
+    },
+    {
+      "date": "2026-09-09",
+      "topExp": [
+        {
+          "etf": "SEMI",
+          "score": 34.21
+        },
+        {
+          "etf": "ENRG",
+          "score": 24.19
+        },
+        {
+          "etf": "TECH",
+          "score": 20.56
+        }
+      ],
+      "topDef": [
+        {
+          "etf": "ENRG",
+          "score": 24.19
+        },
+        {
+          "etf": "HC",
+          "score": 9.95
+        },
+        {
+          "etf": "GOLD",
+          "score": 2.07
+        }
+      ],
+      "topHibrid": [
+        {
+          "etf": "SEMI",
+          "score": 34.21
+        },
+        {
+          "etf": "ENRG",
+          "score": 24.19
+        },
+        {
+          "etf": "TECH",
+          "score": 20.56
+        }
+      ]
+    },
+    {
+      "date": "2026-08-10",
+      "topExp": [
+        {
+          "etf": "SEMI",
+          "score": 32.92
+        },
+        {
+          "etf": "TECH",
+          "score": 20.3
+        },
+        {
+          "etf": "ENRG",
+          "score": 19.93
+        }
+      ],
+      "topDef": [
+        {
+          "etf": "ENRG",
+          "score": 19.93
+        },
+        {
+          "etf": "HC",
+          "score": 15.8
+        },
+        {
+          "etf": "GOLD",
+          "score": 4.13
+        }
+      ],
+      "topHibrid": [
+        {
+          "etf": "SEMI",
+          "score": 32.92
+        },
+        {
+          "etf": "TECH",
+          "score": 20.3
+        },
+        {
+          "etf": "ENRG",
+          "score": 19.93
+        }
+      ]
+    }
+  ],
+  "forces": {
+    "avgExp": 2.89,
+    "avgDef": 8.01
+  }
+}
