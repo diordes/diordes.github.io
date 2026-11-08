@@ -229,6 +229,25 @@ a{color:var(--acc);text-decoration:none;}
 .um-add{margin-top:12px;}
 .um-add input,.um-add select{width:100%;padding:7px 10px;border:1px solid var(--brd);border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-size:.82rem;margin-bottom:6px;}
 
+/* ═══ ETF PORTFOLIO ═══ */
+.pf-wrap{margin:16px 0;}
+.pf-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px;}
+.pf-stat{background:var(--card);border:1px solid var(--brd);border-radius:var(--radius);padding:12px;text-align:center;}
+.pf-stat-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:2px;}
+.pf-stat-val{font-size:1.15rem;font-weight:700;font-family:var(--mono);}
+.pf-stat-sub{font-size:.68rem;color:var(--tx3);margin-top:2px;}
+.trade-btn{font-family:var(--font);font-size:.68rem;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--green);background:rgba(52,211,153,.08);color:var(--green);cursor:pointer;white-space:nowrap;margin-top:4px;}
+.trade-btn:hover{background:rgba(52,211,153,.18);}
+.trade-btn.sold{border-color:var(--tx3);color:var(--tx3);background:rgba(155,160,176,.08);}
+.trade-btn.sold:hover{background:rgba(155,160,176,.15);}
+.pf-month{font-size:.78rem;padding:6px 0;border-bottom:1px solid var(--brd);}
+.pf-month:last-child{border-bottom:none;}
+.pf-month-hdr{font-weight:700;color:var(--acc);margin-bottom:2px;}
+.pf-month-items{color:var(--tx2);font-family:var(--mono);font-size:.72rem;}
+.pf-update-btn{font-family:var(--font);font-size:.65rem;font-weight:600;padding:3px 8px;border-radius:6px;border:1px solid var(--acc);background:rgba(108,140,255,.08);color:var(--acc);cursor:pointer;margin-left:auto;white-space:nowrap;}
+.pf-update-btn:hover{background:rgba(108,140,255,.15);}
+.pf-bought-tag{font-size:.65rem;color:var(--green);font-weight:600;font-family:var(--font);}
+
 /* responsive */
 @media(max-width:600px){
   .app-hdr{padding:10px 12px 0;}
@@ -236,6 +255,7 @@ a{color:var(--acc);text-decoration:none;}
   .forces-row{flex-direction:column;}
   .order-card{flex-direction:column;align-items:flex-start;}
   .order-right{text-align:left;margin-top:4px;}
+  .pf-summary{grid-template-columns:1fr 1fr;}
 }
 </style>
 </head>
@@ -316,6 +336,16 @@ a{color:var(--acc);text-decoration:none;}
   <!-- Orders -->
   <div class="section-title"><span class="icon">🛒</span> Ordres aquest mes</div>
   <div id="etfOrders" class="orders-grid"></div>
+
+  <!-- Portfolio -->
+  <div id="etfPortfolio" class="pf-wrap" style="display:none;">
+    <div class="section-title"><span class="icon">💼</span> El meu portafoli ETF
+      <button class="pf-update-btn" onclick="openPriceUpdateModal()">📊 Actualitzar preus</button>
+    </div>
+    <div id="etfPfSummary" class="pf-summary"></div>
+    <div id="etfPfPositions"></div>
+    <div id="etfPfHistory" style="margin-top:10px;"></div>
+  </div>
 
   <!-- Evolution -->
   <div class="section-title"><span class="icon">📈</span> Evolució Rankings (últims 4 mesos)</div>
@@ -490,6 +520,60 @@ a{color:var(--acc);text-decoration:none;}
 </div>
 </div>
 
+<!-- ETF Buy Modal -->
+<div class="mo" id="mEtfBuy">
+<div class="mo-c">
+  <h3>💰 Registrar Compra</h3>
+  <div id="buyEtfInfo" style="background:var(--bg3);border-radius:8px;padding:10px;margin-bottom:12px;font-size:.82rem;">
+    <div id="buyEtfName" style="font-weight:700;"></div>
+    <div id="buyEtfUcits" style="font-size:.72rem;color:var(--tx2);font-family:var(--mono);margin-top:2px;"></div>
+  </div>
+  <input type="hidden" id="buyEtf"><input type="hidden" id="buyTicker">
+  <input type="hidden" id="buyUcits"><input type="hidden" id="buyIsin">
+  <input type="hidden" id="buyEtfFullName">
+  <label>Data compra</label>
+  <input type="date" id="buyDate">
+  <label>Preu per acció (€)</label>
+  <input type="number" id="buyPrice" step="0.01" placeholder="Ex: 45.32">
+  <label>Nombre d'accions</label>
+  <input type="number" id="buyShares" step="0.001" placeholder="Ex: 73">
+  <div id="buyTotal" style="margin-top:8px;font-size:.85rem;font-weight:600;color:var(--green);"></div>
+  <div class="btn-row">
+    <button class="btn btn-p" onclick="doRecordBuy()">Registrar</button>
+    <button class="btn btn-s" onclick="cmo('mEtfBuy')">Cancel·lar</button>
+  </div>
+</div>
+</div>
+
+<!-- ETF Sell Modal -->
+<div class="mo" id="mEtfSell">
+<div class="mo-c">
+  <h3 id="sellEtfTitle">💸 Tancar Posició ETF</h3>
+  <input type="hidden" id="sellTradeId">
+  <label>Data venda</label>
+  <input type="date" id="sellDate">
+  <label>Preu per acció (€)</label>
+  <input type="number" id="sellPrice" step="0.01" placeholder="Preu de venda">
+  <div class="btn-row">
+    <button class="btn btn-p" onclick="doSellEtf()">Tancar posició</button>
+    <button class="btn btn-s" onclick="cmo('mEtfSell')">Cancel·lar</button>
+  </div>
+</div>
+</div>
+
+<!-- ETF Price Update Modal -->
+<div class="mo" id="mEtfPrices">
+<div class="mo-c">
+  <h3>📊 Actualitzar Preus</h3>
+  <p style="font-size:.78rem;color:var(--tx2);margin-bottom:12px;">Introdueix els preus actuals dels ETFs UCITS (€)</p>
+  <div id="priceUpdateList"></div>
+  <div class="btn-row">
+    <button class="btn btn-p" onclick="doUpdatePrices()">Actualitzar</button>
+    <button class="btn btn-s" onclick="cmo('mEtfPrices')">Tancar</button>
+  </div>
+</div>
+</div>
+
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- LOGIN OVERLAY -->
 <!-- ═══════════════════════════════════════════════════ -->
@@ -587,6 +671,7 @@ a{color:var(--acc);text-decoration:none;}
 // SHARED STATE & UTILS
 // ═══════════════════════════════════════════════════════════════
 
+function escH(s){return(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 function fM(n){return n==null?'—':n.toLocaleString('ca-ES',{maximumFractionDigits:0})+'€';}
 function fP(n){return n==null?'—':(n>=0?'+':'')+n.toFixed(1)+'%';}
 function fN(n,d){return n==null?'—':n.toFixed(d||2);}
@@ -732,6 +817,7 @@ function onUserLogin(user){
   saveEtf();
   document.getElementById('dcaDisplay').textContent=fM(ETF.dca).replace('€','');
   if(ETF._lastData)renderEtfOrders(ETF._lastData);
+  renderEtfPortfolio();
 }
 
 function logoutUser(){
@@ -742,6 +828,7 @@ function logoutUser(){
   ETF.dca=10000;saveEtf();
   document.getElementById('dcaDisplay').textContent=fM(ETF.dca).replace('€','');
   if(ETF._lastData)renderEtfOrders(ETF._lastData);
+  document.getElementById('etfPortfolio').style.display='none';
   toast('Sessió tancada');
 }
 
@@ -930,6 +1017,209 @@ function saveEtf(){try{localStorage.setItem(ETF_K,JSON.stringify(ETF));}catch(e)
 
 document.getElementById('dcaDisplay').textContent=fM(ETF.dca).replace('€','');
 
+// ═══════════════════════════════════════════════════════════════
+// ETF PORTFOLIO TRACKING (per-user trades)
+// ═══════════════════════════════════════════════════════════════
+const TRADES_KEY='scr_etf_trades';
+
+function getUserTrades(){
+  const cur=getCurUser();
+  if(!cur)return{trades:[],prices:{}};
+  try{const all=JSON.parse(localStorage.getItem(TRADES_KEY))||{};return all[cur.id]||{trades:[],prices:{}};}
+  catch(e){return{trades:[],prices:{}};}
+}
+function saveUserTrades(data){
+  const cur=getCurUser();if(!cur)return;
+  try{const all=JSON.parse(localStorage.getItem(TRADES_KEY))||{};all[cur.id]=data;localStorage.setItem(TRADES_KEY,JSON.stringify(all));}catch(e){}
+}
+
+function openBuyModal(etf,ticker,ucits,isin,etfName,sugAmount){
+  if(!getCurUser()){toast('Cal iniciar sessió per registrar compres','err');return;}
+  document.getElementById('buyEtf').value=etf;
+  document.getElementById('buyTicker').value=ticker;
+  document.getElementById('buyUcits').value=ucits;
+  document.getElementById('buyIsin').value=isin||'';
+  document.getElementById('buyEtfFullName').value=etfName||'';
+  document.getElementById('buyEtfName').textContent=etf+' — '+ticker;
+  document.getElementById('buyEtfUcits').innerHTML=(ucits||'')+(isin?' · '+isin:'')+(etfName?'<br>'+etfName:'');
+  document.getElementById('buyDate').value=new Date().toISOString().split('T')[0];
+  document.getElementById('buyPrice').value='';
+  document.getElementById('buyShares').value='';
+  document.getElementById('buyTotal').textContent=sugAmount?'Import suggerit: '+fM(sugAmount):'';
+  document.getElementById('mEtfBuy').classList.add('show');
+  const calcT=()=>{
+    const p=parseFloat(document.getElementById('buyPrice').value)||0;
+    const s=parseFloat(document.getElementById('buyShares').value)||0;
+    const t=p*s;
+    document.getElementById('buyTotal').textContent=t>0?'Total: '+t.toFixed(2)+'€':(sugAmount?'Import suggerit: '+fM(sugAmount):'');
+  };
+  document.getElementById('buyPrice').oninput=calcT;
+  document.getElementById('buyShares').oninput=calcT;
+}
+function buyFromCard(btn){
+  openBuyModal(btn.dataset.etf,btn.dataset.ticker,btn.dataset.ucits,btn.dataset.isin,btn.dataset.name,parseInt(btn.dataset.amount));
+}
+
+function doRecordBuy(){
+  const etf=document.getElementById('buyEtf').value;
+  const ticker=document.getElementById('buyTicker').value;
+  const ucits=document.getElementById('buyUcits').value;
+  const isin=document.getElementById('buyIsin').value;
+  const etfName=document.getElementById('buyEtfFullName').value;
+  const date=document.getElementById('buyDate').value;
+  const price=parseFloat(document.getElementById('buyPrice').value);
+  const shares=parseFloat(document.getElementById('buyShares').value);
+  if(!date){toast('Posa la data','err');return;}
+  if(!price||price<=0){toast('Posa el preu','err');return;}
+  if(!shares||shares<=0){toast('Posa les accions','err');return;}
+  const data=getUserTrades();
+  data.trades.push({id:'t_'+Date.now(),date,etf,ticker,ucits,isin,etfName,buyPrice:price,shares,amount:price*shares,month:date.substring(0,7),status:'open',sellDate:null,sellPrice:null});
+  if(!data.prices)data.prices={};
+  if(!data.prices[ucits])data.prices[ucits]={price,date};
+  saveUserTrades(data);
+  cmo('mEtfBuy');
+  renderEtfPortfolio();
+  if(ETF._lastData)renderEtfOrders(ETF._lastData);
+  toast('✅ Compra registrada: '+etf+' ('+ucits+')');
+}
+
+function openSellEtfModal(tradeId){
+  const data=getUserTrades();
+  const t=data.trades.find(x=>x.id===tradeId);
+  if(!t)return;
+  document.getElementById('sellTradeId').value=tradeId;
+  document.getElementById('sellEtfTitle').textContent='💸 Tancar '+t.etf+' ('+t.ucits+')';
+  document.getElementById('sellDate').value=new Date().toISOString().split('T')[0];
+  document.getElementById('sellPrice').value='';
+  document.getElementById('mEtfSell').classList.add('show');
+}
+function doSellEtf(){
+  const tradeId=document.getElementById('sellTradeId').value;
+  const sellDate=document.getElementById('sellDate').value;
+  const sellPrice=parseFloat(document.getElementById('sellPrice').value);
+  if(!sellDate){toast('Posa la data','err');return;}
+  if(!sellPrice||sellPrice<=0){toast('Posa el preu','err');return;}
+  const data=getUserTrades();
+  const t=data.trades.find(x=>x.id===tradeId);
+  if(!t)return;
+  t.status='closed';t.sellDate=sellDate;t.sellPrice=sellPrice;
+  saveUserTrades(data);
+  cmo('mEtfSell');
+  renderEtfPortfolio();
+  toast('✅ Posició tancada: '+t.etf);
+}
+
+function openPriceUpdateModal(){
+  const data=getUserTrades();
+  const open=data.trades.filter(t=>t.status==='open');
+  const tickers=new Map();
+  open.forEach(t=>{if(!tickers.has(t.ucits))tickers.set(t.ucits,{etf:t.etf,price:(data.prices&&data.prices[t.ucits])?data.prices[t.ucits].price:t.buyPrice});});
+  if(tickers.size===0){toast('Sense posicions obertes');return;}
+  let html='';
+  tickers.forEach((info,ucits)=>{
+    html+=`<div style="margin-bottom:10px;"><label style="font-size:.78rem;font-weight:600;">${info.etf} — ${ucits}</label><input type="number" class="pf-price-inp" data-ucits="${ucits}" step="0.01" value="${info.price.toFixed(2)}" style="width:100%;padding:8px 10px;border:1px solid var(--brd);border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-size:.85rem;"></div>`;
+  });
+  document.getElementById('priceUpdateList').innerHTML=html;
+  document.getElementById('mEtfPrices').classList.add('show');
+}
+function doUpdatePrices(){
+  const data=getUserTrades();if(!data.prices)data.prices={};
+  const today=new Date().toISOString().split('T')[0];
+  document.querySelectorAll('.pf-price-inp').forEach(inp=>{
+    const u=inp.dataset.ucits,p=parseFloat(inp.value);
+    if(u&&p>0)data.prices[u]={price:p,date:today};
+  });
+  saveUserTrades(data);cmo('mEtfPrices');renderEtfPortfolio();
+  toast('✅ Preus actualitzats');
+}
+
+function calcPortfolioStats(data){
+  const trades=data.trades||[],prices=data.prices||{};
+  const open=trades.filter(t=>t.status==='open'),closed=trades.filter(t=>t.status==='closed');
+  let totalInv=0,curVal=0,firstDate=null;
+  open.forEach(t=>{
+    totalInv+=t.amount;
+    const cp=(prices[t.ucits]&&prices[t.ucits].price)?prices[t.ucits].price:t.buyPrice;
+    curVal+=cp*t.shares;
+    if(!firstDate||t.date<firstDate)firstDate=t.date;
+  });
+  closed.forEach(t=>{
+    totalInv+=t.amount;curVal+=t.sellPrice*t.shares;
+    if(!firstDate||t.date<firstDate)firstDate=t.date;
+  });
+  const pl=curVal-totalInv,plPct=totalInv>0?((curVal/totalInv-1)*100):0;
+  let cagr=null;
+  if(firstDate&&totalInv>0){
+    const days=(Date.now()-new Date(firstDate).getTime())/(864e5);
+    if(days>30)cagr=(Math.pow(curVal/totalInv,365.25/days)-1)*100;
+  }
+  return{totalInv,curVal,pl,plPct,cagr,firstDate,openCount:open.length,closedCount:closed.length,totalTrades:trades.length};
+}
+
+function renderEtfPortfolio(){
+  const wrap=document.getElementById('etfPortfolio');
+  if(!wrap)return;
+  const cur=getCurUser();
+  if(!cur){wrap.style.display='none';return;}
+  const data=getUserTrades();
+  if(!data.trades||!data.trades.length){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  const stats=calcPortfolioStats(data),prices=data.prices||{};
+  const plC=stats.pl>=0?'pos':'neg';
+  // Summary
+  document.getElementById('etfPfSummary').innerHTML=`
+    <div class="pf-stat"><div class="pf-stat-label">Total invertit</div><div class="pf-stat-val">${stats.totalInv.toFixed(0)}€</div><div class="pf-stat-sub">${stats.totalTrades} compres</div></div>
+    <div class="pf-stat"><div class="pf-stat-label">Valor actual</div><div class="pf-stat-val">${stats.curVal.toFixed(0)}€</div><div class="pf-stat-sub">${stats.openCount} obertes</div></div>
+    <div class="pf-stat"><div class="pf-stat-label">P&L</div><div class="pf-stat-val ${plC}">${stats.pl>=0?'+':''}${stats.pl.toFixed(0)}€</div><div class="pf-stat-sub ${plC}">${stats.plPct>=0?'+':''}${stats.plPct.toFixed(1)}%</div></div>
+    <div class="pf-stat"><div class="pf-stat-label">CAGR</div><div class="pf-stat-val ${stats.cagr!==null?(stats.cagr>=0?'pos':'neg'):''}">${stats.cagr!==null?(stats.cagr>=0?'+':'')+stats.cagr.toFixed(1)+'%':'—'}</div><div class="pf-stat-sub">${stats.firstDate?'des de '+stats.firstDate.substring(0,7):'—'}</div></div>`;
+  // Open positions
+  const open=data.trades.filter(t=>t.status==='open');
+  let posH='';
+  if(open.length){
+    posH='<div class="rank-wrap"><table class="rank-tbl"><thead><tr><th>ETF</th><th>UCITS</th><th>Compra</th><th>Actual</th><th>Acc.</th><th>P&L</th><th>Valor</th><th></th></tr></thead><tbody>';
+    open.forEach(t=>{
+      const cp=(prices[t.ucits]&&prices[t.ucits].price)?prices[t.ucits].price:t.buyPrice;
+      const v=cp*t.shares,pl=((cp/t.buyPrice)-1)*100,c=pl>=0?'pos':'neg';
+      const priceAge=prices[t.ucits]?prices[t.ucits].date:'—';
+      posH+=`<tr><td style="font-weight:700">${t.etf}</td><td style="font-size:.72rem;color:var(--tx2)">${t.ucits}</td>
+        <td>${t.buyPrice.toFixed(2)}€</td><td>${cp.toFixed(2)}€<div style="font-size:.58rem;color:var(--tx3)">${priceAge}</div></td>
+        <td>${t.shares%1===0?t.shares:t.shares.toFixed(3)}</td><td class="${c}">${pl>=0?'+':''}${pl.toFixed(1)}%</td>
+        <td style="font-family:var(--mono)">${v.toFixed(0)}€</td>
+        <td><button class="trade-btn sold" onclick="openSellEtfModal('${t.id}')" style="font-size:.6rem;padding:2px 6px;">Tancar</button></td></tr>`;
+    });
+    posH+='</tbody></table></div>';
+  }
+  // Closed positions
+  const closed=data.trades.filter(t=>t.status==='closed');
+  if(closed.length){
+    posH+='<div style="margin-top:10px;font-size:.72rem;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;">Posicions tancades ('+closed.length+')</div>';
+    posH+='<div class="rank-wrap"><table class="rank-tbl"><thead><tr><th>ETF</th><th>UCITS</th><th>Compra</th><th>Venda</th><th>P&L</th><th>Dates</th></tr></thead><tbody>';
+    closed.slice().reverse().forEach(t=>{
+      const pl=((t.sellPrice/t.buyPrice)-1)*100,c=pl>=0?'pos':'neg';
+      posH+=`<tr><td style="font-weight:700">${t.etf}</td><td style="font-size:.72rem;color:var(--tx2)">${t.ucits}</td>
+        <td>${t.buyPrice.toFixed(2)}€</td><td>${t.sellPrice.toFixed(2)}€</td>
+        <td class="${c}">${pl>=0?'+':''}${pl.toFixed(1)}%</td>
+        <td style="font-size:.68rem;color:var(--tx3)">${t.date} → ${t.sellDate}</td></tr>`;
+    });
+    posH+='</tbody></table></div>';
+  }
+  document.getElementById('etfPfPositions').innerHTML=posH;
+  // Monthly history
+  const months=new Map();
+  data.trades.forEach(t=>{const m=t.month||t.date.substring(0,7);if(!months.has(m))months.set(m,[]);months.get(m).push(t);});
+  const sorted=[...months.keys()].sort().reverse();
+  let histH='';
+  if(sorted.length){
+    histH='<div style="font-size:.72rem;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">Historial per mes</div>';
+    sorted.forEach(m=>{
+      const tr=months.get(m),tot=tr.reduce((s,t)=>s+t.amount,0);
+      const items=tr.map(t=>`${t.etf}(${t.ucits}) ${t.shares%1===0?t.shares:t.shares.toFixed(3)}×${t.buyPrice.toFixed(2)}€`).join(' · ');
+      histH+=`<div class="pf-month"><div class="pf-month-hdr">${m} — ${tot.toFixed(0)}€</div><div class="pf-month-items">${items}</div></div>`;
+    });
+  }
+  document.getElementById('etfPfHistory').innerHTML=histH;
+}
+
 function openEtfSettings(){
   document.getElementById('etfDcaInput').value=ETF.dca;
   document.getElementById('mEtfSt').classList.add('show');
@@ -1069,10 +1359,20 @@ function renderEtfOrders(data){
   if(!data.top3||!data.top3.length){el.innerHTML='<div class="no-data"><p>Sense dades.</p></div>';return;}
 
   const perEtf=ETF.dca/data.top3.length;
+  const cur=getCurUser();
+  const curMonth=new Date().toISOString().substring(0,7);
+  let boughtThisMonth=new Set();
+  if(cur){const td=getUserTrades();td.trades.forEach(t=>{if(t.month===curMonth)boughtThisMonth.add(t.ucits);});}
   let html='';
   data.top3.forEach(etf=>{
     const r=data.ranking.find(x=>x.etf===etf);
     if(!r)return;
+    const already=boughtThisMonth.has(r.ucitsTicker);
+    let buyBtn='';
+    if(cur){
+      if(already){buyBtn='<span class="pf-bought-tag">✅ Comprat</span>';}
+      else{buyBtn=`<button class="trade-btn" onclick="buyFromCard(this)" data-etf="${escH(r.etf)}" data-ticker="${escH(r.ticker)}" data-ucits="${escH(r.ucitsTicker)}" data-isin="${escH(r.ucitsIsin)}" data-name="${escH(r.ucitsName)}" data-amount="${Math.round(perEtf)}">💰 Comprar</button>`;}
+    }
     html+=`<div class="order-card buy">
       <div class="order-left">
         <div class="order-etf">✅ ${r.etf} <span style="color:var(--tx3);font-weight:400;font-size:.82rem">${r.ticker}</span></div>
@@ -1081,6 +1381,7 @@ function renderEtfOrders(data){
       <div class="order-right">
         <div class="order-amount">${fM(perEtf)}</div>
         <div class="order-score">Score: ${r.score>=0?'+':''}${r.score.toFixed(1)}%</div>
+        ${buyBtn}
       </div>
     </div>`;
   });
@@ -1682,6 +1983,7 @@ renderAll();
 
 // ═══ INIT USER SYSTEM (after everything loaded) ═══
 initUserSystem();
+renderEtfPortfolio();
 </script>
 </body>
 </html>
