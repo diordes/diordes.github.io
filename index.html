@@ -191,6 +191,44 @@ a{color:var(--acc);text-decoration:none;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast.err{border-color:var(--red);background:#2d1215;}
 
+/* ═══ USER SYSTEM ═══ */
+.login-overlay{position:fixed;inset:0;background:var(--bg);z-index:500;display:flex;align-items:center;justify-content:center;}
+.login-box{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--radius2);padding:30px;width:92%;max-width:380px;text-align:center;}
+.login-box h2{margin-bottom:4px;font-size:1.2rem;}
+.login-box .sub{font-size:.8rem;color:var(--tx2);margin-bottom:20px;}
+.user-list{display:grid;gap:8px;margin-bottom:12px;}
+.user-btn{background:var(--bg3);border:1px solid var(--brd);border-radius:var(--radius);padding:12px 14px;cursor:pointer;font-family:var(--font);font-size:.88rem;font-weight:600;color:var(--tx);text-align:left;display:flex;align-items:center;gap:10px;transition:.15s;}
+.user-btn:hover{border-color:var(--acc);background:var(--card);}
+.user-btn.selected{border-color:var(--acc);background:rgba(108,140,255,.12);}
+.user-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff;flex-shrink:0;}
+.user-info{flex:1;}
+.user-dca{font-size:.72rem;color:var(--tx3);font-weight:400;}
+.user-admin-tag{font-size:.6rem;background:var(--acc);color:#fff;padding:1px 6px;border-radius:8px;font-weight:600;margin-left:6px;}
+.login-pass{margin-top:12px;display:none;}
+.login-pass.show{display:block;}
+.login-pass input{width:100%;padding:10px;border:1px solid var(--brd);border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-size:.85rem;text-align:center;margin-bottom:4px;}
+.login-btn-row{display:flex;gap:8px;margin-top:10px;}
+.login-btn{flex:1;padding:10px;border:none;border-radius:8px;font-family:var(--font);font-weight:600;font-size:.85rem;cursor:pointer;}
+.login-btn-p{background:var(--acc);color:#fff;}
+.login-btn-p:hover{background:var(--acc2);}
+.login-btn-s{background:var(--bg3);color:var(--tx);border:1px solid var(--brd)!important;}
+.login-error{color:var(--red);font-size:.78rem;margin-top:6px;display:none;}
+.hdr-user{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--brd);border-radius:8px;padding:4px 10px 4px 4px;cursor:pointer;font-size:.78rem;font-weight:600;color:var(--tx);white-space:nowrap;}
+.hdr-user:hover{background:var(--brd);}
+.hdr-user .mini-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;}
+/* user mgmt table */
+.um-list{margin:12px 0;}
+.um-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--brd);font-size:.82rem;}
+.um-row .user-avatar{width:28px;height:28px;font-size:.7rem;}
+.um-name{flex:1;font-weight:600;}
+.um-dca{font-family:var(--mono);font-size:.75rem;color:var(--tx2);}
+.um-actions{display:flex;gap:4px;}
+.um-actions button{background:var(--bg3);border:1px solid var(--brd);border-radius:6px;padding:3px 8px;font-size:.7rem;cursor:pointer;color:var(--tx2);font-family:var(--font);}
+.um-actions button:hover{background:var(--brd);color:var(--tx);}
+.um-actions button.danger{color:var(--red);}
+.um-add{margin-top:12px;}
+.um-add input,.um-add select{width:100%;padding:7px 10px;border:1px solid var(--brd);border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-size:.82rem;margin-bottom:6px;}
+
 /* responsive */
 @media(max-width:600px){
   .app-hdr{padding:10px 12px 0;}
@@ -210,6 +248,10 @@ a{color:var(--acc);text-decoration:none;}
   <div class="app-hdr-top">
     <div class="app-title">Screener <span>Híbrid</span></div>
     <div class="app-controls">
+      <div class="hdr-user" id="hdrUser" onclick="showLoginScreen()" style="display:none;">
+        <div class="mini-av" id="hdrAvatar">D</div>
+        <span id="hdrName">—</span>
+      </div>
       <button onclick="toggleTheme()" id="themeBtn">☀️</button>
       <button onclick="openSettings()">⚙️</button>
     </div>
@@ -352,8 +394,6 @@ a{color:var(--acc);text-decoration:none;}
   <input type="number" id="stAport" step="100">
   <label>Valor inici any (€)</label>
   <input type="number" id="stVal" step="100">
-  <label>GitHub Token (opcional, per executar screener)</label>
-  <input type="password" id="stGhToken" placeholder="ghp_...">
   <label>EUR/USD manual</label>
   <input type="number" id="stEur" step="0.001" placeholder="auto">
   <div class="btn-row">
@@ -450,6 +490,92 @@ a{color:var(--acc);text-decoration:none;}
 </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- LOGIN OVERLAY -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <h2>📊 Screener Híbrid</h2>
+    <div class="sub">Selecciona el teu perfil</div>
+    <div class="user-list" id="loginUserList"></div>
+    <div class="login-pass" id="loginPassSection">
+      <input type="password" id="loginPassInput" placeholder="Contrasenya" onkeydown="if(event.key==='Enter')doLogin()">
+      <div class="login-error" id="loginError">Contrasenya incorrecta</div>
+      <div class="login-btn-row">
+        <button class="login-btn login-btn-p" onclick="doLogin()">Entrar</button>
+        <button class="login-btn login-btn-s" onclick="cancelLogin()">Cancel·lar</button>
+      </div>
+    </div>
+    <div id="loginAdminSection" style="margin-top:16px;border-top:1px solid var(--brd);padding-top:12px;display:none;">
+      <button class="login-btn login-btn-s" style="width:100%" onclick="openUserMgmt()">👥 Gestionar usuaris</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SETUP WIZARD (first time) -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="mo" id="mSetup">
+<div class="mo-c">
+  <h3>🔧 Configuració inicial</h3>
+  <p style="font-size:.82rem;color:var(--tx2);margin-bottom:12px;">Crea el teu perfil d'administrador.</p>
+  <label>El teu nom</label>
+  <input type="text" id="setupName" placeholder="Diorde" value="Diorde">
+  <label>Contrasenya</label>
+  <input type="password" id="setupPass" placeholder="La teva contrasenya">
+  <label>Contrasenya mestra (per resetejar altres usuaris)</label>
+  <input type="password" id="setupMaster" placeholder="Contrasenya mestra">
+  <label>DCA mensual ETF (€)</label>
+  <input type="number" id="setupDca" step="500" value="10000">
+  <div class="btn-row">
+    <button class="btn btn-p" onclick="doSetup()">Crear perfil</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- USER MANAGEMENT MODAL -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="mo" id="mUserMgmt">
+<div class="mo-c">
+  <h3>👥 Gestionar Usuaris</h3>
+  <div id="umUserList" class="um-list"></div>
+  <div class="um-add">
+    <h4 style="font-size:.82rem;margin-bottom:8px;">Afegir usuari</h4>
+    <input type="text" id="umNewName" placeholder="Nom">
+    <input type="password" id="umNewPass" placeholder="Contrasenya">
+    <input type="number" id="umNewDca" step="500" value="5000" placeholder="DCA mensual (€)">
+    <button class="btn btn-p" style="width:100%" onclick="addUser()">Afegir</button>
+  </div>
+  <div style="margin-top:14px;border-top:1px solid var(--brd);padding-top:10px;">
+    <label style="font-size:.78rem;color:var(--tx3);">Canviar contrasenya mestra</label>
+    <input type="password" id="umNewMaster" placeholder="Nova contrasenya mestra">
+    <button class="btn btn-s" style="width:100%;margin-top:4px;" onclick="changeMaster()">Canviar</button>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-s" onclick="cmo('mUserMgmt')">Tancar</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- RESET PASSWORD MODAL -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="mo" id="mResetPass">
+<div class="mo-c">
+  <h3 id="resetPassTitle">Resetejar contrasenya</h3>
+  <label>Contrasenya mestra</label>
+  <input type="password" id="resetMasterInput" placeholder="Contrasenya mestra">
+  <label>Nova contrasenya per l'usuari</label>
+  <input type="password" id="resetNewPass" placeholder="Nova contrasenya">
+  <div id="resetError" style="color:var(--red);font-size:.78rem;display:none;margin-top:4px;"></div>
+  <div class="btn-row">
+    <button class="btn btn-p" onclick="doResetPass()">Resetejar</button>
+    <button class="btn btn-s" onclick="cmo('mResetPass')">Cancel·lar</button>
+  </div>
+</div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
@@ -460,6 +586,251 @@ function fM(n){return n==null?'—':n.toLocaleString('ca-ES',{maximumFractionDig
 function fP(n){return n==null?'—':(n>=0?'+':'')+n.toFixed(1)+'%';}
 function fN(n,d){return n==null?'—':n.toFixed(d||2);}
 function cmo(id){document.getElementById(id).classList.remove('show');}
+
+// ═══════════════════════════════════════════════════════════════
+// USER SYSTEM
+// ═══════════════════════════════════════════════════════════════
+const USERS_KEY='scr_users',MASTER_KEY='scr_master_hash',CUR_USER_KEY='scr_current_user';
+const AV_COLORS=['#6c8cff','#10b981','#f87171','#f59e0b','#8b5cf6','#ec4899','#06b6d4','#f97316'];
+
+function uHash(s){let h=5381;for(let i=0;i<s.length;i++){h=((h<<5)+h)+s.charCodeAt(i);h=h&0x7fffffff;}return'h'+h.toString(36);}
+function avColor(name){let h=0;for(let i=0;i<name.length;i++)h=((h<<5)-h)+name.charCodeAt(i);return AV_COLORS[Math.abs(h)%AV_COLORS.length];}
+function avInitial(name){return name.charAt(0).toUpperCase();}
+
+function getUsers(){try{return JSON.parse(localStorage.getItem(USERS_KEY))||[];}catch(e){return[];}}
+function saveUsersLS(u){localStorage.setItem(USERS_KEY,JSON.stringify(u));}
+function getCurUser(){const id=localStorage.getItem(CUR_USER_KEY);if(!id)return null;return getUsers().find(u=>u.id===id)||null;}
+function setCurUser(id){localStorage.setItem(CUR_USER_KEY,id);}
+
+let _selectedUserId=null;
+
+function initUserSystem(){
+  const users=getUsers();
+  if(users.length===0){showSetupWizard();return;}
+  const cur=getCurUser();
+  if(cur){onUserLogin(cur);return;}
+  showLoginScreen();
+}
+
+function showSetupWizard(){
+  document.getElementById('loginOverlay').style.display='flex';
+  document.getElementById('mSetup').classList.add('show');
+}
+
+function doSetup(){
+  const name=document.getElementById('setupName').value.trim();
+  const pass=document.getElementById('setupPass').value;
+  const master=document.getElementById('setupMaster').value;
+  const dca=parseFloat(document.getElementById('setupDca').value)||10000;
+  if(!name){toast('Posa un nom','err');return;}
+  if(!pass){toast('Posa una contrasenya','err');return;}
+  if(!master){toast('Posa la contrasenya mestra','err');return;}
+  const user={id:'u_'+Date.now(),name,hash:uHash(pass),dca,isAdmin:true};
+  saveUsersLS([user]);
+  localStorage.setItem(MASTER_KEY,uHash(master));
+  cmo('mSetup');
+  onUserLogin(user);
+  toast('✅ Perfil creat!');
+}
+
+function showLoginScreen(){
+  const overlay=document.getElementById('loginOverlay');
+  overlay.style.display='flex';
+  const users=getUsers();
+  const list=document.getElementById('loginUserList');
+  _selectedUserId=null;
+  let html='';
+  users.forEach(u=>{
+    const col=avColor(u.name);
+    html+=`<div class="user-btn" data-uid="${u.id}" onclick="selectLoginUser('${u.id}')">
+      <div class="user-avatar" style="background:${col}">${avInitial(u.name)}</div>
+      <div class="user-info">
+        ${u.name}${u.isAdmin?'<span class="user-admin-tag">ADMIN</span>':''}
+        <div class="user-dca">DCA: ${u.dca?u.dca.toLocaleString('ca-ES')+'€':'—'}</div>
+      </div>
+    </div>`;
+  });
+  list.innerHTML=html;
+  document.getElementById('loginPassSection').classList.remove('show');
+  document.getElementById('loginError').style.display='none';
+  document.getElementById('loginPassInput').value='';
+  // Show admin section if any admin is logged or if current context allows
+  const hasAdmin=users.some(u=>u.isAdmin);
+  document.getElementById('loginAdminSection').style.display=hasAdmin?'block':'none';
+}
+
+function selectLoginUser(id){
+  _selectedUserId=id;
+  document.querySelectorAll('.user-btn').forEach(b=>{b.classList.toggle('selected',b.dataset.uid===id);});
+  document.getElementById('loginPassSection').classList.add('show');
+  document.getElementById('loginError').style.display='none';
+  document.getElementById('loginPassInput').value='';
+  document.getElementById('loginPassInput').focus();
+}
+
+function doLogin(){
+  if(!_selectedUserId)return;
+  const pass=document.getElementById('loginPassInput').value;
+  const users=getUsers();
+  const user=users.find(u=>u.id===_selectedUserId);
+  if(!user)return;
+  const masterHash=localStorage.getItem(MASTER_KEY)||'';
+  if(uHash(pass)===user.hash || uHash(pass)===masterHash){
+    onUserLogin(user);
+  }else{
+    document.getElementById('loginError').style.display='block';
+    document.getElementById('loginPassInput').value='';
+    document.getElementById('loginPassInput').focus();
+  }
+}
+
+function cancelLogin(){
+  _selectedUserId=null;
+  document.querySelectorAll('.user-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('loginPassSection').classList.remove('show');
+  // If already logged in (just changing user), restore current
+  const cur=getCurUser();
+  if(cur){document.getElementById('loginOverlay').style.display='none';}
+}
+
+function onUserLogin(user){
+  setCurUser(user.id);
+  document.getElementById('loginOverlay').style.display='none';
+  // Update header
+  const hdr=document.getElementById('hdrUser');
+  hdr.style.display='flex';
+  document.getElementById('hdrName').textContent=user.name;
+  const av=document.getElementById('hdrAvatar');
+  av.textContent=avInitial(user.name);
+  av.style.background=avColor(user.name);
+  // Apply user's DCA
+  ETF.dca=user.dca||10000;
+  saveEtf();
+  document.getElementById('dcaDisplay').textContent=fM(ETF.dca).replace('€','');
+  if(ETF._lastData)renderEtfOrders(ETF._lastData);
+  // Show/hide admin features
+  const settingsBtn=document.querySelector('.app-controls button[onclick="openSettings()"]');
+  // Admin sees the gear; others still see it but without token/advanced options
+}
+
+function openUserMgmt(){
+  // Require master password
+  const master=prompt('Contrasenya mestra:');
+  if(!master)return;
+  const masterHash=localStorage.getItem(MASTER_KEY)||'';
+  if(uHash(master)!==masterHash){toast('Contrasenya mestra incorrecta','err');return;}
+  renderUserMgmt();
+  document.getElementById('mUserMgmt').classList.add('show');
+}
+
+function renderUserMgmt(){
+  const users=getUsers();
+  const list=document.getElementById('umUserList');
+  let html='';
+  users.forEach(u=>{
+    const col=avColor(u.name);
+    html+=`<div class="um-row">
+      <div class="user-avatar" style="background:${col}">${avInitial(u.name)}</div>
+      <div class="um-name">${u.name}${u.isAdmin?' 👑':''}</div>
+      <div class="um-dca">${u.dca?u.dca.toLocaleString('ca-ES')+'€':'—'}</div>
+      <div class="um-actions">
+        <button onclick="editUserDca('${u.id}')">💶</button>
+        <button onclick="resetUserPass('${u.id}')">🔑</button>
+        ${!u.isAdmin?`<button class="danger" onclick="deleteUser('${u.id}')">🗑️</button>`:''}
+      </div>
+    </div>`;
+  });
+  list.innerHTML=html;
+}
+
+function addUser(){
+  const name=document.getElementById('umNewName').value.trim();
+  const pass=document.getElementById('umNewPass').value;
+  const dca=parseFloat(document.getElementById('umNewDca').value)||5000;
+  if(!name){toast('Posa un nom','err');return;}
+  if(!pass){toast('Posa una contrasenya','err');return;}
+  const users=getUsers();
+  if(users.some(u=>u.name.toLowerCase()===name.toLowerCase())){toast('Ja existeix un usuari amb aquest nom','err');return;}
+  users.push({id:'u_'+Date.now(),name,hash:uHash(pass),dca,isAdmin:false});
+  saveUsersLS(users);
+  document.getElementById('umNewName').value='';
+  document.getElementById('umNewPass').value='';
+  document.getElementById('umNewDca').value='5000';
+  renderUserMgmt();
+  toast('✅ Usuari afegit: '+name);
+}
+
+function deleteUser(id){
+  const users=getUsers();
+  const u=users.find(x=>x.id===id);
+  if(!u)return;
+  if(!confirm(`Eliminar l'usuari "${u.name}"?`))return;
+  saveUsersLS(users.filter(x=>x.id!==id));
+  if(localStorage.getItem(CUR_USER_KEY)===id)localStorage.removeItem(CUR_USER_KEY);
+  renderUserMgmt();
+  toast('Usuari eliminat: '+u.name);
+}
+
+function editUserDca(id){
+  const users=getUsers();
+  const u=users.find(x=>x.id===id);
+  if(!u)return;
+  const val=prompt(`DCA mensual per ${u.name} (€):`,u.dca||5000);
+  if(val===null)return;
+  u.dca=parseFloat(val)||5000;
+  saveUsersLS(users);
+  // If editing current user, update live
+  const cur=getCurUser();
+  if(cur&&cur.id===id){
+    ETF.dca=u.dca;saveEtf();
+    document.getElementById('dcaDisplay').textContent=fM(ETF.dca).replace('€','');
+    if(ETF._lastData)renderEtfOrders(ETF._lastData);
+  }
+  renderUserMgmt();
+  toast('✅ DCA actualitzat: '+u.name+' → '+u.dca.toLocaleString('ca-ES')+'€');
+}
+
+let _resetUserId=null;
+function resetUserPass(id){
+  _resetUserId=id;
+  const users=getUsers();
+  const u=users.find(x=>x.id===id);
+  if(!u)return;
+  document.getElementById('resetPassTitle').textContent='Resetejar contrasenya: '+u.name;
+  document.getElementById('resetMasterInput').value='';
+  document.getElementById('resetNewPass').value='';
+  document.getElementById('resetError').style.display='none';
+  document.getElementById('mResetPass').classList.add('show');
+}
+
+function doResetPass(){
+  const master=document.getElementById('resetMasterInput').value;
+  const newPass=document.getElementById('resetNewPass').value;
+  const masterHash=localStorage.getItem(MASTER_KEY)||'';
+  if(uHash(master)!==masterHash){
+    document.getElementById('resetError').textContent='Contrasenya mestra incorrecta';
+    document.getElementById('resetError').style.display='block';return;
+  }
+  if(!newPass){
+    document.getElementById('resetError').textContent='Posa una nova contrasenya';
+    document.getElementById('resetError').style.display='block';return;
+  }
+  const users=getUsers();
+  const u=users.find(x=>x.id===_resetUserId);
+  if(!u)return;
+  u.hash=uHash(newPass);
+  saveUsersLS(users);
+  cmo('mResetPass');
+  toast('✅ Contrasenya de '+u.name+' resetejada');
+}
+
+function changeMaster(){
+  const newMaster=document.getElementById('umNewMaster').value;
+  if(!newMaster){toast('Posa una contrasenya','err');return;}
+  localStorage.setItem(MASTER_KEY,uHash(newMaster));
+  document.getElementById('umNewMaster').value='';
+  toast('✅ Contrasenya mestra canviada');
+}
 
 // Theme
 let _theme=localStorage.getItem('scr_theme')||'dark';
@@ -493,7 +864,6 @@ function openSettings(){document.getElementById('mSt').classList.add('show');
   document.getElementById('stAport').value=S.aportMes||0;
   const cY=new Date().getFullYear();
   document.getElementById('stVal').value=(S.valorInici&&S.valorInici[cY])||0;
-  document.getElementById('stGhToken').value=localStorage.getItem(GH_TOKEN_KEY)||'';
   document.getElementById('stEur').value=S.eurUsd||'';
 }
 function saveSettings(){
@@ -502,8 +872,6 @@ function saveSettings(){
   S.aportMes=parseFloat(document.getElementById('stAport').value)||0;
   const v=parseFloat(document.getElementById('stVal').value);
   if(v>0){if(!S.valorInici)S.valorInici={};S.valorInici[new Date().getFullYear()]=v;}
-  const t=document.getElementById('stGhToken').value.trim();
-  if(t)localStorage.setItem(GH_TOKEN_KEY,t);
   const e=parseFloat(document.getElementById('stEur').value);
   if(e>0)S.eurUsd=e;
   save();cmo('mSt');renderAll();toast('✅ Configuració desada');
@@ -539,6 +907,9 @@ function saveEtfDca(){
   saveEtf();cmo('mEtfSt');
   document.getElementById('dcaDisplay').textContent=fM(ETF.dca).replace('€','');
   if(ETF._lastData)renderEtfOrders(ETF._lastData);
+  // Save to user record
+  const cur=getCurUser();
+  if(cur){const users=getUsers();const u=users.find(x=>x.id===cur.id);if(u){u.dca=ETF.dca;saveUsersLS(users);}}
   toast('✅ DCA actualitzat');
 }
 
@@ -1276,6 +1647,9 @@ renderAll();
     save();renderAll();
   }catch(e){S._fetching=false;S._fetchDone=true;rS();}
 })();
+
+// ═══ INIT USER SYSTEM (after everything loaded) ═══
+initUserSystem();
 </script>
 </body>
 </html>
