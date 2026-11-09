@@ -1643,7 +1643,7 @@ function rS(){
       if(typeof item==='string'){out+=item+'\n';}
       else if(item.sym){
         const nom=(item.nom&&item.nom!==item.sym)?item.nom:(_noms[item.sym]||'');
-        const preu=item.preu?'$'+item.preu.toFixed(2):(item.preu_actual?'$'+item.preu_actual.toFixed(2):'');
+        const preu=item.preu?'$'+item.preu.toFixed(2):(item.preu_actual?'$'+item.preu_actual.toFixed(2):(item.preu_ara?'$'+item.preu_ara.toFixed(2):''));
         let line=`  ${item.sym.padEnd(6)} ${nom.substring(0,20).padEnd(21)} ${preu.padStart(9)}`;
         if(item.score!==undefined)line+=`  sc:${item.score.toFixed(1)}`;
         if(item.rar!==undefined)line+=`  rar:${item.rar.toFixed(1)}`;
@@ -1657,6 +1657,11 @@ function rS(){
         if(item.motiu)line+=`  <span class="y">${item.motiu}</span>`;
         if(item.delay_motiu)line+=`  <span class="y">${item.delay_motiu} (${item.dies_restants||0}d)</span>`;
         if(item.nota)line+=`  ${item.nota}`;
+        if(item.trailing_sl)line+=`  <span class="g">TSL $${item.trailing_sl.toFixed(0)}</span>`;
+        if(item.preu_compra)line+=`  compra:$${item.preu_compra.toFixed(2)}`;
+        if(item.pl!==undefined)line+=`  <span class="${item.pl>=0?'g':'r'}">P&L ${item.pl>0?'+':''}${item.pl.toFixed(1)}%</span>`;
+        if(item.estat)line+=`\n    <span class="d">${item.estat}</span>`;
+        if(item.sl_accio)line+=`\n    <span class="y">${item.sl_accio}</span>`;
         out+=line+'\n';
       }
     });
