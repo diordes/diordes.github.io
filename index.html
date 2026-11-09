@@ -256,6 +256,9 @@ a{color:var(--acc);text-decoration:none;}
   .order-card{flex-direction:column;align-items:flex-start;}
   .order-right{text-align:left;margin-top:4px;}
   .pf-summary{grid-template-columns:1fr 1fr;}
+  input,select,textarea{font-size:16px !important;}
+  .user-btn{font-size:.95rem;padding:14px 16px;}
+  .login-box{padding:24px 20px;}
 }
 </style>
 </head>
@@ -1639,11 +1642,20 @@ function rS(){
     items.forEach(item=>{
       if(typeof item==='string'){out+=item+'\n';}
       else if(item.sym){
-        const nom=item.nom||_noms[item.sym]||'';
-        const preu=item.preu?'$'+item.preu.toFixed(2):'';
+        const nom=(item.nom&&item.nom!==item.sym)?item.nom:(_noms[item.sym]||'');
+        const preu=item.preu?'$'+item.preu.toFixed(2):(item.preu_actual?'$'+item.preu_actual.toFixed(2):'');
         let line=`  ${item.sym.padEnd(6)} ${nom.substring(0,20).padEnd(21)} ${preu.padStart(9)}`;
         if(item.score!==undefined)line+=`  sc:${item.score.toFixed(1)}`;
         if(item.rar!==undefined)line+=`  rar:${item.rar.toFixed(1)}`;
+        if(item.sl)line+=`  SL $${item.sl.toFixed?item.sl.toFixed(0):item.sl}`;
+        if(item.mfi!==undefined&&item.mfi>0)line+=`  MFI:${item.mfi.toFixed(0)}`;
+        if(item.support)line+=`  sup $${item.support.toFixed?item.support.toFixed(0):item.support}`;
+        if(item.distancia!==undefined)line+=`  dist:${item.distancia>0?'+':''}${item.distancia.toFixed?item.distancia.toFixed(1):item.distancia}%`;
+        if(item.vol_rel)line+=`  vol:${item.vol_rel}x`;
+        if(item.px_vs_sma200!==undefined)line+=`  vs200:${item.px_vs_sma200>0?'+':''}${item.px_vs_sma200}%`;
+        if(item.marge!==undefined)line+=`  marge:${item.marge.toFixed?item.marge.toFixed(1):item.marge}%`;
+        if(item.motiu)line+=`  <span class="y">${item.motiu}</span>`;
+        if(item.delay_motiu)line+=`  <span class="y">${item.delay_motiu} (${item.dies_restants||0}d)</span>`;
         if(item.nota)line+=`  ${item.nota}`;
         out+=line+'\n';
       }
@@ -1683,7 +1695,7 @@ function rP(){
       <td>$${p.preu.toFixed(2)}</td>
       <td>$${px.toFixed(2)}</td>
       <td class="${cls}">${pl>=0?'+':''}${pl.toFixed(1)}%</td>
-      <td style="font-size:.72rem;color:var(--tx3)">${p.sl||15}%${p.trailing_sl>0?' T'+p.trailing_sl.toFixed(0)+'%':''}</td>
+      <td style="font-size:.72rem;color:var(--tx3)">${(p.sl&&p.preu&&p.sl/p.preu>0.3)?'$'+p.sl.toFixed(0)+(p.preu>0?' ('+((1-p.sl/p.preu)*-100).toFixed(0)+'%)':''):(p.sl||15)+'%'}${p.trailing_sl>0?' T$'+p.trailing_sl.toFixed(0):''}</td>
       <td style="font-family:var(--mono)">$${fN(val,0)}</td>
     </tr>`;
   });
