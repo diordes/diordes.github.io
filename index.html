@@ -248,6 +248,79 @@ a{color:var(--acc);text-decoration:none;}
 .pf-update-btn:hover{background:rgba(108,140,255,.15);}
 .pf-bought-tag{font-size:.65rem;color:var(--green);font-weight:600;font-family:var(--font);}
 
+/* ═══ SQAR TAB ═══ */
+.sqar-hero{text-align:center;padding:20px 0 10px;}
+.sqar-hero h1{font-size:1.6rem;font-weight:800;letter-spacing:-.03em;}
+.sqar-hero h1 span{color:var(--acc);}
+.sqar-hero .sub{font-size:.8rem;color:var(--tx2);margin-top:4px;}
+.sqar-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:16px 0;}
+.sqar-meta .m-card{background:var(--card);border:1px solid var(--brd);border-radius:var(--radius);padding:12px;text-align:center;}
+.sqar-meta .m-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--tx3);margin-bottom:4px;}
+.sqar-meta .m-val{font-size:1.3rem;font-weight:700;font-family:var(--mono);}
+.sqar-meta .m-val.green{color:var(--green);}
+.sqar-meta .m-val.acc{color:var(--acc);}
+.sqar-section{margin:20px 0 8px;font-size:.88rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+.sqar-section .badge{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:12px;font-family:var(--mono);}
+.badge-buy{background:#064e3b;color:#34d399;border:1px solid #10b981;}
+.badge-sell{background:#7f1d1d;color:#f87171;border:1px solid #ef4444;}
+.badge-keep{background:#1e3a5f;color:#60a5fa;border:1px solid #3b82f6;}
+.sqar-list{display:grid;gap:8px;margin-bottom:16px;}
+.sqar-item{background:var(--card);border:1px solid var(--brd);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:12px;}
+.sqar-item.buy{border-left:3px solid var(--green);}
+.sqar-item.sell{border-left:3px solid var(--red);}
+.sqar-item.keep{border-left:3px solid #60a5fa;}
+.sqar-tk{font-weight:700;font-size:1rem;min-width:55px;}
+.sqar-details{flex:1;font-size:.72rem;color:var(--tx2);font-family:var(--mono);}
+.sqar-mov{text-align:right;font-weight:700;font-family:var(--mono);font-size:.9rem;}
+.sqar-mov.pos{color:var(--green);}
+.sqar-reason{font-size:.72rem;color:var(--red);font-family:var(--font);}
+.sqar-item{position:relative;flex-wrap:wrap;}
+.sqar-buy-btn{background:var(--green);color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap;}
+.sqar-buy-btn:hover{opacity:.85;}
+.sqar-buy-form{width:100%;display:flex;gap:6px;align-items:center;margin-top:6px;flex-wrap:wrap;}
+.sqar-buy-form input{background:var(--card);border:1px solid var(--brd);border-radius:6px;padding:5px 8px;font-size:.78rem;font-family:var(--mono);color:var(--tx);width:90px;}
+.sqar-buy-form input:focus{border-color:var(--acc);outline:none;}
+.sqar-buy-form label{font-size:.68rem;color:var(--tx2);}
+.sqar-buy-form .sqar-form-group{display:flex;flex-direction:column;gap:2px;}
+.sqar-buy-confirm{background:var(--green);color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:.72rem;font-weight:700;cursor:pointer;}
+.sqar-buy-cancel{background:transparent;color:var(--tx3);border:1px solid var(--brd);border-radius:6px;padding:5px 10px;font-size:.72rem;cursor:pointer;}
+.sqar-registered{width:100%;display:flex;align-items:center;gap:8px;margin-top:6px;font-size:.75rem;font-family:var(--mono);}
+.sqar-reg-info{flex:1;color:var(--green);}
+.sqar-reg-edit,.sqar-reg-del{background:transparent;border:1px solid var(--brd);border-radius:5px;padding:3px 8px;font-size:.68rem;cursor:pointer;color:var(--tx2);}
+.sqar-reg-edit:hover{border-color:var(--acc);color:var(--acc);}
+.sqar-reg-del:hover{border-color:var(--red);color:var(--red);}
+.sqar-portfolio-bar{background:linear-gradient(135deg,#1a2a1a,#1e3a2a);border:1px solid var(--green);border-radius:var(--radius2);padding:14px 16px;margin:16px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+[data-theme="light"] .sqar-portfolio-bar{background:linear-gradient(135deg,#e8f5e8,#ddf0dd);}
+.sqar-portfolio-bar .pf-label{font-size:.82rem;font-weight:700;color:var(--green);}
+.sqar-portfolio-bar .pf-count{font-size:.75rem;color:var(--tx2);font-family:var(--mono);}
+.sqar-portfolio-bar .pf-actions{display:flex;gap:6px;}
+.sqar-portfolio-bar .pf-btn{background:transparent;border:1px solid var(--brd);border-radius:6px;padding:4px 10px;font-size:.68rem;cursor:pointer;color:var(--tx2);}
+.sqar-portfolio-bar .pf-btn:hover{border-color:var(--acc);color:var(--acc);}
+.sqar-sum{background:var(--card);border:1px solid var(--brd);border-radius:var(--radius2);padding:16px;margin:16px 0;}
+.sqar-sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;font-size:.82rem;}
+.sqar-sum-grid .lbl{color:var(--tx3);}
+.sqar-sum-grid .val{font-weight:600;font-family:var(--mono);text-align:right;}
+.sqar-bt{background:linear-gradient(135deg,#1a1f3a,#1e2a4a);border:1px solid var(--acc);border-radius:var(--radius2);padding:16px;margin:16px 0;}
+[data-theme="light"] .sqar-bt{background:linear-gradient(135deg,#e8ecf8,#dde4f5);}
+.sqar-bt h3{font-size:.95rem;margin-bottom:12px;}
+.sqar-yr-table{width:100%;border-collapse:collapse;font-size:.82rem;font-family:var(--mono);}
+.sqar-yr-table th{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);font-weight:600;padding:4px 8px;text-align:right;border-bottom:1px solid var(--brd);}
+.sqar-yr-table th:first-child{text-align:left;}
+.sqar-yr-table td{padding:6px 8px;text-align:right;border-bottom:1px solid rgba(128,128,128,.12);}
+.sqar-yr-table td:first-child{text-align:left;color:var(--tx2);}
+.sqar-yr-table td.sqar-pos{color:var(--green);font-weight:700;}
+.sqar-yr-table td.sqar-neg{color:var(--red);font-weight:700;}
+.sqar-yr-table td.sqar-pend{color:var(--tx3);font-style:italic;font-family:var(--sans);}
+.sqar-yr-table td.delta-pos{color:var(--green);}
+.sqar-yr-table td.delta-neg{color:var(--red);}
+.sqar-yr-empty{text-align:center!important;color:var(--tx3);font-style:italic;font-family:var(--sans);padding:16px 8px!important;}
+.sqar-yr-cumul{font-size:.78rem;margin-top:10px;padding:8px 12px;border-radius:var(--radius);background:rgba(128,128,128,.08);display:flex;justify-content:space-between;}
+.sqar-yr-cumul .lbl{color:var(--tx2);}
+.sqar-yr-cumul .val{font-weight:700;font-family:var(--mono);}
+.sqar-note{font-size:.75rem;color:var(--tx3);text-align:center;margin-top:16px;padding:10px;border:1px dashed var(--brd);border-radius:var(--radius);line-height:1.6;}
+.sqar-params{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0;}
+.sqar-param{font-size:.68rem;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid var(--brd);color:var(--tx2);font-family:var(--mono);}
+
 /* responsive */
 @media(max-width:600px){
   .app-hdr{padding:10px 12px 0;}
@@ -282,6 +355,7 @@ a{color:var(--acc);text-decoration:none;}
   <div class="top-tabs">
     <button class="top-tab active" onclick="switchMain('etf')" id="mainTabEtf">📊 ETF Momentum</button>
     <button class="top-tab" onclick="switchMain('stocks')" id="mainTabStocks">📈 Top 250</button>
+    <button class="top-tab" onclick="switchMain('sqar')" id="mainTabSqar">🎯 SQAR</button>
   </div>
 </div>
 
@@ -668,6 +742,82 @@ a{color:var(--acc);text-decoration:none;}
 </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SQAR PANE -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="paneSqar" class="main-pane">
+
+  <div class="sqar-hero">
+    <h1>🎯 <span>SQAR</span> Picks</h1>
+    <div class="sub">Stable Quality Anti-Reversal — Rebalanceig anual</div>
+    <div class="sqar-params" id="sqarParams"></div>
+    <div class="sub" id="sqarUpd" style="margin-top:6px;">—</div>
+    <button class="etf-btn primary" id="runSqarBtn" onclick="runSqarScreener()" style="margin-top:10px;">▶ Executar</button>
+  </div>
+
+  <!-- Rendiment any per any -->
+  <div class="sqar-bt" id="sqarBt">
+    <h3>📊 Rendiment any per any</h3>
+    <table class="sqar-yr-table" id="sqarYrTable">
+      <thead>
+        <tr><th>VY</th><th>SQAR</th><th>RSP</th><th>Δ</th></tr>
+      </thead>
+      <tbody id="sqarYrBody">
+        <tr><td colspan="4" class="sqar-yr-empty">El seguiment començarà al març 2027</td></tr>
+      </tbody>
+    </table>
+    <div class="sqar-yr-cumul" id="sqarYrCumul" style="display:none;"></div>
+  </div>
+
+  <!-- Summary cards -->
+  <div class="sqar-meta" id="sqarMeta">
+    <div class="m-card"><div class="m-label">Posicions</div><div class="m-val acc" id="sqN">—</div></div>
+    <div class="m-card"><div class="m-label">Comprar</div><div class="m-val green" id="sqBuy">—</div></div>
+    <div class="m-card"><div class="m-label">Vendre</div><div class="m-val" style="color:var(--red)" id="sqSell">—</div></div>
+    <div class="m-card"><div class="m-label">Turnover</div><div class="m-val" id="sqTurn">—</div></div>
+  </div>
+
+  <!-- Portfolio bar -->
+  <div class="sqar-portfolio-bar" id="sqarPfBar" style="display:none;">
+    <div>
+      <span class="pf-label">💼 La meva cartera</span>
+      <span class="pf-count" id="sqarPfCount"></span>
+    </div>
+    <div class="pf-actions">
+      <button class="pf-btn" onclick="sqarExportPf()">📋 Exportar</button>
+      <button class="pf-btn" onclick="sqarClearPf()" style="color:var(--red)">🗑 Buidar</button>
+    </div>
+  </div>
+
+  <!-- KEEP -->
+  <div class="sqar-section">✓ Mantenir <span class="badge badge-keep" id="sqKeepN">0</span></div>
+  <div class="sqar-list" id="sqKeepList"></div>
+
+  <!-- BUY -->
+  <div class="sqar-section">+ Comprar <span class="badge badge-buy" id="sqBuyN">0</span></div>
+  <div class="sqar-list" id="sqBuyList"></div>
+
+  <!-- SELL -->
+  <div class="sqar-section">− Vendre <span class="badge badge-sell" id="sqSellN">0</span></div>
+  <div class="sqar-list" id="sqSellList"></div>
+
+  <!-- Summary box -->
+  <div class="sqar-sum" id="sqarSumBox">
+    <div class="sqar-sum-grid">
+      <span class="lbl">Total posicions</span><span class="val" id="sqsTot">—</span>
+      <span class="lbl">Pes per posició</span><span class="val" id="sqsWt">—</span>
+      <span class="lbl">Compres noves</span><span class="val" id="sqsBuys">—</span>
+      <span class="lbl">Vendes</span><span class="val" id="sqsSells">—</span>
+      <span class="lbl">Mantenir</span><span class="val" id="sqsKeeps">—</span>
+      <span class="lbl">Total trades</span><span class="val" id="sqsTrades">—</span>
+      <span class="lbl">Turnover</span><span class="val" id="sqsTurnover">—</span>
+    </div>
+  </div>
+
+  <div class="sqar-note" id="sqarNote"></div>
+
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
@@ -971,6 +1121,9 @@ function switchMain(tab){
   if(tab==='etf'){
     document.getElementById('mainTabEtf').classList.add('active');
     document.getElementById('paneEtf').classList.add('active');
+  }else if(tab==='sqar'){
+    document.getElementById('mainTabSqar').classList.add('active');
+    document.getElementById('paneSqar').classList.add('active');
   }else{
     document.getElementById('mainTabStocks').classList.add('active');
     document.getElementById('paneStocks').classList.add('active');
@@ -2001,6 +2154,471 @@ renderAll();
 // ═══ INIT USER SYSTEM (after everything loaded) ═══
 initUserSystem();
 renderEtfPortfolio();
+
+// ═══════════════════════════════════════════════════════════════
+// SQAR: GitHub Actions trigger
+// ═══════════════════════════════════════════════════════════════
+const SQAR_GH_REPO='diordes/screener-dashboard';
+const SQAR_GH_WORKFLOW='sqar_screener.yml';
+let SQAR_lastGen=null; // track current generatedAt to detect updates
+
+async function runSqarScreener(){
+  let token=localStorage.getItem(GH_TOKEN_KEY);
+  if(!token){
+    token=prompt('GitHub Personal Access Token:\n\nCrea\'l a: github.com/settings/tokens\nPermisos: repo o actions:write');
+    if(!token)return;
+    localStorage.setItem(GH_TOKEN_KEY,token);
+  }
+  const btn=document.getElementById('runSqarBtn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Llançant…';
+  try{
+    const r=await fetch(`https://api.github.com/repos/${SQAR_GH_REPO}/actions/workflows/${SQAR_GH_WORKFLOW}/dispatches`,{
+      method:'POST',headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({ref:'main'})});
+    if(r.status===204){
+      toast('✅ SQAR Screener llançat!');
+      btn.innerHTML='⏳ Executant… (~5 min)';
+      let polls=0;const poll=setInterval(async()=>{
+        polls++;if(polls>40){clearInterval(poll);btn.disabled=false;btn.innerHTML='▶ Executar';toast('⏱️ Temps exhaurit — torna-ho a provar');return;}
+        try{
+          const r2=await fetch('data/sqar_latest.json?t='+Date.now());if(!r2.ok)return;
+          const j=await r2.json();if(!j.generatedAt)return;
+          const jd=new Date(j.generatedAt).getTime(),ld=SQAR_lastGen?new Date(SQAR_lastGen).getTime():0;
+          if(jd>ld){clearInterval(poll);
+            SQAR_lastGen=j.generatedAt;
+            toast('✅ Dades SQAR actualitzades!');
+            btn.disabled=false;btn.innerHTML='▶ Executar';
+            renderSqarData(j);}
+        }catch(e){}
+      },15000);
+    }else if(r.status===401||r.status===403){
+      localStorage.removeItem(GH_TOKEN_KEY);
+      toast('❌ Token invàlid','err');btn.disabled=false;btn.innerHTML='▶ Executar';
+    }else if(r.status===404){
+      toast('❌ Workflow sqar_screener.yml no trobat','err');
+      btn.disabled=false;btn.innerHTML='▶ Executar';
+    }else{
+      toast('❌ Error: '+r.status,'err');btn.disabled=false;btn.innerHTML='▶ Executar';
+    }
+  }catch(e){toast('❌ Error de connexió','err');btn.disabled=false;btn.innerHTML='▶ Executar';}
+}
+
+function renderSqarData(d){
+  // Header
+  document.getElementById('sqarUpd').textContent=
+    'Rebalanceig Març '+d.entryYear+' · VY '+d.vintageYear+' · Actualitzat '+(d.generatedAt||'').slice(0,10);
+  document.getElementById('sqarParams').innerHTML=
+    '<span class="sqar-param">|Δrank| ≤ '+d.params.delta+'</span>'+
+    '<span class="sqar-param">MoV top '+(d.params.movPct*100)+'%</span>'+
+    '<span class="sqar-param">Excl top '+(d.params.m3Excl*100)+'% mom3m</span>';
+
+  // Yearly returns table
+  if(d.yearlyReturns && d.yearlyReturns.length){
+    const tbody=document.getElementById('sqarYrBody');
+    const rows=d.yearlyReturns;
+    tbody.innerHTML='';
+    let cumulSqar=1, cumulRsp=1, nComplete=0;
+    rows.forEach(r=>{
+      const tr=document.createElement('tr');
+      if(r.status==='pendent'||r.sqar===null){
+        tr.innerHTML='<td>'+r.vy+'</td><td class="sqar-pend" colspan="3">en curs — sortida '+r.exit+'</td>';
+      } else {
+        const delta=r.sqar-r.rsp;
+        const sCls=r.sqar>=0?'sqar-pos':'sqar-neg';
+        const rCls=r.rsp>=0?'sqar-pos':'sqar-neg';
+        const dCls=delta>=0?'delta-pos':'delta-neg';
+        const sign=v=>v>=0?'+'+v.toFixed(1)+'%':v.toFixed(1)+'%';
+        tr.innerHTML='<td>'+r.vy+'</td><td class="'+sCls+'">'+sign(r.sqar)+'</td><td class="'+rCls+'">'+sign(r.rsp)+'</td><td class="'+dCls+'">'+sign(delta)+'</td>';
+        cumulSqar*=(1+r.sqar/100);
+        cumulRsp*=(1+r.rsp/100);
+        nComplete++;
+      }
+      tbody.appendChild(tr);
+    });
+    if(nComplete>=1){
+      const cagrS=((Math.pow(cumulSqar,1/nComplete)-1)*100).toFixed(1);
+      const cagrR=((Math.pow(cumulRsp,1/nComplete)-1)*100).toFixed(1);
+      const el=document.getElementById('sqarYrCumul');
+      el.style.display='flex';
+      el.innerHTML='<span class="lbl">CAGR acumulat ('+nComplete+' any'+(nComplete>1?'s':'')+')</span><span class="val" style="color:var(--green)">SQAR '+cagrS+'% · RSP '+cagrR+'%</span>';
+    }
+  }
+
+  // Summary cards
+  const sm=d.summary;
+  document.getElementById('sqN').textContent=sm.totalPositions;
+  document.getElementById('sqBuy').textContent=sm.buys;
+  document.getElementById('sqSell').textContent=sm.sells;
+  document.getElementById('sqTurn').textContent=sm.turnover+'%';
+
+  // Build lookup
+  const pickMap={};
+  d.picks.forEach(p=>{pickMap[p.ticker]=p;});
+
+  // Portfolio functions (re-init)
+  const PF_KEY='sqar_portfolio';
+  function getPf(){try{return JSON.parse(localStorage.getItem(PF_KEY))||{};}catch(e){return {};}}
+
+  function renderRegRow(container,tk){
+    const pf=getPf();
+    const pos=pf[tk];
+    const existing=container.querySelector('.sqar-registered');
+    if(existing)existing.remove();
+    if(!pos)return;
+    const row=document.createElement('div');
+    row.className='sqar-registered';
+    row.innerHTML='<span class="sqar-reg-info">✓ '+pos.shares+' acc @ $'+pos.price.toFixed(2)+'</span>'+
+      '<button class="sqar-reg-edit" onclick="sqarEditPos(this,\''+tk+'\')">✏️</button>'+
+      '<button class="sqar-reg-del" onclick="sqarDelPos(this,\''+tk+'\')">✕</button>';
+    container.appendChild(row);
+  }
+
+  // Clear existing lists
+  const keepList=document.getElementById('sqKeepList');
+  const buyList=document.getElementById('sqBuyList');
+  const sellList=document.getElementById('sqSellList');
+  keepList.innerHTML='';buyList.innerHTML='';sellList.innerHTML='';
+
+  // KEEP
+  const keeps=d.transitions.keep;
+  document.getElementById('sqKeepN').textContent=keeps.length;
+  keeps.forEach(tk=>{
+    const p=pickMap[tk];if(!p)return;
+    const div=document.createElement('div');
+    div.className='sqar-item keep';
+    div.innerHTML=
+      '<div class="sqar-tk">'+tk+'</div>'+
+      '<div class="sqar-details">Rank '+p.rank+' · Δ'+(p.delta>=0?'+':'')+p.delta+' · $'+p.mktcap+'B</div>'+
+      '<div class="sqar-mov pos">'+p.mov.toFixed(2)+'</div>'+
+      '<button class="sqar-buy-btn" onclick="sqarBuy(this,\''+tk+'\')" style="font-size:.65rem;padding:4px 8px;">📝 Registrar</button>';
+    keepList.appendChild(div);
+    const pf=getPf();
+    if(pf[tk]){div.querySelector('.sqar-buy-btn').style.display='none';renderRegRow(div,tk);}
+  });
+  if(!keeps.length)keepList.innerHTML='<div style="color:var(--tx3);font-size:.82rem;padding:8px;">Cap posició es manté</div>';
+
+  // BUY
+  const buys=d.transitions.buy;
+  document.getElementById('sqBuyN').textContent=buys.length;
+  buys.forEach(tk=>{
+    const p=pickMap[tk];if(!p)return;
+    const div=document.createElement('div');
+    div.className='sqar-item buy';
+    div.innerHTML=
+      '<div class="sqar-tk">'+tk+'</div>'+
+      '<div class="sqar-details">Rank '+p.rank+' · Δ'+(p.delta>=0?'+':'')+p.delta+
+      ' · Mom12 '+(p.mom12>=0?'+':'')+p.mom12.toFixed(1)+'% · Vol '+p.vol.toFixed(1)+'% · $'+p.mktcap+'B</div>'+
+      '<div class="sqar-mov pos">'+p.mov.toFixed(2)+'</div>'+
+      '<button class="sqar-buy-btn" onclick="sqarBuy(this,\''+tk+'\')">🛒 Comprar</button>';
+    buyList.appendChild(div);
+    const pf=getPf();
+    if(pf[tk]){div.querySelector('.sqar-buy-btn').style.display='none';renderRegRow(div,tk);}
+  });
+
+  // SELL
+  const sells=d.transitions.sell;
+  document.getElementById('sqSellN').textContent=sells.length;
+  const prevMap={};
+  d.prevPicks.forEach(p=>{prevMap[p.ticker]=p;});
+  sells.forEach(tk=>{
+    const pp=prevMap[tk];
+    const reason=pp?pp.reason:'Fora dels filtres';
+    sellList.innerHTML+=
+      '<div class="sqar-item sell">'+
+      '<div class="sqar-tk">'+tk+'</div>'+
+      '<div class="sqar-reason">'+reason+'</div></div>';
+  });
+
+  // Update portfolio bar
+  if(typeof updatePfBar==='function')updatePfBar();
+  else{
+    const pf=getPf();
+    const n=Object.keys(pf).length;
+    const bar=document.getElementById('sqarPfBar');
+    if(n>0){bar.style.display='flex';
+      const total=Object.values(pf).reduce((s,x)=>s+(x.price*x.shares),0);
+      document.getElementById('sqarPfCount').textContent=n+' posicions · '+total.toLocaleString('de-DE',{maximumFractionDigits:0})+' $';
+    } else {bar.style.display='none';}
+  }
+
+  // Summary box
+  document.getElementById('sqsTot').textContent=sm.totalPositions;
+  document.getElementById('sqsWt').textContent=sm.weightPer+'%';
+  document.getElementById('sqsBuys').textContent=sm.buys;
+  document.getElementById('sqsSells').textContent=sm.sells;
+  document.getElementById('sqsKeeps').textContent=sm.keeps;
+  document.getElementById('sqsTrades').textContent=sm.totalTrades;
+  document.getElementById('sqsTurnover').textContent=sm.turnover+'%';
+
+  // Note
+  document.getElementById('sqarNote').textContent=d.note||'';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SQAR TAB
+// ═══════════════════════════════════════════════════════════════
+(async function loadSqar(){
+  try{
+    const r=await fetch('data/sqar_latest.json?t='+Date.now());
+    if(!r.ok)return;
+    const d=await r.json();
+    SQAR_lastGen=d.generatedAt||null;
+
+    // Header
+    document.getElementById('sqarUpd').textContent=
+      'Rebalanceig Març '+d.entryYear+' · VY '+d.vintageYear+' · Actualitzat '+(d.generatedAt||'').slice(0,10);
+    document.getElementById('sqarParams').innerHTML=
+      '<span class="sqar-param">|Δrank| ≤ '+d.params.delta+'</span>'+
+      '<span class="sqar-param">MoV top '+(d.params.movPct*100)+'%</span>'+
+      '<span class="sqar-param">Excl top '+(d.params.m3Excl*100)+'% mom3m</span>';
+
+    // Yearly returns table
+    if(d.yearlyReturns && d.yearlyReturns.length){
+      const tbody=document.getElementById('sqarYrBody');
+      const rows=d.yearlyReturns;
+      const hasData=rows.some(r=>r.sqar!==null);
+      if(hasData||rows.length){
+        tbody.innerHTML='';
+        let cumulSqar=1, cumulRsp=1, nComplete=0;
+        rows.forEach(r=>{
+          const tr=document.createElement('tr');
+          if(r.status==='pendent'||r.sqar===null){
+            tr.innerHTML='<td>'+r.vy+'</td><td class="sqar-pend" colspan="3">en curs — sortida '+r.exit+'</td>';
+          } else {
+            const delta=r.sqar-r.rsp;
+            const sCls=r.sqar>=0?'sqar-pos':'sqar-neg';
+            const rCls=r.rsp>=0?'sqar-pos':'sqar-neg';
+            const dCls=delta>=0?'delta-pos':'delta-neg';
+            const sign=v=>v>=0?'+'+v.toFixed(1)+'%':v.toFixed(1)+'%';
+            tr.innerHTML='<td>'+r.vy+'</td><td class="'+sCls+'">'+sign(r.sqar)+'</td><td class="'+rCls+'">'+sign(r.rsp)+'</td><td class="'+dCls+'">'+sign(delta)+'</td>';
+            cumulSqar*=(1+r.sqar/100);
+            cumulRsp*=(1+r.rsp/100);
+            nComplete++;
+          }
+          tbody.appendChild(tr);
+        });
+        // Show cumulative CAGR if we have completed years
+        if(nComplete>=1){
+          const cagrS=((Math.pow(cumulSqar,1/nComplete)-1)*100).toFixed(1);
+          const cagrR=((Math.pow(cumulRsp,1/nComplete)-1)*100).toFixed(1);
+          const el=document.getElementById('sqarYrCumul');
+          el.style.display='flex';
+          el.innerHTML='<span class="lbl">CAGR acumulat ('+nComplete+' any'+(nComplete>1?'s':'')+')</span><span class="val" style="color:var(--green)">SQAR '+cagrS+'% · RSP '+cagrR+'%</span>';
+        }
+      }
+    }
+
+    // Summary cards
+    const sm=d.summary;
+    document.getElementById('sqN').textContent=sm.totalPositions;
+    document.getElementById('sqBuy').textContent=sm.buys;
+    document.getElementById('sqSell').textContent=sm.sells;
+    document.getElementById('sqTurn').textContent=sm.turnover+'%';
+
+    // Build lookup for picks
+    const pickMap={};
+    d.picks.forEach(p=>{pickMap[p.ticker]=p;});
+
+    // ── PORTFOLIO SYSTEM (localStorage) ──
+    const PF_KEY='sqar_portfolio';
+    function getPf(){try{return JSON.parse(localStorage.getItem(PF_KEY))||{};}catch(e){return {};}}
+    function savePf(pf){try{localStorage.setItem(PF_KEY,JSON.stringify(pf));}catch(e){}}
+    function updatePfBar(){
+      const pf=getPf();
+      const n=Object.keys(pf).length;
+      const bar=document.getElementById('sqarPfBar');
+      if(n>0){
+        bar.style.display='flex';
+        const total=Object.values(pf).reduce((s,x)=>s+(x.price*x.shares),0);
+        document.getElementById('sqarPfCount').textContent=n+' posicions · '+total.toLocaleString('de-DE',{maximumFractionDigits:0})+' $';
+      } else {
+        bar.style.display='none';
+      }
+    }
+    window.sqarExportPf=function(){
+      const pf=getPf();
+      const txt=JSON.stringify(pf,null,2);
+      navigator.clipboard.writeText(txt).then(()=>alert('Cartera copiada al portapapers!')).catch(()=>{
+        prompt('Copia manualment:',txt);
+      });
+    };
+    window.sqarClearPf=function(){
+      if(!confirm('Segur que vols buidar tota la cartera?'))return;
+      localStorage.removeItem(PF_KEY);
+      updatePfBar();
+      // Re-render buy buttons
+      document.querySelectorAll('.sqar-registered').forEach(el=>el.remove());
+      document.querySelectorAll('.sqar-buy-btn[style*="display:none"]').forEach(el=>el.style.display='');
+    };
+
+    function renderRegRow(container,tk){
+      const pf=getPf();
+      const pos=pf[tk];
+      // Remove existing reg row if any
+      const existing=container.querySelector('.sqar-registered');
+      if(existing)existing.remove();
+      if(!pos)return;
+      const row=document.createElement('div');
+      row.className='sqar-registered';
+      row.innerHTML='<span class="sqar-reg-info">✓ '+pos.shares+' acc @ $'+pos.price.toFixed(2)+'</span>'+
+        '<button class="sqar-reg-edit" onclick="sqarEditPos(this,\''+tk+'\')">✏️</button>'+
+        '<button class="sqar-reg-del" onclick="sqarDelPos(this,\''+tk+'\')">✕</button>';
+      container.appendChild(row);
+    }
+
+    window.sqarBuy=function(btn,tk){
+      const item=btn.closest('.sqar-item');
+      // Toggle form
+      let form=item.querySelector('.sqar-buy-form');
+      if(form){form.remove();return;}
+      btn.style.display='none';
+      form=document.createElement('div');
+      form.className='sqar-buy-form';
+      form.innerHTML=
+        '<div class="sqar-form-group"><label>Preu $</label><input type="number" step="0.01" min="0" class="sqar-inp-price" placeholder="0.00"></div>'+
+        '<div class="sqar-form-group"><label>Accions</label><input type="number" step="1" min="1" class="sqar-inp-shares" placeholder="0"></div>'+
+        '<button class="sqar-buy-confirm" onclick="sqarConfirmBuy(this,\''+tk+'\')">✓</button>'+
+        '<button class="sqar-buy-cancel" onclick="sqarCancelBuy(this,\''+tk+'\')">✕</button>';
+      item.appendChild(form);
+      form.querySelector('.sqar-inp-price').focus();
+    };
+
+    window.sqarConfirmBuy=function(btn,tk){
+      const form=btn.closest('.sqar-buy-form');
+      const item=form.closest('.sqar-item');
+      const price=parseFloat(form.querySelector('.sqar-inp-price').value);
+      const shares=parseInt(form.querySelector('.sqar-inp-shares').value);
+      if(!price||price<=0||!shares||shares<=0){alert('Preu i accions obligatoris');return;}
+      const pf=getPf();
+      pf[tk]={price:price,shares:shares,date:new Date().toISOString().slice(0,10)};
+      savePf(pf);
+      form.remove();
+      renderRegRow(item,tk);
+      updatePfBar();
+    };
+
+    window.sqarCancelBuy=function(btn,tk){
+      const form=btn.closest('.sqar-buy-form');
+      const item=form.closest('.sqar-item');
+      form.remove();
+      const buyBtn=item.querySelector('.sqar-buy-btn');
+      if(buyBtn)buyBtn.style.display='';
+    };
+
+    window.sqarEditPos=function(btn,tk){
+      const item=btn.closest('.sqar-item');
+      const pf=getPf();
+      const pos=pf[tk]||{price:0,shares:0};
+      const regRow=item.querySelector('.sqar-registered');
+      if(regRow)regRow.remove();
+      const form=document.createElement('div');
+      form.className='sqar-buy-form';
+      form.innerHTML=
+        '<div class="sqar-form-group"><label>Preu $</label><input type="number" step="0.01" min="0" class="sqar-inp-price" value="'+pos.price+'"></div>'+
+        '<div class="sqar-form-group"><label>Accions</label><input type="number" step="1" min="1" class="sqar-inp-shares" value="'+pos.shares+'"></div>'+
+        '<button class="sqar-buy-confirm" onclick="sqarConfirmBuy(this,\''+tk+'\')">✓</button>'+
+        '<button class="sqar-buy-cancel" onclick="sqarCancelEdit(this,\''+tk+'\')">✕</button>';
+      item.appendChild(form);
+    };
+
+    window.sqarCancelEdit=function(btn,tk){
+      const form=btn.closest('.sqar-buy-form');
+      const item=form.closest('.sqar-item');
+      form.remove();
+      renderRegRow(item,tk);
+    };
+
+    window.sqarDelPos=function(btn,tk){
+      if(!confirm('Eliminar '+tk+' de la cartera?'))return;
+      const pf=getPf();
+      delete pf[tk];
+      savePf(pf);
+      const item=btn.closest('.sqar-item');
+      const regRow=item.querySelector('.sqar-registered');
+      if(regRow)regRow.remove();
+      const buyBtn=item.querySelector('.sqar-buy-btn');
+      if(buyBtn)buyBtn.style.display='';
+      updatePfBar();
+    };
+
+    // ── RENDER KEEP ──
+    const keepList=document.getElementById('sqKeepList');
+    const keeps=d.transitions.keep;
+    document.getElementById('sqKeepN').textContent=keeps.length;
+    keeps.forEach(tk=>{
+      const p=pickMap[tk];
+      if(!p)return;
+      const div=document.createElement('div');
+      div.className='sqar-item keep';
+      div.innerHTML=
+        '<div class="sqar-tk">'+tk+'</div>'+
+        '<div class="sqar-details">Rank '+p.rank+' · Δ'+(p.delta>=0?'+':'')+p.delta+' · $'+p.mktcap+'B</div>'+
+        '<div class="sqar-mov pos">'+p.mov.toFixed(2)+'</div>'+
+        '<button class="sqar-buy-btn" onclick="sqarBuy(this,\''+tk+'\')" style="font-size:.65rem;padding:4px 8px;">📝 Registrar</button>';
+      keepList.appendChild(div);
+      const pf=getPf();
+      if(pf[tk]){
+        div.querySelector('.sqar-buy-btn').style.display='none';
+        renderRegRow(div,tk);
+      }
+    });
+    if(!keeps.length)keepList.innerHTML='<div style="color:var(--tx3);font-size:.82rem;padding:8px;">Cap posició es manté</div>';
+
+    // ── RENDER BUY ──
+    const buyList=document.getElementById('sqBuyList');
+    const buys=d.transitions.buy;
+    document.getElementById('sqBuyN').textContent=buys.length;
+    buys.forEach(tk=>{
+      const p=pickMap[tk];
+      if(!p)return;
+      const div=document.createElement('div');
+      div.className='sqar-item buy';
+      div.innerHTML=
+        '<div class="sqar-tk">'+tk+'</div>'+
+        '<div class="sqar-details">Rank '+p.rank+' · Δ'+(p.delta>=0?'+':'')+p.delta+
+        ' · Mom12 '+(p.mom12>=0?'+':'')+p.mom12.toFixed(1)+'% · Vol '+p.vol.toFixed(1)+'% · $'+p.mktcap+'B</div>'+
+        '<div class="sqar-mov pos">'+p.mov.toFixed(2)+'</div>'+
+        '<button class="sqar-buy-btn" onclick="sqarBuy(this,\''+tk+'\')">🛒 Comprar</button>';
+      buyList.appendChild(div);
+      const pf=getPf();
+      if(pf[tk]){
+        div.querySelector('.sqar-buy-btn').style.display='none';
+        renderRegRow(div,tk);
+      }
+    });
+
+    // ── RENDER SELL ──
+    const sellList=document.getElementById('sqSellList');
+    const sells=d.transitions.sell;
+    document.getElementById('sqSellN').textContent=sells.length;
+    const prevMap={};
+    d.prevPicks.forEach(p=>{prevMap[p.ticker]=p;});
+    sells.forEach(tk=>{
+      const pp=prevMap[tk];
+      const reason=pp?pp.reason:'Fora dels filtres';
+      sellList.innerHTML+=
+        '<div class="sqar-item sell">'+
+        '<div class="sqar-tk">'+tk+'</div>'+
+        '<div class="sqar-reason">'+reason+'</div></div>';
+    });
+
+    updatePfBar();
+
+    // Summary box
+    document.getElementById('sqsTot').textContent=sm.totalPositions;
+    document.getElementById('sqsWt').textContent=sm.weightPer+'%';
+    document.getElementById('sqsBuys').textContent=sm.buys;
+    document.getElementById('sqsSells').textContent=sm.sells;
+    document.getElementById('sqsKeeps').textContent=sm.keeps;
+    document.getElementById('sqsTrades').textContent=sm.totalTrades;
+    document.getElementById('sqsTurnover').textContent=sm.turnover+'%';
+
+    // Note
+    document.getElementById('sqarNote').textContent=d.note||'';
+
+  }catch(e){console.error('SQAR load error:',e);}
+})();
+
 </script>
 </body>
 </html>
