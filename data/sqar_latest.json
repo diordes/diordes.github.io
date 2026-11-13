@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T07:47:10",
+  "generatedAt": "2026-11-13T08:13:24",
   "entryDate": "2027-03-15",
   "entryYear": 2027,
   "vintageYear": 2026,
@@ -221,7 +221,7 @@
     },
     {
       "ticker": "DOV",
-      "reason": "dRank=-13 (fora de +/-4)"
+      "reason": "dRank=-14 (fora de +/-4)"
     },
     {
       "ticker": "PLD",
