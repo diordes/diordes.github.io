@@ -1,0 +1,292 @@
+{
+  "generatedAt": "2026-11-13T08:13:24",
+  "entryDate": "2027-03-15",
+  "entryYear": 2027,
+  "vintageYear": 2026,
+  "params": {
+    "delta": 4,
+    "movPct": 0.4,
+    "m3Excl": 0.5
+  },
+  "benchmark": "RSP",
+  "yearlyReturns": [
+    {
+      "vy": 2026,
+      "entry": "2027-03-15",
+      "exit": "2028-03-15",
+      "sqar": null,
+      "rsp": null,
+      "status": "pendent"
+    }
+  ],
+  "note": "Preus a 2026-11-13 â executar de nou a principis de marÃ§ 2027 per picks definitius",
+  "picks": [
+    {
+      "ticker": "FCX",
+      "rank": 145,
+      "delta": 1,
+      "mktcap": 87.0,
+      "mom12": 69.1,
+      "vol": 48.5,
+      "mov": 1.42,
+      "mom3m": -11.4
+    },
+    {
+      "ticker": "CSCO",
+      "rank": 24,
+      "delta": 4,
+      "mktcap": 402.0,
+      "mom12": 51.3,
+      "vol": 36.8,
+      "mov": 1.39,
+      "mom3m": -9.3
+    },
+    {
+      "ticker": "GL",
+      "rank": 445,
+      "delta": 4,
+      "mktcap": 12.0,
+      "mom12": 26.1,
+      "vol": 21.3,
+      "mov": 1.22,
+      "mom3m": -10.6
+    },
+    {
+      "ticker": "CZR",
+      "rank": 490,
+      "delta": -4,
+      "mktcap": 6.0,
+      "mom12": 48.0,
+      "vol": 40.3,
+      "mov": 1.19,
+      "mom3m": -1.3
+    },
+    {
+      "ticker": "KMX",
+      "rank": 482,
+      "delta": 2,
+      "mktcap": 7.0,
+      "mom12": 52.9,
+      "vol": 46.7,
+      "mov": 1.13,
+      "mom3m": -10.2
+    },
+    {
+      "ticker": "KMI",
+      "rank": 171,
+      "delta": -1,
+      "mktcap": 71.0,
+      "mom12": 25.0,
+      "vol": 22.1,
+      "mov": 1.13,
+      "mom3m": -0.1
+    },
+    {
+      "ticker": "FANG",
+      "rank": 222,
+      "delta": 3,
+      "mktcap": 51.0,
+      "mom12": 37.0,
+      "vol": 33.7,
+      "mov": 1.1,
+      "mom3m": -11.1
+    },
+    {
+      "ticker": "AME",
+      "rank": 209,
+      "delta": -2,
+      "mktcap": 55.0,
+      "mom12": 27.1,
+      "vol": 24.8,
+      "mov": 1.09,
+      "mom3m": -5.0
+    },
+    {
+      "ticker": "USB",
+      "rank": 123,
+      "delta": 4,
+      "mktcap": 94.0,
+      "mom12": 24.4,
+      "vol": 22.6,
+      "mov": 1.08,
+      "mom3m": -5.9
+    },
+    {
+      "ticker": "ODFL",
+      "rank": 272,
+      "delta": -1,
+      "mktcap": 35.0,
+      "mom12": 36.9,
+      "vol": 38.8,
+      "mov": 0.95,
+      "mom3m": -18.9
+    },
+    {
+      "ticker": "PNC",
+      "rank": 130,
+      "delta": 2,
+      "mktcap": 92.0,
+      "mom12": 18.8,
+      "vol": 21.5,
+      "mov": 0.88,
+      "mom3m": -8.4
+    },
+    {
+      "ticker": "FRT",
+      "rank": 467,
+      "delta": 2,
+      "mktcap": 10.0,
+      "mom12": 12.9,
+      "vol": 16.4,
+      "mov": 0.78,
+      "mom3m": -3.6
+    },
+    {
+      "ticker": "CAT",
+      "rank": 38,
+      "delta": -3,
+      "mktcap": 277.0,
+      "mom12": 29.2,
+      "vol": 41.5,
+      "mov": 0.7,
+      "mom3m": -31.2
+    },
+    {
+      "ticker": "WMB",
+      "rank": 144,
+      "delta": 3,
+      "mktcap": 87.0,
+      "mom12": 18.0,
+      "vol": 26.5,
+      "mov": 0.68,
+      "mom3m": -4.8
+    },
+    {
+      "ticker": "SOLV",
+      "rank": 419,
+      "delta": 0,
+      "mktcap": 15.0,
+      "mom12": 19.0,
+      "vol": 29.9,
+      "mov": 0.64,
+      "mom3m": 2.3
+    },
+    {
+      "ticker": "GOOG",
+      "rank": 4,
+      "delta": -1,
+      "mktcap": 3631.0,
+      "mom12": 20.3,
+      "vol": 33.0,
+      "mov": 0.62,
+      "mom3m": -13.4
+    }
+  ],
+  "prevPicks": [
+    {
+      "ticker": "GOOG",
+      "reason": "MANTENIR"
+    },
+    {
+      "ticker": "PNC",
+      "reason": "MANTENIR"
+    },
+    {
+      "ticker": "AVGO",
+      "reason": "MoV massa baix + mom3m al top 50%"
+    },
+    {
+      "ticker": "NVDA",
+      "reason": "MoV massa baix + mom3m al top 50%"
+    },
+    {
+      "ticker": "JPM",
+      "reason": "MoV massa baix + mom3m al top 50%"
+    },
+    {
+      "ticker": "ANET",
+      "reason": "dRank=+22 (fora de +/-4)"
+    },
+    {
+      "ticker": "TFC",
+      "reason": "dRank=-35 (fora de +/-4)"
+    },
+    {
+      "ticker": "BAC",
+      "reason": "dRank=-10 (fora de +/-4)"
+    },
+    {
+      "ticker": "TSLA",
+      "reason": "MoV massa baix + mom3m al top 50%"
+    },
+    {
+      "ticker": "DOV",
+      "reason": "dRank=-14 (fora de +/-4)"
+    },
+    {
+      "ticker": "PLD",
+      "reason": "MoV massa baix + mom3m al top 50%"
+    },
+    {
+      "ticker": "CSCO",
+      "reason": "MANTENIR"
+    },
+    {
+      "ticker": "UAL",
+      "reason": "dRank=-15 (fora de +/-4)"
+    },
+    {
+      "ticker": "WFC",
+      "reason": "dRank=-12 (fora de +/-4)"
+    },
+    {
+      "ticker": "AOS",
+      "reason": "dRank=-6 (fora de +/-4)"
+    }
+  ],
+  "transitions": {
+    "keep": [
+      "CSCO",
+      "GOOG",
+      "PNC"
+    ],
+    "buy": [
+      "AME",
+      "CAT",
+      "CZR",
+      "FANG",
+      "FCX",
+      "FRT",
+      "GL",
+      "KMI",
+      "KMX",
+      "ODFL",
+      "SOLV",
+      "USB",
+      "WMB"
+    ],
+    "sell": [
+      "ANET",
+      "AOS",
+      "AVGO",
+      "BAC",
+      "DOV",
+      "JPM",
+      "NVDA",
+      "PLD",
+      "TFC",
+      "TSLA",
+      "UAL",
+      "WFC"
+    ]
+  },
+  "summary": {
+    "totalPositions": 16,
+    "weightPer": 6.2,
+    "buys": 13,
+    "sells": 12,
+    "keeps": 3,
+    "totalTrades": 25,
+    "turnover": 78.0
+  }
+}
