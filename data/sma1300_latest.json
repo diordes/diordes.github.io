@@ -1,31 +1,2933 @@
 {
-  "generatedAt": "2026-11-13T00:00:00Z",
+  "generatedAt": "2026-11-13T11:07:52Z",
   "params": {
     "sma": 1300,
     "entryMfi": 15,
     "exitMfi": 88,
     "mfiPeriod": 5,
-    "sizing": 10,
+    "sizing": 10.0,
     "maxPositions": 50
   },
   "summary": {
-    "totalStocks": 0,
+    "totalStocks": 443,
     "buySignals": 0,
     "sellSignals": 0,
-    "openPositions": 0,
-    "backtestCagr": null,
-    "backtestMaxDD": null,
-    "backtestCalmar": null,
-    "totalTrades": 0,
-    "winRate": null,
-    "avgWin": null,
-    "avgLoss": null,
-    "backtestYears": null
+    "openPositions": 252,
+    "backtestCagr": 15.05,
+    "backtestMaxDD": -46.3,
+    "backtestCalmar": 0.325,
+    "totalTrades": 1195,
+    "winRate": 95.9,
+    "avgWin": 97.9,
+    "avgLoss": -25.4,
+    "backtestYears": 59.5
   },
   "buySignals": [],
   "sellSignals": [],
-  "openPositions": [],
-  "yearlyReturns": [],
-  "recentTrades": [],
-  "_note": "Placeholder — executa l'screener via GitHub Actions per generar dades reals"
+  "openPositions": [
+    {
+      "ticker": "CDNS",
+      "entryDate": "2008-02-22",
+      "entryPrice": 10.99,
+      "currentPrice": 333.32,
+      "pl": 2932.9,
+      "mfi": 41.1,
+      "distSma": 30.7,
+      "days": 6839
+    },
+    {
+      "ticker": "ETN",
+      "entryDate": "2008-11-07",
+      "entryPrice": 14.01,
+      "currentPrice": 359.04,
+      "pl": 2463.4,
+      "mfi": 31.6,
+      "distSma": 38.4,
+      "days": 6580
+    },
+    {
+      "ticker": "EQT",
+      "entryDate": "1997-07-11",
+      "entryPrice": 2.41,
+      "currentPrice": 52.36,
+      "pl": 2076.7,
+      "mfi": 81.7,
+      "distSma": 27.2,
+      "days": 10717
+    },
+    {
+      "ticker": "ALL",
+      "entryDate": "2000-01-07",
+      "entryPrice": 12.88,
+      "currentPrice": 266.69,
+      "pl": 1971.3,
+      "mfi": 86.4,
+      "distSma": 68.3,
+      "days": 9807
+    },
+    {
+      "ticker": "NOC",
+      "entryDate": "2008-10-24",
+      "entryPrice": 26.61,
+      "currentPrice": 549.13,
+      "pl": 1963.4,
+      "mfi": 76.3,
+      "distSma": 15.5,
+      "days": 6594
+    },
+    {
+      "ticker": "WM",
+      "entryDate": "2009-03-20",
+      "entryPrice": 16.07,
+      "currentPrice": 244.11,
+      "pl": 1419.1,
+      "mfi": 76.0,
+      "distSma": 31.6,
+      "days": 6447
+    },
+    {
+      "ticker": "OXY",
+      "entryDate": "1998-09-11",
+      "entryPrice": 4.39,
+      "currentPrice": 58.4,
+      "pl": 1230.8,
+      "mfi": 53.5,
+      "distSma": 12.5,
+      "days": 10290
+    },
+    {
+      "ticker": "APH",
+      "entryDate": "2020-03-27",
+      "entryPrice": 8.76,
+      "currentPrice": 79.62,
+      "pl": 809.2,
+      "mfi": 41.5,
+      "distSma": 118.2,
+      "days": 2422
+    },
+    {
+      "ticker": "WDC",
+      "entryDate": "2025-04-18",
+      "entryPrice": 36.33,
+      "currentPrice": 311.21,
+      "pl": 756.6,
+      "mfi": 57.9,
+      "distSma": 186.0,
+      "days": 574
+    },
+    {
+      "ticker": "AFL",
+      "entryDate": "2011-06-17",
+      "entryPrice": 15.56,
+      "currentPrice": 126.51,
+      "pl": 712.9,
+      "mfi": null,
+      "distSma": 51.0,
+      "days": 5628
+    },
+    {
+      "ticker": "ETR",
+      "entryDate": "2009-03-20",
+      "entryPrice": 16.28,
+      "currentPrice": 111.95,
+      "pl": 587.5,
+      "mfi": null,
+      "distSma": 70.4,
+      "days": 6447
+    },
+    {
+      "ticker": "PSX",
+      "entryDate": "2020-03-27",
+      "entryPrice": 40.41,
+      "currentPrice": 262.91,
+      "pl": 550.6,
+      "mfi": 18.1,
+      "distSma": 121.6,
+      "days": 2422
+    },
+    {
+      "ticker": "OKE",
+      "entryDate": "2020-04-03",
+      "entryPrice": 13.99,
+      "currentPrice": 88.86,
+      "pl": 535.3,
+      "mfi": 59.0,
+      "distSma": 33.2,
+      "days": 2415
+    },
+    {
+      "ticker": "GS",
+      "entryDate": "2019-01-11",
+      "entryPrice": 148.15,
+      "currentPrice": 913.6,
+      "pl": 516.7,
+      "mfi": 57.4,
+      "distSma": 77.7,
+      "days": 2863
+    },
+    {
+      "ticker": "CAH",
+      "entryDate": "2017-12-01",
+      "entryPrice": 45.84,
+      "currentPrice": 278.14,
+      "pl": 506.7,
+      "mfi": 81.6,
+      "distSma": 138.0,
+      "days": 3269
+    },
+    {
+      "ticker": "WELL",
+      "entryDate": "2018-03-09",
+      "entryPrice": 40.49,
+      "currentPrice": 244.93,
+      "pl": 504.9,
+      "mfi": 70.9,
+      "distSma": 104.7,
+      "days": 3171
+    },
+    {
+      "ticker": "HCA",
+      "entryDate": "2020-03-27",
+      "entryPrice": 83.01,
+      "currentPrice": 500.66,
+      "pl": 503.2,
+      "mfi": null,
+      "distSma": 57.7,
+      "days": 2422
+    },
+    {
+      "ticker": "NTAP",
+      "entryDate": "2020-03-27",
+      "entryPrice": 33.94,
+      "currentPrice": 186.08,
+      "pl": 448.2,
+      "mfi": 12.3,
+      "distSma": 91.4,
+      "days": 2422
+    },
+    {
+      "ticker": "CFG",
+      "entryDate": "2020-04-03",
+      "entryPrice": 12.69,
+      "currentPrice": 64.86,
+      "pl": 410.9,
+      "mfi": 77.3,
+      "distSma": 60.6,
+      "days": 2415
+    },
+    {
+      "ticker": "ON",
+      "entryDate": "2020-03-13",
+      "entryPrice": 14.49,
+      "currentPrice": 73.73,
+      "pl": 408.8,
+      "mfi": 32.5,
+      "distSma": 7.7,
+      "days": 2436
+    },
+    {
+      "ticker": "DRI",
+      "entryDate": "2020-03-27",
+      "entryPrice": 45.11,
+      "currentPrice": 227.9,
+      "pl": 405.2,
+      "mfi": null,
+      "distSma": 46.8,
+      "days": 2422
+    },
+    {
+      "ticker": "PEG",
+      "entryDate": "2010-02-12",
+      "entryPrice": 16.14,
+      "currentPrice": 74.8,
+      "pl": 363.5,
+      "mfi": 73.0,
+      "distSma": 13.0,
+      "days": 6118
+    },
+    {
+      "ticker": "MKC",
+      "entryDate": "2008-12-12",
+      "entryPrice": 10.01,
+      "currentPrice": 46.41,
+      "pl": 363.4,
+      "mfi": 65.2,
+      "distSma": -33.1,
+      "days": 6545
+    },
+    {
+      "ticker": "TRV",
+      "entryDate": "2020-05-22",
+      "entryPrice": 87.71,
+      "currentPrice": 403.18,
+      "pl": 359.7,
+      "mfi": 84.2,
+      "distSma": 84.7,
+      "days": 2366
+    },
+    {
+      "ticker": "RJF",
+      "entryDate": "2020-04-24",
+      "entryPrice": 37.28,
+      "currentPrice": 167.29,
+      "pl": 348.8,
+      "mfi": 60.5,
+      "distSma": 35.7,
+      "days": 2394
+    },
+    {
+      "ticker": "NEM",
+      "entryDate": "1997-01-31",
+      "entryPrice": 25.45,
+      "currentPrice": 112.64,
+      "pl": 342.5,
+      "mfi": 43.6,
+      "distSma": 88.6,
+      "days": 10878
+    },
+    {
+      "ticker": "WAB",
+      "entryDate": "2017-09-01",
+      "entryPrice": 68.37,
+      "currentPrice": 300.51,
+      "pl": 339.6,
+      "mfi": 69.9,
+      "distSma": 92.0,
+      "days": 3360
+    },
+    {
+      "ticker": "IFF",
+      "entryDate": "2008-12-12",
+      "entryPrice": 19.91,
+      "currentPrice": 80.38,
+      "pl": 303.8,
+      "mfi": 32.4,
+      "distSma": -6.5,
+      "days": 6545
+    },
+    {
+      "ticker": "COP",
+      "entryDate": "2015-08-14",
+      "entryPrice": 35.35,
+      "currentPrice": 140.06,
+      "pl": 296.2,
+      "mfi": 55.6,
+      "distSma": 42.7,
+      "days": 4109
+    },
+    {
+      "ticker": "STT",
+      "entryDate": "2019-06-07",
+      "entryPrice": 44.8,
+      "currentPrice": 173.7,
+      "pl": 287.8,
+      "mfi": 48.5,
+      "distSma": 90.7,
+      "days": 2716
+    },
+    {
+      "ticker": "TEL",
+      "entryDate": "2020-03-27",
+      "entryPrice": 56.57,
+      "currentPrice": 217.82,
+      "pl": 285.0,
+      "mfi": 40.9,
+      "distSma": 42.2,
+      "days": 2422
+    },
+    {
+      "ticker": "CB",
+      "entryDate": "2020-03-27",
+      "entryPrice": 98.35,
+      "currentPrice": 371.76,
+      "pl": 278.0,
+      "mfi": 87.7,
+      "distSma": 51.3,
+      "days": 2422
+    },
+    {
+      "ticker": "RTX",
+      "entryDate": "2020-03-27",
+      "entryPrice": 52.68,
+      "currentPrice": 198.36,
+      "pl": 276.6,
+      "mfi": 79.7,
+      "distSma": 68.1,
+      "days": 2422
+    },
+    {
+      "ticker": "GRMN",
+      "entryDate": "2022-10-21",
+      "entryPrice": 76.39,
+      "currentPrice": 286.18,
+      "pl": 274.6,
+      "mfi": 75.5,
+      "distSma": 80.2,
+      "days": 1484
+    },
+    {
+      "ticker": "CNP",
+      "entryDate": "2015-12-11",
+      "entryPrice": 11.79,
+      "currentPrice": 40.95,
+      "pl": 247.4,
+      "mfi": 66.1,
+      "distSma": 32.9,
+      "days": 3990
+    },
+    {
+      "ticker": "XOM",
+      "entryDate": "2015-08-14",
+      "entryPrice": 49.14,
+      "currentPrice": 169.78,
+      "pl": 245.5,
+      "mfi": 58.4,
+      "distSma": 63.2,
+      "days": 4109
+    },
+    {
+      "ticker": "EBAY",
+      "entryDate": "2022-10-07",
+      "entryPrice": 34.95,
+      "currentPrice": 120.14,
+      "pl": 243.8,
+      "mfi": 59.8,
+      "distSma": 90.4,
+      "days": 1498
+    },
+    {
+      "ticker": "TER",
+      "entryDate": "2025-04-25",
+      "entryPrice": 76.78,
+      "currentPrice": 263.75,
+      "pl": 243.5,
+      "mfi": 13.2,
+      "distSma": 76.2,
+      "days": 567
+    },
+    {
+      "ticker": "NFLX",
+      "entryDate": "2022-05-27",
+      "entryPrice": 19.52,
+      "currentPrice": 62.69,
+      "pl": 221.2,
+      "mfi": 37.8,
+      "distSma": -2.9,
+      "days": 1631
+    },
+    {
+      "ticker": "EIX",
+      "entryDate": "2011-02-25",
+      "entryPrice": 19.78,
+      "currentPrice": 59.99,
+      "pl": 203.4,
+      "mfi": null,
+      "distSma": 3.2,
+      "days": 5740
+    },
+    {
+      "ticker": "AIZ",
+      "entryDate": "2023-03-24",
+      "entryPrice": 106.58,
+      "currentPrice": 321.09,
+      "pl": 201.3,
+      "mfi": null,
+      "distSma": 79.1,
+      "days": 1330
+    },
+    {
+      "ticker": "PNC",
+      "entryDate": "2020-03-27",
+      "entryPrice": 78.28,
+      "currentPrice": 231.03,
+      "pl": 195.1,
+      "mfi": 70.7,
+      "distSma": 41.8,
+      "days": 2422
+    },
+    {
+      "ticker": "PG",
+      "entryDate": "2018-05-11",
+      "entryPrice": 58.66,
+      "currentPrice": 168.03,
+      "pl": 186.4,
+      "mfi": null,
+      "distSma": 17.3,
+      "days": 3108
+    },
+    {
+      "ticker": "MO",
+      "entryDate": "2019-02-01",
+      "entryPrice": 27.24,
+      "currentPrice": 77.92,
+      "pl": 186.0,
+      "mfi": null,
+      "distSma": 74.4,
+      "days": 2842
+    },
+    {
+      "ticker": "ZION",
+      "entryDate": "2020-04-17",
+      "entryPrice": 23.13,
+      "currentPrice": 65.95,
+      "pl": 185.2,
+      "mfi": 76.8,
+      "distSma": 39.4,
+      "days": 2401
+    },
+    {
+      "ticker": "CSCO",
+      "entryDate": "2022-10-07",
+      "entryPrice": 36.22,
+      "currentPrice": 102.01,
+      "pl": 181.6,
+      "mfi": 37.1,
+      "distSma": 73.8,
+      "days": 1498
+    },
+    {
+      "ticker": "NTRS",
+      "entryDate": "2020-04-03",
+      "entryPrice": 63.61,
+      "currentPrice": 177.67,
+      "pl": 179.3,
+      "mfi": 76.8,
+      "distSma": 72.4,
+      "days": 2415
+    },
+    {
+      "ticker": "FANG",
+      "entryDate": "2019-11-01",
+      "entryPrice": 66.08,
+      "currentPrice": 182.2,
+      "pl": 175.7,
+      "mfi": 59.2,
+      "distSma": 27.5,
+      "days": 2569
+    },
+    {
+      "ticker": "VTR",
+      "entryDate": "2022-10-21",
+      "entryPrice": 32.63,
+      "currentPrice": 89.65,
+      "pl": 174.7,
+      "mfi": 73.2,
+      "distSma": 60.7,
+      "days": 1484
+    },
+    {
+      "ticker": "YUM",
+      "entryDate": "2020-03-27",
+      "entryPrice": 60.64,
+      "currentPrice": 159.34,
+      "pl": 162.8,
+      "mfi": 82.8,
+      "distSma": 22.7,
+      "days": 2422
+    },
+    {
+      "ticker": "HAS",
+      "entryDate": "2023-03-31",
+      "entryPrice": 46.33,
+      "currentPrice": 121.48,
+      "pl": 162.2,
+      "mfi": null,
+      "distSma": 82.0,
+      "days": 1323
+    },
+    {
+      "ticker": "KEY",
+      "entryDate": "2020-03-27",
+      "entryPrice": 8.2,
+      "currentPrice": 21.33,
+      "pl": 160.0,
+      "mfi": 78.4,
+      "distSma": 35.8,
+      "days": 2422
+    },
+    {
+      "ticker": "NI",
+      "entryDate": "2020-09-18",
+      "entryPrice": 17.9,
+      "currentPrice": 45.81,
+      "pl": 155.9,
+      "mfi": null,
+      "distSma": 46.7,
+      "days": 2247
+    },
+    {
+      "ticker": "GPC",
+      "entryDate": "2020-04-03",
+      "entryPrice": 48.18,
+      "currentPrice": 122.84,
+      "pl": 155.0,
+      "mfi": 39.4,
+      "distSma": -3.4,
+      "days": 2415
+    },
+    {
+      "ticker": "RHI",
+      "entryDate": "2007-11-30",
+      "entryPrice": 16.88,
+      "currentPrice": 41.97,
+      "pl": 148.7,
+      "mfi": 57.4,
+      "distSma": -26.7,
+      "days": 6923
+    },
+    {
+      "ticker": "CHRW",
+      "entryDate": "2020-03-20",
+      "entryPrice": 55.2,
+      "currentPrice": 134.39,
+      "pl": 143.5,
+      "mfi": 25.2,
+      "distSma": 26.5,
+      "days": 2429
+    },
+    {
+      "ticker": "REG",
+      "entryDate": "2020-07-31",
+      "entryPrice": 31.76,
+      "currentPrice": 75.74,
+      "pl": 138.5,
+      "mfi": 79.4,
+      "distSma": 22.6,
+      "days": 2296
+    },
+    {
+      "ticker": "GL",
+      "entryDate": "2020-03-27",
+      "entryPrice": 67.22,
+      "currentPrice": 160.11,
+      "pl": 138.2,
+      "mfi": 43.2,
+      "distSma": 37.7,
+      "days": 2422
+    },
+    {
+      "ticker": "PSA",
+      "entryDate": "2020-05-22",
+      "entryPrice": 141.95,
+      "currentPrice": 333.33,
+      "pl": 134.8,
+      "mfi": 79.9,
+      "distSma": 22.0,
+      "days": 2366
+    },
+    {
+      "ticker": "AMZN",
+      "entryDate": "2022-10-07",
+      "entryPrice": 114.56,
+      "currentPrice": 267.44,
+      "pl": 133.4,
+      "mfi": 43.8,
+      "distSma": 51.4,
+      "days": 1498
+    },
+    {
+      "ticker": "EOG",
+      "entryDate": "2019-03-22",
+      "entryPrice": 68.56,
+      "currentPrice": 155.62,
+      "pl": 127.0,
+      "mfi": 72.9,
+      "distSma": 40.4,
+      "days": 2793
+    },
+    {
+      "ticker": "UHS",
+      "entryDate": "2020-03-27",
+      "entryPrice": 86.37,
+      "currentPrice": 193.84,
+      "pl": 124.4,
+      "mfi": 72.7,
+      "distSma": 21.3,
+      "days": 2422
+    },
+    {
+      "ticker": "FFIV",
+      "entryDate": "2023-01-06",
+      "entryPrice": 141.64,
+      "currentPrice": 317.64,
+      "pl": 124.3,
+      "mfi": 9.6,
+      "distSma": 38.9,
+      "days": 1407
+    },
+    {
+      "ticker": "KEYS",
+      "entryDate": "2024-06-28",
+      "entryPrice": 136.75,
+      "currentPrice": 304.23,
+      "pl": 122.5,
+      "mfi": 13.2,
+      "distSma": 64.4,
+      "days": 868
+    },
+    {
+      "ticker": "EQIX",
+      "entryDate": "2022-10-21",
+      "entryPrice": 492.26,
+      "currentPrice": 1072.77,
+      "pl": 117.9,
+      "mfi": 67.7,
+      "distSma": 38.8,
+      "days": 1484
+    },
+    {
+      "ticker": "FITB",
+      "entryDate": "2004-08-20",
+      "entryPrice": 24.91,
+      "currentPrice": 53.9,
+      "pl": 116.4,
+      "mfi": 82.9,
+      "distSma": 47.6,
+      "days": 8120
+    },
+    {
+      "ticker": "CME",
+      "entryDate": "2022-10-28",
+      "entryPrice": 146.35,
+      "currentPrice": 315.5,
+      "pl": 115.6,
+      "mfi": null,
+      "distSma": 50.6,
+      "days": 1477
+    },
+    {
+      "ticker": "DD",
+      "entryDate": "2019-05-24",
+      "entryPrice": 71.8,
+      "currentPrice": 154.7,
+      "pl": 115.4,
+      "mfi": 85.3,
+      "distSma": 61.6,
+      "days": 2730
+    },
+    {
+      "ticker": "HST",
+      "entryDate": "2019-08-30",
+      "entryPrice": 11.99,
+      "currentPrice": 25.52,
+      "pl": 112.8,
+      "mfi": 70.3,
+      "distSma": 62.7,
+      "days": 2632
+    },
+    {
+      "ticker": "PNR",
+      "entryDate": "2019-09-06",
+      "entryPrice": 32.74,
+      "currentPrice": 68.14,
+      "pl": 108.1,
+      "mfi": 90.5,
+      "distSma": -6.1,
+      "days": 2625
+    },
+    {
+      "ticker": "TFC",
+      "entryDate": "2020-03-27",
+      "entryPrice": 24.66,
+      "currentPrice": 49.89,
+      "pl": 102.3,
+      "mfi": 85.5,
+      "distSma": 26.0,
+      "days": 2422
+    },
+    {
+      "ticker": "JNJ",
+      "entryDate": "2025-01-17",
+      "entryPrice": 140.4,
+      "currentPrice": 283.52,
+      "pl": 101.9,
+      "mfi": 76.0,
+      "distSma": 69.3,
+      "days": 665
+    },
+    {
+      "ticker": "BBY",
+      "entryDate": "2022-10-07",
+      "entryPrice": 53.18,
+      "currentPrice": 103.41,
+      "pl": 94.5,
+      "mfi": 79.6,
+      "distSma": 45.1,
+      "days": 1498
+    },
+    {
+      "ticker": "CSX",
+      "entryDate": "2025-04-18",
+      "entryPrice": 27.11,
+      "currentPrice": 52.4,
+      "pl": 93.3,
+      "mfi": 72.6,
+      "distSma": 54.4,
+      "days": 574
+    },
+    {
+      "ticker": "ECL",
+      "entryDate": "2022-05-27",
+      "entryPrice": 157.82,
+      "currentPrice": 304.41,
+      "pl": 92.9,
+      "mfi": null,
+      "distSma": 41.2,
+      "days": 1631
+    },
+    {
+      "ticker": "MRNA",
+      "entryDate": "2024-07-12",
+      "entryPrice": 121.46,
+      "currentPrice": 231.35,
+      "pl": 90.5,
+      "mfi": 51.5,
+      "distSma": 106.9,
+      "days": 854
+    },
+    {
+      "ticker": "PNW",
+      "entryDate": "2020-09-25",
+      "entryPrice": 56.42,
+      "currentPrice": 107.03,
+      "pl": 89.7,
+      "mfi": 70.5,
+      "distSma": 43.0,
+      "days": 2240
+    },
+    {
+      "ticker": "MRK",
+      "entryDate": "2025-04-25",
+      "entryPrice": 78.8,
+      "currentPrice": 146.95,
+      "pl": 86.5,
+      "mfi": 65.7,
+      "distSma": 52.0,
+      "days": 567
+    },
+    {
+      "ticker": "ULTA",
+      "entryDate": "2025-03-21",
+      "entryPrice": 350.57,
+      "currentPrice": 650.97,
+      "pl": 85.7,
+      "mfi": null,
+      "distSma": 42.8,
+      "days": 602
+    },
+    {
+      "ticker": "EVRG",
+      "entryDate": "2023-09-15",
+      "entryPrice": 47.9,
+      "currentPrice": 88.27,
+      "pl": 84.3,
+      "mfi": null,
+      "distSma": 47.5,
+      "days": 1155
+    },
+    {
+      "ticker": "TXT",
+      "entryDate": "2019-09-06",
+      "entryPrice": 46.06,
+      "currentPrice": 84.31,
+      "pl": 83.0,
+      "mfi": 82.5,
+      "distSma": 8.3,
+      "days": 2625
+    },
+    {
+      "ticker": "VRSN",
+      "entryDate": "2022-10-07",
+      "entryPrice": 174.69,
+      "currentPrice": 312.48,
+      "pl": 78.9,
+      "mfi": 66.2,
+      "distSma": 42.1,
+      "days": 1498
+    },
+    {
+      "ticker": "WST",
+      "entryDate": "2025-02-28",
+      "entryPrice": 231.05,
+      "currentPrice": 411.3,
+      "pl": 78.0,
+      "mfi": 70.1,
+      "distSma": 29.5,
+      "days": 623
+    },
+    {
+      "ticker": "INCY",
+      "entryDate": "2018-04-20",
+      "entryPrice": 68.43,
+      "currentPrice": 121.7,
+      "pl": 77.8,
+      "mfi": 79.2,
+      "distSma": 58.9,
+      "days": 3129
+    },
+    {
+      "ticker": "CRL",
+      "entryDate": "2022-09-30",
+      "entryPrice": 196.8,
+      "currentPrice": 340.81,
+      "pl": 73.2,
+      "mfi": 61.6,
+      "distSma": 53.4,
+      "days": 1505
+    },
+    {
+      "ticker": "HSIC",
+      "entryDate": "2020-03-27",
+      "entryPrice": 50.0,
+      "currentPrice": 86.14,
+      "pl": 72.3,
+      "mfi": 68.0,
+      "distSma": 13.8,
+      "days": 2422
+    },
+    {
+      "ticker": "NEE",
+      "entryDate": "2023-10-13",
+      "entryPrice": 49.84,
+      "currentPrice": 85.29,
+      "pl": 71.1,
+      "mfi": 85.3,
+      "distSma": 19.1,
+      "days": 1127
+    },
+    {
+      "ticker": "GNRC",
+      "entryDate": "2022-11-11",
+      "entryPrice": 114.08,
+      "currentPrice": 192.88,
+      "pl": 69.1,
+      "mfi": 42.7,
+      "distSma": 5.1,
+      "days": 1463
+    },
+    {
+      "ticker": "RMD",
+      "entryDate": "2023-09-29",
+      "entryPrice": 143.17,
+      "currentPrice": 238.89,
+      "pl": 66.9,
+      "mfi": 49.8,
+      "distSma": 9.4,
+      "days": 1141
+    },
+    {
+      "ticker": "NWSA",
+      "entryDate": "2023-03-24",
+      "entryPrice": 15.79,
+      "currentPrice": 26.27,
+      "pl": 66.4,
+      "mfi": 31.9,
+      "distSma": 12.7,
+      "days": 1330
+    },
+    {
+      "ticker": "TMO",
+      "entryDate": "2025-04-18",
+      "entryPrice": 425.18,
+      "currentPrice": 699.44,
+      "pl": 64.5,
+      "mfi": 52.4,
+      "distSma": 29.1,
+      "days": 574
+    },
+    {
+      "ticker": "IP",
+      "entryDate": "2016-02-05",
+      "entryPrice": 20.77,
+      "currentPrice": 33.94,
+      "pl": 63.4,
+      "mfi": 70.4,
+      "distSma": -9.6,
+      "days": 3934
+    },
+    {
+      "ticker": "VZ",
+      "entryDate": "2022-10-28",
+      "entryPrice": 28.86,
+      "currentPrice": 46.55,
+      "pl": 61.3,
+      "mfi": 77.0,
+      "distSma": 27.8,
+      "days": 1477
+    },
+    {
+      "ticker": "IDXX",
+      "entryDate": "2024-11-08",
+      "entryPrice": 433.28,
+      "currentPrice": 698.02,
+      "pl": 61.1,
+      "mfi": null,
+      "distSma": 36.3,
+      "days": 735
+    },
+    {
+      "ticker": "REGN",
+      "entryDate": "2025-04-25",
+      "entryPrice": 597.77,
+      "currentPrice": 951.19,
+      "pl": 59.1,
+      "mfi": null,
+      "distSma": 28.0,
+      "days": 567
+    },
+    {
+      "ticker": "BWA",
+      "entryDate": "2015-09-18",
+      "entryPrice": 32.06,
+      "currentPrice": 50.99,
+      "pl": 59.0,
+      "mfi": 10.9,
+      "distSma": 30.6,
+      "days": 4074
+    },
+    {
+      "ticker": "CVS",
+      "entryDate": "2018-11-02",
+      "entryPrice": 56.52,
+      "currentPrice": 89.79,
+      "pl": 58.9,
+      "mfi": 51.1,
+      "distSma": 24.6,
+      "days": 2933
+    },
+    {
+      "ticker": "JBHT",
+      "entryDate": "2025-03-28",
+      "entryPrice": 143.72,
+      "currentPrice": 227.66,
+      "pl": 58.4,
+      "mfi": 40.8,
+      "distSma": 25.0,
+      "days": 595
+    },
+    {
+      "ticker": "SJM",
+      "entryDate": "2019-09-13",
+      "entryPrice": 84.21,
+      "currentPrice": 131.71,
+      "pl": 56.4,
+      "mfi": 81.7,
+      "distSma": 17.1,
+      "days": 2618
+    },
+    {
+      "ticker": "XEL",
+      "entryDate": "2023-09-15",
+      "entryPrice": 52.4,
+      "currentPrice": 81.5,
+      "pl": 55.5,
+      "mfi": null,
+      "distSma": 29.3,
+      "days": 1155
+    },
+    {
+      "ticker": "SWKS",
+      "entryDate": "2019-01-11",
+      "entryPrice": 58.18,
+      "currentPrice": 90.03,
+      "pl": 54.7,
+      "mfi": 49.3,
+      "distSma": 2.3,
+      "days": 2863
+    },
+    {
+      "ticker": "SLB",
+      "entryDate": "2025-05-09",
+      "entryPrice": 33.18,
+      "currentPrice": 50.91,
+      "pl": 53.4,
+      "mfi": 46.0,
+      "distSma": 20.7,
+      "days": 553
+    },
+    {
+      "ticker": "IQV",
+      "entryDate": "2026-02-27",
+      "entryPrice": 178.81,
+      "currentPrice": 271.11,
+      "pl": 51.6,
+      "mfi": 54.1,
+      "distSma": 26.8,
+      "days": 259
+    },
+    {
+      "ticker": "IEX",
+      "entryDate": "2025-04-18",
+      "entryPrice": 159.82,
+      "currentPrice": 238.03,
+      "pl": 48.9,
+      "mfi": 56.8,
+      "distSma": 19.4,
+      "days": 574
+    },
+    {
+      "ticker": "FTV",
+      "entryDate": "2022-03-18",
+      "entryPrice": 45.75,
+      "currentPrice": 67.85,
+      "pl": 48.3,
+      "mfi": null,
+      "distSma": 27.1,
+      "days": 1701
+    },
+    {
+      "ticker": "SWK",
+      "entryDate": "2020-03-27",
+      "entryPrice": 78.45,
+      "currentPrice": 113.02,
+      "pl": 44.1,
+      "mfi": null,
+      "distSma": 30.5,
+      "days": 2422
+    },
+    {
+      "ticker": "PAYC",
+      "entryDate": "2023-11-24",
+      "entryPrice": 174.54,
+      "currentPrice": 248.84,
+      "pl": 42.6,
+      "mfi": 35.0,
+      "distSma": 1.9,
+      "days": 1085
+    },
+    {
+      "ticker": "O",
+      "entryDate": "2023-10-20",
+      "entryPrice": 41.58,
+      "currentPrice": 59.26,
+      "pl": 42.5,
+      "mfi": null,
+      "distSma": 12.6,
+      "days": 1120
+    },
+    {
+      "ticker": "NXPI",
+      "entryDate": "2026-03-27",
+      "entryPrice": 190.16,
+      "currentPrice": 267.29,
+      "pl": 40.6,
+      "mfi": 85.6,
+      "distSma": 31.5,
+      "days": 231
+    },
+    {
+      "ticker": "ADM",
+      "entryDate": "2024-02-02",
+      "entryPrice": 50.69,
+      "currentPrice": 70.97,
+      "pl": 40.0,
+      "mfi": 20.9,
+      "distSma": 10.1,
+      "days": 1015
+    },
+    {
+      "ticker": "ADP",
+      "entryDate": "2026-03-06",
+      "entryPrice": 221.28,
+      "currentPrice": 307.92,
+      "pl": 39.2,
+      "mfi": 75.5,
+      "distSma": 30.5,
+      "days": 252
+    },
+    {
+      "ticker": "ESS",
+      "entryDate": "2022-10-21",
+      "entryPrice": 195.19,
+      "currentPrice": 271.8,
+      "pl": 39.2,
+      "mfi": 53.5,
+      "distSma": 11.6,
+      "days": 1484
+    },
+    {
+      "ticker": "EW",
+      "entryDate": "2023-09-01",
+      "entryPrice": 76.38,
+      "currentPrice": 105.8,
+      "pl": 38.5,
+      "mfi": null,
+      "distSma": 23.8,
+      "days": 1169
+    },
+    {
+      "ticker": "TGT",
+      "entryDate": "2023-06-16",
+      "entryPrice": 118.04,
+      "currentPrice": 160.9,
+      "pl": 36.3,
+      "mfi": 61.2,
+      "distSma": 20.3,
+      "days": 1246
+    },
+    {
+      "ticker": "UNH",
+      "entryDate": "2025-06-13",
+      "entryPrice": 301.34,
+      "currentPrice": 405.13,
+      "pl": 34.4,
+      "mfi": 62.3,
+      "distSma": -6.8,
+      "days": 518
+    },
+    {
+      "ticker": "F",
+      "entryDate": "2024-12-27",
+      "entryPrice": 8.92,
+      "currentPrice": 11.9,
+      "pl": 33.5,
+      "mfi": 67.3,
+      "distSma": 9.0,
+      "days": 686
+    },
+    {
+      "ticker": "PLD",
+      "entryDate": "2025-04-18",
+      "entryPrice": 97.19,
+      "currentPrice": 128.55,
+      "pl": 32.3,
+      "mfi": 80.5,
+      "distSma": 10.9,
+      "days": 574
+    },
+    {
+      "ticker": "ROP",
+      "entryDate": "2026-03-06",
+      "entryPrice": 364.73,
+      "currentPrice": 477.87,
+      "pl": 31.0,
+      "mfi": 87.7,
+      "distSma": 3.2,
+      "days": 252
+    },
+    {
+      "ticker": "SBUX",
+      "entryDate": "2025-05-16",
+      "entryPrice": 82.89,
+      "currentPrice": 107.26,
+      "pl": 29.4,
+      "mfi": null,
+      "distSma": 20.3,
+      "days": 546
+    },
+    {
+      "ticker": "KDP",
+      "entryDate": "2024-03-22",
+      "entryPrice": 27.49,
+      "currentPrice": 35.42,
+      "pl": 28.9,
+      "mfi": null,
+      "distSma": 15.0,
+      "days": 966
+    },
+    {
+      "ticker": "VNO",
+      "entryDate": "2026-04-10",
+      "entryPrice": 27.16,
+      "currentPrice": 34.71,
+      "pl": 27.8,
+      "mfi": 80.0,
+      "distSma": 14.4,
+      "days": 217
+    },
+    {
+      "ticker": "TROW",
+      "entryDate": "2022-10-21",
+      "entryPrice": 84.78,
+      "currentPrice": 108.22,
+      "pl": 27.7,
+      "mfi": 76.4,
+      "distSma": 5.2,
+      "days": 1484
+    },
+    {
+      "ticker": "LYB",
+      "entryDate": "2019-06-07",
+      "entryPrice": 50.26,
+      "currentPrice": 63.88,
+      "pl": 27.1,
+      "mfi": 58.3,
+      "distSma": -6.5,
+      "days": 2716
+    },
+    {
+      "ticker": "BDX",
+      "entryDate": "2024-12-13",
+      "entryPrice": 170.26,
+      "currentPrice": 215.71,
+      "pl": 26.7,
+      "mfi": null,
+      "distSma": 25.3,
+      "days": 700
+    },
+    {
+      "ticker": "ARE",
+      "entryDate": "2008-11-07",
+      "entryPrice": 35.15,
+      "currentPrice": 44.3,
+      "pl": 26.0,
+      "mfi": 34.3,
+      "distSma": -54.3,
+      "days": 6580
+    },
+    {
+      "ticker": "DLTR",
+      "entryDate": "2026-10-02",
+      "entryPrice": 112.16,
+      "currentPrice": 141.27,
+      "pl": 26.0,
+      "mfi": null,
+      "distSma": 17.5,
+      "days": 42
+    },
+    {
+      "ticker": "MDT",
+      "entryDate": "2025-04-25",
+      "entryPrice": 80.18,
+      "currentPrice": 100.99,
+      "pl": 26.0,
+      "mfi": 93.8,
+      "distSma": 22.2,
+      "days": 567
+    },
+    {
+      "ticker": "JKHY",
+      "entryDate": "2023-03-24",
+      "entryPrice": 140.32,
+      "currentPrice": 176.03,
+      "pl": 25.5,
+      "mfi": null,
+      "distSma": 8.0,
+      "days": 1330
+    },
+    {
+      "ticker": "BR",
+      "entryDate": "2026-04-24",
+      "entryPrice": 153.08,
+      "currentPrice": 191.47,
+      "pl": 25.1,
+      "mfi": 84.6,
+      "distSma": 7.8,
+      "days": 203
+    },
+    {
+      "ticker": "APD",
+      "entryDate": "2025-11-07",
+      "entryPrice": 253.01,
+      "currentPrice": 316.2,
+      "pl": 25.0,
+      "mfi": 70.3,
+      "distSma": 21.6,
+      "days": 371
+    },
+    {
+      "ticker": "ABT",
+      "entryDate": "2026-05-22",
+      "entryPrice": 86.26,
+      "currentPrice": 107.25,
+      "pl": 24.3,
+      "mfi": 56.7,
+      "distSma": 0.1,
+      "days": 175
+    },
+    {
+      "ticker": "MHK",
+      "entryDate": "2025-01-10",
+      "entryPrice": 118.09,
+      "currentPrice": 146.64,
+      "pl": 24.2,
+      "mfi": null,
+      "distSma": 21.5,
+      "days": 672
+    },
+    {
+      "ticker": "TSN",
+      "entryDate": "2020-03-27",
+      "entryPrice": 48.1,
+      "currentPrice": 59.26,
+      "pl": 23.2,
+      "mfi": null,
+      "distSma": 2.4,
+      "days": 2422
+    },
+    {
+      "ticker": "LOW",
+      "entryDate": "2026-10-09",
+      "entryPrice": 184.83,
+      "currentPrice": 227.46,
+      "pl": 23.1,
+      "mfi": null,
+      "distSma": 6.6,
+      "days": 35
+    },
+    {
+      "ticker": "HPQ",
+      "entryDate": "2025-04-25",
+      "entryPrice": 23.55,
+      "currentPrice": 28.88,
+      "pl": 22.7,
+      "mfi": 18.2,
+      "distSma": 8.1,
+      "days": 567
+    },
+    {
+      "ticker": "AWK",
+      "entryDate": "2025-01-17",
+      "entryPrice": 120.33,
+      "currentPrice": 147.58,
+      "pl": 22.6,
+      "mfi": null,
+      "distSma": 11.6,
+      "days": 665
+    },
+    {
+      "ticker": "MDLZ",
+      "entryDate": "2025-01-17",
+      "entryPrice": 54.66,
+      "currentPrice": 66.56,
+      "pl": 21.8,
+      "mfi": 87.3,
+      "distSma": 10.4,
+      "days": 665
+    },
+    {
+      "ticker": "STE",
+      "entryDate": "2026-10-02",
+      "entryPrice": 208.54,
+      "currentPrice": 253.44,
+      "pl": 21.5,
+      "mfi": null,
+      "distSma": 17.4,
+      "days": 42
+    },
+    {
+      "ticker": "HUM",
+      "entryDate": "2024-02-02",
+      "entryPrice": 365.96,
+      "currentPrice": 443.68,
+      "pl": 21.2,
+      "mfi": 65.9,
+      "distSma": 21.0,
+      "days": 1015
+    },
+    {
+      "ticker": "MOH",
+      "entryDate": "2025-08-22",
+      "entryPrice": 174.44,
+      "currentPrice": 209.85,
+      "pl": 20.3,
+      "mfi": 70.0,
+      "distSma": -25.7,
+      "days": 448
+    },
+    {
+      "ticker": "HD",
+      "entryDate": "2026-10-09",
+      "entryPrice": 290.74,
+      "currentPrice": 348.26,
+      "pl": 19.8,
+      "mfi": null,
+      "distSma": 8.3,
+      "days": 35
+    },
+    {
+      "ticker": "TYL",
+      "entryDate": "2026-02-27",
+      "entryPrice": 354.69,
+      "currentPrice": 423.59,
+      "pl": 19.4,
+      "mfi": 73.1,
+      "distSma": -3.6,
+      "days": 259
+    },
+    {
+      "ticker": "ZBRA",
+      "entryDate": "2022-10-07",
+      "entryPrice": 266.68,
+      "currentPrice": 317.83,
+      "pl": 19.2,
+      "mfi": 13.1,
+      "distSma": -0.8,
+      "days": 1498
+    },
+    {
+      "ticker": "AVY",
+      "entryDate": "2026-05-29",
+      "entryPrice": 157.14,
+      "currentPrice": 186.96,
+      "pl": 19.0,
+      "mfi": null,
+      "distSma": 5.5,
+      "days": 168
+    },
+    {
+      "ticker": "SNPS",
+      "entryDate": "2026-07-31",
+      "entryPrice": 388.76,
+      "currentPrice": 462.69,
+      "pl": 19.0,
+      "mfi": 35.1,
+      "distSma": 5.4,
+      "days": 105
+    },
+    {
+      "ticker": "D",
+      "entryDate": "2022-10-28",
+      "entryPrice": 57.31,
+      "currentPrice": 67.51,
+      "pl": 17.8,
+      "mfi": 84.4,
+      "distSma": 23.7,
+      "days": 1477
+    },
+    {
+      "ticker": "ADSK",
+      "entryDate": "2024-05-17",
+      "entryPrice": 221.21,
+      "currentPrice": 259.48,
+      "pl": 17.3,
+      "mfi": 67.9,
+      "distSma": 6.6,
+      "days": 910
+    },
+    {
+      "ticker": "TSCO",
+      "entryDate": "2026-05-29",
+      "entryPrice": 31.31,
+      "currentPrice": 36.63,
+      "pl": 17.0,
+      "mfi": 64.6,
+      "distSma": -17.1,
+      "days": 168
+    },
+    {
+      "ticker": "ES",
+      "entryDate": "2022-10-21",
+      "entryPrice": 60.95,
+      "currentPrice": 71.15,
+      "pl": 16.7,
+      "mfi": null,
+      "distSma": 12.4,
+      "days": 1484
+    },
+    {
+      "ticker": "EXR",
+      "entryDate": "2026-04-10",
+      "entryPrice": 135.78,
+      "currentPrice": 158.2,
+      "pl": 16.5,
+      "mfi": null,
+      "distSma": 13.3,
+      "days": 217
+    },
+    {
+      "ticker": "AMT",
+      "entryDate": "2022-10-21",
+      "entryPrice": 163.24,
+      "currentPrice": 189.79,
+      "pl": 16.3,
+      "mfi": 67.2,
+      "distSma": 0.1,
+      "days": 1484
+    },
+    {
+      "ticker": "MCD",
+      "entryDate": "2026-10-09",
+      "entryPrice": 235.23,
+      "currentPrice": 273.63,
+      "pl": 16.3,
+      "mfi": null,
+      "distSma": 4.0,
+      "days": 35
+    },
+    {
+      "ticker": "DXCM",
+      "entryDate": "2025-10-24",
+      "entryPrice": 70.33,
+      "currentPrice": 81.39,
+      "pl": 15.7,
+      "mfi": 63.1,
+      "distSma": -15.3,
+      "days": 385
+    },
+    {
+      "ticker": "AON",
+      "entryDate": "2026-10-16",
+      "entryPrice": 291.8,
+      "currentPrice": 333.42,
+      "pl": 14.3,
+      "mfi": 91.0,
+      "distSma": 5.0,
+      "days": 28
+    },
+    {
+      "ticker": "SYK",
+      "entryDate": "2026-10-02",
+      "entryPrice": 275.43,
+      "currentPrice": 312.39,
+      "pl": 13.4,
+      "mfi": 63.9,
+      "distSma": 3.5,
+      "days": 42
+    },
+    {
+      "ticker": "STZ",
+      "entryDate": "2020-03-27",
+      "entryPrice": 127.95,
+      "currentPrice": 144.6,
+      "pl": 13.0,
+      "mfi": 77.5,
+      "distSma": -26.3,
+      "days": 2422
+    },
+    {
+      "ticker": "CRM",
+      "entryDate": "2026-02-27",
+      "entryPrice": 193.46,
+      "currentPrice": 217.57,
+      "pl": 12.5,
+      "mfi": 47.0,
+      "distSma": -4.3,
+      "days": 259
+    },
+    {
+      "ticker": "DIS",
+      "entryDate": "2022-05-27",
+      "entryPrice": 105.99,
+      "currentPrice": 118.23,
+      "pl": 11.5,
+      "mfi": 83.4,
+      "distSma": 11.7,
+      "days": 1631
+    },
+    {
+      "ticker": "KMB",
+      "entryDate": "2022-10-14",
+      "entryPrice": 96.49,
+      "currentPrice": 107.19,
+      "pl": 11.1,
+      "mfi": 64.3,
+      "distSma": -5.3,
+      "days": 1491
+    },
+    {
+      "ticker": "ZBH",
+      "entryDate": "2019-01-11",
+      "entryPrice": 94.95,
+      "currentPrice": 104.56,
+      "pl": 10.1,
+      "mfi": 78.8,
+      "distSma": -3.7,
+      "days": 2863
+    },
+    {
+      "ticker": "TECH",
+      "entryDate": "2023-10-13",
+      "entryPrice": 66.74,
+      "currentPrice": 72.84,
+      "pl": 9.1,
+      "mfi": null,
+      "distSma": -2.3,
+      "days": 1127
+    },
+    {
+      "ticker": "DHR",
+      "entryDate": "2025-10-03",
+      "entryPrice": 213.41,
+      "currentPrice": 232.16,
+      "pl": 8.8,
+      "mfi": 82.0,
+      "distSma": 3.4,
+      "days": 406
+    },
+    {
+      "ticker": "EFX",
+      "entryDate": "2026-06-05",
+      "entryPrice": 171.63,
+      "currentPrice": 186.78,
+      "pl": 8.8,
+      "mfi": 89.3,
+      "distSma": -14.5,
+      "days": 161
+    },
+    {
+      "ticker": "DPZ",
+      "entryDate": "2026-05-29",
+      "entryPrice": 306.77,
+      "currentPrice": 333.23,
+      "pl": 8.6,
+      "mfi": 53.8,
+      "distSma": -14.0,
+      "days": 168
+    },
+    {
+      "ticker": "PAYX",
+      "entryDate": "2025-11-28",
+      "entryPrice": 106.92,
+      "currentPrice": 115.18,
+      "pl": 7.7,
+      "mfi": 62.3,
+      "distSma": 3.5,
+      "days": 350
+    },
+    {
+      "ticker": "CPT",
+      "entryDate": "2023-03-31",
+      "entryPrice": 91.5,
+      "currentPrice": 98.4,
+      "pl": 7.5,
+      "mfi": 63.0,
+      "distSma": -7.3,
+      "days": 1323
+    },
+    {
+      "ticker": "TMUS",
+      "entryDate": "2026-10-16",
+      "entryPrice": 159.1,
+      "currentPrice": 171.03,
+      "pl": 7.5,
+      "mfi": 80.9,
+      "distSma": 1.9,
+      "days": 28
+    },
+    {
+      "ticker": "CNC",
+      "entryDate": "2023-09-08",
+      "entryPrice": 65.41,
+      "currentPrice": 70.27,
+      "pl": 7.4,
+      "mfi": 59.7,
+      "distSma": 6.6,
+      "days": 1162
+    },
+    {
+      "ticker": "CDW",
+      "entryDate": "2025-03-21",
+      "entryPrice": 161.11,
+      "currentPrice": 172.79,
+      "pl": 7.3,
+      "mfi": 82.9,
+      "distSma": -0.4,
+      "days": 602
+    },
+    {
+      "ticker": "PFE",
+      "entryDate": "2023-10-06",
+      "entryPrice": 26.92,
+      "currentPrice": 28.83,
+      "pl": 7.1,
+      "mfi": 53.0,
+      "distSma": 0.4,
+      "days": 1134
+    },
+    {
+      "ticker": "PPG",
+      "entryDate": "2025-01-17",
+      "entryPrice": 114.33,
+      "currentPrice": 122.35,
+      "pl": 7.0,
+      "mfi": null,
+      "distSma": 3.7,
+      "days": 665
+    },
+    {
+      "ticker": "EMN",
+      "entryDate": "2022-10-07",
+      "entryPrice": 61.55,
+      "currentPrice": 65.61,
+      "pl": 6.6,
+      "mfi": 45.2,
+      "distSma": -15.4,
+      "days": 1498
+    },
+    {
+      "ticker": "UDR",
+      "entryDate": "2023-08-25",
+      "entryPrice": 34.13,
+      "currentPrice": 36.13,
+      "pl": 5.9,
+      "mfi": 86.1,
+      "distSma": -3.5,
+      "days": 1176
+    },
+    {
+      "ticker": "KHC",
+      "entryDate": "2020-10-09",
+      "entryPrice": 23.17,
+      "currentPrice": 24.48,
+      "pl": 5.7,
+      "mfi": 65.2,
+      "distSma": -13.0,
+      "days": 2226
+    },
+    {
+      "ticker": "CMG",
+      "entryDate": "2026-03-20",
+      "entryPrice": 33.37,
+      "currentPrice": 35.17,
+      "pl": 5.4,
+      "mfi": 60.1,
+      "distSma": -14.2,
+      "days": 238
+    },
+    {
+      "ticker": "ACN",
+      "entryDate": "2025-10-03",
+      "entryPrice": 238.45,
+      "currentPrice": 249.95,
+      "pl": 4.8,
+      "mfi": 89.4,
+      "distSma": -9.9,
+      "days": 406
+    },
+    {
+      "ticker": "HSY",
+      "entryDate": "2024-12-06",
+      "entryPrice": 165.47,
+      "currentPrice": 173.29,
+      "pl": 4.7,
+      "mfi": 57.9,
+      "distSma": -6.3,
+      "days": 707
+    },
+    {
+      "ticker": "ROL",
+      "entryDate": "2026-08-28",
+      "entryPrice": 36.19,
+      "currentPrice": 37.91,
+      "pl": 4.7,
+      "mfi": null,
+      "distSma": -11.2,
+      "days": 77
+    },
+    {
+      "ticker": "CTSH",
+      "entryDate": "2026-03-20",
+      "entryPrice": 61.28,
+      "currentPrice": 63.75,
+      "pl": 4.0,
+      "mfi": 41.6,
+      "distSma": -5.3,
+      "days": 238
+    },
+    {
+      "ticker": "PEP",
+      "entryDate": "2025-01-17",
+      "entryPrice": 138.34,
+      "currentPrice": 142.26,
+      "pl": 2.8,
+      "mfi": null,
+      "distSma": -3.7,
+      "days": 665
+    },
+    {
+      "ticker": "BRO",
+      "entryDate": "2026-02-20",
+      "entryPrice": 69.05,
+      "currentPrice": 70.55,
+      "pl": 2.2,
+      "mfi": 53.2,
+      "distSma": -7.1,
+      "days": 266
+    },
+    {
+      "ticker": "VICI",
+      "entryDate": "2026-09-11",
+      "entryPrice": 24.36,
+      "currentPrice": 24.8,
+      "pl": 1.8,
+      "mfi": 84.7,
+      "distSma": -4.6,
+      "days": 63
+    },
+    {
+      "ticker": "MAA",
+      "entryDate": "2023-10-13",
+      "entryPrice": 115.18,
+      "currentPrice": 116.55,
+      "pl": 1.2,
+      "mfi": 61.7,
+      "distSma": -14.3,
+      "days": 1127
+    },
+    {
+      "ticker": "MGM",
+      "entryDate": "2025-01-17",
+      "entryPrice": 32.85,
+      "currentPrice": 33.24,
+      "pl": 1.2,
+      "mfi": 68.3,
+      "distSma": -14.1,
+      "days": 665
+    },
+    {
+      "ticker": "PVH",
+      "entryDate": "2019-06-21",
+      "entryPrice": 92.21,
+      "currentPrice": 92.69,
+      "pl": 0.5,
+      "mfi": null,
+      "distSma": 8.5,
+      "days": 2702
+    },
+    {
+      "ticker": "TRMB",
+      "entryDate": "2026-05-29",
+      "entryPrice": 56.41,
+      "currentPrice": 55.83,
+      "pl": -1.0,
+      "mfi": 47.4,
+      "distSma": -12.3,
+      "days": 168
+    },
+    {
+      "ticker": "NCLH",
+      "entryDate": "2026-05-29",
+      "entryPrice": 18.34,
+      "currentPrice": 18.06,
+      "pl": -1.5,
+      "mfi": 85.1,
+      "distSma": -4.7,
+      "days": 168
+    },
+    {
+      "ticker": "HAL",
+      "entryDate": "2017-09-08",
+      "entryPrice": 33.72,
+      "currentPrice": 32.76,
+      "pl": -2.8,
+      "mfi": 65.6,
+      "distSma": 8.4,
+      "days": 3353
+    },
+    {
+      "ticker": "CLX",
+      "entryDate": "2023-11-03",
+      "entryPrice": 111.42,
+      "currentPrice": 108.2,
+      "pl": -2.9,
+      "mfi": null,
+      "distSma": -12.1,
+      "days": 1106
+    },
+    {
+      "ticker": "BXP",
+      "entryDate": "2020-08-28",
+      "entryPrice": 65.1,
+      "currentPrice": 62.89,
+      "pl": -3.4,
+      "mfi": 66.7,
+      "distSma": -2.6,
+      "days": 2268
+    },
+    {
+      "ticker": "VRSK",
+      "entryDate": "2025-11-14",
+      "entryPrice": 213.69,
+      "currentPrice": 206.32,
+      "pl": -3.4,
+      "mfi": 68.1,
+      "distSma": -6.5,
+      "days": 364
+    },
+    {
+      "ticker": "LW",
+      "entryDate": "2024-08-16",
+      "entryPrice": 57.29,
+      "currentPrice": 55.23,
+      "pl": -3.6,
+      "mfi": 86.0,
+      "distSma": -17.7,
+      "days": 819
+    },
+    {
+      "ticker": "OTIS",
+      "entryDate": "2026-04-17",
+      "entryPrice": 80.45,
+      "currentPrice": 77.14,
+      "pl": -4.1,
+      "mfi": 87.8,
+      "distSma": -5.5,
+      "days": 210
+    },
+    {
+      "ticker": "LEN",
+      "entryDate": "2026-04-10",
+      "entryPrice": 87.41,
+      "currentPrice": 83.58,
+      "pl": -4.4,
+      "mfi": 63.1,
+      "distSma": -22.0,
+      "days": 217
+    },
+    {
+      "ticker": "CAG",
+      "entryDate": "2019-01-04",
+      "entryPrice": 15.4,
+      "currentPrice": 14.55,
+      "pl": -5.5,
+      "mfi": 64.6,
+      "distSma": -37.0,
+      "days": 2870
+    },
+    {
+      "ticker": "BIIB",
+      "entryDate": "2023-08-04",
+      "entryPrice": 268.92,
+      "currentPrice": 250.48,
+      "pl": -6.9,
+      "mfi": 81.1,
+      "distSma": 17.1,
+      "days": 1197
+    },
+    {
+      "ticker": "FISV",
+      "entryDate": "2025-12-05",
+      "entryPrice": 66.28,
+      "currentPrice": 61.5,
+      "pl": -7.2,
+      "mfi": null,
+      "distSma": -48.7,
+      "days": 343
+    },
+    {
+      "ticker": "INVH",
+      "entryDate": "2025-08-15",
+      "entryPrice": 28.92,
+      "currentPrice": 26.65,
+      "pl": -7.8,
+      "mfi": 61.4,
+      "distSma": -11.4,
+      "days": 455
+    },
+    {
+      "ticker": "UPS",
+      "entryDate": "2023-11-03",
+      "entryPrice": 120.33,
+      "currentPrice": 110.38,
+      "pl": -8.3,
+      "mfi": null,
+      "distSma": -11.7,
+      "days": 1106
+    },
+    {
+      "ticker": "NVR",
+      "entryDate": "2026-08-07",
+      "entryPrice": 6390.14,
+      "currentPrice": 5814.34,
+      "pl": -9.0,
+      "mfi": 41.1,
+      "distSma": -10.0,
+      "days": 98
+    },
+    {
+      "ticker": "MOS",
+      "entryDate": "2025-03-07",
+      "entryPrice": 23.94,
+      "currentPrice": 21.76,
+      "pl": -9.1,
+      "mfi": 60.3,
+      "distSma": -33.6,
+      "days": 616
+    },
+    {
+      "ticker": "KMX",
+      "entryDate": "2020-03-27",
+      "entryPrice": 58.93,
+      "currentPrice": 52.58,
+      "pl": -10.8,
+      "mfi": 20.2,
+      "distSma": -29.4,
+      "days": 2422
+    },
+    {
+      "ticker": "TAP",
+      "entryDate": "2025-10-03",
+      "entryPrice": 44.39,
+      "currentPrice": 39.56,
+      "pl": -10.9,
+      "mfi": 66.9,
+      "distSma": -17.9,
+      "days": 406
+    },
+    {
+      "ticker": "FDS",
+      "entryDate": "2025-08-22",
+      "entryPrice": 373.81,
+      "currentPrice": 331.71,
+      "pl": -11.3,
+      "mfi": 63.6,
+      "distSma": -12.6,
+      "days": 448
+    },
+    {
+      "ticker": "DG",
+      "entryDate": "2023-06-16",
+      "entryPrice": 152.74,
+      "currentPrice": 134.61,
+      "pl": -11.9,
+      "mfi": 63.7,
+      "distSma": -8.0,
+      "days": 1246
+    },
+    {
+      "ticker": "WYNN",
+      "entryDate": "2015-06-05",
+      "entryPrice": 94.27,
+      "currentPrice": 83.02,
+      "pl": -11.9,
+      "mfi": 49.4,
+      "distSma": -8.4,
+      "days": 4179
+    },
+    {
+      "ticker": "CMCSA",
+      "entryDate": "2022-09-02",
+      "entryPrice": 28.65,
+      "currentPrice": 24.8,
+      "pl": -13.5,
+      "mfi": null,
+      "distSma": -22.1,
+      "days": 1533
+    },
+    {
+      "ticker": "BIO",
+      "entryDate": "2022-10-07",
+      "entryPrice": 428.93,
+      "currentPrice": 370.48,
+      "pl": -13.6,
+      "mfi": 58.6,
+      "distSma": -4.5,
+      "days": 1498
+    },
+    {
+      "ticker": "XYL",
+      "entryDate": "2026-05-29",
+      "entryPrice": 109.12,
+      "currentPrice": 94.03,
+      "pl": -13.8,
+      "mfi": 43.7,
+      "distSma": -16.3,
+      "days": 168
+    },
+    {
+      "ticker": "INTU",
+      "entryDate": "2026-02-27",
+      "entryPrice": 404.09,
+      "currentPrice": 340.17,
+      "pl": -15.8,
+      "mfi": 68.6,
+      "distSma": -33.8,
+      "days": 259
+    },
+    {
+      "ticker": "CCI",
+      "entryDate": "2022-10-28",
+      "entryPrice": 106.95,
+      "currentPrice": 89.69,
+      "pl": -16.1,
+      "mfi": 90.1,
+      "distSma": -12.1,
+      "days": 1477
+    },
+    {
+      "ticker": "DOW",
+      "entryDate": "2024-11-29",
+      "entryPrice": 39.78,
+      "currentPrice": 33.15,
+      "pl": -16.7,
+      "mfi": 63.1,
+      "distSma": -15.2,
+      "days": 714
+    },
+    {
+      "ticker": "ADBE",
+      "entryDate": "2022-10-07",
+      "entryPrice": 288.77,
+      "currentPrice": 238.54,
+      "pl": -17.4,
+      "mfi": 44.2,
+      "distSma": -43.3,
+      "days": 1498
+    },
+    {
+      "ticker": "BA",
+      "entryDate": "2024-02-02",
+      "entryPrice": 209.38,
+      "currentPrice": 171.55,
+      "pl": -18.1,
+      "mfi": 0.0,
+      "distSma": -11.9,
+      "days": 1015
+    },
+    {
+      "ticker": "CPRT",
+      "entryDate": "2025-12-19",
+      "entryPrice": 39.07,
+      "currentPrice": 32.0,
+      "pl": -18.1,
+      "mfi": null,
+      "distSma": -23.1,
+      "days": 329
+    },
+    {
+      "ticker": "LKQ",
+      "entryDate": "2018-11-02",
+      "entryPrice": 24.12,
+      "currentPrice": 19.71,
+      "pl": -18.3,
+      "mfi": 44.0,
+      "distSma": -50.1,
+      "days": 2933
+    },
+    {
+      "ticker": "SBAC",
+      "entryDate": "2022-10-21",
+      "entryPrice": 228.6,
+      "currentPrice": 186.57,
+      "pl": -18.4,
+      "mfi": 88.2,
+      "distSma": -18.5,
+      "days": 1484
+    },
+    {
+      "ticker": "NOW",
+      "entryDate": "2026-03-06",
+      "entryPrice": 124.34,
+      "currentPrice": 100.66,
+      "pl": -19.0,
+      "mfi": 34.6,
+      "distSma": -24.8,
+      "days": 252
+    },
+    {
+      "ticker": "WY",
+      "entryDate": "2025-01-10",
+      "entryPrice": 25.73,
+      "currentPrice": 20.46,
+      "pl": -20.5,
+      "mfi": 87.0,
+      "distSma": -25.9,
+      "days": 672
+    },
+    {
+      "ticker": "BSX",
+      "entryDate": "2026-05-22",
+      "entryPrice": 57.78,
+      "currentPrice": 44.2,
+      "pl": -23.5,
+      "mfi": 68.2,
+      "distSma": -31.3,
+      "days": 175
+    },
+    {
+      "ticker": "IT",
+      "entryDate": "2025-08-22",
+      "entryPrice": 249.9,
+      "currentPrice": 190.84,
+      "pl": -23.6,
+      "mfi": 57.0,
+      "distSma": -42.7,
+      "days": 448
+    },
+    {
+      "ticker": "COO",
+      "entryDate": "2025-03-28",
+      "entryPrice": 83.77,
+      "currentPrice": 62.19,
+      "pl": -25.8,
+      "mfi": null,
+      "distSma": -27.0,
+      "days": 595
+    },
+    {
+      "ticker": "GPN",
+      "entryDate": "2021-12-10",
+      "entryPrice": 119.66,
+      "currentPrice": 88.19,
+      "pl": -26.3,
+      "mfi": 77.1,
+      "distSma": -14.0,
+      "days": 1799
+    },
+    {
+      "ticker": "ALB",
+      "entryDate": "2026-08-07",
+      "entryPrice": 130.67,
+      "currentPrice": 94.85,
+      "pl": -27.4,
+      "mfi": 27.6,
+      "distSma": -38.4,
+      "days": 98
+    },
+    {
+      "ticker": "VTRS",
+      "entryDate": "2017-04-28",
+      "entryPrice": 29.83,
+      "currentPrice": 20.67,
+      "pl": -30.7,
+      "mfi": null,
+      "distSma": 93.8,
+      "days": 3486
+    },
+    {
+      "ticker": "APA",
+      "entryDate": "2012-04-27",
+      "entryPrice": 69.01,
+      "currentPrice": 47.66,
+      "pl": -30.9,
+      "mfi": 58.6,
+      "distSma": 61.2,
+      "days": 5313
+    },
+    {
+      "ticker": "MKTX",
+      "entryDate": "2022-05-06",
+      "entryPrice": 248.65,
+      "currentPrice": 165.16,
+      "pl": -33.6,
+      "mfi": null,
+      "distSma": -29.2,
+      "days": 1652
+    },
+    {
+      "ticker": "FICO",
+      "entryDate": "2026-08-14",
+      "entryPrice": 1085.78,
+      "currentPrice": 717.38,
+      "pl": -33.9,
+      "mfi": 49.9,
+      "distSma": -35.1,
+      "days": 91
+    },
+    {
+      "ticker": "HRL",
+      "entryDate": "2023-03-31",
+      "entryPrice": 34.22,
+      "currentPrice": 21.83,
+      "pl": -36.2,
+      "mfi": 87.3,
+      "distSma": -29.2,
+      "days": 1323
+    },
+    {
+      "ticker": "POOL",
+      "entryDate": "2025-01-17",
+      "entryPrice": 335.82,
+      "currentPrice": 214.24,
+      "pl": -36.2,
+      "mfi": null,
+      "distSma": -32.9,
+      "days": 665
+    },
+    {
+      "ticker": "CPB",
+      "entryDate": "2025-01-24",
+      "entryPrice": 35.39,
+      "currentPrice": 22.07,
+      "pl": -37.6,
+      "mfi": 87.6,
+      "distSma": -37.4,
+      "days": 658
+    },
+    {
+      "ticker": "GIS",
+      "entryDate": "2025-01-24",
+      "entryPrice": 54.55,
+      "currentPrice": 33.52,
+      "pl": -38.6,
+      "mfi": 65.6,
+      "distSma": -38.2,
+      "days": 658
+    },
+    {
+      "ticker": "ALGN",
+      "entryDate": "2022-05-20",
+      "entryPrice": 275.04,
+      "currentPrice": 166.97,
+      "pl": -39.3,
+      "mfi": 78.9,
+      "distSma": -37.7,
+      "days": 1638
+    },
+    {
+      "ticker": "CE",
+      "entryDate": "2022-10-07",
+      "entryPrice": 85.32,
+      "currentPrice": 51.26,
+      "pl": -39.9,
+      "mfi": 70.5,
+      "distSma": -47.6,
+      "days": 1498
+    },
+    {
+      "ticker": "ZTS",
+      "entryDate": "2025-04-18",
+      "entryPrice": 143.92,
+      "currentPrice": 82.96,
+      "pl": -42.4,
+      "mfi": 67.6,
+      "distSma": -45.7,
+      "days": 574
+    },
+    {
+      "ticker": "EL",
+      "entryDate": "2023-06-16",
+      "entryPrice": 192.22,
+      "currentPrice": 110.51,
+      "pl": -42.5,
+      "mfi": null,
+      "distSma": -27.0,
+      "days": 1246
+    },
+    {
+      "ticker": "TFX",
+      "entryDate": "2022-05-20",
+      "entryPrice": 277.61,
+      "currentPrice": 153.15,
+      "pl": -44.8,
+      "mfi": null,
+      "distSma": -24.3,
+      "days": 1638
+    },
+    {
+      "ticker": "PYPL",
+      "entryDate": "2022-03-18",
+      "entryPrice": 117.46,
+      "currentPrice": 58.3,
+      "pl": -50.4,
+      "mfi": 62.6,
+      "distSma": -27.1,
+      "days": 1701
+    },
+    {
+      "ticker": "BAX",
+      "entryDate": "2022-07-22",
+      "entryPrice": 60.64,
+      "currentPrice": 25.74,
+      "pl": -57.6,
+      "mfi": 52.2,
+      "distSma": -34.7,
+      "days": 1575
+    },
+    {
+      "ticker": "CHTR",
+      "entryDate": "2022-10-07",
+      "entryPrice": 312.53,
+      "currentPrice": 132.66,
+      "pl": -57.6,
+      "mfi": 85.6,
+      "distSma": -62.8,
+      "days": 1498
+    },
+    {
+      "ticker": "VFC",
+      "entryDate": "2020-04-10",
+      "entryPrice": 48.23,
+      "currentPrice": 20.03,
+      "pl": -58.5,
+      "mfi": null,
+      "distSma": -16.4,
+      "days": 2408
+    },
+    {
+      "ticker": "CSGP",
+      "entryDate": "2024-06-28",
+      "entryPrice": 74.14,
+      "currentPrice": 30.1,
+      "pl": -59.4,
+      "mfi": 59.2,
+      "distSma": -57.3,
+      "days": 868
+    },
+    {
+      "ticker": "APTV",
+      "entryDate": "2023-01-06",
+      "entryPrice": 98.31,
+      "currentPrice": 38.81,
+      "pl": -60.5,
+      "mfi": 33.4,
+      "distSma": -55.5,
+      "days": 1407
+    },
+    {
+      "ticker": "NKE",
+      "entryDate": "2023-06-09",
+      "entryPrice": 98.41,
+      "currentPrice": 37.76,
+      "pl": -61.6,
+      "mfi": 86.7,
+      "distSma": -56.2,
+      "days": 1253
+    },
+    {
+      "ticker": "ENPH",
+      "entryDate": "2024-11-29",
+      "entryPrice": 71.35,
+      "currentPrice": 26.78,
+      "pl": -62.5,
+      "mfi": 40.0,
+      "distSma": -78.1,
+      "days": 714
+    },
+    {
+      "ticker": "FIS",
+      "entryDate": "2022-03-18",
+      "entryPrice": 84.55,
+      "currentPrice": 28.36,
+      "pl": -66.5,
+      "mfi": 42.2,
+      "distSma": -57.4,
+      "days": 1701
+    },
+    {
+      "ticker": "PCG",
+      "entryDate": "2018-01-12",
+      "entryPrice": 42.89,
+      "currentPrice": 12.97,
+      "pl": -69.8,
+      "mfi": 61.3,
+      "distSma": -15.6,
+      "days": 3227
+    },
+    {
+      "ticker": "NWL",
+      "entryDate": "2017-12-01",
+      "entryPrice": 20.8,
+      "currentPrice": 5.76,
+      "pl": -72.3,
+      "mfi": 60.1,
+      "distSma": -35.8,
+      "days": 3269
+    },
+    {
+      "ticker": "WHR",
+      "entryDate": "2018-04-20",
+      "entryPrice": 104.59,
+      "currentPrice": 28.91,
+      "pl": -72.4,
+      "mfi": 58.2,
+      "distSma": -71.4,
+      "days": 3129
+    },
+    {
+      "ticker": "XRAY",
+      "entryDate": "2019-08-16",
+      "entryPrice": 46.26,
+      "currentPrice": 9.24,
+      "pl": -80.0,
+      "mfi": 63.5,
+      "distSma": -64.4,
+      "days": 2646
+    },
+    {
+      "ticker": "FMC",
+      "entryDate": "2023-07-21",
+      "entryPrice": 83.59,
+      "currentPrice": 5.06,
+      "pl": -93.9,
+      "mfi": 41.5,
+      "distSma": -91.5,
+      "days": 1211
+    },
+    {
+      "ticker": "PARA",
+      "entryDate": "2026-05-15",
+      "entryPrice": 7.66,
+      "currentPrice": 0.1,
+      "pl": -98.7,
+      "mfi": 0.5,
+      "distSma": -100.0,
+      "days": 182
+    }
+  ],
+  "yearlyReturns": [
+    {
+      "year": 1967,
+      "return": 5.08
+    },
+    {
+      "year": 1968,
+      "return": 5.9
+    },
+    {
+      "year": 1969,
+      "return": -13.13
+    },
+    {
+      "year": 1970,
+      "return": 2.19
+    },
+    {
+      "year": 1971,
+      "return": 15.26
+    },
+    {
+      "year": 1972,
+      "return": 7.9
+    },
+    {
+      "year": 1973,
+      "return": -4.68
+    },
+    {
+      "year": 1974,
+      "return": -16.96
+    },
+    {
+      "year": 1975,
+      "return": 36.37
+    },
+    {
+      "year": 1976,
+      "return": 12.76
+    },
+    {
+      "year": 1977,
+      "return": -4.66
+    },
+    {
+      "year": 1978,
+      "return": 10.67
+    },
+    {
+      "year": 1979,
+      "return": 6.08
+    },
+    {
+      "year": 1980,
+      "return": 18.82
+    },
+    {
+      "year": 1981,
+      "return": 2.66
+    },
+    {
+      "year": 1982,
+      "return": 28.96
+    },
+    {
+      "year": 1983,
+      "return": 15.82
+    },
+    {
+      "year": 1984,
+      "return": 4.96
+    },
+    {
+      "year": 1985,
+      "return": 19.48
+    },
+    {
+      "year": 1986,
+      "return": 10.91
+    },
+    {
+      "year": 1987,
+      "return": 7.73
+    },
+    {
+      "year": 1988,
+      "return": 24.13
+    },
+    {
+      "year": 1989,
+      "return": 18.45
+    },
+    {
+      "year": 1990,
+      "return": -7.59
+    },
+    {
+      "year": 1991,
+      "return": 43.42
+    },
+    {
+      "year": 1992,
+      "return": 13.29
+    },
+    {
+      "year": 1993,
+      "return": 54.49
+    },
+    {
+      "year": 1994,
+      "return": 8.84
+    },
+    {
+      "year": 1995,
+      "return": 26.6
+    },
+    {
+      "year": 1996,
+      "return": 15.36
+    },
+    {
+      "year": 1997,
+      "return": 33.83
+    },
+    {
+      "year": 1998,
+      "return": 29.7
+    },
+    {
+      "year": 1999,
+      "return": 53.02
+    },
+    {
+      "year": 2000,
+      "return": 18.11
+    },
+    {
+      "year": 2001,
+      "return": 16.49
+    },
+    {
+      "year": 2002,
+      "return": -15.37
+    },
+    {
+      "year": 2003,
+      "return": 29.53
+    },
+    {
+      "year": 2004,
+      "return": 21.62
+    },
+    {
+      "year": 2005,
+      "return": 21.02
+    },
+    {
+      "year": 2006,
+      "return": 17.6
+    },
+    {
+      "year": 2007,
+      "return": 1.73
+    },
+    {
+      "year": 2008,
+      "return": -24.79
+    },
+    {
+      "year": 2009,
+      "return": 26.06
+    },
+    {
+      "year": 2010,
+      "return": 15.51
+    },
+    {
+      "year": 2011,
+      "return": 2.66
+    },
+    {
+      "year": 2012,
+      "return": 28.16
+    },
+    {
+      "year": 2013,
+      "return": 20.46
+    },
+    {
+      "year": 2014,
+      "return": 14.52
+    },
+    {
+      "year": 2015,
+      "return": -5.02
+    },
+    {
+      "year": 2016,
+      "return": 31.07
+    },
+    {
+      "year": 2017,
+      "return": 29.71
+    },
+    {
+      "year": 2018,
+      "return": 6.08
+    },
+    {
+      "year": 2019,
+      "return": 91.14
+    },
+    {
+      "year": 2020,
+      "return": 55.4
+    },
+    {
+      "year": 2021,
+      "return": 25.19
+    },
+    {
+      "year": 2022,
+      "return": 5.09
+    },
+    {
+      "year": 2023,
+      "return": 16.73
+    },
+    {
+      "year": 2024,
+      "return": 19.56
+    },
+    {
+      "year": 2025,
+      "return": 18.54
+    },
+    {
+      "year": 2026,
+      "return": 8.81
+    }
+  ],
+  "recentTrades": [
+    {
+      "sym": "ILMN",
+      "entry": "2022-05-20",
+      "exit": "2026-10-23",
+      "pl": 13.7,
+      "days": 1617
+    },
+    {
+      "sym": "PTC",
+      "entry": "2026-04-24",
+      "exit": "2026-10-16",
+      "pl": 40.7,
+      "days": 175
+    },
+    {
+      "sym": "WAT",
+      "entry": "2025-08-22",
+      "exit": "2026-10-16",
+      "pl": 44.6,
+      "days": 420
+    },
+    {
+      "sym": "DLTR",
+      "entry": "2020-03-27",
+      "exit": "2026-07-03",
+      "pl": 61.0,
+      "days": 2289
+    },
+    {
+      "sym": "DVA",
+      "entry": "2017-01-20",
+      "exit": "2026-06-05",
+      "pl": 204.9,
+      "days": 3423
+    },
+    {
+      "sym": "DVN",
+      "entry": "2011-09-02",
+      "exit": "2026-04-03",
+      "pl": 18.6,
+      "days": 5327
+    },
+    {
+      "sym": "BEN",
+      "entry": "2022-03-18",
+      "exit": "2026-02-27",
+      "pl": 16.8,
+      "days": 1442
+    },
+    {
+      "sym": "T",
+      "entry": "2021-11-26",
+      "exit": "2026-02-27",
+      "pl": 97.1,
+      "days": 1554
+    },
+    {
+      "sym": "TXN",
+      "entry": "2025-11-14",
+      "exit": "2026-02-27",
+      "pl": 34.0,
+      "days": 105
+    },
+    {
+      "sym": "SYY",
+      "entry": "2020-03-27",
+      "exit": "2026-02-20",
+      "pl": 110.1,
+      "days": 2156
+    },
+    {
+      "sym": "ICE",
+      "entry": "2022-10-07",
+      "exit": "2026-02-06",
+      "pl": 95.9,
+      "days": 1218
+    },
+    {
+      "sym": "MCHP",
+      "entry": "2024-12-27",
+      "exit": "2026-02-06",
+      "pl": 34.4,
+      "days": 406
+    },
+    {
+      "sym": "ORLY",
+      "entry": "2020-03-20",
+      "exit": "2026-02-06",
+      "pl": 435.8,
+      "days": 2149
+    },
+    {
+      "sym": "ALB",
+      "entry": "2019-01-11",
+      "exit": "2026-01-30",
+      "pl": 142.7,
+      "days": 2576
+    },
+    {
+      "sym": "CBOE",
+      "entry": "2020-08-14",
+      "exit": "2026-01-30",
+      "pl": 223.2,
+      "days": 1995
+    },
+    {
+      "sym": "GD",
+      "entry": "2020-03-27",
+      "exit": "2026-01-30",
+      "pl": 210.2,
+      "days": 2135
+    },
+    {
+      "sym": "INTC",
+      "entry": "2022-09-09",
+      "exit": "2026-01-30",
+      "pl": 55.3,
+      "days": 1239
+    },
+    {
+      "sym": "BMY",
+      "entry": "2023-10-20",
+      "exit": "2026-01-23",
+      "pl": 8.0,
+      "days": 826
+    },
+    {
+      "sym": "CTSH",
+      "entry": "2025-10-24",
+      "exit": "2026-01-23",
+      "pl": 24.6,
+      "days": 91
+    },
+    {
+      "sym": "FDX",
+      "entry": "2022-10-07",
+      "exit": "2026-01-23",
+      "pl": 111.6,
+      "days": 1204
+    }
+  ]
 }
