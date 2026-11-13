@@ -832,6 +832,7 @@ a{color:var(--acc);text-decoration:none;}
       <span class="sqar-param">SMA 1300</span>
       <span class="sqar-param">MFI(5) Entry ≤ 15</span>
       <span class="sqar-param">MFI(5) Exit ≥ 88</span>
+      <span class="sqar-param" style="background:rgba(239,68,68,.15);color:#f87171;">TS -3%</span>
       <span class="sqar-param">Sizing 10%</span>
     </div>
     <div class="sub" id="smaUpd" style="margin-top:6px;">—</div>
@@ -862,9 +863,9 @@ a{color:var(--acc);text-decoration:none;}
   <div class="sqar-section">🔄 Últims Trades <span class="badge" style="background:var(--bg3);color:var(--tx2);border:1px solid var(--brd);" id="smaTradeN">0</span></div>
   <div class="rank-wrap" style="overflow-x:auto;">
     <table class="sqar-yr-table" id="smaTradesTable" style="min-width:400px;">
-      <thead><tr><th style="text-align:left">Ticker</th><th>Entrada</th><th>Sortida</th><th>P&L</th><th>Dies</th></tr></thead>
+      <thead><tr><th style="text-align:left">Ticker</th><th>Entrada</th><th>Sortida</th><th>P&L</th><th>Dies</th><th>Motiu</th></tr></thead>
       <tbody id="smaTradesBody">
-        <tr><td colspan="5" class="sqar-yr-empty">Executa l'screener per veure resultats</td></tr>
+        <tr><td colspan="6" class="sqar-yr-empty">Executa l'screener per veure resultats</td></tr>
       </tbody>
     </table>
   </div>
@@ -2815,11 +2816,14 @@ function renderSmaData(d){
     const buyList=document.getElementById('smaBuyList');
     buyList.innerHTML='';
     document.getElementById('smaBuyN').textContent=d.buySignals.length;
+    const tsPct=d.params&&d.params.trailingStopPct?d.params.trailingStopPct:-3;
     d.buySignals.forEach(sig=>{
+      const tsLvl=(sig.price*(1+tsPct/100)).toFixed(2);
       buyList.innerHTML+=
         '<div class="sqar-item buy">'+
         '<div class="sqar-tk">'+escH(sig.sym)+'</div>'+
-        '<div class="sqar-details">Preu: $'+sig.price+' · SMA: $'+sig.sma+' · MFI: '+sig.mfi+' (prev: '+sig.prevMfi+')</div>'+
+        '<div class="sqar-details">Preu: $'+sig.price+' · SMA: $'+sig.sma+' · MFI: '+sig.mfi+' (prev: '+sig.prevMfi+')'+
+        '<div style="font-size:.75rem;margin-top:2px;color:var(--tx3)">🛡️ TS inicial: $'+tsLvl+'</div></div>'+
         '<div class="sqar-mov" style="color:var(--tx2)">'+sig.distSma+'%</div>'+
         '</div>';
     });
@@ -2846,10 +2850,11 @@ function renderSmaData(d){
     d.openPositions.forEach(pos=>{
       const plCls=pos.pl>=0?'pos':'';
       const plSign=pos.pl>=0?'+':'';
+      const tsInfo=pos.tsLevel?'<div style="font-size:.75rem;margin-top:2px;color:'+(pos.distTs!=null&&pos.distTs<2?'#f87171':'var(--tx3)')+'">🛡️ TS: $'+pos.tsLevel+(pos.distTs!=null?' ('+pos.distTs.toFixed(1)+'% marge)':'')+' · Peak: $'+pos.peakPrice+'</div>':'';
       posList.innerHTML+=
         '<div class="sqar-item keep">'+
         '<div class="sqar-tk">'+escH(pos.ticker)+'</div>'+
-        '<div class="sqar-details">Entrada: $'+pos.entryPrice+' ('+pos.entryDate+') · Actual: $'+pos.currentPrice+' · MFI: '+(pos.mfi||'—')+' · '+pos.days+'d</div>'+
+        '<div class="sqar-details">Entrada: $'+pos.entryPrice+' ('+pos.entryDate+') · Actual: $'+pos.currentPrice+' · MFI: '+(pos.mfi||'—')+' · '+pos.days+'d'+tsInfo+'</div>'+
         '<div class="sqar-mov '+(pos.pl>=0?'pos':'')+'">'+plSign+pos.pl+'%</div>'+
         '</div>';
     });
@@ -2862,13 +2867,14 @@ function renderSmaData(d){
     d.recentTrades.forEach(t=>{
       const cls=t.pl>=0?'sqar-pos':'sqar-neg';
       const sign=t.pl>=0?'+':'';
+      const reasonBadge=t.reason==='TS'?'<span style="background:rgba(239,68,68,.15);color:#f87171;padding:1px 6px;border-radius:4px;font-size:.75rem;">TS</span>':'<span style="background:rgba(52,211,153,.15);color:#34d399;padding:1px 6px;border-radius:4px;font-size:.75rem;">MFI</span>';
       tradesBody.innerHTML+=
         '<tr><td style="text-align:left;font-weight:700">'+escH(t.sym)+'</td>'+
         '<td>'+t.entry+'</td><td>'+t.exit+'</td>'+
         '<td class="'+cls+'">'+sign+t.pl+'%</td>'+
-        '<td>'+t.days+'d</td></tr>';
+        '<td>'+t.days+'d</td><td>'+reasonBadge+'</td></tr>';
     });
-    if(!d.recentTrades.length)tradesBody.innerHTML='<tr><td colspan="5" class="sqar-yr-empty">Sense trades recents</td></tr>';
+    if(!d.recentTrades.length)tradesBody.innerHTML='<tr><td colspan="6" class="sqar-yr-empty">Sense trades recents</td></tr>';
 
     // Yearly returns
     const yrBody=document.getElementById('smaYrBody');
