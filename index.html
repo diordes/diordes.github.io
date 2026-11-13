@@ -353,9 +353,11 @@ a{color:var(--acc);text-decoration:none;}
     </div>
   </div>
   <div class="top-tabs">
-    <button class="top-tab active" onclick="switchMain('etf')" id="mainTabEtf">📊 ETF Momentum</button>
+    <button class="top-tab active" onclick="switchMain('etf')" id="mainTabEtf">📊 ETF</button>
     <button class="top-tab" onclick="switchMain('stocks')" id="mainTabStocks">📈 Top 250</button>
     <button class="top-tab" onclick="switchMain('sqar')" id="mainTabSqar">🎯 SQAR</button>
+    <button class="top-tab" onclick="switchMain('sma')" id="mainTabSma">⚡ SMA1300</button>
+    <button class="top-tab" onclick="switchMain('guanys')" id="mainTabGuanys">💰 Guanys</button>
   </div>
 </div>
 
@@ -818,6 +820,133 @@ a{color:var(--acc);text-decoration:none;}
 
 </div>
 
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SMA1300 + MFI PANE -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="paneSma" class="main-pane">
+
+  <div class="sqar-hero">
+    <h1>⚡ <span>SMA1300</span> + MFI</h1>
+    <div class="sub">Mean-reversion · Comprar accions castigades amb acumulació</div>
+    <div class="sqar-params">
+      <span class="sqar-param">SMA 1300</span>
+      <span class="sqar-param">MFI(5) Entry ≤ 15</span>
+      <span class="sqar-param">MFI(5) Exit ≥ 88</span>
+      <span class="sqar-param">Sizing 10%</span>
+    </div>
+    <div class="sub" id="smaUpd" style="margin-top:6px;">—</div>
+    <button class="etf-btn primary" id="runSmaBtn" onclick="runSmaScreener()" style="margin-top:10px;">▶ Executar</button>
+  </div>
+
+  <!-- Summary cards -->
+  <div class="sqar-meta" id="smaMeta">
+    <div class="m-card"><div class="m-label">Stocks</div><div class="m-val acc" id="smaN">—</div></div>
+    <div class="m-card"><div class="m-label">Senyals Compra</div><div class="m-val green" id="smaBuyC">—</div></div>
+    <div class="m-card"><div class="m-label">Pos. Obertes</div><div class="m-val" id="smaOpenC">—</div></div>
+    <div class="m-card"><div class="m-label">CAGR (BT)</div><div class="m-val green" id="smaCagr">—</div></div>
+  </div>
+
+  <!-- Buy signals -->
+  <div class="sqar-section">🟢 Senyals Compra <span class="badge badge-buy" id="smaBuyN">0</span></div>
+  <div class="sqar-list" id="smaBuyList"></div>
+
+  <!-- Sell signals -->
+  <div class="sqar-section">🔴 Senyals Venda <span class="badge badge-sell" id="smaSellN">0</span></div>
+  <div class="sqar-list" id="smaSellList"></div>
+
+  <!-- Open positions -->
+  <div class="sqar-section">📊 Posicions Obertes <span class="badge badge-keep" id="smaOpenN">0</span></div>
+  <div class="sqar-list" id="smaPosList"></div>
+
+  <!-- Recent trades -->
+  <div class="sqar-section">🔄 Últims Trades <span class="badge" style="background:var(--bg3);color:var(--tx2);border:1px solid var(--brd);" id="smaTradeN">0</span></div>
+  <div class="rank-wrap" style="overflow-x:auto;">
+    <table class="sqar-yr-table" id="smaTradesTable" style="min-width:400px;">
+      <thead><tr><th style="text-align:left">Ticker</th><th>Entrada</th><th>Sortida</th><th>P&L</th><th>Dies</th></tr></thead>
+      <tbody id="smaTradesBody">
+        <tr><td colspan="5" class="sqar-yr-empty">Executa l'screener per veure resultats</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Backtest year-by-year -->
+  <div class="sqar-bt" id="smaBt">
+    <h3>📈 Backtest any per any</h3>
+    <table class="sqar-yr-table" id="smaYrTable">
+      <thead><tr><th>Any</th><th>Retorn</th></tr></thead>
+      <tbody id="smaYrBody">
+        <tr><td colspan="2" class="sqar-yr-empty">Executa l'screener per veure resultats</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Backtest summary -->
+  <div class="sqar-sum" id="smaSumBox">
+    <div class="sqar-sum-grid">
+      <span class="lbl">CAGR</span><span class="val" id="smsBtCagr">—</span>
+      <span class="lbl">Max Drawdown</span><span class="val" id="smsBtDD">—</span>
+      <span class="lbl">Calmar Ratio</span><span class="val" id="smsBtCalm">—</span>
+      <span class="lbl">Total Trades</span><span class="val" id="smsBtTrades">—</span>
+      <span class="lbl">Win Rate</span><span class="val" id="smsBtWR">—</span>
+      <span class="lbl">Avg Win / Avg Loss</span><span class="val" id="smsBtWL">—</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- GUANYS (COMPARISON) PANE -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="paneGuanys" class="main-pane">
+
+  <div class="sqar-hero">
+    <h1>💰 <span>Guanys</span></h1>
+    <div class="sub">Comparativa de rendiment per estratègia</div>
+  </div>
+
+  <!-- Summary CAGR cards -->
+  <div class="sqar-meta" id="guanysMeta">
+    <div class="m-card"><div class="m-label">ETF CAGR</div><div class="m-val green" id="gEtfCagr">—</div></div>
+    <div class="m-card"><div class="m-label">SQAR CAGR</div><div class="m-val green" id="gSqarCagr">—</div></div>
+    <div class="m-card"><div class="m-label">SMA1300 CAGR</div><div class="m-val green" id="gSmaCagr">—</div></div>
+  </div>
+
+  <!-- Chart -->
+  <div class="sqar-bt" style="border-color:var(--green);">
+    <h3>📊 Rendiment acumulat per estratègia</h3>
+    <div style="height:300px;position:relative;"><canvas id="guanysChart"></canvas></div>
+  </div>
+
+  <!-- Year-by-year comparison table -->
+  <div class="sqar-bt">
+    <h3>📅 Comparativa any per any (%)</h3>
+    <div style="overflow-x:auto;">
+      <table class="sqar-yr-table" id="guanysTable">
+        <thead><tr><th>Any</th><th>ETF</th><th>SQAR</th><th>SMA1300</th></tr></thead>
+        <tbody id="guanysBody">
+          <tr><td colspan="4" class="sqar-yr-empty">Carregant dades...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Backtest summary comparison -->
+  <div class="sqar-sum">
+    <div class="sqar-sum-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;">
+      <span class="lbl"></span><span class="lbl" style="text-align:center;font-weight:700;">ETF</span><span class="lbl" style="text-align:center;font-weight:700;">SQAR</span><span class="lbl" style="text-align:center;font-weight:700;">SMA1300</span>
+      <span class="lbl">CAGR</span><span class="val" id="gcEtfCagr">—</span><span class="val" id="gcSqarCagr">—</span><span class="val" id="gcSmaCagr">—</span>
+      <span class="lbl">Max DD</span><span class="val" id="gcEtfDD">—</span><span class="val" id="gcSqarDD">—</span><span class="val" id="gcSmaDD">—</span>
+      <span class="lbl">Calmar</span><span class="val" id="gcEtfCalm">—</span><span class="val" id="gcSqarCalm">—</span><span class="val" id="gcSmaCalm">—</span>
+    </div>
+  </div>
+
+  <div class="sqar-note">
+    La comparativa mostra el rendiment de backtest de cada estratègia.
+    ETF = ETF Momentum (real si disponible), SQAR = rebalanceig anual, SMA1300 = mean-reversion.
+  </div>
+
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
@@ -1118,17 +1247,18 @@ applyTheme();
 function switchMain(tab){
   document.querySelectorAll('.top-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.main-pane').forEach(p=>p.classList.remove('active'));
-  if(tab==='etf'){
-    document.getElementById('mainTabEtf').classList.add('active');
-    document.getElementById('paneEtf').classList.add('active');
-  }else if(tab==='sqar'){
-    document.getElementById('mainTabSqar').classList.add('active');
-    document.getElementById('paneSqar').classList.add('active');
-  }else{
-    document.getElementById('mainTabStocks').classList.add('active');
-    document.getElementById('paneStocks').classList.add('active');
-  }
+  const map={
+    etf:['mainTabEtf','paneEtf'],
+    stocks:['mainTabStocks','paneStocks'],
+    sqar:['mainTabSqar','paneSqar'],
+    sma:['mainTabSma','paneSma'],
+    guanys:['mainTabGuanys','paneGuanys']
+  };
+  const m=map[tab]||map.stocks;
+  document.getElementById(m[0]).classList.add('active');
+  document.getElementById(m[1]).classList.add('active');
   localStorage.setItem('scr_main_tab',tab);
+  if(tab==='guanys')loadGuanysData();
 }
 // Restore last tab
 const _lastMain=localStorage.getItem('scr_main_tab');
@@ -2618,6 +2748,322 @@ function renderSqarData(d){
 
   }catch(e){console.error('SQAR load error:',e);}
 })();
+
+// ═══════════════════════════════════════════════════════════════
+// SMA1300: GitHub Actions trigger + render
+// ═══════════════════════════════════════════════════════════════
+const SMA_GH_REPO='diordes/screener-dashboard';
+const SMA_GH_WORKFLOW='sma1300_screener.yml';
+let SMA_lastGen=null;
+let SMA_data=null;
+
+async function runSmaScreener(){
+  let token=localStorage.getItem(GH_TOKEN_KEY);
+  if(!token){
+    token=prompt('GitHub Personal Access Token:\n\nCrea\'l a: github.com/settings/tokens\nPermisos: repo o actions:write');
+    if(!token)return;
+    localStorage.setItem(GH_TOKEN_KEY,token);
+  }
+  const btn=document.getElementById('runSmaBtn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Llançant…';
+  try{
+    const r=await fetch(`https://api.github.com/repos/${SMA_GH_REPO}/actions/workflows/${SMA_GH_WORKFLOW}/dispatches`,{
+      method:'POST',headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({ref:'main'})});
+    if(r.status===204){
+      toast('✅ SMA1300 Screener llançat!');
+      btn.innerHTML='⏳ Executant… (~8 min)';
+      let polls=0;const poll=setInterval(async()=>{
+        polls++;if(polls>50){clearInterval(poll);btn.disabled=false;btn.innerHTML='▶ Executar';toast('⏱️ Temps exhaurit — torna-ho a provar');return;}
+        try{
+          const r2=await fetch('data/sma1300_latest.json?t='+Date.now());if(!r2.ok)return;
+          const j=await r2.json();if(!j.generatedAt)return;
+          const jd=new Date(j.generatedAt).getTime(),ld=SMA_lastGen?new Date(SMA_lastGen).getTime():0;
+          if(jd>ld){clearInterval(poll);
+            SMA_lastGen=j.generatedAt;SMA_data=j;
+            toast('✅ Dades SMA1300 actualitzades!');
+            btn.disabled=false;btn.innerHTML='▶ Executar';
+            renderSmaData(j);}
+        }catch(e){}
+      },15000);
+    }else if(r.status===401||r.status===403){
+      localStorage.removeItem(GH_TOKEN_KEY);
+      toast('❌ Token invàlid','err');btn.disabled=false;btn.innerHTML='▶ Executar';
+    }else if(r.status===404){
+      toast('❌ Workflow sma1300_screener.yml no trobat','err');
+      btn.disabled=false;btn.innerHTML='▶ Executar';
+    }else{
+      toast('❌ Error: '+r.status,'err');btn.disabled=false;btn.innerHTML='▶ Executar';
+    }
+  }catch(e){toast('❌ Error de connexió','err');btn.disabled=false;btn.innerHTML='▶ Executar';}
+}
+
+function renderSmaData(d){
+  try{
+    const s=d.summary;const p=d.params;
+    // Header
+    document.getElementById('smaUpd').textContent=
+      'Actualitzat '+(d.generatedAt||'').slice(0,16).replace('T',' ')+' · '+s.totalStocks+' stocks analitzats';
+
+    // Summary cards
+    document.getElementById('smaN').textContent=s.totalStocks||'—';
+    document.getElementById('smaBuyC').textContent=s.buySignals||'0';
+    document.getElementById('smaOpenC').textContent=s.openPositions||'0';
+    document.getElementById('smaCagr').textContent=s.backtestCagr!=null?s.backtestCagr+'%':'—';
+
+    // Buy signals
+    const buyList=document.getElementById('smaBuyList');
+    buyList.innerHTML='';
+    document.getElementById('smaBuyN').textContent=d.buySignals.length;
+    d.buySignals.forEach(sig=>{
+      buyList.innerHTML+=
+        '<div class="sqar-item buy">'+
+        '<div class="sqar-tk">'+escH(sig.sym)+'</div>'+
+        '<div class="sqar-details">Preu: $'+sig.price+' · SMA: $'+sig.sma+' · MFI: '+sig.mfi+' (prev: '+sig.prevMfi+')</div>'+
+        '<div class="sqar-mov" style="color:var(--tx2)">'+sig.distSma+'%</div>'+
+        '</div>';
+    });
+    if(!d.buySignals.length)buyList.innerHTML='<div style="color:var(--tx3);font-size:.82rem;padding:8px;">Cap senyal de compra actiu</div>';
+
+    // Sell signals
+    const sellList=document.getElementById('smaSellList');
+    sellList.innerHTML='';
+    document.getElementById('smaSellN').textContent=d.sellSignals.length;
+    d.sellSignals.forEach(sig=>{
+      sellList.innerHTML+=
+        '<div class="sqar-item sell">'+
+        '<div class="sqar-tk">'+escH(sig.sym)+'</div>'+
+        '<div class="sqar-details">Preu: $'+sig.price+' · SMA: $'+sig.sma+' · MFI: '+sig.mfi+' (prev: '+sig.prevMfi+')</div>'+
+        '<div class="sqar-mov" style="color:var(--tx2)">+'+sig.distSma+'%</div>'+
+        '</div>';
+    });
+    if(!d.sellSignals.length)sellList.innerHTML='<div style="color:var(--tx3);font-size:.82rem;padding:8px;">Cap senyal de venda actiu</div>';
+
+    // Open positions
+    const posList=document.getElementById('smaPosList');
+    posList.innerHTML='';
+    document.getElementById('smaOpenN').textContent=d.openPositions.length;
+    d.openPositions.forEach(pos=>{
+      const plCls=pos.pl>=0?'pos':'';
+      const plSign=pos.pl>=0?'+':'';
+      posList.innerHTML+=
+        '<div class="sqar-item keep">'+
+        '<div class="sqar-tk">'+escH(pos.ticker)+'</div>'+
+        '<div class="sqar-details">Entrada: $'+pos.entryPrice+' ('+pos.entryDate+') · Actual: $'+pos.currentPrice+' · MFI: '+(pos.mfi||'—')+' · '+pos.days+'d</div>'+
+        '<div class="sqar-mov '+(pos.pl>=0?'pos':'')+'">'+plSign+pos.pl+'%</div>'+
+        '</div>';
+    });
+    if(!d.openPositions.length)posList.innerHTML='<div style="color:var(--tx3);font-size:.82rem;padding:8px;">Cap posició oberta</div>';
+
+    // Recent trades
+    const tradesBody=document.getElementById('smaTradesBody');
+    tradesBody.innerHTML='';
+    document.getElementById('smaTradeN').textContent=d.recentTrades.length;
+    d.recentTrades.forEach(t=>{
+      const cls=t.pl>=0?'sqar-pos':'sqar-neg';
+      const sign=t.pl>=0?'+':'';
+      tradesBody.innerHTML+=
+        '<tr><td style="text-align:left;font-weight:700">'+escH(t.sym)+'</td>'+
+        '<td>'+t.entry+'</td><td>'+t.exit+'</td>'+
+        '<td class="'+cls+'">'+sign+t.pl+'%</td>'+
+        '<td>'+t.days+'d</td></tr>';
+    });
+    if(!d.recentTrades.length)tradesBody.innerHTML='<tr><td colspan="5" class="sqar-yr-empty">Sense trades recents</td></tr>';
+
+    // Yearly returns
+    const yrBody=document.getElementById('smaYrBody');
+    yrBody.innerHTML='';
+    if(d.yearlyReturns&&d.yearlyReturns.length){
+      d.yearlyReturns.forEach(yr=>{
+        const cls=yr['return']>=0?'sqar-pos':'sqar-neg';
+        const sign=yr['return']>=0?'+':'';
+        yrBody.innerHTML+=
+          '<tr><td>'+yr.year+'</td><td class="'+cls+'">'+sign+yr['return']+'%</td></tr>';
+      });
+    }else{
+      yrBody.innerHTML='<tr><td colspan="2" class="sqar-yr-empty">Sense dades de backtest</td></tr>';
+    }
+
+    // Backtest summary
+    document.getElementById('smsBtCagr').textContent=s.backtestCagr!=null?s.backtestCagr+'%':'—';
+    document.getElementById('smsBtDD').textContent=s.backtestMaxDD!=null?s.backtestMaxDD+'%':'—';
+    document.getElementById('smsBtCalm').textContent=s.backtestCalmar!=null?s.backtestCalmar:'—';
+    document.getElementById('smsBtTrades').textContent=s.totalTrades||'—';
+    document.getElementById('smsBtWR').textContent=s.winRate!=null?s.winRate+'%':'—';
+    document.getElementById('smsBtWL').textContent=
+      (s.avgWin!=null?'+'+s.avgWin+'%':'—')+' / '+(s.avgLoss!=null?s.avgLoss+'%':'—');
+
+  }catch(e){console.error('SMA render error:',e);}
+}
+
+// Auto-load SMA data on page load
+(async()=>{
+  try{
+    const r=await fetch('data/sma1300_latest.json?t='+Date.now());
+    if(r.ok){const j=await r.json();if(j.generatedAt){SMA_lastGen=j.generatedAt;SMA_data=j;renderSmaData(j);}}
+  }catch(e){}
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// GUANYS: Comparativa de rendiment
+// ═══════════════════════════════════════════════════════════════
+let _guanysChart=null;
+let _guanysLoaded=false;
+
+async function loadGuanysData(){
+  if(_guanysLoaded)return;
+  _guanysLoaded=true;
+
+  // Collect yearly returns from each strategy
+  const etfYr={}, sqarYr={}, smaYr={};
+  let etfCagr=null, sqarCagr=null, smaCagr=null;
+  let etfDD=null, sqarDD=null, smaDD=null;
+  let etfCalm=null, sqarCalm=null, smaCalm=null;
+
+  // ── ETF: from stored portfolio data or etf_latest.json ──
+  try{
+    // Try to get from ETF portfolio evolution
+    const etfState=JSON.parse(localStorage.getItem('scr_etf_state')||'{}');
+    if(etfState.evolution&&etfState.evolution.length>1){
+      // Calculate yearly returns from evolution
+      let prevYrVal=null,prevYr=null;
+      etfState.evolution.forEach(pt=>{
+        const d=new Date(pt.date);const yr=d.getFullYear();
+        if(prevYr&&yr!==prevYr&&prevYrVal){
+          etfYr[prevYr]=Math.round((pt.total/prevYrVal-1)*1000)/10;
+        }
+        if(!prevYr||yr!==prevYr)prevYrVal=pt.total;
+        prevYr=yr;
+      });
+    }
+    // Also try etf_latest.json for backtest info
+    const r=await fetch('data/etf_latest.json?t='+Date.now());
+    if(r.ok){
+      const j=await r.json();
+      if(j.backtestCagr!=null)etfCagr=j.backtestCagr;
+      if(j.backtestMaxDD!=null)etfDD=j.backtestMaxDD;
+      if(j.backtestCalmar!=null)etfCalm=j.backtestCalmar;
+      // If yearly returns available
+      if(j.yearlyReturns){
+        j.yearlyReturns.forEach(yr=>{
+          if(yr.year&&yr['return']!=null)etfYr[yr.year]=yr['return'];
+        });
+      }
+    }
+  }catch(e){}
+
+  // ── SQAR: from sqar_latest.json ──
+  try{
+    const r=await fetch('data/sqar_latest.json?t='+Date.now());
+    if(r.ok){
+      const j=await r.json();
+      if(j.yearlyReturns){
+        j.yearlyReturns.forEach(yr=>{
+          if(yr.vy&&yr.sqar!=null)sqarYr[yr.vy]=yr.sqar;
+        });
+      }
+      if(j.backtestCagr!=null)sqarCagr=j.backtestCagr;
+      if(j.backtestMaxDD!=null)sqarDD=j.backtestMaxDD;
+      if(j.backtestCalmar!=null)sqarCalm=j.backtestCalmar;
+    }
+  }catch(e){}
+
+  // ── SMA1300: from sma1300_latest.json or cached ──
+  try{
+    let smaJ=SMA_data;
+    if(!smaJ){
+      const r=await fetch('data/sma1300_latest.json?t='+Date.now());
+      if(r.ok)smaJ=await r.json();
+    }
+    if(smaJ){
+      if(smaJ.yearlyReturns){
+        smaJ.yearlyReturns.forEach(yr=>{
+          if(yr.year&&yr['return']!=null)smaYr[yr.year]=yr['return'];
+        });
+      }
+      if(smaJ.summary){
+        smaCagr=smaJ.summary.backtestCagr;
+        smaDD=smaJ.summary.backtestMaxDD;
+        smaCalm=smaJ.summary.backtestCalmar;
+      }
+    }
+  }catch(e){}
+
+  // ── Build combined table ──
+  const allYears=new Set([...Object.keys(etfYr),...Object.keys(sqarYr),...Object.keys(smaYr)]);
+  const sortedYears=[...allYears].map(Number).sort();
+
+  const tbody=document.getElementById('guanysBody');
+  tbody.innerHTML='';
+  sortedYears.forEach(yr=>{
+    const e=etfYr[yr],q=sqarYr[yr],s=smaYr[yr];
+    const fc=(v)=>{
+      if(v==null)return '<td class="sqar-yr-empty">—</td>';
+      const cls=v>=0?'sqar-pos':'sqar-neg';
+      const sign=v>=0?'+':'';
+      return '<td class="'+cls+'">'+sign+v.toFixed(1)+'%</td>';
+    };
+    tbody.innerHTML+='<tr><td>'+yr+'</td>'+fc(e)+fc(q)+fc(s)+'</tr>';
+  });
+  if(!sortedYears.length)tbody.innerHTML='<tr><td colspan="4" class="sqar-yr-empty">Sense dades — executa els screeners primer</td></tr>';
+
+  // ── Summary cards ──
+  document.getElementById('gEtfCagr').textContent=etfCagr!=null?etfCagr+'%':'—';
+  document.getElementById('gSqarCagr').textContent=sqarCagr!=null?sqarCagr+'%':'—';
+  document.getElementById('gSmaCagr').textContent=smaCagr!=null?smaCagr+'%':'—';
+
+  // Detail comparison
+  document.getElementById('gcEtfCagr').textContent=etfCagr!=null?etfCagr+'%':'—';
+  document.getElementById('gcSqarCagr').textContent=sqarCagr!=null?sqarCagr+'%':'—';
+  document.getElementById('gcSmaCagr').textContent=smaCagr!=null?smaCagr+'%':'—';
+  document.getElementById('gcEtfDD').textContent=etfDD!=null?etfDD+'%':'—';
+  document.getElementById('gcSqarDD').textContent=sqarDD!=null?sqarDD+'%':'—';
+  document.getElementById('gcSmaDD').textContent=smaDD!=null?smaDD+'%':'—';
+  document.getElementById('gcEtfCalm').textContent=etfCalm!=null?etfCalm:'—';
+  document.getElementById('gcSqarCalm').textContent=sqarCalm!=null?sqarCalm:'—';
+  document.getElementById('gcSmaCalm').textContent=smaCalm!=null?smaCalm:'—';
+
+  // ── Chart: cumulative growth ──
+  if(sortedYears.length>0&&typeof Chart!=='undefined'){
+    const labels=sortedYears;
+    const mkCumul=(yrData)=>{
+      let c=100;return labels.map(yr=>{
+        const v=yrData[yr];
+        if(v!=null)c=c*(1+v/100);
+        return Math.round(c*10)/10;
+      });
+    };
+    const etfCumul=mkCumul(etfYr);
+    const sqarCumul=mkCumul(sqarYr);
+    const smaCumul=mkCumul(smaYr);
+
+    const ctx=document.getElementById('guanysChart').getContext('2d');
+    if(_guanysChart)_guanysChart.destroy();
+    _guanysChart=new Chart(ctx,{
+      type:'line',
+      data:{
+        labels:labels,
+        datasets:[
+          {label:'ETF Momentum',data:etfCumul,borderColor:'#6c8cff',backgroundColor:'rgba(108,140,255,.08)',fill:true,tension:.3,pointRadius:2},
+          {label:'SQAR',data:sqarCumul,borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,.08)',fill:true,tension:.3,pointRadius:2},
+          {label:'SMA1300',data:smaCumul,borderColor:'#34d399',backgroundColor:'rgba(52,211,153,.08)',fill:true,tension:.3,pointRadius:2}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        interaction:{mode:'index',intersect:false},
+        plugins:{
+          legend:{labels:{color:getComputedStyle(document.documentElement).getPropertyValue('--tx').trim()||'#e8eaf0',font:{family:'Inter',size:12}}},
+          tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+c.parsed.y.toFixed(1);}}}
+        },
+        scales:{
+          x:{ticks:{color:getComputedStyle(document.documentElement).getPropertyValue('--tx3').trim()||'#6b7085',font:{size:11}},grid:{color:'rgba(128,128,128,.1)'}},
+          y:{ticks:{color:getComputedStyle(document.documentElement).getPropertyValue('--tx3').trim()||'#6b7085',callback:v=>v.toFixed(0),font:{size:11}},grid:{color:'rgba(128,128,128,.1)'}}
+        }
+      }
+    });
+  }
+}
 
 </script>
 </body>

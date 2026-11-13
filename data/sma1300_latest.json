@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-11-13T00:00:00Z",
+  "params": {
+    "sma": 1300,
+    "entryMfi": 15,
+    "exitMfi": 88,
+    "mfiPeriod": 5,
+    "sizing": 10,
+    "maxPositions": 50
+  },
+  "summary": {
+    "totalStocks": 0,
+    "buySignals": 0,
+    "sellSignals": 0,
+    "openPositions": 0,
+    "backtestCagr": null,
+    "backtestMaxDD": null,
+    "backtestCalmar": null,
+    "totalTrades": 0,
+    "winRate": null,
+    "avgWin": null,
+    "avgLoss": null,
+    "backtestYears": null
+  },
+  "buySignals": [],
+  "sellSignals": [],
+  "openPositions": [],
+  "yearlyReturns": [],
+  "recentTrades": [],
+  "_note": "Placeholder — executa l'screener via GitHub Actions per generar dades reals"
+}
