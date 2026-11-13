@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T07:34:55",
+  "generatedAt": "2026-11-13T07:47:10",
   "entryDate": "2027-03-15",
   "entryYear": 2027,
   "vintageYear": 2026,
@@ -205,15 +205,15 @@
     },
     {
       "ticker": "ANET",
-      "reason": "Îrank=+22 (fora de Â±4)"
+      "reason": "dRank=+22 (fora de +/-4)"
     },
     {
       "ticker": "TFC",
-      "reason": "Îrank=-35 (fora de Â±4)"
+      "reason": "dRank=-35 (fora de +/-4)"
     },
     {
       "ticker": "BAC",
-      "reason": "Îrank=-10 (fora de Â±4)"
+      "reason": "dRank=-10 (fora de +/-4)"
     },
     {
       "ticker": "TSLA",
@@ -221,7 +221,7 @@
     },
     {
       "ticker": "DOV",
-      "reason": "Îrank=-14 (fora de Â±4)"
+      "reason": "dRank=-13 (fora de +/-4)"
     },
     {
       "ticker": "PLD",
@@ -233,15 +233,15 @@
     },
     {
       "ticker": "UAL",
-      "reason": "Îrank=-15 (fora de Â±4)"
+      "reason": "dRank=-15 (fora de +/-4)"
     },
     {
       "ticker": "WFC",
-      "reason": "Îrank=-12 (fora de Â±4)"
+      "reason": "dRank=-12 (fora de +/-4)"
     },
     {
       "ticker": "AOS",
-      "reason": "Îrank=-6 (fora de Â±4)"
+      "reason": "dRank=-6 (fora de +/-4)"
     }
   ],
   "transitions": {
