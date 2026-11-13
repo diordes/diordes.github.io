@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T21:54:13Z",
+  "generatedAt": "2026-11-13T22:25:07Z",
   "params": {
     "sma": 1300,
     "entryMfi": 15,
@@ -13,13 +13,13 @@
     "buySignals": 0,
     "sellSignals": 0,
     "openPositions": 252,
-    "backtestCagr": 14.73,
-    "backtestMaxDD": -46.1,
-    "backtestCalmar": 0.319,
-    "totalTrades": 1191,
-    "winRate": 95.8,
-    "avgWin": 96.0,
-    "avgLoss": -25.7,
+    "backtestCagr": 14.97,
+    "backtestMaxDD": -45.9,
+    "backtestCalmar": 0.326,
+    "totalTrades": 1198,
+    "winRate": 95.7,
+    "avgWin": 97.5,
+    "avgLoss": -25.3,
     "backtestYears": 59.5
   },
   "buySignals": [],
@@ -41,7 +41,7 @@
       "entryPrice": 14.01,
       "currentPrice": 352.97,
       "pl": 2420.1,
-      "mfi": 33.0,
+      "mfi": 33.1,
       "distSma": 36.0,
       "days": 6580
     },
@@ -231,7 +231,7 @@
       "entryPrice": 14.49,
       "currentPrice": 71.06,
       "pl": 390.4,
-      "mfi": 34.1,
+      "mfi": 34.2,
       "distSma": 3.8,
       "days": 2436
     },
@@ -301,7 +301,7 @@
       "entryPrice": 19.91,
       "currentPrice": 81.16,
       "pl": 307.7,
-      "mfi": 31.4,
+      "mfi": 31.3,
       "distSma": -5.6,
       "days": 6545
     },
@@ -511,7 +511,7 @@
       "entryPrice": 60.64,
       "currentPrice": 161.33,
       "pl": 166.0,
-      "mfi": 80.3,
+      "mfi": 80.2,
       "distSma": 24.2,
       "days": 2422
     },
@@ -534,16 +534,6 @@
       "mfi": 78.9,
       "distSma": 36.6,
       "days": 2422
-    },
-    {
-      "ticker": "VFC",
-      "entryDate": "2008-10-31",
-      "entryPrice": 7.93,
-      "currentPrice": 20.68,
-      "pl": 160.9,
-      "mfi": null,
-      "distSma": -13.6,
-      "days": 6587
     },
     {
       "ticker": "HAS",
@@ -631,7 +621,7 @@
       "entryPrice": 114.56,
       "currentPrice": 266.66,
       "pl": 132.8,
-      "mfi": 45.3,
+      "mfi": 45.4,
       "distSma": 50.9,
       "days": 1498
     },
@@ -741,7 +731,7 @@
       "entryPrice": 140.4,
       "currentPrice": 285.75,
       "pl": 103.5,
-      "mfi": 76.8,
+      "mfi": 76.9,
       "distSma": 70.5,
       "days": 665
     },
@@ -1191,7 +1181,7 @@
       "entryPrice": 8.92,
       "currentPrice": 11.91,
       "pl": 33.6,
-      "mfi": 65.4,
+      "mfi": 65.3,
       "distSma": 9.0,
       "days": 686
     },
@@ -1441,7 +1431,7 @@
       "entryPrice": 174.44,
       "currentPrice": 209.49,
       "pl": 20.1,
-      "mfi": 69.0,
+      "mfi": 68.9,
       "distSma": -25.8,
       "days": 448
     },
@@ -2371,7 +2361,7 @@
       "entryPrice": 85.32,
       "currentPrice": 51.41,
       "pl": -39.7,
-      "mfi": 71.4,
+      "mfi": 71.5,
       "distSma": -47.4,
       "days": 1498
     },
@@ -2424,6 +2414,16 @@
       "mfi": 86.4,
       "distSma": -61.1,
       "days": 1498
+    },
+    {
+      "ticker": "VFC",
+      "entryDate": "2020-04-10",
+      "entryPrice": 48.23,
+      "currentPrice": 20.68,
+      "pl": -57.1,
+      "mfi": null,
+      "distSma": -13.6,
+      "days": 2408
     },
     {
       "ticker": "BAX",
@@ -2549,195 +2549,195 @@
   "yearlyReturns": [
     {
       "year": 1967,
-      "return": 3.75
+      "return": 3.7
     },
     {
       "year": 1968,
-      "return": 6.58
+      "return": 6.7
     },
     {
       "year": 1969,
-      "return": -13.18
+      "return": -13.15
     },
     {
       "year": 1970,
-      "return": 2.35
+      "return": 2.3
     },
     {
       "year": 1971,
-      "return": 15.26
+      "return": 15.35
     },
     {
       "year": 1972,
-      "return": 8.39
+      "return": 7.88
     },
     {
       "year": 1973,
-      "return": -4.63
+      "return": -4.6
     },
     {
       "year": 1974,
-      "return": -16.95
+      "return": -16.73
     },
     {
       "year": 1975,
-      "return": 36.29
+      "return": 36.15
     },
     {
       "year": 1976,
-      "return": 12.34
+      "return": 12.6
     },
     {
       "year": 1977,
-      "return": -5.65
+      "return": -4.84
     },
     {
       "year": 1978,
-      "return": 12.0
+      "return": 10.88
     },
     {
       "year": 1979,
-      "return": 6.89
+      "return": 5.18
     },
     {
       "year": 1980,
-      "return": 17.38
+      "return": 18.42
     },
     {
       "year": 1981,
-      "return": 2.34
+      "return": 2.26
     },
     {
       "year": 1982,
-      "return": 28.66
+      "return": 28.96
     },
     {
       "year": 1983,
-      "return": 15.26
+      "return": 15.52
     },
     {
       "year": 1984,
-      "return": 5.25
+      "return": 5.09
     },
     {
       "year": 1985,
-      "return": 20.31
+      "return": 18.65
     },
     {
       "year": 1986,
-      "return": 10.71
+      "return": 9.87
     },
     {
       "year": 1987,
-      "return": 7.14
+      "return": 7.6
     },
     {
       "year": 1988,
-      "return": 24.26
+      "return": 23.19
     },
     {
       "year": 1989,
-      "return": 18.08
+      "return": 18.6
     },
     {
       "year": 1990,
-      "return": -9.02
+      "return": -8.43
     },
     {
       "year": 1991,
-      "return": 43.0
+      "return": 44.05
     },
     {
       "year": 1992,
-      "return": 13.44
+      "return": 13.36
     },
     {
       "year": 1993,
-      "return": 53.51
+      "return": 56.84
     },
     {
       "year": 1994,
-      "return": 9.27
+      "return": 9.64
     },
     {
       "year": 1995,
-      "return": 24.88
+      "return": 29.59
     },
     {
       "year": 1996,
-      "return": 14.64
+      "return": 15.41
     },
     {
       "year": 1997,
-      "return": 32.24
+      "return": 33.51
     },
     {
       "year": 1998,
-      "return": 23.68
+      "return": 29.26
     },
     {
       "year": 1999,
-      "return": 42.96
+      "return": 50.65
     },
     {
       "year": 2000,
-      "return": 22.72
+      "return": 16.54
     },
     {
       "year": 2001,
-      "return": 14.26
+      "return": 16.96
     },
     {
       "year": 2002,
-      "return": -14.85
+      "return": -15.45
     },
     {
       "year": 2003,
-      "return": 31.03
+      "return": 29.13
     },
     {
       "year": 2004,
-      "return": 20.29
+      "return": 21.21
     },
     {
       "year": 2005,
-      "return": 21.77
+      "return": 20.38
     },
     {
       "year": 2006,
-      "return": 16.8
+      "return": 17.25
     },
     {
       "year": 2007,
-      "return": 2.63
+      "return": 2.08
     },
     {
       "year": 2008,
-      "return": -25.47
+      "return": -25.31
     },
     {
       "year": 2009,
-      "return": 26.68
+      "return": 26.91
     },
     {
       "year": 2010,
-      "return": 15.78
+      "return": 15.66
     },
     {
       "year": 2011,
-      "return": 2.32
+      "return": 2.62
     },
     {
       "year": 2012,
-      "return": 28.07
+      "return": 28.17
     },
     {
       "year": 2013,
-      "return": 20.47
+      "return": 20.42
     },
     {
       "year": 2014,
-      "return": 14.34
+      "return": 14.53
     },
     {
       "year": 2015,
@@ -2745,47 +2745,47 @@
     },
     {
       "year": 2016,
-      "return": 30.62
+      "return": 31.38
     },
     {
       "year": 2017,
-      "return": 29.53
+      "return": 29.66
     },
     {
       "year": 2018,
-      "return": 6.21
+      "return": 6.04
     },
     {
       "year": 2019,
-      "return": 91.03
+      "return": 90.11
     },
     {
       "year": 2020,
-      "return": 55.32
+      "return": 57.62
     },
     {
       "year": 2021,
-      "return": 25.19
+      "return": 27.13
     },
     {
       "year": 2022,
-      "return": 5.08
+      "return": 3.2
     },
     {
       "year": 2023,
-      "return": 16.73
+      "return": 16.2
     },
     {
       "year": 2024,
-      "return": 19.56
+      "return": 20.38
     },
     {
       "year": 2025,
-      "return": 18.54
+      "return": 18.69
     },
     {
       "year": 2026,
-      "return": 8.81
+      "return": 8.31
     }
   ],
   "recentTrades": [
