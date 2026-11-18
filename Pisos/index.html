@@ -1,104 +1,229 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pisos — Cercador + Calculadora LIB</title>
-  <meta name="description" content="Cercador multi-portal d'immobles amb calculadora Libertad Inmobiliaria de Carlos Galan. Zones bones/dolentes de Telegram.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buscador Semàfor LIB</title>
+<style>
+:root { --bg:#0f1117; --card:#1a1d27; --border:#2a2d3a; --text:#e4e4e7; --muted:#9ca3af; --green:#22c55e; --yellow:#eab308; --red:#ef4444; --blue:#3b82f6; }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:12px;max-width:900px;margin:0 auto;}
+.hdr{text-align:center;padding:20px 0;border-bottom:2px solid var(--border);margin-bottom:16px;}
+.hdr h1{font-size:1.6em;margin-bottom:4px;}
+.hdr p{color:var(--muted);font-size:.85em;}
+
+/* Upload area */
+.upload{background:var(--card);border:2px dashed var(--border);border-radius:12px;padding:24px;text-align:center;margin-bottom:20px;cursor:pointer;transition:.2s;}
+.upload:hover{border-color:var(--blue);}
+.upload input{display:none;}
+.upload .icon{font-size:2em;margin-bottom:8px;}
+.upload p{color:var(--muted);font-size:.9em;}
+.upload .btn{display:inline-block;margin-top:12px;padding:8px 20px;background:var(--blue);color:#fff;border-radius:8px;font-size:.9em;}
+
+/* Stats bar */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+.stat{background:var(--card);border-radius:10px;padding:12px;text-align:center;border:1px solid var(--border);}
+.stat .n{font-size:1.6em;font-weight:700;}
+.stat .l{font-size:.7em;color:var(--muted);}
+
+/* Filters */
+.flt{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;justify-content:center;}
+.flt button{padding:6px 14px;border-radius:18px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:.82em;transition:.2s;}
+.flt button.on{border-color:var(--blue);background:rgba(59,130,246,.12);color:var(--blue);}
+
+/* Cards */
+.card{background:var(--card);border-radius:10px;padding:16px;margin-bottom:12px;border-left:4px solid var(--border);position:relative;}
+.card.comprar{border-left-color:var(--green);}
+.card.estudiar{border-left-color:var(--yellow);}
+.card.passar{border-left-color:var(--red);}
+.badge{position:absolute;top:12px;right:12px;padding:3px 10px;border-radius:16px;font-size:.75em;font-weight:600;}
+.card.comprar .badge{background:rgba(34,197,94,.12);color:var(--green);}
+.card.estudiar .badge{background:rgba(234,179,8,.12);color:var(--yellow);}
+.card.passar .badge{background:rgba(239,68,68,.12);color:var(--red);}
+.card h3{font-size:1em;margin-bottom:2px;padding-right:90px;}
+.card .meta{color:var(--muted);font-size:.82em;margin-bottom:10px;}
+.mets{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;margin-bottom:8px;}
+.met{background:rgba(255,255,255,.025);border-radius:6px;padding:6px 8px;}
+.met .v{font-size:1em;font-weight:600;}
+.met .v.ok{color:var(--green);}
+.met .v.ko{color:var(--red);}
+.met .k{font-size:.7em;color:var(--muted);}
+.chks{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;}
+.chk{font-size:.75em;padding:1px 7px;border-radius:10px;}
+.chk.p{background:rgba(34,197,94,.08);color:var(--green);}
+.chk.f{background:rgba(239,68,68,.08);color:var(--red);}
+.chk.w{background:rgba(234,179,8,.08);color:var(--yellow);}
+.nt{font-size:.8em;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px solid var(--border);}
+.lnk{display:inline-block;margin-top:6px;padding:5px 12px;border-radius:6px;text-decoration:none;font-size:.82em;font-weight:500;}
+.lnk.idealista{background:#1daf17;color:#fff;}
+.lnk.fotocasa{background:#e7430a;color:#fff;}
+.lnk.habitaclia{background:#ff6600;color:#fff;}
+.lnk.bank{background:#4a5568;color:#fff;}
+.zt{display:inline-block;padding:1px 7px;border-radius:8px;font-size:.7em;font-weight:600;margin-left:6px;}
+.zt.bona{background:rgba(34,197,94,.12);color:var(--green);}
+.zt.neutra{background:rgba(234,179,8,.12);color:var(--yellow);}
+.zt.evitar{background:rgba(239,68,68,.12);color:var(--red);}
+.info{text-align:center;color:var(--muted);font-size:.78em;padding:16px 0;}
+.empty{text-align:center;padding:40px;color:var(--muted);}
+.empty .icon{font-size:3em;margin-bottom:12px;}
+#results{min-height:200px;}
+.portal-tag{display:inline-block;padding:1px 6px;border-radius:6px;font-size:.7em;background:rgba(255,255,255,.06);color:var(--muted);margin-left:6px;}
+@media(max-width:600px){.mets{grid-template-columns:repeat(3,1fr);}.card h3{padding-right:0;}.badge{position:static;display:inline-block;margin-bottom:6px;}.stats{grid-template-columns:repeat(2,1fr);}}
+</style>
 </head>
 <body>
-<div class="wrap">
 
-  <!-- ── HEADER ────────────────────────────────────────────── -->
-  <header class="hero">
-    <p style="margin:0;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg2);font-size:0.72rem">diordes.github.io</p>
-    <h1>Pisos</h1>
-    <p>Cercador multi-portal + Calculadora <strong>Libertad Inmobiliaria</strong> (Carlos Galan)</p>
-  </header>
-
-  <!-- ── FILTRES ───────────────────────────────────────────── -->
-  <section>
-    <h2>🔍 Filtres de cerca</h2>
-    <div class="filter-grid">
-      <label>Localitat <select id="fCity"></select></label>
-      <label>Operacio <select id="fOp"><option value="buy">Comprar</option><option value="rent">Lloguer</option></select></label>
-      <label>Preu min. (EUR) <input id="fPriceMin" type="number" min="0" step="1000" placeholder="40000"></label>
-      <label>Preu max. (EUR) <input id="fPriceMax" type="number" min="0" step="1000" placeholder="70000"></label>
-      <label>m2 min. <input id="fSizeMin" type="number" min="0" placeholder="—"></label>
-      <label>m2 max. <input id="fSizeMax" type="number" min="0" placeholder="—"></label>
-      <label>Habitacions <select id="fRooms"><option value="any">Indiferent</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></label>
-      <label>Lavabos <select id="fBaths"><option value="any">Indiferent</option><option value="1">1+</option><option value="2">2+</option></select></label>
-    </div>
-    <div class="filter-actions">
-      <button class="btn btn-primary" id="btnOpenAll">Obrir tots els portals</button>
-    </div>
-  </section>
-
-  <!-- ── PORTALS ───────────────────────────────────────────── -->
-  <section>
-    <h2>🏠 Portals de cerca</h2>
-    <p class="note">Cada boto obre la cerca amb els filtres que has posat. Inclou portals generals + pisos de bancs (del curs LIB).</p>
-    <div id="portals"></div>
-  </section>
-
-  <!-- ── CALCULADORA LIB ───────────────────────────────────── -->
-  <section>
-    <h2>🧮 Calculadora Libertad Inmobiliaria</h2>
-    <p style="color:var(--fg2);font-size:0.85rem;margin-top:0">Posa les dades d'un pis i mira si compleix els criteris de Carlos Galan. Resultats en temps real.</p>
-    <div class="calc-grid">
-      <label>Preu compra (EUR) <input id="cPrecio" type="number" min="0" step="1000" value="48200"></label>
-      <label>Lloguer estimat (EUR/mes) <input id="cRenta" type="number" min="0" step="10" value="400"></label>
-      <label>Comunitat Autonoma <select id="cCCAA"></select></label>
-      <label>Reforma (EUR) <input id="cReforma" type="number" min="0" step="500" value="0"></label>
-      <label>Comissio agencia (EUR) <input id="cComision" type="number" min="0" step="100" value="0"></label>
-      <label>% Hipoteca <input id="cPctHip" type="number" min="0" max="100" step="5" value="80"></label>
-      <label>Tipus interes (%) <input id="cInteres" type="number" min="0" max="10" step="0.1" value="3.5"></label>
-      <label>Termini (anys) <input id="cPlazo" type="number" min="1" max="40" value="30"></label>
-      <label>Comunitat veins (EUR/mes) <input id="cComunidad" type="number" min="0" step="5" value="35"></label>
-      <label>IBI (EUR/any) <input id="cIBI" type="number" min="0" step="10" value="180"></label>
-    </div>
-    <div id="calcResult"></div>
-  </section>
-
-  <!-- ── RESULTATS IMPORTATS ───────────────────────────────── -->
-  <section>
-    <h2>📊 Resultats (importar de Colab)</h2>
-    <div class="import-row">
-      <label class="btn btn-ghost" style="cursor:pointer">
-        📂 Importar JSON
-        <input type="file" id="fileImport" accept=".json" style="display:none">
-      </label>
-      <span style="color:var(--fg2);font-size:0.82rem">Executa l'script <code>colab_scraper.py</code> i importa el fitxer <code>resultats_pisos.json</code></span>
-    </div>
-    <div id="results"></div>
-  </section>
-
-  <!-- ── ZONES ─────────────────────────────────────────────── -->
-  <section>
-    <h2>📍 Zones — recomanacions del Telegram</h2>
-    <div id="zones"></div>
-  </section>
-
-  <!-- ── TELEGRAM ──────────────────────────────────────────── -->
-  <section>
-    <h2>💬 Telegram — grups Libertad Inmobiliaria</h2>
-    <div id="telegram"></div>
-  </section>
-
-  <!-- ── FOOTER ────────────────────────────────────────────── -->
-  <footer>
-    Eina personal de <a href="https://diordes.github.io/">diordes.github.io</a> · Metodologia basada en el curs Libertad Inmobiliaria de Carlos Galan · No es assessorament immobiliari ni financer
-  </footer>
-
+<div class="hdr">
+  <h1>🏠 Buscador Semàfor LIB</h1>
+  <p>Mètode Libertad Inmobiliaria (Carlos Galán) · Cerca multi-portal · Anàlisi automàtica</p>
 </div>
 
-<script src="./data/cities.js"></script>
-<script src="./data/zones.js"></script>
-<script src="./data/telegram.js"></script>
-<script src="./app.js"></script>
+<div class="upload" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+  <input type="file" id="fileInput" accept=".json">
+  <div class="icon">📂</div>
+  <p><strong>Carrega resultats_lib.json</strong><br>Generat amb l'script de Colab</p>
+  <span class="btn">Seleccionar fitxer</span>
+</div>
+
+<div id="dashboard" style="display:none;">
+  <div class="stats" id="statsBar"></div>
+  <div class="flt" id="filters"></div>
+  <div id="results"></div>
+  <div class="info" id="infoBar"></div>
+</div>
+
+<div class="empty" id="emptyState">
+  <div class="icon">🔍</div>
+  <p><strong>Com funciona:</strong></p>
+  <p>1️⃣ Executa <code>buscador_lib.py</code> a Google Colab</p>
+  <p>2️⃣ Descarrega el <code>resultats_lib.json</code></p>
+  <p>3️⃣ Carrega'l aquí amunt</p>
+  <p style="margin-top:12px;">L'script busca a Idealista, Fotocasa, Haya, Solvia, Servihabitat, Altamira, Aliseda, CaixaBank i Anticipa.</p>
+  <p style="margin-top:8px;">Cada pis es passa per la calculadora LIB i rep un semàfor 🟢🟡🔴</p>
+</div>
+
+<script>
+let allPisos = [];
+const semLabel = {comprar:'🟢 COMPRAR', estudiar:'🟡 ESTUDIAR', passar:'🔴 PASSAR'};
+const allChecks = {bruta:'Bruta ≥7%', neta:'Neta ≥4%', per:'PER ≤15', cf:'CF positiu', zona:'Zona bona'};
+
+function portalClass(portal) {
+  const p = portal.toLowerCase();
+  if (p === 'idealista') return 'idealista';
+  if (p === 'fotocasa') return 'fotocasa';
+  if (p === 'habitaclia') return 'habitaclia';
+  return 'bank';
+}
+
+function renderCard(p) {
+  const checksHtml = Object.entries(allChecks).map(([k,v]) => {
+    if (p.checks.includes(k)) return `<span class="chk p">✅ ${v}</span>`;
+    if (k==='zona' && p.zonaClass==='evitar') return `<span class="chk f">🔴 Zona evitar</span>`;
+    if (k==='zona' && p.zonaClass==='neutra') return `<span class="chk w">🟡 Zona neutra</span>`;
+    return `<span class="chk f">❌ ${v}</span>`;
+  }).join('');
+
+  return `<div class="card ${p.semfor}" data-s="${p.semfor}" data-p="${p.portal.toLowerCase()}">
+    <span class="badge">${semLabel[p.semfor]}</span>
+    <h3>${p.nom} <span class="zt ${p.zonaClass}">${p.zona||p.ciutat}</span> <span class="portal-tag">${p.portal}</span></h3>
+    <div class="meta">💰 ${p.preu.toLocaleString('ca')}€ · ${p.habs}hab · ${p.m2}m² · Renda est: ${p.renda}€/mes${p.alquilat?' · 🔑 Alquilat':''}</div>
+    <div class="mets">
+      <div class="met"><div class="v ${p.bruta>=7?'ok':'ko'}">${p.bruta}%</div><div class="k">Rent. Bruta</div></div>
+      <div class="met"><div class="v ${p.neta>=4?'ok':'ko'}">${p.neta}%</div><div class="k">Rent. Neta</div></div>
+      <div class="met"><div class="v ${p.per<=15?'ok':'ko'}">${p.per}</div><div class="k">PER</div></div>
+      <div class="met"><div class="v ${p.cf>=0?'ok':'ko'}">${p.cf>=0?'+':''}${p.cf}€</div><div class="k">Cashflow/mes</div></div>
+      <div class="met"><div class="v">${p.rentCap}%</div><div class="k">Rent/Capital</div></div>
+      <div class="met"><div class="v">${p.quota}€</div><div class="k">Quota hipo</div></div>
+    </div>
+    <div class="chks">${checksHtml}</div>
+    ${p.notes?`<div class="nt">📝 ${p.notes}</div>`:''}
+    <a class="lnk ${portalClass(p.portal)}" href="${p.url}" target="_blank" rel="noopener">🔗 Veure a ${p.portal}</a>
+  </div>`;
+}
+
+function render(filtreS, filtreP) {
+  let pisos = allPisos;
+  if (filtreS && filtreS !== 'tots') pisos = pisos.filter(p => p.semfor === filtreS);
+  if (filtreP && filtreP !== 'tots') pisos = pisos.filter(p => p.portal.toLowerCase() === filtreP.toLowerCase());
+  document.getElementById('results').innerHTML = pisos.length ? pisos.map(renderCard).join('') : '<div class="empty"><p>Cap pis amb aquests filtres</p></div>';
+}
+
+let currentS = 'tots', currentP = 'tots';
+
+function loadData(data) {
+  allPisos = data.pisos || [];
+  const r = data.resum || {};
+  
+  document.getElementById('dashboard').style.display = '';
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('uploadArea').style.display = 'none';
+  
+  // Stats
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stat"><div class="n" style="color:var(--green)">${r.comprar||0}</div><div class="l">🟢 COMPRAR</div></div>
+    <div class="stat"><div class="n" style="color:var(--yellow)">${r.estudiar||0}</div><div class="l">🟡 ESTUDIAR</div></div>
+    <div class="stat"><div class="n" style="color:var(--red)">${r.passar||0}</div><div class="l">🔴 PASSAR</div></div>
+    <div class="stat"><div class="n">${r.total||allPisos.length}</div><div class="l">TOTAL</div></div>
+  `;
+  
+  // Filters: semàfor + portals
+  const portals = [...new Set(allPisos.map(p => p.portal))];
+  let fhtml = `<button class="on" data-f="s:tots">Tots (${allPisos.length})</button>`;
+  fhtml += `<button data-f="s:comprar">🟢 (${r.comprar||0})</button>`;
+  fhtml += `<button data-f="s:estudiar">🟡 (${r.estudiar||0})</button>`;
+  fhtml += `<button data-f="s:passar">🔴 (${r.passar||0})</button>`;
+  fhtml += `<span style="color:var(--border);padding:0 4px">|</span>`;
+  portals.forEach(p => {
+    const n = allPisos.filter(x => x.portal === p).length;
+    fhtml += `<button data-f="p:${p.toLowerCase()}">${p} (${n})</button>`;
+  });
+  document.getElementById('filters').innerHTML = fhtml;
+  
+  document.querySelectorAll('.flt button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const [type, val] = btn.dataset.f.split(':');
+      if (type === 's') {
+        currentS = val;
+        document.querySelectorAll('.flt button[data-f^="s:"]').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+      } else {
+        if (currentP === val) { currentP = 'tots'; btn.classList.remove('on'); }
+        else { document.querySelectorAll('.flt button[data-f^="p:"]').forEach(b => b.classList.remove('on')); currentP = val; btn.classList.add('on'); }
+      }
+      render(currentS, currentP);
+    });
+  });
+  
+  // Info
+  const cfg = data.config || {};
+  document.getElementById('infoBar').innerHTML = `
+    Generat: ${data.generatEl||'—'} · ${cfg.preuMin?.toLocaleString('ca')||'30K'}–${cfg.preuMax?.toLocaleString('ca')||'70K'}€ · 
+    Hipoteca ${(cfg.hipotecaPct*100)||80}% a ${cfg.interesFix||3.5}% fix · 
+    Ciutats: ${cfg.ciutats?.join(', ')||'—'}
+  `;
+  
+  render('tots', 'tots');
+}
+
+// File input
+document.getElementById('fileInput').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      loadData(data);
+    } catch(err) { alert('Error llegint JSON: ' + err.message); }
+  };
+  reader.readAsText(file);
+});
+
+// Also try loading from data/ folder automatically
+fetch('data/resultats_lib.json')
+  .then(r => { if (r.ok) return r.json(); throw 'no file'; })
+  .then(data => loadData(data))
+  .catch(() => {});
+</script>
 </body>
 </html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informe Semàfor LIB — Lleida nov 2026</title>
+<style>
+:root {
+  --bg: #0f1117;
+  --card: #1a1d27;
+  --border: #2a2d3a;
+  --text: #e4e4e7;
+  --muted: #9ca3af;
+  --green: #22c55e;
+  --yellow: #eab308;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --orange: #f97316;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; padding: 16px; }
+.header { text-align:center; padding: 24px 0; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
+.header h1 { font-size: 1.8em; margin-bottom: 8px; }
+.header .params { color: var(--muted); font-size: 0.9em; }
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.summary-card { background: var(--card); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid var(--border); }
+.summary-card .num { font-size: 2em; font-weight: 700; }
+.summary-card .label { font-size: 0.8em; color: var(--muted); }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; justify-content: center; }
+.filters button { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; font-size: 0.85em; transition: all 0.2s; }
+.filters button.active { border-color: var(--blue); background: rgba(59,130,246,0.15); color: var(--blue); }
+.filters button:hover { border-color: var(--blue); }
+.pis-card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 16px; border-left: 4px solid var(--border); position: relative; }
+.pis-card.comprar { border-left-color: var(--green); }
+.pis-card.estudiar { border-left-color: var(--yellow); }
+.pis-card.passar { border-left-color: var(--red); }
+.pis-card .semfor-badge { position: absolute; top: 16px; right: 16px; padding: 4px 12px; border-radius: 20px; font-size: 0.8em; font-weight: 600; }
+.pis-card.comprar .semfor-badge { background: rgba(34,197,94,0.15); color: var(--green); }
+.pis-card.estudiar .semfor-badge { background: rgba(234,179,8,0.15); color: var(--yellow); }
+.pis-card.passar .semfor-badge { background: rgba(239,68,68,0.15); color: var(--red); }
+.pis-card h3 { font-size: 1.1em; margin-bottom: 4px; padding-right: 100px; }
+.pis-card .meta { color: var(--muted); font-size: 0.85em; margin-bottom: 12px; }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-bottom: 12px; }
+.metric { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 8px 12px; }
+.metric .val { font-size: 1.1em; font-weight: 600; }
+.metric .val.ok { color: var(--green); }
+.metric .val.ko { color: var(--red); }
+.metric .lbl { font-size: 0.75em; color: var(--muted); }
+.checks { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.check { font-size: 0.8em; padding: 2px 8px; border-radius: 12px; }
+.check.pass { background: rgba(34,197,94,0.1); color: var(--green); }
+.check.fail { background: rgba(239,68,68,0.1); color: var(--red); }
+.check.warn { background: rgba(234,179,8,0.1); color: var(--yellow); }
+.notes { font-size: 0.85em; color: var(--muted); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+.link-idealista { display: inline-block; margin-top: 8px; padding: 6px 14px; background: var(--blue); color: white; border-radius: 8px; text-decoration: none; font-size: 0.85em; }
+.link-idealista:hover { opacity: 0.85; }
+.zona-tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.75em; font-weight: 600; margin-left: 8px; }
+.zona-tag.bona { background: rgba(34,197,94,0.15); color: var(--green); }
+.zona-tag.neutra { background: rgba(234,179,8,0.15); color: var(--yellow); }
+.zona-tag.evitar { background: rgba(239,68,68,0.15); color: var(--red); }
+.top3 { background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(34,197,94,0.1)); border: 1px solid rgba(59,130,246,0.3); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+.top3 h2 { margin-bottom: 12px; }
+.top3-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.top3-item:last-child { border-bottom: none; }
+.top3-rank { font-size: 1.5em; min-width: 40px; text-align: center; }
+.top3-info h4 { font-size: 1em; }
+.top3-info .stats { color: var(--muted); font-size: 0.85em; }
+.timestamp { text-align: center; color: var(--muted); font-size: 0.8em; padding: 20px 0; }
+@media (max-width: 600px) {
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .summary { grid-template-columns: repeat(2, 1fr); }
+  .pis-card h3 { padding-right: 0; }
+  .pis-card .semfor-badge { position: static; display: inline-block; margin-bottom: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏠 Informe Semàfor LIB</h1>
+  <div class="params">
+    Lleida · nov 2026 · 40-70K · Hipoteca 80% · 3.50% fix · ITP Cat 10%<br>
+    Mètode: <strong>Libertad Inmobiliaria</strong> (Carlos Galán)
+  </div>
+</div>
+
+<div class="summary">
+  <div class="summary-card"><div class="num" style="color:var(--green)">7</div><div class="label">🟢 COMPRAR</div></div>
+  <div class="summary-card"><div class="num" style="color:var(--yellow)">5</div><div class="label">🟡 ESTUDIAR</div></div>
+  <div class="summary-card"><div class="num" style="color:var(--red)">3</div><div class="label">🔴 PASSAR</div></div>
+  <div class="summary-card"><div class="num" style="color:var(--muted)">3</div><div class="label">⛔ DESCARTATS</div></div>
+</div>
+
+<div class="top3">
+  <h2>🏆 TOP 3 Recomanats</h2>
+  <div class="top3-item">
+    <div class="top3-rank">🥇</div>
+    <div class="top3-info">
+      <h4>C/Nord, Rambla Ferran — 37.000€</h4>
+      <div class="stats">Bruta 13.0% · CF +90€/mes · PER 7.7 · 2hab 65m² · ⚠️ 6è sense ascensor</div>
+    </div>
+  </div>
+  <div class="top3-item">
+    <div class="top3-rank">🥈</div>
+    <div class="top3-info">
+      <h4>C/Major 8, Centre Històric — 65.000€</h4>
+      <div class="stats">Bruta 8.3% · CF +6€/mes · PER 12.0 · JA ALQUILAT · Zona top (Ricard Vinyes)</div>
+    </div>
+  </div>
+  <div class="top3-item">
+    <div class="top3-rank">🥉</div>
+    <div class="top3-info">
+      <h4>Ronda Seu Vella, Centre — 62.000€</h4>
+      <div class="stats">Bruta 9.3% · CF +43€/mes · PER 10.8 · 3hab · Rebaixat 69K→62K · A reformar</div>
+    </div>
+  </div>
+</div>
+
+<div class="filters">
+  <button class="active" onclick="filtrar('tots')">Tots (15)</button>
+  <button onclick="filtrar('comprar')">🟢 Comprar (7)</button>
+  <button onclick="filtrar('estudiar')">🟡 Estudiar (5)</button>
+  <button onclick="filtrar('passar')">🔴 Passar (3)</button>
+</div>
+
+<div id="llista"></div>
+
+<div class="timestamp">
+  Generat: 18 nov 2026 · Rendes estimades via Idealista/Fotocasa · Zones: Grup Telegram LLEIDA LIB (477 membres)
+</div>
+
+<script>
+const pisos = [
+  { nom:"C/Nord, Rambla Ferran", preu:37000, m2:65, habs:2, renda:400, zona:"Rambla Ferran-Estaciò", zonaClass:"neutra", bruta:13.0, neta:6.6, per:7.7, cf:90, rentCap:21.0, quota:148, capInv:13600, semfor:"comprar", checks:["bruta","neta","per","cf"], id:"112926896", notes:"6è sense ascensor. Preu molt baix." },
+  { nom:"C/Nord, Rambla Ferran (IN immo)", preu:37000, m2:65, habs:2, renda:400, zona:"Rambla Ferran-Estaciò", zonaClass:"neutra", bruta:13.0, neta:6.6, per:7.7, cf:90, rentCap:21.0, quota:148, capInv:13600, semfor:"comprar", checks:["bruta","neta","per","cf"], id:"111473267", notes:"Mateix pis, altra agència. 6è sense ascensor." },
+  { nom:"C/Major 8, Centre Històric", preu:65000, m2:55, habs:2, renda:450, zona:"Centre Històric", zonaClass:"bona", bruta:8.3, neta:4.3, per:12.0, cf:6, rentCap:14.5, quota:260, capInv:22000, semfor:"comprar", checks:["bruta","neta","per","cf","zona"], id:"109481102", notes:"JA ALQUILAT. 3ª ext+ascensor. Bon estat. Prop Ricard Vinyes." },
+  { nom:"C/Major, Centre Històric (ext+asc)", preu:65000, m2:52, habs:2, renda:450, zona:"Centre Històric", zonaClass:"bona", bruta:8.3, neta:4.3, per:12.0, cf:6, rentCap:14.5, quota:260, capInv:22000, semfor:"comprar", checks:["bruta","neta","per","cf","zona"], id:"104814143", notes:"1ª planta exterior+ascensor. Prop Ricard Vinyes." },
+  { nom:"Ronda Seu Vella, Centre", preu:62000, m2:62, habs:3, renda:480, zona:"Centre Històric", zonaClass:"bona", bruta:9.3, neta:4.6, per:10.8, cf:43, rentCap:13.4, quota:248, capInv:26100, semfor:"comprar", checks:["bruta","neta","per","cf","zona"], id:"112140016", notes:"Rebaixat 69K→62K. A reformar (~5K€). 3 habitacions!" },
+  { nom:"C/Joan Baget, Universitat", preu:35000, m2:43, habs:1, renda:350, zona:"Universitat", zonaClass:"bona", bruta:12.0, neta:5.8, per:8.3, cf:59, rentCap:18.3, quota:140, capInv:13000, semfor:"comprar", checks:["bruta","neta","per","cf","zona"], id:"112926966", notes:"⚠️ Anunci diu 'suelo' — VERIFICAR si és residencial. Zona TOP segons Telegram." },
+  { nom:"Casa Pardinyes", preu:55000, m2:54, habs:2, renda:400, zona:"Pardinyes", zonaClass:"neutra", bruta:8.7, neta:4.4, per:11.5, cf:10, rentCap:14.6, quota:220, capInv:19000, semfor:"comprar", checks:["bruta","neta","per","cf"], id:"113093953", notes:"Casa unifamiliar 1 planta. Possibilitat d'edificar en alçada." },
+  { nom:"C/Major, Centre Històric (interior)", preu:65000, m2:50, habs:2, renda:420, zona:"Centre Històric", zonaClass:"bona", bruta:7.8, neta:3.9, per:12.9, cf:-18, rentCap:13.2, quota:260, capInv:22000, semfor:"estudiar", checks:["bruta","per","zona"], id:"104814176", notes:"Interior amb ascensor. Bona zona però cashflow negatiu." },
+  { nom:"C/Músic Vivaldi, Mariola", preu:42000, m2:41, habs:2, renda:350, zona:"Mariola", zonaClass:"evitar", bruta:10.0, neta:4.8, per:10.0, cf:28, rentCap:15.6, quota:168, capInv:15100, semfor:"estudiar", checks:["bruta","neta","per","cf"], id:"110897957", notes:"Números excel·lents però Mariola — Telegram diu evitar." },
+  { nom:"C/Joan Carles, Mariola", preu:47500, m2:75, habs:3, renda:420, zona:"Mariola", zonaClass:"evitar", bruta:10.6, neta:5.5, per:9.4, cf:59, rentCap:17.9, quota:190, capInv:16750, semfor:"estudiar", checks:["bruta","neta","per","cf"], id:"112887573", notes:"⚠️ Podria ser als Bloques Juan Carlos — evitar segons Telegram!" },
+  { nom:"Mariola 120m² (alquilat)", preu:50460, m2:120, habs:3, renda:450, zona:"Mariola", zonaClass:"evitar", bruta:10.7, neta:5.6, per:9.3, cf:70, rentCap:18.5, quota:202, capInv:17638, semfor:"estudiar", checks:["bruta","neta","per","cf"], id:"107724118", notes:"Ja alquilat (contracte vençut). 420€/m² molt barat. Zona Mariola." },
+  { nom:"C/Borges Blanques, La Bordeta", preu:59000, m2:44, habs:1, renda:370, zona:"La Bordeta", zonaClass:"neutra", bruta:7.5, neta:3.6, per:13.3, cf:-32, rentCap:12.2, quota:236, capInv:20200, semfor:"estudiar", checks:["bruta","per"], id:"112609493", notes:"Petit, sense ascensor. Cashflow negatiu." },
+  { nom:"C/Comerç, Rambla Ferran", preu:70000, m2:55, habs:1, renda:400, zona:"Rambla Ferran-Estaciò", zonaClass:"neutra", bruta:6.9, neta:3.4, per:14.6, cf:-56, rentCap:11.4, quota:280, capInv:23500, semfor:"passar", checks:["per"], id:"111872314", notes:"Local comercial acondicionat. Rebaixat 78K→70K." },
+  { nom:"C/Júpiter, Mariola (reformar)", preu:70000, m2:91, habs:3, renda:450, zona:"Mariola", zonaClass:"evitar", bruta:7.7, neta:3.4, per:13.0, cf:-16, rentCap:8.2, quota:280, capInv:38500, semfor:"passar", checks:["bruta","per"], id:"112047569", notes:"A reformar (~15K€). Mariola depenent del carrer (Sergio Lacort)." },
+  { nom:"C/Penedès, Balafia", preu:70000, m2:44, habs:1, renda:370, zona:"Balafia", zonaClass:"neutra", bruta:6.3, neta:3.0, per:15.8, cf:-80, rentCap:10.2, quota:280, capInv:23500, semfor:"passar", checks:[], id:"109598831", notes:"Entresuelo interior. Cap mètrica LIB complida." },
+];
+
+const allChecks = {bruta:"Bruta ≥7%", neta:"Neta ≥4%", per:"PER ≤15", cf:"CF positiu", zona:"Zona bona"};
+
+function renderPis(p) {
+  const semLabel = {comprar:"🟢 COMPRAR", estudiar:"🟡 ESTUDIAR", passar:"🔴 PASSAR"};
+  const checksHtml = Object.entries(allChecks).map(([k,v]) => {
+    if (p.checks.includes(k)) return `<span class="check pass">✅ ${v}</span>`;
+    if (k === "zona" && p.zonaClass === "evitar") return `<span class="check fail">🔴 Zona evitar</span>`;
+    if (k === "zona" && p.zonaClass === "neutra") return `<span class="check warn">🟡 Zona neutra</span>`;
+    return `<span class="check fail">❌ ${v}</span>`;
+  }).join('');
+
+  return `<div class="pis-card ${p.semfor}" data-semfor="${p.semfor}">
+    <span class="semfor-badge">${semLabel[p.semfor]}</span>
+    <h3>${p.nom} <span class="zona-tag ${p.zonaClass}">${p.zona}</span></h3>
+    <div class="meta">💰 ${p.preu.toLocaleString('ca')}€ · ${p.habs}hab · ${p.m2}m² · Renda est: ${p.renda}€/mes</div>
+    <div class="metrics">
+      <div class="metric"><div class="val ${p.bruta>=7?'ok':'ko'}">${p.bruta.toFixed(1)}%</div><div class="lbl">Rent. Bruta</div></div>
+      <div class="metric"><div class="val ${p.neta>=4?'ok':'ko'}">${p.neta.toFixed(1)}%</div><div class="lbl">Rent. Neta</div></div>
+      <div class="metric"><div class="val ${p.per<=15?'ok':'ko'}">${p.per.toFixed(1)}</div><div class="lbl">PER</div></div>
+      <div class="metric"><div class="val ${p.cf>=0?'ok':'ko'}">${p.cf>=0?'+':''}${p.cf}€</div><div class="lbl">Cashflow/mes</div></div>
+      <div class="metric"><div class="val">${p.rentCap.toFixed(1)}%</div><div class="lbl">Rent/Capital</div></div>
+      <div class="metric"><div class="val">${p.quota}€</div><div class="lbl">Quota hipo</div></div>
+    </div>
+    <div class="checks">${checksHtml}</div>
+    <div class="notes">📝 ${p.notes}</div>
+    <a class="link-idealista" href="https://www.idealista.com/inmueble/${p.id}/" target="_blank" rel="noopener">🔗 Veure a Idealista</a>
+  </div>`;
+}
+
+function filtrar(tipus) {
+  document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const cards = document.querySelectorAll('.pis-card');
+  cards.forEach(c => {
+    if (tipus === 'tots') { c.style.display = ''; }
+    else { c.style.display = c.dataset.semfor === tipus ? '' : 'none'; }
+  });
+}
+
+// Render
+document.getElementById('llista').innerHTML = pisos.map(renderPis).join('');
+</script>
+</body>
+</html>
