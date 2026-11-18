@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ca">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pisos — cerca multi-portal</title>
+    <meta
+      name="description"
+      content="Filtra localitat, preu, m² i lavabos; obre cerques a Idealista, Fotocasa i més, més Telegram i notes de zones."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;700&family=Manrope:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="hero">
+        <p style="margin:0;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#0f5c4c;font-size:0.78rem">
+          diordes.github.io
+        </p>
+        <h1 class="brand">Pisos</h1>
+        <p>
+          Tria filtres (opcionals) i obre la mateixa cerca a Idealista, Fotocasa,
+          Habitaclia i més. També enllaços a Telegram per ciutat i una lectura
+          ràpida de zones bones / amb cautela.
+        </p>
+        <div class="note">
+          <strong>Important:</strong> aquesta pàgina <em>no raspalla</em> Idealista,
+          Fotocasa ni Telegram (van contra els seus termes i tenen antibot). Genera
+          enllaços de cerca perquè tu revisis els resultats als portals oficials.
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="grid">
+          <label>
+            Localitat
+            <select id="city"></select>
+          </label>
+          <label>
+            Operació
+            <select id="operation">
+              <option value="buy">Comprar</option>
+              <option value="rent">Lloguer</option>
+            </select>
+          </label>
+          <label>
+            Preu mín. (€)
+            <input id="priceMin" type="number" min="0" step="1000" placeholder="opcional" />
+          </label>
+          <label>
+            Preu màx. (€)
+            <input id="priceMax" type="number" min="0" step="1000" placeholder="opcional" />
+          </label>
+          <label>
+            m² mín.
+            <input id="sizeMin" type="number" min="0" step="1" placeholder="opcional" />
+          </label>
+          <label>
+            m² màx.
+            <input id="sizeMax" type="number" min="0" step="1" placeholder="opcional" />
+          </label>
+          <label>
+            Habitacions
+            <select id="rooms">
+              <option value="any">Indiferent</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+            </select>
+          </label>
+          <label>
+            Lavabos
+            <select id="baths">
+              <option value="any">Indiferent</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-primary" id="openAll">
+            Obrir Idealista + Fotocasa + altres
+          </button>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Portals</h2>
+        <p>Cada botó obre la cerca amb els filtres que has posat (si el portal ho permet a la URL).</p>
+        <div id="portals" class="portal-list"></div>
+      </section>
+
+      <section class="section">
+        <h2>Telegram</h2>
+        <p>
+          Grups tipus Libertad Inmobiliaria (per població). No llegim el contingut
+          automàticament: t’hi portem perquè miris tu els anuncis.
+        </p>
+        <div id="telegram"></div>
+      </section>
+
+      <section class="section">
+        <h2>Zones — <span id="zoneCityLabel">—</span></h2>
+        <p>Orientació ràpida. Contrast-ho sempre amb visita i dades actuals.</p>
+        <div class="cards two">
+          <article class="card ok">
+            <h3>Zones amb millor base</h3>
+            <ul id="zonesGood"></ul>
+          </article>
+          <article class="card warn">
+            <h3>Més cautela</h3>
+            <ul id="zonesBad"></ul>
+          </article>
+        </div>
+      </section>
+
+      <footer>
+        Eina personal a
+        <a href="https://diordes.github.io/">diordes.github.io</a> · No és
+        assessorament immobiliari ni financer · Els portals poden canviar les seves URLs.
+      </footer>
+    </main>
+
+    <script src="./data/cities.js"></script>
+    <script src="./data/zones.js"></script>
+    <script src="./data/telegram.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
