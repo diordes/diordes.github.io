@@ -1,99 +1,91 @@
 /**
- * Orientació de barris (no és assessorament). Revisa sempre dades actuals
- * (soroll, turisme, obres, inundabilitat, preu €/m²).
+ * Dades de zones per ciutat.
+ * Les de Lleida son REALS — extretes del grup Telegram
+ * "LLEIDA Libertad Inmobiliaria" (477 membres, nov 2026).
+ * La resta son orientatives.
  */
 window.PISOS_ZONES = {
-  barcelona: {
+  lleida: {
     bones: [
-      "Eixample (Dreta / parts de l’Esquerra consolidada)",
-      "Gràcia (zones tranquil·les, lluny de places molt turístiques)",
-      "Sant Gervasi – Galvany / Putxet",
-      "Poblenou (eixos interiors, no primera línia massificada)",
-      "Les Corts (prop de Zona Universitària / Coliseum)",
+      "Ricard Vinyes i voltants (Centre) — la mes cotitzada (Xavier G, propietari)",
+      "Universitat — confirmada bona (Asun)",
+      "Zona del Clot (Sergio Lacort)",
+      "Zona de l'Escola del Treball (Sergio Lacort)",
+      "Cappont — prop universitats / Hotel Condes d'Urgell (Sergio Lacort)",
     ],
     cautela: [
-      "Parts del Raval i del Gòtic amb alta pressió turística / soroll nocturn",
-      "Algunes zones del Besòs i La Mina (revisar carrer a carrer)",
-      "Planta baixa a eixos molt comercials o de festa",
-      "Edificis amb cèdula / ITE / aluminosi pendents",
+      "Mariola — Bloques Juan Carlos, C/ Marte: evitar (Claudia, assessora seguros, 07/01/2025)",
+      "Mariola en general — \"jo en principi la intentaria evitar\" (Jaume, 25/05/2023)",
+      "Mariola varia molt per carrer — C/ Jupiter ≠ Pio XII (Sergio Lacort)",
+      "Molt \"piso morralla\" on sumant reforma no surten els numeros (Sergio Lacort)",
     ],
+    font: "Grup Telegram 'LLEIDA Libertad Inmobiliaria' (477 membres, nov 2026)",
+  },
+  binefar: {
+    bones: [
+      "Centre urba (zona consolidada, serveis a prop)",
+      "Prop de l'avinguda del Cinca",
+    ],
+    cautela: [
+      "Mercat molt petit — 1 sol anunci a Idealista (nov 2026)",
+      "Revisar demanda real de lloguer abans de comprar",
+    ],
+    font: "Observacio propia",
+  },
+  barcelona: {
+    bones: [
+      "Eixample (Dreta / Esquerra consolidada)",
+      "Gracia (zones tranquilles)",
+      "Sant Gervasi - Galvany / Putxet",
+      "Poblenou (eixos interiors)",
+      "Les Corts (prop Zona Universitaria)",
+    ],
+    cautela: [
+      "Parts del Raval i del Gotic (pressio turistica, soroll nocturn)",
+      "Algunes zones del Besos i La Mina (revisar carrer a carrer)",
+      "Planta baixa a eixos comercials o de festa",
+      "Edificis amb cedula / ITE / aluminosi pendents",
+    ],
+    font: "Orientacio general",
   },
   madrid: {
     bones: [
-      "Chamberí",
+      "Chamberi",
       "Salamanca (segons pressupost)",
-      "Retiro / Niño Jesús",
-      "Chamartín (Hispanoamérica, Nueva España)",
-      "Arganzuela regenerada (legazpi / Madrid Río, carrer a carrer)",
+      "Retiro / Nino Jesus",
+      "Chamartin (Hispanoamerica, Nueva Espana)",
+      "Arganzuela regenerada (Legazpi / Madrid Rio)",
     ],
     cautela: [
-      "Entorns amb alta densitat d’oci nocturn (centres molt concrets)",
-      "Barris amb regeneració incompleta: mira preus de lloguer i rotació",
-      "Plantes baixes a grans vies amb contaminació acústica",
+      "Entorns amb alta densitat d'oci nocturn",
+      "Barris amb regeneracio incompleta",
+      "Plantes baixes a grans vies amb contaminacio acustica",
     ],
+    font: "Orientacio general",
   },
   valencia: {
-    bones: [
-      "Eixample / Gran Via",
-      "El Pla del Real",
-      "Benimaclet (segons carrer)",
-      "Campanar / Nou Campanar",
-      "Extramurs (zones tranquil·les)",
-    ],
-    cautela: [
-      "Primera línia molt turística al Cabanyal / Malvarrosa (soroll, rotació)",
-      "Zones amb risc d’inundació històric: consulta mapes municipals",
-      "Interiors amb poca llum a illes molt estretes",
-    ],
-  },
-  malaga: {
-    bones: [
-      "El Limonar / Cerrado de Calderón (segons pressupost)",
-      "Teatinos (per perfil universitari / família)",
-      "Pedregalejo (fora de la franja més massificada)",
-      "Centro regenerat (carrers interiors, no només plaça)",
-    ],
-    cautela: [
-      "Primera línia turística amb llicències turístiques abundants",
-      "Urbanitzacions amb despeses de comunitat altes i poca liquiditat",
-    ],
-  },
-  sevilla: {
-    bones: [
-      "Nervión",
-      "Los Remedios",
-      "Triana (segons carrer i planta)",
-      "Heliópolis / Sevilla Este consolidat",
-    ],
-    cautela: [
-      "Zones amb alta concentració d’apartaments turístics al centre històric",
-      "Baixos a eixos de botelló / festa",
-    ],
-  },
-  bilbao: {
-    bones: [
-      "Abando / Indautxu",
-      "Deusto (zones residencials)",
-      "Neguri / Getxo (si amplies àrea metropolitana)",
-    ],
-    cautela: [
-      "Habitatges amb humitats estructurals a edificis antics sense rehabilitar",
-    ],
+    bones: ["Eixample / Gran Via", "El Pla del Real", "Benimaclet", "Campanar"],
+    cautela: ["Primera linia turistica al Cabanyal", "Zones amb risc d'inundacio"],
+    font: "Orientacio general",
   },
   zaragoza: {
-    bones: ["Actur", "Universidad", "Delicias regenerada", "Centro (carrers tranquils)"],
-    cautela: ["Zones amb molta rotació de lloguer i poc manteniment d’escala"],
+    bones: ["Actur", "Universidad", "Delicias regenerada", "Centro"],
+    cautela: ["Zones amb molta rotacio de lloguer"],
+    font: "Orientacio general",
   },
-  alicante: {
-    bones: ["Centro consolidat", "San Juan (segons zona)", "Playa San Juan interior"],
-    cautela: ["Primera línia molt turística", "Urbanitzacions amb poca demanda fora de temporada"],
+  sevilla: {
+    bones: ["Nervion", "Los Remedios", "Triana", "Heliopolis"],
+    cautela: ["Alta concentracio d'apartaments turistics al centre"],
+    font: "Orientacio general",
   },
-  murcia: {
-    bones: ["Vistalegre", "La Flota", "Centro"],
-    cautela: ["Revisa aïllament tèrmic i orientació (estius durs)"],
+  malaga: {
+    bones: ["El Limonar", "Teatinos", "Pedregalejo", "Centro regenerat"],
+    cautela: ["Primera linia turistica", "Urbanitzacions amb despeses altes"],
+    font: "Orientacio general",
   },
-  palma: {
-    bones: ["El Terreno (segons carrer)", "Son Armadams", "Portixol / Molinar (no primera línia massificada)"],
-    cautela: ["Pressió turística i llicències", "Preus desconnectats de renda local"],
+  bilbao: {
+    bones: ["Abando / Indautxu", "Deusto", "Neguri / Getxo"],
+    cautela: ["Humitats estructurals a edificis antics sense rehabilitar"],
+    font: "Orientacio general",
   },
 };

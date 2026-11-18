@@ -1,47 +1,21 @@
-/**
- * Canals / cerques Telegram orientatives.
- * No scrapem Telegram: obrim cerques i enllaços públics perquè els revisis tu.
- * Afegeix aquí usuaris @ que coneguis i siguin públics.
- */
+/** Canals/grups Telegram de Libertad Inmobiliaria per ciutat. */
 window.PISOS_TELEGRAM = {
   tips: [
-    "Els grups tipus «Libertad Inmobiliaria» solen anar per ciutat o zona.",
-    "Entra, mira les normes i desconfia d’anuncis amb transferència abans de visitar.",
-    "Creua sempre el que vegis a Telegram amb Idealista/Fotocasa (preu, m², referència cadastral).",
+    "Al grup de cada ciutat, busca <strong>'zona evitar'</strong> o <strong>'recomanar zona'</strong> per trobar opinions reals.",
+    "Pregunta directament al grup sobre un barri concret que t'interessi.",
+    "Revisa els missatges fixats — sovint tenen informacio clau.",
+    "Els grups de LIB van per comunitat autonoma / provincia. Si no trobes el teu, busca al general.",
   ],
-  /** Cerques suggerides (s’obren a Google / Telegram). */
-  searchesByCity: true,
-  /** Exemples de handles públics genèrics — completa’ls tu quan els validis */
   channels: [
-    {
-      city: "general",
-      label: "Cerca global Libertad Inmobiliaria",
-      kind: "search",
-      query: "libertad inmobiliaria telegram",
-    },
-    {
-      city: "barcelona",
-      label: "Cerca LI Barcelona",
-      kind: "search",
-      query: "libertad inmobiliaria barcelona telegram",
-    },
-    {
-      city: "madrid",
-      label: "Cerca LI Madrid",
-      kind: "search",
-      query: "libertad inmobiliaria madrid telegram",
-    },
-    {
-      city: "valencia",
-      label: "Cerca LI València",
-      kind: "search",
-      query: "libertad inmobiliaria valencia telegram",
-    },
-    {
-      city: "malaga",
-      label: "Cerca LI Málaga",
-      kind: "search",
-      query: "libertad inmobiliaria malaga telegram",
-    },
+    { city: 'lleida', label: 'LLEIDA Libertad Inmobiliaria', kind: 'channel', query: 'LLEIDA libertad inmobiliaria telegram', note: '477 membres, molt actiu' },
+    { city: 'barcelona', label: 'BCN Libertad Inmobiliaria', kind: 'channel', query: 'BCN libertad inmobiliaria telegram', note: '' },
+    { city: 'madrid', label: 'Madrid Libertad Inmobiliaria', kind: 'channel', query: 'Madrid libertad inmobiliaria telegram', note: '' },
+    { city: 'valencia', label: 'Valencia Libertad Inmobiliaria', kind: 'channel', query: 'Valencia libertad inmobiliaria telegram', note: '' },
+    { city: 'zaragoza', label: 'Zaragoza Libertad Inmobiliaria', kind: 'channel', query: 'Zaragoza libertad inmobiliaria telegram', note: '' },
+    { city: 'sevilla', label: 'Sevilla Libertad Inmobiliaria', kind: 'channel', query: 'Sevilla libertad inmobiliaria telegram', note: '' },
+    { city: 'malaga', label: 'Malaga Libertad Inmobiliaria', kind: 'channel', query: 'Malaga libertad inmobiliaria telegram', note: '' },
+    { city: 'bilbao', label: 'Bilbao Libertad Inmobiliaria', kind: 'channel', query: 'Bilbao libertad inmobiliaria telegram', note: '' },
+    { city: 'alicante', label: 'Alicante Libertad Inmobiliaria', kind: 'channel', query: 'Alicante libertad inmobiliaria telegram', note: '' },
+    { city: 'general', label: 'Libertad Inmobiliaria - Carlos Galan (general)', kind: 'channel', query: 'libertad inmobiliaria carlos galan telegram', note: 'Grup principal del curs' },
   ],
 };

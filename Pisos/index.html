@@ -1,137 +1,104 @@
 <!DOCTYPE html>
 <html lang="ca">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Pisos — cerca multi-portal</title>
-    <meta
-      name="description"
-      content="Filtra localitat, preu, m² i lavabos; obre cerques a Idealista, Fotocasa i més, més Telegram i notes de zones."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;700&family=Manrope:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <main class="wrap">
-      <header class="hero">
-        <p style="margin:0;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#0f5c4c;font-size:0.78rem">
-          diordes.github.io
-        </p>
-        <h1 class="brand">Pisos</h1>
-        <p>
-          Tria filtres (opcionals) i obre la mateixa cerca a Idealista, Fotocasa,
-          Habitaclia i més. També enllaços a Telegram per ciutat i una lectura
-          ràpida de zones bones / amb cautela.
-        </p>
-        <div class="note">
-          <strong>Important:</strong> aquesta pàgina <em>no raspalla</em> Idealista,
-          Fotocasa ni Telegram (van contra els seus termes i tenen antibot). Genera
-          enllaços de cerca perquè tu revisis els resultats als portals oficials.
-        </div>
-      </header>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pisos — Cercador + Calculadora LIB</title>
+  <meta name="description" content="Cercador multi-portal d'immobles amb calculadora Libertad Inmobiliaria de Carlos Galan. Zones bones/dolentes de Telegram.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="wrap">
 
-      <section class="panel">
-        <div class="grid">
-          <label>
-            Localitat
-            <select id="city"></select>
-          </label>
-          <label>
-            Operació
-            <select id="operation">
-              <option value="buy">Comprar</option>
-              <option value="rent">Lloguer</option>
-            </select>
-          </label>
-          <label>
-            Preu mín. (€)
-            <input id="priceMin" type="number" min="0" step="1000" placeholder="opcional" />
-          </label>
-          <label>
-            Preu màx. (€)
-            <input id="priceMax" type="number" min="0" step="1000" placeholder="opcional" />
-          </label>
-          <label>
-            m² mín.
-            <input id="sizeMin" type="number" min="0" step="1" placeholder="opcional" />
-          </label>
-          <label>
-            m² màx.
-            <input id="sizeMax" type="number" min="0" step="1" placeholder="opcional" />
-          </label>
-          <label>
-            Habitacions
-            <select id="rooms">
-              <option value="any">Indiferent</option>
-              <option value="1">1+</option>
-              <option value="2">2+</option>
-              <option value="3">3+</option>
-              <option value="4">4+</option>
-            </select>
-          </label>
-          <label>
-            Lavabos
-            <select id="baths">
-              <option value="any">Indiferent</option>
-              <option value="1">1+</option>
-              <option value="2">2+</option>
-              <option value="3">3+</option>
-            </select>
-          </label>
-        </div>
+  <!-- ── HEADER ────────────────────────────────────────────── -->
+  <header class="hero">
+    <p style="margin:0;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg2);font-size:0.72rem">diordes.github.io</p>
+    <h1>Pisos</h1>
+    <p>Cercador multi-portal + Calculadora <strong>Libertad Inmobiliaria</strong> (Carlos Galan)</p>
+  </header>
 
-        <div class="actions">
-          <button type="button" class="btn btn-primary" id="openAll">
-            Obrir Idealista + Fotocasa + altres
-          </button>
-        </div>
-      </section>
+  <!-- ── FILTRES ───────────────────────────────────────────── -->
+  <section>
+    <h2>🔍 Filtres de cerca</h2>
+    <div class="filter-grid">
+      <label>Localitat <select id="fCity"></select></label>
+      <label>Operacio <select id="fOp"><option value="buy">Comprar</option><option value="rent">Lloguer</option></select></label>
+      <label>Preu min. (EUR) <input id="fPriceMin" type="number" min="0" step="1000" placeholder="40000"></label>
+      <label>Preu max. (EUR) <input id="fPriceMax" type="number" min="0" step="1000" placeholder="70000"></label>
+      <label>m2 min. <input id="fSizeMin" type="number" min="0" placeholder="—"></label>
+      <label>m2 max. <input id="fSizeMax" type="number" min="0" placeholder="—"></label>
+      <label>Habitacions <select id="fRooms"><option value="any">Indiferent</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></label>
+      <label>Lavabos <select id="fBaths"><option value="any">Indiferent</option><option value="1">1+</option><option value="2">2+</option></select></label>
+    </div>
+    <div class="filter-actions">
+      <button class="btn btn-primary" id="btnOpenAll">Obrir tots els portals</button>
+    </div>
+  </section>
 
-      <section class="section">
-        <h2>Portals</h2>
-        <p>Cada botó obre la cerca amb els filtres que has posat (si el portal ho permet a la URL).</p>
-        <div id="portals" class="portal-list"></div>
-      </section>
+  <!-- ── PORTALS ───────────────────────────────────────────── -->
+  <section>
+    <h2>🏠 Portals de cerca</h2>
+    <p class="note">Cada boto obre la cerca amb els filtres que has posat. Inclou portals generals + pisos de bancs (del curs LIB).</p>
+    <div id="portals"></div>
+  </section>
 
-      <section class="section">
-        <h2>Telegram</h2>
-        <p>
-          Grups tipus Libertad Inmobiliaria (per població). No llegim el contingut
-          automàticament: t’hi portem perquè miris tu els anuncis.
-        </p>
-        <div id="telegram"></div>
-      </section>
+  <!-- ── CALCULADORA LIB ───────────────────────────────────── -->
+  <section>
+    <h2>🧮 Calculadora Libertad Inmobiliaria</h2>
+    <p style="color:var(--fg2);font-size:0.85rem;margin-top:0">Posa les dades d'un pis i mira si compleix els criteris de Carlos Galan. Resultats en temps real.</p>
+    <div class="calc-grid">
+      <label>Preu compra (EUR) <input id="cPrecio" type="number" min="0" step="1000" value="48200"></label>
+      <label>Lloguer estimat (EUR/mes) <input id="cRenta" type="number" min="0" step="10" value="400"></label>
+      <label>Comunitat Autonoma <select id="cCCAA"></select></label>
+      <label>Reforma (EUR) <input id="cReforma" type="number" min="0" step="500" value="0"></label>
+      <label>Comissio agencia (EUR) <input id="cComision" type="number" min="0" step="100" value="0"></label>
+      <label>% Hipoteca <input id="cPctHip" type="number" min="0" max="100" step="5" value="80"></label>
+      <label>Tipus interes (%) <input id="cInteres" type="number" min="0" max="10" step="0.1" value="3.5"></label>
+      <label>Termini (anys) <input id="cPlazo" type="number" min="1" max="40" value="30"></label>
+      <label>Comunitat veins (EUR/mes) <input id="cComunidad" type="number" min="0" step="5" value="35"></label>
+      <label>IBI (EUR/any) <input id="cIBI" type="number" min="0" step="10" value="180"></label>
+    </div>
+    <div id="calcResult"></div>
+  </section>
 
-      <section class="section">
-        <h2>Zones — <span id="zoneCityLabel">—</span></h2>
-        <p>Orientació ràpida. Contrast-ho sempre amb visita i dades actuals.</p>
-        <div class="cards two">
-          <article class="card ok">
-            <h3>Zones amb millor base</h3>
-            <ul id="zonesGood"></ul>
-          </article>
-          <article class="card warn">
-            <h3>Més cautela</h3>
-            <ul id="zonesBad"></ul>
-          </article>
-        </div>
-      </section>
+  <!-- ── RESULTATS IMPORTATS ───────────────────────────────── -->
+  <section>
+    <h2>📊 Resultats (importar de Colab)</h2>
+    <div class="import-row">
+      <label class="btn btn-ghost" style="cursor:pointer">
+        📂 Importar JSON
+        <input type="file" id="fileImport" accept=".json" style="display:none">
+      </label>
+      <span style="color:var(--fg2);font-size:0.82rem">Executa l'script <code>colab_scraper.py</code> i importa el fitxer <code>resultats_pisos.json</code></span>
+    </div>
+    <div id="results"></div>
+  </section>
 
-      <footer>
-        Eina personal a
-        <a href="https://diordes.github.io/">diordes.github.io</a> · No és
-        assessorament immobiliari ni financer · Els portals poden canviar les seves URLs.
-      </footer>
-    </main>
+  <!-- ── ZONES ─────────────────────────────────────────────── -->
+  <section>
+    <h2>📍 Zones — recomanacions del Telegram</h2>
+    <div id="zones"></div>
+  </section>
 
-    <script src="./data/cities.js"></script>
-    <script src="./data/zones.js"></script>
-    <script src="./data/telegram.js"></script>
-    <script src="./app.js"></script>
-  </body>
+  <!-- ── TELEGRAM ──────────────────────────────────────────── -->
+  <section>
+    <h2>💬 Telegram — grups Libertad Inmobiliaria</h2>
+    <div id="telegram"></div>
+  </section>
+
+  <!-- ── FOOTER ────────────────────────────────────────────── -->
+  <footer>
+    Eina personal de <a href="https://diordes.github.io/">diordes.github.io</a> · Metodologia basada en el curs Libertad Inmobiliaria de Carlos Galan · No es assessorament immobiliari ni financer
+  </footer>
+
+</div>
+
+<script src="./data/cities.js"></script>
+<script src="./data/zones.js"></script>
+<script src="./data/telegram.js"></script>
+<script src="./app.js"></script>
+</body>
 </html>
