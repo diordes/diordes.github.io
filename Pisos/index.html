@@ -5,70 +5,77 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buscador Semàfor LIB</title>
 <style>
-:root { --bg:#0f1117; --card:#1a1d27; --border:#2a2d3a; --text:#e4e4e7; --muted:#9ca3af; --green:#22c55e; --yellow:#eab308; --red:#ef4444; --blue:#3b82f6; }
+:root{--bg:#0f1117;--card:#1a1d27;--border:#2a2d3a;--text:#e4e4e7;--muted:#9ca3af;--green:#22c55e;--yellow:#eab308;--red:#ef4444;--blue:#3b82f6;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:12px;max-width:900px;margin:0 auto;}
-.hdr{text-align:center;padding:20px 0;border-bottom:2px solid var(--border);margin-bottom:16px;}
-.hdr h1{font-size:1.6em;margin-bottom:4px;}
-.hdr p{color:var(--muted);font-size:.85em;}
+.hdr{text-align:center;padding:20px 0 16px;border-bottom:2px solid var(--border);margin-bottom:16px;}
+.hdr h1{font-size:1.5em;margin-bottom:4px;}
+.hdr p{color:var(--muted);font-size:.82em;}
 
-/* Upload area */
-.upload{background:var(--card);border:2px dashed var(--border);border-radius:12px;padding:24px;text-align:center;margin-bottom:20px;cursor:pointer;transition:.2s;}
+.upload{background:var(--card);border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;margin-bottom:16px;cursor:pointer;transition:.2s;}
 .upload:hover{border-color:var(--blue);}
 .upload input{display:none;}
-.upload .icon{font-size:2em;margin-bottom:8px;}
-.upload p{color:var(--muted);font-size:.9em;}
-.upload .btn{display:inline-block;margin-top:12px;padding:8px 20px;background:var(--blue);color:#fff;border-radius:8px;font-size:.9em;}
+.upload .icon{font-size:1.8em;margin-bottom:4px;}
+.upload p{color:var(--muted);font-size:.85em;}
+.upload .btn{display:inline-block;margin-top:8px;padding:6px 16px;background:var(--blue);color:#fff;border-radius:8px;font-size:.85em;}
 
-/* Stats bar */
+/* Stats = clickable filter cards */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
-.stat{background:var(--card);border-radius:10px;padding:12px;text-align:center;border:1px solid var(--border);}
-.stat .n{font-size:1.6em;font-weight:700;}
-.stat .l{font-size:.7em;color:var(--muted);}
+.stat{background:var(--card);border-radius:10px;padding:14px 8px;text-align:center;border:2px solid var(--border);cursor:pointer;transition:.2s;user-select:none;}
+.stat:hover{border-color:var(--blue);transform:scale(1.02);}
+.stat.on{border-color:var(--blue);background:rgba(59,130,246,.08);}
+.stat .n{font-size:1.8em;font-weight:700;}
+.stat .l{font-size:.72em;color:var(--muted);margin-top:2px;}
 
-/* Filters */
-.flt{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;justify-content:center;}
-.flt button{padding:6px 14px;border-radius:18px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:.82em;transition:.2s;}
-.flt button.on{border-color:var(--blue);background:rgba(59,130,246,.12);color:var(--blue);}
+/* Filters bar */
+.fbar{background:var(--card);border-radius:10px;padding:12px;margin-bottom:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;border:1px solid var(--border);}
+.fbar label{font-size:.72em;color:var(--muted);display:block;margin-bottom:2px;}
+.fbar select,.fbar input{width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.85em;}
+.fbar select:focus,.fbar input:focus{outline:none;border-color:var(--blue);}
+
+/* Portal filter row (only if >1 portal) */
+.portals{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;justify-content:center;}
+.portals button{padding:5px 12px;border-radius:16px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:.8em;transition:.2s;}
+.portals button.on{border-color:var(--blue);background:rgba(59,130,246,.12);color:var(--blue);}
 
 /* Cards */
 .card{background:var(--card);border-radius:10px;padding:16px;margin-bottom:12px;border-left:4px solid var(--border);position:relative;}
 .card.comprar{border-left-color:var(--green);}
 .card.estudiar{border-left-color:var(--yellow);}
 .card.passar{border-left-color:var(--red);}
-.badge{position:absolute;top:12px;right:12px;padding:3px 10px;border-radius:16px;font-size:.75em;font-weight:600;}
+.badge{position:absolute;top:12px;right:12px;padding:3px 10px;border-radius:16px;font-size:.73em;font-weight:600;}
 .card.comprar .badge{background:rgba(34,197,94,.12);color:var(--green);}
 .card.estudiar .badge{background:rgba(234,179,8,.12);color:var(--yellow);}
 .card.passar .badge{background:rgba(239,68,68,.12);color:var(--red);}
 .card h3{font-size:1em;margin-bottom:2px;padding-right:90px;}
 .card .meta{color:var(--muted);font-size:.82em;margin-bottom:10px;}
-.mets{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;margin-bottom:8px;}
+.mets{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px;}
 .met{background:rgba(255,255,255,.025);border-radius:6px;padding:6px 8px;}
-.met .v{font-size:1em;font-weight:600;}
+.met .v{font-size:1.05em;font-weight:600;}
 .met .v.ok{color:var(--green);}
 .met .v.ko{color:var(--red);}
 .met .k{font-size:.7em;color:var(--muted);}
 .chks{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;}
-.chk{font-size:.75em;padding:1px 7px;border-radius:10px;}
+.chk{font-size:.73em;padding:1px 7px;border-radius:10px;}
 .chk.p{background:rgba(34,197,94,.08);color:var(--green);}
 .chk.f{background:rgba(239,68,68,.08);color:var(--red);}
 .chk.w{background:rgba(234,179,8,.08);color:var(--yellow);}
 .nt{font-size:.8em;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px solid var(--border);}
-.lnk{display:inline-block;margin-top:6px;padding:5px 12px;border-radius:6px;text-decoration:none;font-size:.82em;font-weight:500;}
-.lnk.idealista{background:#1daf17;color:#fff;}
-.lnk.fotocasa{background:#e7430a;color:#fff;}
-.lnk.habitaclia{background:#ff6600;color:#fff;}
-.lnk.bank{background:#4a5568;color:#fff;}
-.zt{display:inline-block;padding:1px 7px;border-radius:8px;font-size:.7em;font-weight:600;margin-left:6px;}
+.lnk{display:inline-block;margin-top:6px;padding:5px 12px;border-radius:6px;text-decoration:none;font-size:.82em;font-weight:500;color:#fff;}
+.lnk.idealista{background:#1daf17;}
+.lnk.fotocasa{background:#e7430a;}
+.lnk.habitaclia{background:#ff6600;}
+.lnk.bank{background:#4a5568;}
+.zt{display:inline-block;padding:1px 7px;border-radius:8px;font-size:.7em;font-weight:600;margin-left:4px;}
 .zt.bona{background:rgba(34,197,94,.12);color:var(--green);}
 .zt.neutra{background:rgba(234,179,8,.12);color:var(--yellow);}
 .zt.evitar{background:rgba(239,68,68,.12);color:var(--red);}
-.info{text-align:center;color:var(--muted);font-size:.78em;padding:16px 0;}
+.ptag{display:inline-block;padding:1px 6px;border-radius:6px;font-size:.68em;background:rgba(255,255,255,.06);color:var(--muted);margin-left:4px;}
+.info{text-align:center;color:var(--muted);font-size:.76em;padding:14px 0;}
 .empty{text-align:center;padding:40px;color:var(--muted);}
 .empty .icon{font-size:3em;margin-bottom:12px;}
-#results{min-height:200px;}
-.portal-tag{display:inline-block;padding:1px 6px;border-radius:6px;font-size:.7em;background:rgba(255,255,255,.06);color:var(--muted);margin-left:6px;}
-@media(max-width:600px){.mets{grid-template-columns:repeat(3,1fr);}.card h3{padding-right:0;}.badge{position:static;display:inline-block;margin-bottom:6px;}.stats{grid-template-columns:repeat(2,1fr);}}
+#results{min-height:100px;}
+@media(max-width:600px){.mets{grid-template-columns:repeat(3,1fr);}.card h3{padding-right:0;font-size:.92em;}.badge{position:static;display:inline-block;margin-bottom:6px;}.stats{grid-template-columns:repeat(2,1fr);}}
 </style>
 </head>
 <body>
@@ -81,13 +88,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="upload" id="uploadArea" onclick="document.getElementById('fileInput').click()">
   <input type="file" id="fileInput" accept=".json">
   <div class="icon">📂</div>
-  <p><strong>Carrega resultats_lib.json</strong><br>Generat amb l'script de Colab</p>
+  <p><strong>Carrega resultats_lib.json</strong> del Colab</p>
   <span class="btn">Seleccionar fitxer</span>
 </div>
 
 <div id="dashboard" style="display:none;">
   <div class="stats" id="statsBar"></div>
-  <div class="flt" id="filters"></div>
+  <div class="fbar" id="filterBar">
+    <div><label>Ciutat</label><select id="fCiutat"><option value="">Totes</option></select></div>
+    <div><label>Preu mínim</label><input id="fPreuMin" type="number" placeholder="30000"></div>
+    <div><label>Preu màxim</label><input id="fPreuMax" type="number" placeholder="70000"></div>
+    <div><label>Habitacions mín</label><select id="fHabs"><option value="">Totes</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option></select></div>
+    <div><label>m² mínim</label><input id="fM2" type="number" placeholder="0"></div>
+    <div><label>Portal</label><select id="fPortal"><option value="">Tots</option></select></div>
+  </div>
+  <div class="portals" id="portalBar"></div>
   <div id="results"></div>
   <div class="info" id="infoBar"></div>
 </div>
@@ -96,36 +111,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="icon">🔍</div>
   <p><strong>Com funciona:</strong></p>
   <p>1️⃣ Executa <code>buscador_lib.py</code> a Google Colab</p>
-  <p>2️⃣ Descarrega el <code>resultats_lib.json</code></p>
-  <p>3️⃣ Carrega'l aquí amunt</p>
-  <p style="margin-top:12px;">L'script busca a Idealista, Fotocasa, Haya, Solvia, Servihabitat, Altamira, Aliseda, CaixaBank i Anticipa.</p>
-  <p style="margin-top:8px;">Cada pis es passa per la calculadora LIB i rep un semàfor 🟢🟡🔴</p>
+  <p>2️⃣ Descarrega <code>resultats_lib.json</code></p>
+  <p>3️⃣ Carrega'l aquí amunt ↑</p>
+  <p style="margin-top:10px;font-size:.85em;">Busca a Idealista, Fotocasa, Haya, Solvia, Servihabitat,<br>Altamira, Aliseda, CaixaBank, Anticipa</p>
 </div>
 
 <script>
-let allPisos = [];
-const semLabel = {comprar:'🟢 COMPRAR', estudiar:'🟡 ESTUDIAR', passar:'🔴 PASSAR'};
-const allChecks = {bruta:'Bruta ≥7%', neta:'Neta ≥4%', per:'PER ≤15', cf:'CF positiu', zona:'Zona bona'};
+let allPisos=[], currentS='tots', currentP='tots';
+const semLabel={comprar:'🟢 COMPRAR',estudiar:'🟡 ESTUDIAR',passar:'🔴 PASSAR'};
+const allChecks={bruta:'Bruta ≥7%',neta:'Neta ≥4%',per:'PER ≤15',cf:'CF positiu',zona:'Zona bona'};
 
-function portalClass(portal) {
-  const p = portal.toLowerCase();
-  if (p === 'idealista') return 'idealista';
-  if (p === 'fotocasa') return 'fotocasa';
-  if (p === 'habitaclia') return 'habitaclia';
-  return 'bank';
-}
+function portalClass(p){p=p.toLowerCase();if(p==='idealista')return'idealista';if(p==='fotocasa')return'fotocasa';if(p==='habitaclia')return'habitaclia';return'bank';}
 
-function renderCard(p) {
-  const checksHtml = Object.entries(allChecks).map(([k,v]) => {
-    if (p.checks.includes(k)) return `<span class="chk p">✅ ${v}</span>`;
-    if (k==='zona' && p.zonaClass==='evitar') return `<span class="chk f">🔴 Zona evitar</span>`;
-    if (k==='zona' && p.zonaClass==='neutra') return `<span class="chk w">🟡 Zona neutra</span>`;
-    return `<span class="chk f">❌ ${v}</span>`;
+function renderCard(p){
+  const ch=Object.entries(allChecks).map(([k,v])=>{
+    if(p.checks.includes(k))return`<span class="chk p">✅ ${v}</span>`;
+    if(k==='zona'&&p.zonaClass==='evitar')return`<span class="chk f">🔴 Zona evitar</span>`;
+    if(k==='zona'&&p.zonaClass==='neutra')return`<span class="chk w">🟡 Zona neutra</span>`;
+    return`<span class="chk f">❌ ${v}</span>`;
   }).join('');
-
-  return `<div class="card ${p.semfor}" data-s="${p.semfor}" data-p="${p.portal.toLowerCase()}">
+  return`<div class="card ${p.semfor}" data-s="${p.semfor}" data-p="${p.portal.toLowerCase()}">
     <span class="badge">${semLabel[p.semfor]}</span>
-    <h3>${p.nom} <span class="zt ${p.zonaClass}">${p.zona||p.ciutat}</span> <span class="portal-tag">${p.portal}</span></h3>
+    <h3>${p.nom}<span class="zt ${p.zonaClass}">${p.zona||p.ciutat}</span><span class="ptag">${p.portal}</span></h3>
     <div class="meta">💰 ${p.preu.toLocaleString('ca')}€ · ${p.habs}hab · ${p.m2}m² · Renda est: ${p.renda}€/mes${p.alquilat?' · 🔑 Alquilat':''}</div>
     <div class="mets">
       <div class="met"><div class="v ${p.bruta>=7?'ok':'ko'}">${p.bruta}%</div><div class="k">Rent. Bruta</div></div>
@@ -135,95 +142,83 @@ function renderCard(p) {
       <div class="met"><div class="v">${p.rentCap}%</div><div class="k">Rent/Capital</div></div>
       <div class="met"><div class="v">${p.quota}€</div><div class="k">Quota hipo</div></div>
     </div>
-    <div class="chks">${checksHtml}</div>
+    <div class="chks">${ch}</div>
     ${p.notes?`<div class="nt">📝 ${p.notes}</div>`:''}
     <a class="lnk ${portalClass(p.portal)}" href="${p.url}" target="_blank" rel="noopener">🔗 Veure a ${p.portal}</a>
   </div>`;
 }
 
-function render(filtreS, filtreP) {
-  let pisos = allPisos;
-  if (filtreS && filtreS !== 'tots') pisos = pisos.filter(p => p.semfor === filtreS);
-  if (filtreP && filtreP !== 'tots') pisos = pisos.filter(p => p.portal.toLowerCase() === filtreP.toLowerCase());
-  document.getElementById('results').innerHTML = pisos.length ? pisos.map(renderCard).join('') : '<div class="empty"><p>Cap pis amb aquests filtres</p></div>';
+function render(){
+  let pisos=allPisos;
+  if(currentS!=='tots')pisos=pisos.filter(p=>p.semfor===currentS);
+  // Apply filters
+  const fC=document.getElementById('fCiutat').value;
+  const fPmin=parseInt(document.getElementById('fPreuMin').value)||0;
+  const fPmax=parseInt(document.getElementById('fPreuMax').value)||Infinity;
+  const fH=parseInt(document.getElementById('fHabs').value)||0;
+  const fM=parseInt(document.getElementById('fM2').value)||0;
+  const fPo=document.getElementById('fPortal').value;
+  if(fC)pisos=pisos.filter(p=>p.ciutat===fC);
+  if(fPmin)pisos=pisos.filter(p=>p.preu>=fPmin);
+  if(fPmax<Infinity)pisos=pisos.filter(p=>p.preu<=fPmax);
+  if(fH)pisos=pisos.filter(p=>p.habs>=fH);
+  if(fM)pisos=pisos.filter(p=>p.m2>=fM);
+  if(fPo)pisos=pisos.filter(p=>p.portal===fPo);
+  document.getElementById('results').innerHTML=pisos.length?pisos.map(renderCard).join(''):`<div class="empty"><p>Cap pis amb aquests filtres (${allPisos.length} total)</p></div>`;
+  document.querySelectorAll('.stat').forEach(s=>s.classList.toggle('on',s.dataset.f===currentS));
 }
 
-let currentS = 'tots', currentP = 'tots';
+function loadData(data){
+  allPisos=data.pisos||[];
+  const r=data.resum||{};
+  document.getElementById('dashboard').style.display='';
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('uploadArea').style.display='none';
 
-function loadData(data) {
-  allPisos = data.pisos || [];
-  const r = data.resum || {};
-  
-  document.getElementById('dashboard').style.display = '';
-  document.getElementById('emptyState').style.display = 'none';
-  document.getElementById('uploadArea').style.display = 'none';
-  
-  // Stats
-  document.getElementById('statsBar').innerHTML = `
-    <div class="stat"><div class="n" style="color:var(--green)">${r.comprar||0}</div><div class="l">🟢 COMPRAR</div></div>
-    <div class="stat"><div class="n" style="color:var(--yellow)">${r.estudiar||0}</div><div class="l">🟡 ESTUDIAR</div></div>
-    <div class="stat"><div class="n" style="color:var(--red)">${r.passar||0}</div><div class="l">🔴 PASSAR</div></div>
-    <div class="stat"><div class="n">${r.total||allPisos.length}</div><div class="l">TOTAL</div></div>
+  // Stats as clickable filter cards
+  document.getElementById('statsBar').innerHTML=`
+    <div class="stat on" data-f="tots"><div class="n">${r.total||allPisos.length}</div><div class="l">TOTS</div></div>
+    <div class="stat" data-f="comprar"><div class="n" style="color:var(--green)">${r.comprar||0}</div><div class="l">🟢 COMPRAR</div></div>
+    <div class="stat" data-f="estudiar"><div class="n" style="color:var(--yellow)">${r.estudiar||0}</div><div class="l">🟡 ESTUDIAR</div></div>
+    <div class="stat" data-f="passar"><div class="n" style="color:var(--red)">${r.passar||0}</div><div class="l">🔴 PASSAR</div></div>
   `;
-  
-  // Filters: semàfor + portals
-  const portals = [...new Set(allPisos.map(p => p.portal))];
-  let fhtml = `<button class="on" data-f="s:tots">Tots (${allPisos.length})</button>`;
-  fhtml += `<button data-f="s:comprar">🟢 (${r.comprar||0})</button>`;
-  fhtml += `<button data-f="s:estudiar">🟡 (${r.estudiar||0})</button>`;
-  fhtml += `<button data-f="s:passar">🔴 (${r.passar||0})</button>`;
-  fhtml += `<span style="color:var(--border);padding:0 4px">|</span>`;
-  portals.forEach(p => {
-    const n = allPisos.filter(x => x.portal === p).length;
-    fhtml += `<button data-f="p:${p.toLowerCase()}">${p} (${n})</button>`;
+  document.querySelectorAll('.stat').forEach(s=>{
+    s.addEventListener('click',()=>{ currentS=s.dataset.f; render(); });
   });
-  document.getElementById('filters').innerHTML = fhtml;
-  
-  document.querySelectorAll('.flt button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const [type, val] = btn.dataset.f.split(':');
-      if (type === 's') {
-        currentS = val;
-        document.querySelectorAll('.flt button[data-f^="s:"]').forEach(b => b.classList.remove('on'));
-        btn.classList.add('on');
-      } else {
-        if (currentP === val) { currentP = 'tots'; btn.classList.remove('on'); }
-        else { document.querySelectorAll('.flt button[data-f^="p:"]').forEach(b => b.classList.remove('on')); currentP = val; btn.classList.add('on'); }
-      }
-      render(currentS, currentP);
-    });
+
+  // Populate filter dropdowns
+  const ciutats=[...new Set(allPisos.map(p=>p.ciutat))].sort();
+  const portals=[...new Set(allPisos.map(p=>p.portal))].sort();
+  const fCiutat=document.getElementById('fCiutat');
+  const fPortal=document.getElementById('fPortal');
+  fCiutat.innerHTML='<option value="">Totes</option>'+ciutats.map(c=>`<option value="${c}">${c}</option>`).join('');
+  fPortal.innerHTML='<option value="">Tots</option>'+portals.map(p=>`<option value="${p}">${p} (${allPisos.filter(x=>x.portal===p).length})</option>`).join('');
+  // Listen to filter changes
+  document.querySelectorAll('.fbar select, .fbar input').forEach(el=>{
+    el.addEventListener('change',render);
+    el.addEventListener('input',()=>{clearTimeout(el._t);el._t=setTimeout(render,400);});
   });
-  
-  // Info
-  const cfg = data.config || {};
-  document.getElementById('infoBar').innerHTML = `
-    Generat: ${data.generatEl||'—'} · ${cfg.preuMin?.toLocaleString('ca')||'30K'}–${cfg.preuMax?.toLocaleString('ca')||'70K'}€ · 
-    Hipoteca ${(cfg.hipotecaPct*100)||80}% a ${cfg.interesFix||3.5}% fix · 
+  document.getElementById('portalBar').innerHTML='';
+
+  const cfg=data.config||{};
+  document.getElementById('infoBar').innerHTML=`
+    Generat: ${data.generatEl||'—'} · ${(cfg.preuMin||30000).toLocaleString('ca')}–${(cfg.preuMax||70000).toLocaleString('ca')}€ · 
+    Hipoteca ${((cfg.hipotecaPct||0.8)*100).toFixed(0)}% a ${cfg.interesFix||3.5}% fix · 
     Ciutats: ${cfg.ciutats?.join(', ')||'—'}
   `;
-  
-  render('tots', 'tots');
+  currentS='tots'; currentP='tots';
+  render();
 }
 
-// File input
-document.getElementById('fileInput').addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try {
-      const data = JSON.parse(ev.target.result);
-      loadData(data);
-    } catch(err) { alert('Error llegint JSON: ' + err.message); }
-  };
+document.getElementById('fileInput').addEventListener('change',e=>{
+  const file=e.target.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{try{loadData(JSON.parse(ev.target.result));}catch(err){alert('Error: '+err.message);}};
   reader.readAsText(file);
 });
 
-// Also try loading from data/ folder automatically
-fetch('data/resultats_lib.json')
-  .then(r => { if (r.ok) return r.json(); throw 'no file'; })
-  .then(data => loadData(data))
-  .catch(() => {});
+// Auto-load from data/
+fetch('data/resultats_lib.json').then(r=>{if(r.ok)return r.json();throw'';}).then(d=>loadData(d)).catch(()=>{});
 </script>
 </body>
 </html>
