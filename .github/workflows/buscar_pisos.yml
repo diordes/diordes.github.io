@@ -12,7 +12,7 @@ on:
       ccaa:
         description: CCAA
         required: false
-        default: Catalu?a
+        default: Catalunya
       preu_max:
         description: Preu maxim
         required: false
