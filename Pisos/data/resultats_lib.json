@@ -1,12 +1,17 @@
 {
-  "generatEl": "2026-11-18 19:30",
+  "generatEl": "2026-11-18 19:30 (manual Chrome — executar Colab per totes les ciutats)",
   "config": {
     "preuMin": 30000,
     "preuMax": 70000,
     "hipotecaPct": 0.8,
     "interesFix": 3.5,
     "ciutats": [
-      "Lleida"
+      "Lleida",
+      "Binèfar",
+      "Manresa",
+      "Balaguer",
+      "Mollerussa",
+      "Tàrrega"
     ]
   },
   "resum": {

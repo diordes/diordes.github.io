@@ -5,220 +5,408 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buscador Semàfor LIB</title>
 <style>
-:root{--bg:#0f1117;--card:#1a1d27;--border:#2a2d3a;--text:#e4e4e7;--muted:#9ca3af;--green:#22c55e;--yellow:#eab308;--red:#ef4444;--blue:#3b82f6;}
+:root{--bg:#0f1117;--card:#1a1d27;--border:#2a2d3a;--text:#e4e4e7;--muted:#9ca3af;--green:#22c55e;--yellow:#eab308;--red:#ef4444;--blue:#3b82f6;--orange:#f97316;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:12px;max-width:900px;margin:0 auto;}
-.hdr{text-align:center;padding:20px 0 16px;border-bottom:2px solid var(--border);margin-bottom:16px;}
-.hdr h1{font-size:1.5em;margin-bottom:4px;}
-.hdr p{color:var(--muted);font-size:.82em;}
 
-.upload{background:var(--card);border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;margin-bottom:16px;cursor:pointer;transition:.2s;}
-.upload:hover{border-color:var(--blue);}
-.upload input{display:none;}
-.upload .icon{font-size:1.8em;margin-bottom:4px;}
-.upload p{color:var(--muted);font-size:.85em;}
-.upload .btn{display:inline-block;margin-top:8px;padding:6px 16px;background:var(--blue);color:#fff;border-radius:8px;font-size:.85em;}
+/* Header */
+.hdr{text-align:center;padding:16px 0 12px;border-bottom:2px solid var(--border);margin-bottom:14px;}
+.hdr h1{font-size:1.4em;margin-bottom:2px;}
+.hdr p{color:var(--muted);font-size:.78em;}
+.ver{font-size:.68em;color:#555;margin-top:2px;}
 
-/* Stats = clickable filter cards */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
-.stat{background:var(--card);border-radius:10px;padding:14px 8px;text-align:center;border:2px solid var(--border);cursor:pointer;transition:.2s;user-select:none;}
+/* Section titles */
+.stitle{font-size:.9em;font-weight:600;color:var(--blue);margin:16px 0 8px;display:flex;align-items:center;gap:6px;}
+
+/* Search bar */
+.sbar{background:var(--card);border-radius:10px;padding:14px;margin-bottom:4px;border:1px solid var(--border);}
+.srow{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:8px;}
+.srow2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.sbar label{font-size:.7em;color:var(--muted);display:block;margin-bottom:2px;}
+.sbar select,.sbar input{width:100%;padding:7px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.85em;}
+.sbar select:focus,.sbar input:focus{outline:none;border-color:var(--blue);}
+
+/* Portal buttons */
+.portals{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px;justify-content:center;}
+.portals a{padding:7px 14px;border-radius:8px;text-decoration:none;font-size:.82em;font-weight:500;color:#fff;transition:.15s;display:inline-flex;align-items:center;gap:4px;}
+.portals a:hover{opacity:.85;transform:scale(1.03);}
+.p-idealista{background:#1daf17;}.p-fotocasa{background:#e7430a;}.p-habitaclia{background:#ff6600;}.p-mila{background:#8b5cf6;}
+.p-bank{background:#4a5568;}
+
+/* Add property form */
+.addform{background:var(--card);border-radius:10px;padding:14px;border:1px solid var(--border);margin-bottom:4px;}
+.arow{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:8px;}
+.addform label{font-size:.7em;color:var(--muted);display:block;margin-bottom:2px;}
+.addform input,.addform select{width:100%;padding:7px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.85em;}
+.addform input:focus,.addform select:focus{outline:none;border-color:var(--blue);}
+.abtn{width:100%;padding:10px;border:none;border-radius:8px;background:var(--green);color:#fff;font-size:.95em;font-weight:600;cursor:pointer;transition:.15s;margin-top:4px;}
+.abtn:hover{opacity:.9;}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+.stat{background:var(--card);border-radius:10px;padding:12px 6px;text-align:center;border:2px solid var(--border);cursor:pointer;transition:.2s;user-select:none;}
 .stat:hover{border-color:var(--blue);transform:scale(1.02);}
 .stat.on{border-color:var(--blue);background:rgba(59,130,246,.08);}
-.stat .n{font-size:1.8em;font-weight:700;}
-.stat .l{font-size:.72em;color:var(--muted);margin-top:2px;}
-
-/* Filters bar */
-.fbar{background:var(--card);border-radius:10px;padding:12px;margin-bottom:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;border:1px solid var(--border);}
-.fbar label{font-size:.72em;color:var(--muted);display:block;margin-bottom:2px;}
-.fbar select,.fbar input{width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.85em;}
-.fbar select:focus,.fbar input:focus{outline:none;border-color:var(--blue);}
-
-/* Portal filter row (only if >1 portal) */
-.portals{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;justify-content:center;}
-.portals button{padding:5px 12px;border-radius:16px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:.8em;transition:.2s;}
-.portals button.on{border-color:var(--blue);background:rgba(59,130,246,.12);color:var(--blue);}
+.stat .n{font-size:1.6em;font-weight:700;}
+.stat .l{font-size:.7em;color:var(--muted);}
 
 /* Cards */
-.card{background:var(--card);border-radius:10px;padding:16px;margin-bottom:12px;border-left:4px solid var(--border);position:relative;}
+.card{background:var(--card);border-radius:10px;padding:14px;margin-bottom:10px;border-left:4px solid var(--border);position:relative;}
 .card.comprar{border-left-color:var(--green);}
 .card.estudiar{border-left-color:var(--yellow);}
 .card.passar{border-left-color:var(--red);}
-.badge{position:absolute;top:12px;right:12px;padding:3px 10px;border-radius:16px;font-size:.73em;font-weight:600;}
+.badge{position:absolute;top:10px;right:10px;padding:3px 10px;border-radius:14px;font-size:.72em;font-weight:600;}
 .card.comprar .badge{background:rgba(34,197,94,.12);color:var(--green);}
 .card.estudiar .badge{background:rgba(234,179,8,.12);color:var(--yellow);}
 .card.passar .badge{background:rgba(239,68,68,.12);color:var(--red);}
-.card h3{font-size:1em;margin-bottom:2px;padding-right:90px;}
-.card .meta{color:var(--muted);font-size:.82em;margin-bottom:10px;}
-.mets{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px;}
-.met{background:rgba(255,255,255,.025);border-radius:6px;padding:6px 8px;}
-.met .v{font-size:1.05em;font-weight:600;}
+.card h3{font-size:.95em;margin-bottom:2px;padding-right:85px;}
+.card .meta{color:var(--muted);font-size:.8em;margin-bottom:8px;}
+.mets{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:6px;}
+.met{background:rgba(255,255,255,.025);border-radius:5px;padding:5px 7px;}
+.met .v{font-size:1em;font-weight:600;}
 .met .v.ok{color:var(--green);}
 .met .v.ko{color:var(--red);}
-.met .k{font-size:.7em;color:var(--muted);}
-.chks{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;}
-.chk{font-size:.73em;padding:1px 7px;border-radius:10px;}
+.met .k{font-size:.68em;color:var(--muted);}
+.chks{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:4px;}
+.chk{font-size:.72em;padding:1px 6px;border-radius:9px;}
 .chk.p{background:rgba(34,197,94,.08);color:var(--green);}
 .chk.f{background:rgba(239,68,68,.08);color:var(--red);}
 .chk.w{background:rgba(234,179,8,.08);color:var(--yellow);}
-.nt{font-size:.8em;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px solid var(--border);}
-.lnk{display:inline-block;margin-top:6px;padding:5px 12px;border-radius:6px;text-decoration:none;font-size:.82em;font-weight:500;color:#fff;}
-.lnk.idealista{background:#1daf17;}
-.lnk.fotocasa{background:#e7430a;}
-.lnk.habitaclia{background:#ff6600;}
-.lnk.bank{background:#4a5568;}
-.zt{display:inline-block;padding:1px 7px;border-radius:8px;font-size:.7em;font-weight:600;margin-left:4px;}
+.lnk{display:inline-block;margin-top:5px;padding:4px 10px;border-radius:5px;text-decoration:none;font-size:.8em;font-weight:500;color:#fff;}
+.lnk.idealista{background:#1daf17;}.lnk.fotocasa{background:#e7430a;}.lnk.bank{background:#4a5568;}.lnk.manual{background:var(--blue);}
+.zt{display:inline-block;padding:1px 6px;border-radius:7px;font-size:.68em;font-weight:600;margin-left:4px;}
 .zt.bona{background:rgba(34,197,94,.12);color:var(--green);}
 .zt.neutra{background:rgba(234,179,8,.12);color:var(--yellow);}
 .zt.evitar{background:rgba(239,68,68,.12);color:var(--red);}
-.ptag{display:inline-block;padding:1px 6px;border-radius:6px;font-size:.68em;background:rgba(255,255,255,.06);color:var(--muted);margin-left:4px;}
-.info{text-align:center;color:var(--muted);font-size:.76em;padding:14px 0;}
-.empty{text-align:center;padding:40px;color:var(--muted);}
-.empty .icon{font-size:3em;margin-bottom:12px;}
-#results{min-height:100px;}
-@media(max-width:600px){.mets{grid-template-columns:repeat(3,1fr);}.card h3{padding-right:0;font-size:.92em;}.badge{position:static;display:inline-block;margin-bottom:6px;}.stats{grid-template-columns:repeat(2,1fr);}}
+.ptag{display:inline-block;padding:1px 5px;border-radius:5px;font-size:.66em;background:rgba(255,255,255,.06);color:var(--muted);margin-left:3px;}
+.nt{font-size:.78em;color:var(--muted);margin-top:5px;padding-top:5px;border-top:1px solid var(--border);}
+.info{text-align:center;color:var(--muted);font-size:.74em;padding:12px 0;}
+.empty{text-align:center;padding:30px;color:var(--muted);}
+.xbtn{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1em;padding:2px 6px;}
+.xbtn:hover{color:var(--red);}
+.card .xbtn+.badge{right:36px;}
+
+/* Upload small */
+.upsmall{text-align:center;margin:8px 0;font-size:.8em;color:var(--muted);}
+.upsmall label{color:var(--blue);cursor:pointer;text-decoration:underline;}
+.upsmall input{display:none;}
+
+/* Collapsible */
+.collapse-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:4px 12px;border-radius:6px;cursor:pointer;font-size:.78em;margin-left:auto;}
+.collapse-btn:hover{border-color:var(--blue);color:var(--blue);}
+
+@media(max-width:600px){.srow{grid-template-columns:1fr 1fr;}.srow2{grid-template-columns:1fr 1fr 1fr;}.arow{grid-template-columns:1fr 1fr;}.mets{grid-template-columns:repeat(3,1fr);}.card h3{padding-right:0;}.badge{position:static;display:inline-block;margin-bottom:4px;}.stats{grid-template-columns:repeat(2,1fr);}}
 </style>
 </head>
 <body>
 
 <div class="hdr">
   <h1>🏠 Buscador Semàfor LIB</h1>
-  <p>Mètode Libertad Inmobiliaria (Carlos Galán) · Cerca multi-portal · Anàlisi automàtica</p>
+  <p>Mètode Libertad Inmobiliaria (Carlos Galán) · Cerca multi-portal</p>
+  <div class="ver">v5.0 — 2026-11-21</div>
 </div>
 
-<div class="upload" id="uploadArea" onclick="document.getElementById('fileInput').click()">
-  <input type="file" id="fileInput" accept=".json">
-  <div class="icon">📂</div>
-  <p><strong>Carrega resultats_lib.json</strong> del Colab</p>
-  <span class="btn">Seleccionar fitxer</span>
-</div>
-
-<div id="dashboard" style="display:none;">
-  <div class="stats" id="statsBar"></div>
-  <div class="fbar" id="filterBar">
-    <div><label>Ciutat</label><select id="fCiutat"><option value="">Totes</option></select></div>
-    <div><label>Preu mínim</label><input id="fPreuMin" type="number" placeholder="30000"></div>
-    <div><label>Preu màxim</label><input id="fPreuMax" type="number" placeholder="70000"></div>
-    <div><label>Habitacions mín</label><select id="fHabs"><option value="">Totes</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option></select></div>
-    <div><label>m² mínim</label><input id="fM2" type="number" placeholder="0"></div>
-    <div><label>Portal</label><select id="fPortal"><option value="">Tots</option></select></div>
+<!-- ═══ 1. SEARCH BAR ═══ -->
+<div class="stitle">🔍 Buscar pisos</div>
+<div class="sbar">
+  <div class="srow">
+    <div><label>Ciutat</label><input id="sCiutat" type="text" placeholder="Lleida, Martorell..." list="ciutatsList"></div>
+    <div><label>Preu mínim</label><input id="sPreuMin" type="number" value="30000"></div>
+    <div><label>Preu màxim</label><input id="sPreuMax" type="number" value="70000"></div>
+    <div><label>Comunitat Autònoma</label>
+      <select id="sCCAA">
+        <option value="Cataluña" data-itp="10">Catalunya (ITP 10%)</option>
+        <option value="Aragón" data-itp="8">Aragó (ITP 8%)</option>
+        <option value="Comunidad de Madrid" data-itp="6">Madrid (ITP 6%)</option>
+        <option value="Comunidad Valenciana" data-itp="10">València (ITP 10%)</option>
+        <option value="Andalucía" data-itp="7">Andalusia (ITP 7%)</option>
+        <option value="Castilla y León" data-itp="8">Castella i Lleó (ITP 8%)</option>
+        <option value="País Vasco" data-itp="4">País Basc (ITP 4%)</option>
+        <option value="Galicia" data-itp="9">Galícia (ITP 9%)</option>
+        <option value="Murcia" data-itp="8">Múrcia (ITP 8%)</option>
+        <option value="Canarias" data-itp="6.5">Canàries (ITP 6.5%)</option>
+        <option value="Castilla-La Mancha" data-itp="9">C-La Manxa (ITP 9%)</option>
+        <option value="Extremadura" data-itp="8">Extremadura (ITP 8%)</option>
+        <option value="Navarra" data-itp="6">Navarra (ITP 6%)</option>
+        <option value="La Rioja" data-itp="7">La Rioja (ITP 7%)</option>
+        <option value="Cantabria" data-itp="10">Cantàbria (ITP 10%)</option>
+        <option value="Asturias" data-itp="8">Astúries (ITP 8%)</option>
+        <option value="Baleares" data-itp="8">Balears (ITP 8%)</option>
+      </select>
+    </div>
   </div>
-  <div class="portals" id="portalBar"></div>
-  <div id="results"></div>
-  <div class="info" id="infoBar"></div>
+  <div class="portals" id="portalLinks"></div>
 </div>
 
-<div class="empty" id="emptyState">
-  <div class="icon">🔍</div>
-  <p><strong>Com funciona:</strong></p>
-  <p>1️⃣ Executa <code>buscador_lib.py</code> a Google Colab</p>
-  <p>2️⃣ Descarrega <code>resultats_lib.json</code></p>
-  <p>3️⃣ Carrega'l aquí amunt ↑</p>
-  <p style="margin-top:10px;font-size:.85em;">Busca a Idealista, Fotocasa, Haya, Solvia, Servihabitat,<br>Altamira, Aliseda, CaixaBank, Anticipa</p>
+<datalist id="ciutatsList"></datalist>
+
+<!-- ═══ 2. ADD PROPERTY ═══ -->
+<div class="stitle">📊 Analitza un pis (semàfor instantani)</div>
+<div class="addform">
+  <div class="arow">
+    <div><label>Preu (€)</label><input id="aPreu" type="number" placeholder="55000"></div>
+    <div><label>m²</label><input id="aM2" type="number" placeholder="65"></div>
+    <div><label>Habitacions</label><input id="aHabs" type="number" placeholder="2" value="2"></div>
+    <div><label>Renda mensual est. (€)</label><input id="aRenda" type="number" placeholder="420"></div>
+    <div><label>Zona / Barri</label><input id="aZona" type="text" placeholder="Centre Històric"></div>
+    <div><label>Link del pis (opcional)</label><input id="aUrl" type="url" placeholder="https://idealista.com/..."></div>
+  </div>
+  <div class="arow" style="grid-template-columns:1fr 1fr;">
+    <div><label>Hipoteca %</label><input id="aHipo" type="number" value="80"></div>
+    <div><label>Interès fix %</label><input id="aInteres" type="number" value="3.50" step="0.01"></div>
+  </div>
+  <button class="abtn" onclick="afegirPis()">🚦 Calcular semàfor</button>
 </div>
+
+<!-- ═══ 3. RESULTS ═══ -->
+<div class="stitle">🚦 Resultats</div>
+<div class="stats" id="statsBar" style="display:none;"></div>
+<div id="results"></div>
+
+<!-- Upload JSON -->
+<div class="upsmall">
+  <label for="fileInput">📂 Carregar resultats_lib.json del Colab</label>
+  <input type="file" id="fileInput" accept=".json">
+</div>
+
+<div class="info" id="infoBar"></div>
 
 <script>
-let allPisos=[], currentS='tots', currentP='tots';
-const semLabel={comprar:'🟢 COMPRAR',estudiar:'🟡 ESTUDIAR',passar:'🔴 PASSAR'};
-const allChecks={bruta:'Bruta ≥7%',neta:'Neta ≥4%',per:'PER ≤15',cf:'CF positiu',zona:'Zona bona'};
+// ═══ DATA ═══
+let pisos = [];
+let currentFilter = 'tots';
 
-function portalClass(p){p=p.toLowerCase();if(p==='idealista')return'idealista';if(p==='fotocasa')return'fotocasa';if(p==='habitaclia')return'habitaclia';return'bank';}
+// ═══ ZONES TELEGRAM ═══
+const ZONES_BONA = ['universitat','ricard vinyes','clot','princep de viana','escola del treball','cappont','centre historic','centre històric'];
+const ZONES_EVITAR = ['mariola','bloques juan carlos','joan carles'];
 
-function renderCard(p){
-  const ch=Object.entries(allChecks).map(([k,v])=>{
-    if(p.checks.includes(k))return`<span class="chk p">✅ ${v}</span>`;
-    if(k==='zona'&&p.zonaClass==='evitar')return`<span class="chk f">🔴 Zona evitar</span>`;
-    if(k==='zona'&&p.zonaClass==='neutra')return`<span class="chk w">🟡 Zona neutra</span>`;
-    return`<span class="chk f">❌ ${v}</span>`;
+function zonaClass(z) {
+  const zl = (z||'').toLowerCase();
+  for (const k of ZONES_BONA) if (zl.includes(k)) return 'bona';
+  for (const k of ZONES_EVITAR) if (zl.includes(k)) return 'evitar';
+  return 'neutra';
+}
+
+// ═══ LIB CALCULATOR ═══
+function cuotaMensual(capital, interesAnual, anys) {
+  const r = interesAnual / 100 / 12;
+  const n = anys * 12;
+  if (r === 0) return capital / n;
+  return capital * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n) - 1);
+}
+
+function calcularLIB(preu, m2, habs, rendaMes, zona, hipoPct, interes) {
+  const sel = document.getElementById('sCCAA');
+  const itpRate = parseFloat(sel.options[sel.selectedIndex].dataset.itp) / 100;
+  const itp = preu * itpRate;
+  const notReg = 2500;
+  const totalCompra = preu + itp + notReg;
+  const capitalHipo = preu * (hipoPct / 100);
+  const entrada = preu * (1 - hipoPct / 100);
+  const capInv = entrada + itp + notReg;
+  const quota = cuotaMensual(capitalHipo, interes, 25);
+  const rendaAnual = rendaMes * 12;
+  const comunitat = 50 * 12;
+  const ibi = preu * 0.005;
+  const mant = rendaAnual * 0.10;
+  const vac = rendaAnual * 0.05;
+  const seg = rendaAnual * 0.05;
+  const asseg = 200;
+  const totalGastos = comunitat + ibi + mant + vac + seg + asseg;
+  const bruta = preu > 0 ? (rendaAnual / preu * 100) : 0;
+  const benefNet = rendaAnual - totalGastos;
+  const neta = totalCompra > 0 ? (benefNet / totalCompra * 100) : 0;
+  const per = rendaAnual > 0 ? (preu / rendaAnual) : 999;
+  const cf = rendaMes - quota - (totalGastos / 12);
+  const rentCap = capInv > 0 ? (benefNet / capInv * 100) : 0;
+
+  const zc = zonaClass(zona);
+  const checks = [];
+  let punts = 0;
+  if (bruta >= 7) { punts++; checks.push('bruta'); }
+  if (neta >= 4) { punts++; checks.push('neta'); }
+  if (per <= 15) { punts++; checks.push('per'); }
+  if (cf >= 0) { punts++; checks.push('cf'); }
+  if (zc === 'bona') { punts++; checks.push('zona'); }
+  if (zc === 'evitar') punts--;
+
+  let semfor = 'passar';
+  if (punts >= 4) semfor = 'comprar';
+  else if (punts >= 2) semfor = 'estudiar';
+
+  return { bruta:+bruta.toFixed(1), neta:+neta.toFixed(1), per:+per.toFixed(1), cf:Math.round(cf), rentCap:+rentCap.toFixed(1), quota:Math.round(quota), capInv:Math.round(capInv), checks, semfor, zonaClass:zc };
+}
+
+// ═══ PORTAL LINKS ═══
+function generarLinks() {
+  const ciutat = document.getElementById('sCiutat').value.trim();
+  if (!ciutat) { document.getElementById('portalLinks').innerHTML = '<span style="color:var(--muted);font-size:.82em;">Escriu una ciutat per veure els links</span>'; return; }
+  const slug = ciutat.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  const pmin = document.getElementById('sPreuMin').value || 30000;
+  const pmax = document.getElementById('sPreuMax').value || 70000;
+
+  const links = [
+    { nom:'Idealista', cls:'p-idealista', url:`https://www.idealista.com/venta-viviendas/${slug}/con-precio-hasta_${pmax},precio-desde_${pmin}/` },
+    { nom:'Fotocasa', cls:'p-fotocasa', url:`https://www.fotocasa.es/es/comprar/viviendas/${slug}/todas-las-zonas/l?maxPrice=${pmax}&minPrice=${pmin}` },
+    { nom:'Habitaclia', cls:'p-habitaclia', url:`https://www.habitaclia.com/viviendas-en-${slug}.htm?precio_max=${pmax}&precio_min=${pmin}` },
+    { nom:'Milanuncios', cls:'p-mila', url:`https://www.milanuncios.com/pisos-en-${slug}/?fromPrice=${pmin}&toPrice=${pmax}` },
+    { nom:'Haya', cls:'p-bank', url:`https://www.google.com/search?q=site:hfreinmobiliaria.com+piso+${encodeURIComponent(ciutat)}+venta` },
+    { nom:'Solvia', cls:'p-bank', url:`https://www.google.com/search?q=site:solvia.es+piso+${encodeURIComponent(ciutat)}+venta` },
+    { nom:'Servihabitat', cls:'p-bank', url:`https://www.google.com/search?q=site:servihabitat.com+piso+${encodeURIComponent(ciutat)}+venta` },
+    { nom:'CaixaBank', cls:'p-bank', url:`https://www.google.com/search?q=site:inmuebles.caixabank.es+piso+${encodeURIComponent(ciutat)}` },
+    { nom:'Altamira', cls:'p-bank', url:`https://www.google.com/search?q=site:altamirainmuebles.com+piso+${encodeURIComponent(ciutat)}` },
+  ];
+
+  const colabUrl = `https://colab.research.google.com/github/diordes/diordes.github.io/blob/main/Pisos/buscador_semfor.ipynb`;
+  let html = `<a href="${colabUrl}" target="_blank" style="background:#F9AB00;color:#000;font-weight:700;padding:8px 18px;border-radius:8px;text-decoration:none;font-size:.9em;display:inline-flex;align-items:center;gap:4px;">🚀 BUSCAR AMB COLAB (semàfor automàtic)</a>`;
+  html += links.map(l => `<a href="${l.url}" target="_blank" class="${l.cls}">🔗 ${l.nom}</a>`).join('');
+  document.getElementById('portalLinks').innerHTML = html;
+}
+
+document.getElementById('sCiutat').addEventListener('input', generarLinks);
+document.getElementById('sPreuMin').addEventListener('change', generarLinks);
+document.getElementById('sPreuMax').addEventListener('change', generarLinks);
+
+// ═══ ADD PROPERTY ═══
+function afegirPis() {
+  const preu = parseInt(document.getElementById('aPreu').value);
+  const m2 = parseInt(document.getElementById('aM2').value);
+  const habs = parseInt(document.getElementById('aHabs').value) || 2;
+  const renda = parseInt(document.getElementById('aRenda').value);
+  const zona = document.getElementById('aZona').value.trim();
+  const url = document.getElementById('aUrl').value.trim();
+  const hipo = parseFloat(document.getElementById('aHipo').value) || 80;
+  const interes = parseFloat(document.getElementById('aInteres').value) || 3.5;
+
+  if (!preu || !renda) { alert('Cal introduir almenys preu i renda estimada'); return; }
+
+  const ciutat = document.getElementById('sCiutat').value.trim() || 'Desconeguda';
+  const lib = calcularLIB(preu, m2||0, habs, renda, zona, hipo, interes);
+
+  pisos.unshift({
+    id: 'm_' + Date.now(),
+    nom: zona ? `${zona}, ${ciutat}` : ciutat,
+    preu, m2: m2||0, habs, renda, ciutat, zona: zona || ciutat,
+    planta: '', portal: 'Manual', url: url || '',
+    alquilat: false, notes: '',
+    ...lib,
+    manual: true,
+  });
+
+  renderAll();
+  // Clear some fields
+  document.getElementById('aPreu').value = '';
+  document.getElementById('aM2').value = '';
+  document.getElementById('aRenda').value = '';
+  document.getElementById('aZona').value = '';
+  document.getElementById('aUrl').value = '';
+}
+
+// ═══ RENDER ═══
+const semLabel = {comprar:'🟢 COMPRAR', estudiar:'🟡 ESTUDIAR', passar:'🔴 PASSAR'};
+const allChecks = {bruta:'Bruta ≥7%', neta:'Neta ≥4%', per:'PER ≤15', cf:'CF positiu', zona:'Zona bona'};
+
+function portalLnkClass(p) { p=p.toLowerCase(); if(p==='idealista')return'idealista'; if(p==='fotocasa')return'fotocasa'; if(p==='manual')return'manual'; return'bank'; }
+
+function renderCard(p, idx) {
+  const ch = Object.entries(allChecks).map(([k,v]) => {
+    if (p.checks.includes(k)) return `<span class="chk p">✅ ${v}</span>`;
+    if (k==='zona' && p.zonaClass==='evitar') return `<span class="chk f">🔴 Zona evitar</span>`;
+    if (k==='zona' && p.zonaClass==='neutra') return `<span class="chk w">🟡 Zona neutra</span>`;
+    return `<span class="chk f">❌ ${v}</span>`;
   }).join('');
-  return`<div class="card ${p.semfor}" data-s="${p.semfor}" data-p="${p.portal.toLowerCase()}">
+
+  const urlBtn = p.url ? `<a class="lnk ${portalLnkClass(p.portal)}" href="${p.url}" target="_blank" rel="noopener">🔗 Veure a ${p.portal}</a>` : '';
+
+  return `<div class="card ${p.semfor}" data-s="${p.semfor}">
+    ${p.manual ? `<button class="xbtn" onclick="eliminarPis(${idx})" title="Eliminar">✕</button>` : ''}
     <span class="badge">${semLabel[p.semfor]}</span>
-    <h3>${p.nom}<span class="zt ${p.zonaClass}">${p.zona||p.ciutat}</span><span class="ptag">${p.portal}</span></h3>
-    <div class="meta">💰 ${p.preu.toLocaleString('ca')}€ · ${p.habs}hab · ${p.m2}m² · Renda est: ${p.renda}€/mes${p.alquilat?' · 🔑 Alquilat':''}</div>
+    <h3>${p.nom} <span class="zt ${p.zonaClass}">${p.zona||p.ciutat}</span> <span class="ptag">${p.portal}</span></h3>
+    <div class="meta">💰 ${p.preu.toLocaleString('ca')}€ · ${p.habs}hab · ${p.m2}m² · Renda: ${p.renda}€/mes</div>
     <div class="mets">
       <div class="met"><div class="v ${p.bruta>=7?'ok':'ko'}">${p.bruta}%</div><div class="k">Rent. Bruta</div></div>
       <div class="met"><div class="v ${p.neta>=4?'ok':'ko'}">${p.neta}%</div><div class="k">Rent. Neta</div></div>
       <div class="met"><div class="v ${p.per<=15?'ok':'ko'}">${p.per}</div><div class="k">PER</div></div>
-      <div class="met"><div class="v ${p.cf>=0?'ok':'ko'}">${p.cf>=0?'+':''}${p.cf}€</div><div class="k">Cashflow/mes</div></div>
-      <div class="met"><div class="v">${p.rentCap}%</div><div class="k">Rent/Capital</div></div>
-      <div class="met"><div class="v">${p.quota}€</div><div class="k">Quota hipo</div></div>
+      <div class="met"><div class="v ${p.cf>=0?'ok':'ko'}">${p.cf>=0?'+':''}${p.cf}€</div><div class="k">CF/mes</div></div>
+      <div class="met"><div class="v">${p.rentCap}%</div><div class="k">Rent/Cap</div></div>
+      <div class="met"><div class="v">${p.quota}€</div><div class="k">Quota</div></div>
     </div>
     <div class="chks">${ch}</div>
     ${p.notes?`<div class="nt">📝 ${p.notes}</div>`:''}
-    <a class="lnk ${portalClass(p.portal)}" href="${p.url}" target="_blank" rel="noopener">🔗 Veure a ${p.portal}</a>
+    ${urlBtn}
   </div>`;
 }
 
-function render(){
-  let pisos=allPisos;
-  if(currentS!=='tots')pisos=pisos.filter(p=>p.semfor===currentS);
-  // Apply filters
-  const fC=document.getElementById('fCiutat').value;
-  const fPmin=parseInt(document.getElementById('fPreuMin').value)||0;
-  const fPmax=parseInt(document.getElementById('fPreuMax').value)||Infinity;
-  const fH=parseInt(document.getElementById('fHabs').value)||0;
-  const fM=parseInt(document.getElementById('fM2').value)||0;
-  const fPo=document.getElementById('fPortal').value;
-  if(fC)pisos=pisos.filter(p=>p.ciutat===fC);
-  if(fPmin)pisos=pisos.filter(p=>p.preu>=fPmin);
-  if(fPmax<Infinity)pisos=pisos.filter(p=>p.preu<=fPmax);
-  if(fH)pisos=pisos.filter(p=>p.habs>=fH);
-  if(fM)pisos=pisos.filter(p=>p.m2>=fM);
-  if(fPo)pisos=pisos.filter(p=>p.portal===fPo);
-  document.getElementById('results').innerHTML=pisos.length?pisos.map(renderCard).join(''):`<div class="empty"><p>Cap pis amb aquests filtres (${allPisos.length} total)</p></div>`;
-  document.querySelectorAll('.stat').forEach(s=>s.classList.toggle('on',s.dataset.f===currentS));
-}
+function eliminarPis(idx) { pisos.splice(idx, 1); renderAll(); }
 
-function loadData(data){
-  allPisos=data.pisos||[];
-  const r=data.resum||{};
-  document.getElementById('dashboard').style.display='';
-  document.getElementById('emptyState').style.display='none';
-  document.getElementById('uploadArea').style.display='none';
+function renderAll() {
+  const nC = pisos.filter(p=>p.semfor==='comprar').length;
+  const nE = pisos.filter(p=>p.semfor==='estudiar').length;
+  const nP = pisos.filter(p=>p.semfor==='passar').length;
+  const nT = pisos.length;
 
-  // Stats as clickable filter cards
-  document.getElementById('statsBar').innerHTML=`
-    <div class="stat on" data-f="tots"><div class="n">${r.total||allPisos.length}</div><div class="l">TOTS</div></div>
-    <div class="stat" data-f="comprar"><div class="n" style="color:var(--green)">${r.comprar||0}</div><div class="l">🟢 COMPRAR</div></div>
-    <div class="stat" data-f="estudiar"><div class="n" style="color:var(--yellow)">${r.estudiar||0}</div><div class="l">🟡 ESTUDIAR</div></div>
-    <div class="stat" data-f="passar"><div class="n" style="color:var(--red)">${r.passar||0}</div><div class="l">🔴 PASSAR</div></div>
+  if (nT === 0) {
+    document.getElementById('statsBar').style.display = 'none';
+    document.getElementById('results').innerHTML = '<div class="empty">Cap pis analitzat encara. Busca, afegeix i calcula!</div>';
+    return;
+  }
+
+  document.getElementById('statsBar').style.display = '';
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stat ${currentFilter==='tots'?'on':''}" data-f="tots"><div class="n">${nT}</div><div class="l">TOTS</div></div>
+    <div class="stat ${currentFilter==='comprar'?'on':''}" data-f="comprar"><div class="n" style="color:var(--green)">${nC}</div><div class="l">🟢 COMPRAR</div></div>
+    <div class="stat ${currentFilter==='estudiar'?'on':''}" data-f="estudiar"><div class="n" style="color:var(--yellow)">${nE}</div><div class="l">🟡 ESTUDIAR</div></div>
+    <div class="stat ${currentFilter==='passar'?'on':''}" data-f="passar"><div class="n" style="color:var(--red)">${nP}</div><div class="l">🔴 PASSAR</div></div>
   `;
-  document.querySelectorAll('.stat').forEach(s=>{
-    s.addEventListener('click',()=>{ currentS=s.dataset.f; render(); });
+
+  document.querySelectorAll('.stat').forEach(s => {
+    s.addEventListener('click', () => { currentFilter = s.dataset.f; renderAll(); });
   });
 
-  // Populate filter dropdowns
-  const ciutats=[...new Set(allPisos.map(p=>p.ciutat))].sort();
-  const portals=[...new Set(allPisos.map(p=>p.portal))].sort();
-  const fCiutat=document.getElementById('fCiutat');
-  const fPortal=document.getElementById('fPortal');
-  fCiutat.innerHTML='<option value="">Totes</option>'+ciutats.map(c=>`<option value="${c}">${c}</option>`).join('');
-  fPortal.innerHTML='<option value="">Tots</option>'+portals.map(p=>`<option value="${p}">${p} (${allPisos.filter(x=>x.portal===p).length})</option>`).join('');
-  // Listen to filter changes
-  document.querySelectorAll('.fbar select, .fbar input').forEach(el=>{
-    el.addEventListener('change',render);
-    el.addEventListener('input',()=>{clearTimeout(el._t);el._t=setTimeout(render,400);});
-  });
-  document.getElementById('portalBar').innerHTML='';
+  let filtered = pisos;
+  if (currentFilter !== 'tots') filtered = pisos.filter(p => p.semfor === currentFilter);
 
-  const cfg=data.config||{};
-  document.getElementById('infoBar').innerHTML=`
-    Generat: ${data.generatEl||'—'} · ${(cfg.preuMin||30000).toLocaleString('ca')}–${(cfg.preuMax||70000).toLocaleString('ca')}€ · 
-    Hipoteca ${((cfg.hipotecaPct||0.8)*100).toFixed(0)}% a ${cfg.interesFix||3.5}% fix · 
-    Ciutats: ${cfg.ciutats?.join(', ')||'—'}
-  `;
-  currentS='tots'; currentP='tots';
-  render();
+  document.getElementById('results').innerHTML = filtered.length
+    ? filtered.map((p, i) => renderCard(p, pisos.indexOf(p))).join('')
+    : '<div class="empty">Cap pis amb aquest filtre</div>';
+
+  // Save to localStorage
+  try { localStorage.setItem('pisos_lib', JSON.stringify(pisos)); } catch(e) {}
 }
 
-document.getElementById('fileInput').addEventListener('change',e=>{
-  const file=e.target.files[0]; if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{try{loadData(JSON.parse(ev.target.result));}catch(err){alert('Error: '+err.message);}};
+// ═══ LOAD JSON ═══
+function loadJSON(data) {
+  const newPisos = (data.pisos || []).map(p => ({...p, manual: false}));
+  // Merge: keep manuals, add new from JSON
+  const manuals = pisos.filter(p => p.manual);
+  pisos = [...manuals, ...newPisos];
+  renderAll();
+  document.getElementById('infoBar').innerHTML = `JSON carregat: ${newPisos.length} pisos · ${data.generatEl || ''}`;
+}
+
+document.getElementById('fileInput').addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => { try { loadJSON(JSON.parse(ev.target.result)); } catch(err) { alert('Error: ' + err.message); } };
   reader.readAsText(file);
 });
 
-// Auto-load from data/
-fetch('data/resultats_lib.json').then(r=>{if(r.ok)return r.json();throw'';}).then(d=>loadData(d)).catch(()=>{});
+// ═══ INIT ═══
+// Load from localStorage
+try {
+  const saved = localStorage.getItem('pisos_lib');
+  if (saved) { pisos = JSON.parse(saved); renderAll(); }
+} catch(e) {}
+
+// Auto-load JSON from data/
+fetch('data/resultats_lib.json').then(r => { if (r.ok) return r.json(); throw ''; }).then(d => loadJSON(d)).catch(() => {});
+
+// Init portal links
+generarLinks();
+
+// Ciutats datalist
+const ciutatsLlista = ['Lleida','Binèfar','Manresa','Balaguer','Mollerussa','Tàrrega','Cervera','Solsona','Tremp','La Seu d\'Urgell','Fraga','Monzón','Barbastro','Huesca','Barcelona','Tarragona','Girona','Reus','Tortosa','Vic','Igualada','Terrassa','Sabadell','Mataró','Granollers','Martorell','Vilafranca del Penedès','Vilanova i la Geltrú','El Vendrell','Valls','Amposta','Zaragoza','Teruel','Calatayud','Madrid','Valencia','Sevilla','Málaga','Bilbao','Alicante','Murcia','Valladolid','Salamanca','León','Burgos','A Coruña','Vigo','Granada','Córdoba','Cádiz','Santander','Oviedo','Gijón','Pamplona','Logroño','Castellón','Albacete','Ciudad Real','Toledo','Badajoz','Cáceres','Huelva','Jaén','Almería','Las Palmas','Elche','Cartagena','Jerez de la Frontera','Talavera de la Reina','Linares','Alcoy','Ferrol','Ponferrada','Ávila','Segovia','Soria','Guadalajara','Cuenca','Lugo','Ourense','Zamora','Palencia'];
+document.getElementById('ciutatsList').innerHTML = ciutatsLlista.map(c => `<option value="${c}">`).join('');
 </script>
 </body>
 </html>
