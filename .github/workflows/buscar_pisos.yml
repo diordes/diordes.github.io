@@ -1,4 +1,4 @@
-﻿name: Buscar Pisos LIB
+name: Buscar Pisos LIB
 
 on:
   schedule:
@@ -6,15 +6,15 @@ on:
   workflow_dispatch:
     inputs:
       ciutat:
-        description: 'Ciutat extra (pex Lepe, Martorell...)'
+        description: Ciutat extra
         required: false
         default: ''
       ccaa:
-        description: 'CCAA de la ciutat extra'
+        description: CCAA
         required: false
-        default: 'Andalucia'
+        default: Catalu?a
       preu_max:
-        description: 'Preu maxim'
+        description: Preu maxim
         required: false
         default: '70000'
 
@@ -37,8 +37,8 @@ jobs:
           CCAA_EXTRA: ${{ github.event.inputs.ccaa }}
           PREU_MAX_OVERRIDE: ${{ github.event.inputs.preu_max }}
       - run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
           git add Pisos/data/resultats_lib.json
-          git diff --staged --quiet || git commit -m "Actualitzar pisos $(date +%Y-%m-%d)"
+          git diff --staged --quiet || git commit -m "Actualitzar pisos"
           git push
