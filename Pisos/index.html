@@ -98,7 +98,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="hdr">
   <h1>🏠 Semàfor LIB</h1>
   <p>Mètode Libertad Inmobiliaria (Carlos Galán) · Cerca automàtica multi-portal</p>
-  <div class="ver">v9.1 — 2026-11-21 · GitHub Actions</div>
+  <div class="ver">v10.1 — 2026-11-21</div>
 </div>
 
 <!-- Run Action bar -->
@@ -365,10 +365,22 @@ function renderCiutats(){
   el.innerHTML=mevesCiutats.map((c,i)=>`
     <div style="display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:4px 10px;margin:3px;font-size:.85em;">
       <span>${c.nom}</span>
-      <span style="font-size:.7em;color:var(--muted);">(${c.ccaa})</span>
+      <span onclick="canviarCCAA(${i})" style="font-size:.7em;color:var(--blue);cursor:pointer;text-decoration:underline;" title="Clica per canviar">${c.ccaa}</span>
       <button onclick="treureCiutat(${i})" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:1em;padding:0 2px;">✕</button>
     </div>
   `).join('');
+}
+
+async function canviarCCAA(i){
+  const c=mevesCiutats[i];
+  const opts=TOTES_CCAA.map(cc=>`<option value="${cc}"${cc===c.ccaa?' selected':''}>${cc}</option>`).join('');
+  document.getElementById('confirmText').innerHTML=`Canviar CCAA de <strong>${c.nom}</strong>:<br><select id="confirmCCAA" style="margin-top:6px;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.9em;width:100%;">${opts}</select>`;
+  document.getElementById('confirmModal').style.display='flex';
+  const ok=await new Promise(resolve=>{confirmCb=resolve;});
+  if(!ok) return;
+  mevesCiutats[i].ccaa=document.getElementById('confirmCCAA')?.value||c.ccaa;
+  localStorage.setItem('pisos_ciutats',JSON.stringify(mevesCiutats));
+  renderCiutats();
 }
 
 async function treureCiutat(i){
@@ -438,12 +450,35 @@ function detectarCCAA(nom){
   return 'Cataluña'; // default
 }
 
-function afegirCiutat(){
+const TOTES_CCAA=['Cataluña','Aragón','Andalucía','Comunidad de Madrid','Comunidad Valenciana','Castilla y León','Castilla-La Mancha','Galicia','País Vasco','Murcia','Canarias','Navarra','Extremadura','Asturias','Cantabria','La Rioja','Baleares'];
+
+async function afegirCiutat(){
   const nom=document.getElementById('newCiutat').value.trim();
   if(!nom){alert('Escriu el nom de la ciutat');return;}
   if(mevesCiutats.some(c=>c.nom.toLowerCase()===nom.toLowerCase())){alert('Ja existeix');return;}
   const ccaa=detectarCCAA(nom);
-  mevesCiutats.push({nom,ccaa});
+
+  // Mostrar confirmació amb opció de canviar CCAA
+  const opts=TOTES_CCAA.map(c=>`<option value="${c}"${c===ccaa?' selected':''}>${c}</option>`).join('');
+
+  document.getElementById('confirmText').innerHTML=`
+    Afegir <strong>${nom}</strong>?<br>
+    <span style="font-size:.85em;color:var(--muted);">Comunitat detectada:</span><br>
+    <select id="confirmCCAA" style="margin-top:6px;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.9em;width:100%;">${opts}</select>
+  `;
+  document.getElementById('confirmModal').style.display='flex';
+
+  const ok=await new Promise(resolve=>{confirmCb=resolve;});
+  if(!ok) return;
+
+  const ccaaFinal=document.getElementById('confirmCCAA')?.value||ccaa;
+
+  if(ccaaFinal!==ccaa){
+    const ok2=await showConfirm(`⚠️ Has canviat la comunitat de "${nom}" de ${ccaa} a ${ccaaFinal}. L'ITP serà diferent (${({'Cataluña':'10%','Aragón':'8%','Andalucía':'7%','Comunidad de Madrid':'6%','Comunidad Valenciana':'10%','País Vasco':'4%'}[ccaaFinal])||'variable'}). Estàs segur?`);
+    if(!ok2) return;
+  }
+
+  mevesCiutats.push({nom,ccaa:ccaaFinal});
   localStorage.setItem('pisos_ciutats',JSON.stringify(mevesCiutats));
   document.getElementById('newCiutat').value='';
   renderCiutats();
