@@ -98,14 +98,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="hdr">
   <h1>🏠 Semàfor LIB</h1>
   <p>Mètode Libertad Inmobiliaria (Carlos Galán) · Cerca automàtica multi-portal</p>
-  <div class="ver">v9.0 — 2026-11-21 · GitHub Actions</div>
+  <div class="ver">v9.1 — 2026-11-21 · GitHub Actions</div>
 </div>
 
 <!-- Run Action bar -->
 <div class="run-bar" style="background:var(--card);border-radius:10px;padding:12px;margin-bottom:12px;border:1px solid var(--border);">
   <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;">
     <div class="fg" style="flex:1;min-width:120px;"><label style="font-size:.68em;color:var(--muted);display:block;margin-bottom:2px;">Ciutat extra (opcional)</label><input id="runCiutat" type="text" placeholder="Lepe, Martorell..." style="width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.83em;"></div>
-    <div class="fg" style="min-width:100px;"><label style="font-size:.68em;color:var(--muted);display:block;margin-bottom:2px;">CCAA</label><select id="runCCAA" style="width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.83em;"><option>Cataluña</option><option>Aragón</option><option>Andalucía</option><option>Comunidad de Madrid</option><option>Comunidad Valenciana</option><option>Castilla y León</option><option>Castilla-La Mancha</option><option>Galicia</option><option>País Vasco</option><option>Murcia</option><option>Canarias</option><option>Navarra</option><option>Extremadura</option><option>Asturias</option><option>Cantabria</option><option>La Rioja</option><option>Baleares</option></select></div>
     <button id="runBtn" onclick="llançarAction()" style="padding:8px 18px;border:none;border-radius:8px;background:#F9AB00;color:#000;font-weight:700;font-size:.9em;cursor:pointer;white-space:nowrap;">🚀 Buscar ara</button>
     <button onclick="document.getElementById('tokenSetup').style.display=document.getElementById('tokenSetup').style.display==='none'?'block':'none'" style="padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:none;color:var(--muted);cursor:pointer;font-size:.85em;">⚙️</button>
   </div>
@@ -133,8 +132,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <p style="font-size:.85em;color:var(--muted);margin-bottom:10px;">Tria les ciutats que vols que es busquin <strong>cada dia automàticament</strong>. Es guarden al fitxer del repo.</p>
     <div id="ciutatsList" style="margin-bottom:12px;"></div>
     <div style="display:flex;gap:6px;align-items:end;flex-wrap:wrap;">
-      <div class="fg" style="flex:1;min-width:140px;"><label style="font-size:.68em;color:var(--muted);display:block;margin-bottom:2px;">Afegir ciutat</label><input id="newCiutat" type="text" placeholder="Lepe, Martorell..." style="width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.83em;"></div>
-      <div class="fg" style="min-width:100px;"><label style="font-size:.68em;color:var(--muted);display:block;margin-bottom:2px;">CCAA</label><select id="newCCAA" style="width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.83em;"><option>Cataluña</option><option>Aragón</option><option>Andalucía</option><option>Comunidad de Madrid</option><option>Comunidad Valenciana</option><option>Castilla y León</option><option>Castilla-La Mancha</option><option>Galicia</option><option>País Vasco</option><option>Murcia</option><option>Canarias</option><option>Navarra</option><option>Extremadura</option><option>Asturias</option><option>Cantabria</option><option>La Rioja</option><option>Baleares</option></select></div>
+      <div class="fg" style="flex:1;min-width:200px;"><label style="font-size:.68em;color:var(--muted);display:block;margin-bottom:2px;">Afegir ciutat</label><input id="newCiutat" type="text" placeholder="Lepe, Martorell, Vigo..." style="width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.83em;" onkeypress="if(event.key==='Enter')afegirCiutat()"></div>
       <button onclick="afegirCiutat()" style="padding:7px 14px;border:none;border-radius:6px;background:var(--green);color:#fff;font-size:.85em;cursor:pointer;">+ Afegir</button>
     </div>
     <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
@@ -381,11 +379,70 @@ async function treureCiutat(i){
   renderCiutats();
 }
 
+// Auto-detect CCAA from city name
+const CIUTAT_CCAA={
+  // Catalunya
+  'barcelona':'Cataluña','lleida':'Cataluña','tarragona':'Cataluña','girona':'Cataluña',
+  'manresa':'Cataluña','martorell':'Cataluña','vic':'Cataluña','igualada':'Cataluña',
+  'terrassa':'Cataluña','sabadell':'Cataluña','mataro':'Cataluña','granollers':'Cataluña',
+  'reus':'Cataluña','tortosa':'Cataluña','amposta':'Cataluña','balaguer':'Cataluña',
+  'mollerussa':'Cataluña','tarrega':'Cataluña','cervera':'Cataluña','solsona':'Cataluña',
+  'tremp':'Cataluña','la seu d\'urgell':'Cataluña','badalona':'Cataluña',
+  'vilafranca del penedes':'Cataluña','vilanova i la geltru':'Cataluña',
+  'el vendrell':'Cataluña','valls':'Cataluña',
+  // Aragón
+  'zaragoza':'Aragón','huesca':'Aragón','teruel':'Aragón','binefar':'Aragón',
+  'fraga':'Aragón','monzon':'Aragón','barbastro':'Aragón','jaca':'Aragón',
+  'calatayud':'Aragón','ejea de los caballeros':'Aragón','alcaniz':'Aragón',
+  'tamarite de litera':'Aragón',
+  // Andalucía
+  'sevilla':'Andalucía','malaga':'Andalucía','cadiz':'Andalucía','cordoba':'Andalucía',
+  'granada':'Andalucía','huelva':'Andalucía','jaen':'Andalucía','almeria':'Andalucía',
+  'jerez de la frontera':'Andalucía','lepe':'Andalucía','linares':'Andalucía',
+  'marbella':'Andalucía','algeciras':'Andalucía','dos hermanas':'Andalucía',
+  // Madrid
+  'madrid':'Comunidad de Madrid','alcala de henares':'Comunidad de Madrid',
+  'mostoles':'Comunidad de Madrid','getafe':'Comunidad de Madrid',
+  // Valencia
+  'valencia':'Comunidad Valenciana','alicante':'Comunidad Valenciana','castellon':'Comunidad Valenciana',
+  'elche':'Comunidad Valenciana','alcoy':'Comunidad Valenciana','torrevieja':'Comunidad Valenciana',
+  // Galicia
+  'a coruna':'Galicia','vigo':'Galicia','ourense':'Galicia','lugo':'Galicia','ferrol':'Galicia',
+  'santiago de compostela':'Galicia','pontevedra':'Galicia',
+  // País Vasco
+  'bilbao':'País Vasco','san sebastian':'País Vasco','vitoria':'País Vasco',
+  // Castilla y León
+  'valladolid':'Castilla y León','leon':'Castilla y León','burgos':'Castilla y León',
+  'salamanca':'Castilla y León','zamora':'Castilla y León','palencia':'Castilla y León',
+  'segovia':'Castilla y León','soria':'Castilla y León','avila':'Castilla y León',
+  'ponferrada':'Castilla y León',
+  // Castilla-La Mancha
+  'toledo':'Castilla-La Mancha','ciudad real':'Castilla-La Mancha','albacete':'Castilla-La Mancha',
+  'guadalajara':'Castilla-La Mancha','cuenca':'Castilla-La Mancha','talavera de la reina':'Castilla-La Mancha',
+  // Murcia
+  'murcia':'Murcia','cartagena':'Murcia','lorca':'Murcia',
+  // Canarias
+  'las palmas':'Canarias','santa cruz de tenerife':'Canarias',
+  // Resta
+  'pamplona':'Navarra','badajoz':'Extremadura','caceres':'Extremadura',
+  'oviedo':'Asturias','gijon':'Asturias','santander':'Cantabria',
+  'logrono':'La Rioja','palma':'Baleares',
+};
+
+function detectarCCAA(nom){
+  const n=nom.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  for(const[k,v] of Object.entries(CIUTAT_CCAA)){
+    const kn=k.normalize('NFD').replace(/[̀-ͯ]/g,'');
+    if(n===kn) return v;
+  }
+  return 'Cataluña'; // default
+}
+
 function afegirCiutat(){
   const nom=document.getElementById('newCiutat').value.trim();
-  const ccaa=document.getElementById('newCCAA').value;
   if(!nom){alert('Escriu el nom de la ciutat');return;}
   if(mevesCiutats.some(c=>c.nom.toLowerCase()===nom.toLowerCase())){alert('Ja existeix');return;}
+  const ccaa=detectarCCAA(nom);
   mevesCiutats.push({nom,ccaa});
   localStorage.setItem('pisos_ciutats',JSON.stringify(mevesCiutats));
   document.getElementById('newCiutat').value='';
@@ -484,7 +541,7 @@ async function llançarAction(){
     const resp=await fetch('https://api.github.com/repos/diordes/diordes.github.io/actions/workflows/buscar_pisos.yml/dispatches',{
       method:'POST',
       headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify({ref:'main',inputs:{ciutat:ciutat||'',ccaa:ccaa||'Cataluña',preu_max:String(document.getElementById('fPmax')?.value||'70000')}})
+      body:JSON.stringify({ref:'main',inputs:{ciutat:ciutat||'',ccaa:ciutat?detectarCCAA(ciutat):'Cataluña',preu_max:String(document.getElementById('fPmax')?.value||'70000')}})
     });
 
     if(resp.status===204){
