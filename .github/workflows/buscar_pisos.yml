@@ -1,0 +1,44 @@
+﻿name: Buscar Pisos LIB
+
+on:
+  schedule:
+    - cron: '30 7 * * *'
+  workflow_dispatch:
+    inputs:
+      ciutat:
+        description: 'Ciutat extra (pex Lepe, Martorell...)'
+        required: false
+        default: ''
+      ccaa:
+        description: 'CCAA de la ciutat extra'
+        required: false
+        default: 'Andalucia'
+      preu_max:
+        description: 'Preu maxim'
+        required: false
+        default: '70000'
+
+jobs:
+  buscar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+      - run: pip install selenium webdriver-manager beautifulsoup4
+      - run: python Pisos/buscador_action.py
+        env:
+          CIUTAT_EXTRA: ${{ github.event.inputs.ciutat }}
+          CCAA_EXTRA: ${{ github.event.inputs.ccaa }}
+          PREU_MAX_OVERRIDE: ${{ github.event.inputs.preu_max }}
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Pisos/data/resultats_lib.json
+          git diff --staged --quiet || git commit -m "Actualitzar pisos $(date +%Y-%m-%d)"
+          git push
