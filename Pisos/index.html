@@ -98,13 +98,50 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="hdr">
   <h1>🏠 Semàfor LIB</h1>
   <p>Mètode Libertad Inmobiliaria (Carlos Galán) · Cerca automàtica multi-portal</p>
-  <div class="ver">v7.0 — 2026-11-21 · GitHub Actions</div>
+  <div class="ver">v9.0 — 2026-11-21 · GitHub Actions</div>
+</div>
+
+<!-- Run Action bar -->
+<div class="run-bar" style="background:var(--card);border-radius:10px;padding:12px;margin-bottom:12px;border:1px solid var(--border);">
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;">
+    <div class="fg" style="flex:1;min-width:120px;"><label style="font-size:.68em;color:var(--muted);display:block;margin-bottom:2px;">Ciutat extra (opcional)</label><input id="runCiutat" type="text" placeholder="Lepe, Martorell..." style="width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.83em;"></div>
+    <div class="fg" style="min-width:100px;"><label style="font-size:.68em;color:var(--muted);display:block;margin-bottom:2px;">CCAA</label><select id="runCCAA" style="width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.83em;"><option>Cataluña</option><option>Aragón</option><option>Andalucía</option><option>Comunidad de Madrid</option><option>Comunidad Valenciana</option><option>Castilla y León</option><option>Castilla-La Mancha</option><option>Galicia</option><option>País Vasco</option><option>Murcia</option><option>Canarias</option><option>Navarra</option><option>Extremadura</option><option>Asturias</option><option>Cantabria</option><option>La Rioja</option><option>Baleares</option></select></div>
+    <button id="runBtn" onclick="llançarAction()" style="padding:8px 18px;border:none;border-radius:8px;background:#F9AB00;color:#000;font-weight:700;font-size:.9em;cursor:pointer;white-space:nowrap;">🚀 Buscar ara</button>
+    <button onclick="document.getElementById('tokenSetup').style.display=document.getElementById('tokenSetup').style.display==='none'?'block':'none'" style="padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:none;color:var(--muted);cursor:pointer;font-size:.85em;">⚙️</button>
+  </div>
+  <div id="runStatus" style="font-size:.8em;margin-top:6px;color:var(--muted);display:none;"></div>
+  <div id="tokenSetup" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+    <p style="font-size:.78em;color:var(--muted);margin-bottom:6px;">Token de GitHub (es guarda al navegador, no al servidor). Crear-ne un a <a href="https://github.com/settings/tokens/new?description=Pisos+LIB&scopes=repo" target="_blank" style="color:var(--blue);">github.com/settings/tokens</a> amb permís "repo".</p>
+    <div style="display:flex;gap:6px;">
+      <input id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxx" style="flex:1;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.83em;">
+      <button onclick="guardarToken()" style="padding:6px 14px;border:none;border-radius:6px;background:var(--green);color:#fff;font-size:.83em;cursor:pointer;">Guardar</button>
+    </div>
+    <div id="tokenMsg" style="font-size:.75em;margin-top:4px;color:var(--green);display:none;"></div>
+  </div>
 </div>
 
 <!-- Tabs -->
 <div class="tabs">
   <div class="tab on" data-tab="pisos">🏠 Pisos <span class="cnt" id="cntPisos">0</span></div>
   <div class="tab fav-tab" data-tab="favorits">❤️ Favorits <span class="cnt" id="cntFavs">0</span></div>
+  <div class="tab" data-tab="config">⚙️ Ciutats</div>
+</div>
+
+<!-- Config tab -->
+<div id="panelConfig" style="display:none;">
+  <div style="background:var(--card);border-radius:10px;padding:14px;border:1px solid var(--border);">
+    <p style="font-size:.85em;color:var(--muted);margin-bottom:10px;">Tria les ciutats que vols que es busquin <strong>cada dia automàticament</strong>. Es guarden al fitxer del repo.</p>
+    <div id="ciutatsList" style="margin-bottom:12px;"></div>
+    <div style="display:flex;gap:6px;align-items:end;flex-wrap:wrap;">
+      <div class="fg" style="flex:1;min-width:140px;"><label style="font-size:.68em;color:var(--muted);display:block;margin-bottom:2px;">Afegir ciutat</label><input id="newCiutat" type="text" placeholder="Lepe, Martorell..." style="width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.83em;"></div>
+      <div class="fg" style="min-width:100px;"><label style="font-size:.68em;color:var(--muted);display:block;margin-bottom:2px;">CCAA</label><select id="newCCAA" style="width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.83em;"><option>Cataluña</option><option>Aragón</option><option>Andalucía</option><option>Comunidad de Madrid</option><option>Comunidad Valenciana</option><option>Castilla y León</option><option>Castilla-La Mancha</option><option>Galicia</option><option>País Vasco</option><option>Murcia</option><option>Canarias</option><option>Navarra</option><option>Extremadura</option><option>Asturias</option><option>Cantabria</option><option>La Rioja</option><option>Baleares</option></select></div>
+      <button onclick="afegirCiutat()" style="padding:7px 14px;border:none;border-radius:6px;background:var(--green);color:#fff;font-size:.85em;cursor:pointer;">+ Afegir</button>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+      <button onclick="guardarCiutatsAlRepo()" id="btnGuardarCiutats" style="padding:8px 18px;border:none;border-radius:8px;background:var(--blue);color:#fff;font-weight:600;font-size:.9em;cursor:pointer;">💾 Guardar al repo (s'aplicarà a la propera cerca)</button>
+      <span id="ciutatsSaveMsg" style="font-size:.8em;margin-left:8px;color:var(--green);display:none;"></span>
+    </div>
+  </div>
 </div>
 
 <!-- Filters (pisos tab) -->
@@ -272,6 +309,7 @@ document.querySelectorAll('.tab').forEach(t=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.dataset.tab===currentTab));
     document.getElementById('panelPisos').style.display=currentTab==='pisos'?'':'none';
     document.getElementById('panelFavs').style.display=currentTab==='favorits'?'':'none';
+    document.getElementById('panelConfig').style.display=currentTab==='config'?'':'none';
     renderAll();
   });
 });
@@ -315,6 +353,183 @@ fetch('data/resultats_lib.json').then(r=>{if(r.ok)return r.json();throw'';}).the
 
 // Show favs count on load
 document.getElementById('cntFavs').textContent=favs.length;
+
+// ══ CIUTATS CONFIG ═════════════════════════════════════════════════
+let mevesCiutats=JSON.parse(localStorage.getItem('pisos_ciutats')||'null') || [
+  {nom:'Lleida',ccaa:'Cataluña'},{nom:'Binèfar',ccaa:'Aragón'},{nom:'Manresa',ccaa:'Cataluña'},
+  {nom:'Balaguer',ccaa:'Cataluña'},{nom:'Mollerussa',ccaa:'Cataluña'},{nom:'Tàrrega',ccaa:'Cataluña'},
+  {nom:'Fraga',ccaa:'Aragón'},{nom:'Cervera',ccaa:'Cataluña'}
+];
+
+function renderCiutats(){
+  const el=document.getElementById('ciutatsList');
+  if(!el) return;
+  el.innerHTML=mevesCiutats.map((c,i)=>`
+    <div style="display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:4px 10px;margin:3px;font-size:.85em;">
+      <span>${c.nom}</span>
+      <span style="font-size:.7em;color:var(--muted);">(${c.ccaa})</span>
+      <button onclick="treureCiutat(${i})" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:1em;padding:0 2px;">✕</button>
+    </div>
+  `).join('');
+}
+
+async function treureCiutat(i){
+  const ok=await showConfirm(`Treure "${mevesCiutats[i].nom}" de la cerca diària?`);
+  if(!ok) return;
+  mevesCiutats.splice(i,1);
+  localStorage.setItem('pisos_ciutats',JSON.stringify(mevesCiutats));
+  renderCiutats();
+}
+
+function afegirCiutat(){
+  const nom=document.getElementById('newCiutat').value.trim();
+  const ccaa=document.getElementById('newCCAA').value;
+  if(!nom){alert('Escriu el nom de la ciutat');return;}
+  if(mevesCiutats.some(c=>c.nom.toLowerCase()===nom.toLowerCase())){alert('Ja existeix');return;}
+  mevesCiutats.push({nom,ccaa});
+  localStorage.setItem('pisos_ciutats',JSON.stringify(mevesCiutats));
+  document.getElementById('newCiutat').value='';
+  renderCiutats();
+}
+
+async function guardarCiutatsAlRepo(){
+  const token=localStorage.getItem('gh_token');
+  if(!token){alert('Primer configura el token de GitHub (⚙️ al botó de dalt)');return;}
+
+  const btn=document.getElementById('btnGuardarCiutats');
+  const msg=document.getElementById('ciutatsSaveMsg');
+  btn.textContent='💾 Guardant...';
+  btn.disabled=true;
+
+  // Build the new buscador_action.py CIUTATS list
+  const ciutatsCode=mevesCiutats.map(c=>`    {'nom': '${c.nom}', 'ccaa': '${c.ccaa}'},`).join('\n');
+
+  try{
+    // 1. Get current file content
+    const getResp=await fetch('https://api.github.com/repos/diordes/diordes.github.io/contents/Pisos/data/ciutats_config.json',{
+      headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}
+    });
+
+    let sha='';
+    if(getResp.ok){
+      const data=await getResp.json();
+      sha=data.sha;
+    }
+
+    // 2. Write config file
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify(mevesCiutats,null,2))));
+    const putResp=await fetch('https://api.github.com/repos/diordes/diordes.github.io/contents/Pisos/data/ciutats_config.json',{
+      method:'PUT',
+      headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:'Actualitzar ciutats cerca LIB',content:content,...(sha?{sha}:{})})
+    });
+
+    if(putResp.ok||putResp.status===201){
+      msg.textContent='✅ Guardat! La propera cerca usarà aquestes ciutats.';
+      msg.style.display='inline';
+      setTimeout(()=>{msg.style.display='none';},4000);
+    } else {
+      const err=await putResp.text();
+      msg.textContent='❌ Error: '+err.slice(0,80);
+      msg.style.color='var(--red)';
+      msg.style.display='inline';
+    }
+  }catch(e){
+    msg.textContent='❌ Error: '+e.message;
+    msg.style.color='var(--red)';
+    msg.style.display='inline';
+  }
+
+  btn.textContent='💾 Guardar al repo';
+  btn.disabled=false;
+}
+
+// Tab: config
+renderCiutats();
+
+// ══ GITHUB ACTIONS ═════════════════════════════════════════════════
+function guardarToken(){
+  const t=document.getElementById('ghToken').value.trim();
+  if(!t){alert('Posa el token');return;}
+  localStorage.setItem('gh_token',t);
+  document.getElementById('tokenMsg').textContent='✅ Token guardat!';
+  document.getElementById('tokenMsg').style.display='block';
+  setTimeout(()=>{document.getElementById('tokenSetup').style.display='none';},1500);
+}
+
+// Load saved token
+if(localStorage.getItem('gh_token')){
+  document.getElementById('ghToken').value='••••••••••••••••';
+}
+
+async function llançarAction(){
+  const token=localStorage.getItem('gh_token');
+  if(!token){
+    document.getElementById('tokenSetup').style.display='block';
+    alert('Primer configura el token de GitHub (⚙️)');
+    return;
+  }
+
+  const ciutat=document.getElementById('runCiutat').value.trim();
+  const ccaa=document.getElementById('runCCAA').value;
+  const btn=document.getElementById('runBtn');
+  const status=document.getElementById('runStatus');
+
+  btn.textContent='⏳ Llançant...';
+  btn.disabled=true;
+  status.style.display='block';
+  status.textContent='Enviant petició a GitHub Actions...';
+
+  try{
+    const resp=await fetch('https://api.github.com/repos/diordes/diordes.github.io/actions/workflows/buscar_pisos.yml/dispatches',{
+      method:'POST',
+      headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({ref:'main',inputs:{ciutat:ciutat||'',ccaa:ccaa||'Cataluña',preu_max:String(document.getElementById('fPmax')?.value||'70000')}})
+    });
+
+    if(resp.status===204){
+      status.innerHTML='✅ <strong>Llançat!</strong> L\'Action s\'està executant (~5-10 min). La pàgina s\'actualitzarà automàticament quan acabi.';
+      status.style.color='var(--green)';
+      // Poll for new results
+      let tries=0;
+      const oldDate=document.getElementById('infoBar').textContent;
+      const poll=setInterval(async()=>{
+        tries++;
+        if(tries>30){clearInterval(poll);status.textContent+=' (triga més del normal, revisa Actions a GitHub)';return;}
+        status.textContent=`✅ Llançat! Esperant resultats... (${tries*20}s)`;
+        try{
+          const r=await fetch('data/resultats_lib.json?t='+Date.now());
+          if(r.ok){
+            const d=await r.json();
+            if(d.generatEl && !oldDate.includes(d.generatEl)){
+              clearInterval(poll);
+              loadData(d);
+              status.innerHTML='✅ <strong>Resultats actualitzats!</strong> '+d.generatEl;
+            }
+          }
+        }catch(e){}
+      },20000);
+    } else if(resp.status===401||resp.status===403){
+      status.textContent='❌ Token invàlid o sense permisos. Reconfigura a ⚙️';
+      status.style.color='var(--red)';
+      localStorage.removeItem('gh_token');
+      document.getElementById('tokenSetup').style.display='block';
+    } else if(resp.status===404){
+      status.textContent='❌ Workflow no trobat. Assegura\'t que buscar_pisos.yml existeix al repo.';
+      status.style.color='var(--red)';
+    } else {
+      const txt=await resp.text();
+      status.textContent='❌ Error: '+resp.status+' '+txt.slice(0,100);
+      status.style.color='var(--red)';
+    }
+  }catch(e){
+    status.textContent='❌ Error de connexió: '+e.message;
+    status.style.color='var(--red)';
+  }
+
+  btn.textContent='🚀 Buscar ara';
+  btn.disabled=false;
+}
 </script>
 </body>
 </html>
