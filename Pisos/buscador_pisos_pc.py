@@ -463,19 +463,27 @@ def buscar_fotocasa(driver, ciutat):
         driver.get(url)
         pausa(5, 9)
         acceptar_cookies(driver)
-        
+
+        # Scroll per forçar càrrega de contingut React/JS
+        import time
+        for _ in range(4):
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+            time.sleep(2)
+        driver.execute_script("window.scrollTo(0, 0)")
+        time.sleep(1)
+
         try:
-            WebDriverWait(driver, 12).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, '[class*="re-Card"]'))
+            WebDriverWait(driver, 15).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, '[class*="re-Card"], [class*="cardWrapper"], article'))
             )
         except:
             log(f"     0 resultats")
             return
-        
+
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         count = 0
-        
-        for card in soup.select('[class*="re-Card"]'):
+
+        for card in soup.select('[class*="re-Card"], [class*="cardWrapper"], article[class*="Card"]'):
             try:
                 le = card.select_one('a[href*="/comprar/"], a[href*="/en-venta/"]')
                 if not le: continue
@@ -528,13 +536,21 @@ def buscar_habitaclia(driver, ciutat):
         driver.get(url)
         pausa(4, 7)
         acceptar_cookies(driver)
-        
+
+        # Scroll per forçar càrrega
+        import time
+        for _ in range(3):
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+            time.sleep(2)
+        driver.execute_script("window.scrollTo(0, 0)")
+        time.sleep(1)
+
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         count = 0
-        
-        for card in soup.select('.list-item, .js-list-item, article'):
+
+        for card in soup.select('.list-item, .js-list-item, article, [class*="listing-item"], [class*="property-card"]'):
             try:
-                le = card.select_one('a[href*="/piso-"], a[href*="/casa-"], a[href*="/vivienda-"]')
+                le = card.select_one('a[href*="/piso-"], a[href*="/casa-"], a[href*="/vivienda-"], a[href*="/buy-"], a[href*="habitaclia.com/"]')
                 if not le: continue
                 href = le.get('href', '')
                 purl = f"https://www.habitaclia.com{href}" if href.startswith('/') else href
@@ -569,67 +585,119 @@ def buscar_habitaclia(driver, ciutat):
     except Exception as e:
         log(f"     ❌ {e}")
 
-# ── PORTALS DE BANCS ────────────────────────────────────────────────
-BANCS = [
-    ('Haya', 'hfreinmobiliaria.com'),
-    ('Solvia', 'solvia.es'),
-    ('CaixaBank', 'inmuebles.caixabank.es'),
-    ('Servihabitat', 'servihabitat.com'),
-    ('Altamira', 'altamirainmuebles.com'),
-    ('Aliseda', 'alisedainmobiliaria.com'),
-    ('Anticipa', 'anticiparealestate.com'),
-]
+# ── PORTALS DE BANCS (accés directe, sense Google) ─────────────────
+def _banc_scroll_i_parsejar(driver, nom, ccaa, portal_nom):
+    """Scroll la pàgina per carregar JS i parseja propietats genèriques."""
+    from selenium.webdriver.common.by import By
+    from bs4 import BeautifulSoup
+    import time
+
+    # Scroll per carregar contingut dinàmic
+    for _ in range(3):
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+        time.sleep(2)
+    driver.execute_script("window.scrollTo(0, 0)")
+    time.sleep(1)
+
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    text_total = soup.get_text()
+    count = 0
+
+    # Buscar tots els links amb preu
+    for a in soup.find_all('a', href=True):
+        try:
+            href = a.get('href', '')
+            if not href or href == '#': continue
+            if not href.startswith('http'):
+                href = driver.current_url.split('//')[0] + '//' + driver.current_url.split('//')[1].split('/')[0] + href
+
+            # Buscar text al voltant del link (pare o container)
+            parent = a.parent
+            for _ in range(3):
+                if parent and parent.parent: parent = parent.parent
+            if not parent: continue
+            txt = parent.get_text(' ', strip=True)
+
+            # Extreure preu
+            pm = re.search(r'([\d\.]+)\s*€', txt)
+            if not pm: continue
+            p = int(pm.group(1).replace('.', ''))
+            if p < PREU_MIN or p > PREU_MAX or p == 0: continue
+
+            # Extreure dades
+            hm = re.search(r'(\d+)\s*hab', txt.lower())
+            h = int(hm.group(1)) if hm else 2
+            mm = re.search(r'(\d+)\s*m[²2\s]', txt)
+            m2 = int(mm.group(1)) if mm else 60
+
+            # Títol
+            titol_el = parent.find(['h2','h3','h4']) or a
+            titol = titol_el.get_text(strip=True)[:80] if titol_el else f"Pis a {nom}"
+            if not titol or len(titol) < 5: titol = f"Pis a {nom}"
+
+            # Descartar reformes i ocupes
+            txt_lower = txt.lower()
+            if any(x in txt_lower for x in ['a reformar','para reformar','reforma integral',
+                'ocupada ilegalmente','sin posesión','nuda propiedad','proindiviso',
+                'en ruinas','derruido']): continue
+
+            renda = RENDES.get(min(max(h,1), 4), 420)
+            met = calc_lib(p, m2, h, renda, ccaa, nom)
+
+            if href not in [x['url'] for x in pisos]:
+                pisos.append({**{k:v for k,v in met.items() if k!='pts'},
+                    'nom': f"{portal_nom}: {titol}", 'preu': p, 'm2': m2,
+                    'habs': h, 'renda': renda, 'ciutat': nom, 'zona': nom,
+                    'planta': '', 'portal': portal_nom, 'url': href,
+                    'alquilat': False, 'notes': '', 'zonaClass': met['zonaClass'],
+                })
+                count += 1
+        except: continue
+    return count
 
 def buscar_bancs(driver, ciutat):
     from selenium.webdriver.common.by import By
-    from urllib.parse import quote_plus
-    
+
     nom = ciutat['nom']; ccaa = ciutat['ccaa']
-    
-    for bnom, site in BANCS:
-        q = f"site:{site} piso {nom} venta"
-        url = f"https://www.google.com/search?q={quote_plus(q)}&num=5"
+    s = slug(nom)
+
+    # URLs directes als portals de bancs (sense Google)
+    BANCS_URLS = [
+        ('CaixaBank', f"https://inmuebles.caixabank.es/vivienda/venta/{s}?precioDesde={PREU_MIN}&precioHasta={PREU_MAX}"),
+        ('CaixaBank', f"https://inmuebles.caixabank.es/vivienda/venta/lleida/{s}?precioDesde={PREU_MIN}&precioHasta={PREU_MAX}"),
+        ('Solvia', f"https://www.solvia.es/es/venta/viviendas/{s}?precioMinimo={PREU_MIN}&precioMaximo={PREU_MAX}"),
+        ('Altamira', f"https://www.altamirainmuebles.com/viviendas/venta/{s}?precioDesde={PREU_MIN}&precioHasta={PREU_MAX}"),
+        ('Aliseda', f"https://www.alisedainmobiliaria.com/viviendas/venta/{s}"),
+        ('Haya', f"https://www.hfreinmobiliaria.com/viviendas/venta/{s}"),
+        ('Servihabitat', f"https://www.servihabitat.com/viviendas/venta/{s}"),
+    ]
+
+    portals_visitats = set()
+    for bnom, url in BANCS_URLS:
+        if bnom in portals_visitats: continue  # Ja hem trobat per aquest banc
         log(f"  🏦 {bnom} {nom}...")
-        
+
         try:
             driver.get(url)
-            pausa(3, 6)
-            
-            count = 0
-            for le in driver.find_elements(By.CSS_SELECTOR, f'a[href*="{site}"]')[:5]:
-                try:
-                    href = le.get_attribute('href')
-                    text = le.text.strip()
-                    if not text or site not in href: continue
-                    
-                    pm = re.search(r'(\d{2,3}[\.,]\d{3})\s*€', text)
-                    if not pm: continue
-                    p = int(pm.group(1).replace('.', '').replace(',', ''))
-                    if p < PREU_MIN or p > PREU_MAX: continue
-                    
-                    hm = re.search(r'(\d+)\s*hab', text.lower())
-                    h = int(hm.group(1)) if hm else 2
-                    mm = re.search(r'(\d+)\s*m', text)
-                    m2 = int(mm.group(1)) if mm else 60
-                    
-                    renda = RENDES.get(min(max(h,1), 4), 420)
-                    met = calc_lib(p, m2, h, renda, ccaa, nom)
-                    
-                    if href not in [x['url'] for x in pisos]:
-                        pisos.append({**{k:v for k,v in met.items() if k!='pts'},
-                            'nom': f"{bnom}: {text[:60]}", 'preu': p, 'm2': m2,
-                            'habs': h, 'renda': renda, 'ciutat': nom, 'zona': nom,
-                            'planta': '', 'portal': bnom, 'url': href,
-                            'alquilat': False, 'notes': '', 'zonaClass': 'neutra',
-                        })
-                        count += 1
-                except: continue
-            
-            if count: log(f"     ✅ {count}")
+            pausa(4, 8)
+            acceptar_cookies(driver)
+
+            # Comprovar si hi ha contingut (no 404 o pàgina buida)
+            page_text = driver.page_source
+            if '404' in driver.title or 'no encontr' in page_text.lower()[:500]:
+                log(f"     ⚠️ pàgina no trobada")
+                continue
+
+            count = _banc_scroll_i_parsejar(driver, nom, ccaa, bnom)
+            if count:
+                log(f"     ✅ {count} pisos")
+                portals_visitats.add(bnom)
+            else:
+                log(f"     0 resultats")
         except Exception as e:
             log(f"     ❌ {e}")
-        
-        pausa(2, 5)
+
+        pausa(2, 4)
 
 # ═══════════════════════════════════════════════════════════════════
 # MAIN
