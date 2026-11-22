@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "generatEl": "2026-11-22 21:45",
-=======
-  "generatEl": "2026-11-22 15:45",
->>>>>>> 6990702c94571c542909d1a7d33289606b83c855
   "config": {
     "preuMin": 30000,
     "preuMax": 70000,
@@ -21,7 +17,6 @@
     ]
   },
   "resum": {
-<<<<<<< HEAD
     "total": 106,
     "comprar": 88,
     "estudiar": 14,
@@ -45,12 +40,6 @@
       "trobats": 0,
       "ok": false
     }
-=======
-    "total": 0,
-    "comprar": 0,
-    "estudiar": 0,
-    "passar": 0
->>>>>>> 6990702c94571c542909d1a7d33289606b83c855
   },
   "pisos": [
     {
