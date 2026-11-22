@@ -1,0 +1,46 @@
+{
+  "data": "2026-11-22T00:00:00",
+  "eurUsd": 1.05,
+  "ticker": "BTC-EUR",
+  "config": {
+    "cash": 0,
+    "aportacio_mes": 500,
+    "dca_dia": 1,
+    "es_dia_dca": false,
+    "posicio": null
+  },
+  "btc": {
+    "preu": 0,
+    "sma150": 0,
+    "sma200": 0,
+    "pct_sma": 0,
+    "support": 0,
+    "resist": 0,
+    "rsi": 50,
+    "mfi": 50,
+    "vol_30d": 0,
+    "barat": false,
+    "above_sma": true
+  },
+  "resum": {
+    "patrimoni_eur": 0,
+    "cash": 0,
+    "valor_pos_usd": 0,
+    "cost_pos_usd": 0,
+    "pl_pct": 0,
+    "per_entrada": "—",
+    "te_posicio": false
+  },
+  "senyals": {
+    "tier": "SENSE_SENYAL",
+    "extra_recomanat": 0,
+    "dca_base": 500,
+    "compra": null,
+    "vigilar": null,
+    "venda": null,
+    "mantenir": null,
+    "cooldown": false,
+    "cooldown_rest": 0
+  },
+  "bench": {}
+}

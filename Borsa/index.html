@@ -137,6 +137,29 @@ a{color:var(--acc);text-decoration:none;}
 .no-data h3{margin-bottom:8px;}
 .no-data p{font-size:.85rem;color:var(--tx2);margin-bottom:16px;}
 
+/* ═══ BTC TAB STYLES ═══ */
+.btc-signal-card{background:var(--card);border:1px solid var(--brd);border-radius:var(--radius2);padding:16px 20px;margin-bottom:16px;display:flex;align-items:flex-start;gap:14px;}
+.btc-signal-card.excellent{border-left:4px solid var(--green);background:linear-gradient(135deg,rgba(52,211,153,.06),transparent);}
+.btc-signal-card.molt-bona{border-left:4px solid var(--yellow);background:linear-gradient(135deg,rgba(251,191,36,.06),transparent);}
+.btc-signal-card.venda{border-left:4px solid var(--red);background:linear-gradient(135deg,rgba(248,113,113,.06),transparent);}
+.btc-signal-card.mantenir{border-left:4px solid var(--acc);background:linear-gradient(135deg,rgba(108,140,255,.06),transparent);}
+.btc-sig-icon{font-size:1.8rem;line-height:1;}
+.btc-sig-title{font-weight:700;font-size:.95rem;margin-bottom:4px;}
+.btc-sig-detail{font-size:.82rem;color:var(--tx2);}
+.btc-sig-extra{font-size:.85rem;font-weight:600;margin-top:6px;font-family:var(--mono);}
+.btc-pos-card{background:var(--card);border:1px solid var(--brd);border-radius:var(--radius);padding:14px 16px;}
+.btc-pos-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:.82rem;}
+.btc-pos-label{color:var(--tx3);}
+.btc-pos-val{font-family:var(--mono);font-weight:600;}
+.btc-strat-info{margin:16px 0;}
+.btc-strat-grid{display:grid;gap:6px;}
+.btc-strat-item{background:var(--card);border:1px solid var(--brd);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:.82rem;}
+.btc-s-label{font-weight:700;color:var(--tx2);font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;}
+.btc-s-val{font-family:var(--mono);font-size:.8rem;}
+.btc-s-val.green{color:var(--green);}
+.btc-s-val.yellow{color:var(--yellow);}
+.btc-s-val.red{color:var(--red);}
+
 /* ═══ TOP 250 STYLES (from existing) ═══ */
 .s250-hero{text-align:center;padding:18px 16px 10px;}
 .s250-hero h1{font-size:1.15rem;font-weight:700;letter-spacing:-.02em;}
@@ -357,6 +380,7 @@ a{color:var(--acc);text-decoration:none;}
     <button class="top-tab" onclick="switchMain('stocks')" id="mainTabStocks">📈 Top 250</button>
     <button class="top-tab" onclick="switchMain('sqar')" id="mainTabSqar">🎯 SQAR</button>
     <button class="top-tab" onclick="switchMain('sma')" id="mainTabSma">⚡ SMA1300</button>
+    <button class="top-tab" onclick="switchMain('btc')" id="mainTabBtc">₿ BTC</button>
     <button class="top-tab" onclick="switchMain('guanys')" id="mainTabGuanys">💰 Guanys</button>
   </div>
 </div>
@@ -896,6 +920,109 @@ a{color:var(--acc);text-decoration:none;}
 </div>
 
 <!-- ═══════════════════════════════════════════════════ -->
+<!-- BITCOIN PANE -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="paneBtc" class="main-pane">
+
+  <!-- Signal Banner -->
+  <div id="btcSignalBanner" class="phase-banner safe">
+    <div class="phase-icon">₿</div>
+    <div class="phase-info">
+      <h2 id="btcBannerTitle">Carregant...</h2>
+      <p id="btcBannerSub">Connectant amb dades BTC</p>
+    </div>
+  </div>
+
+  <!-- Price + Indicators Grid -->
+  <div class="ind-grid" style="grid-template-columns:1fr 1fr 1fr;">
+    <div class="ind-card">
+      <div class="ind-label">Preu BTC (€)</div>
+      <div class="ind-val" id="btcPreu">—</div>
+      <div class="ind-meta" id="btcPreuMeta">—</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-label">SMA150</div>
+      <div class="ind-val" id="btcSma150">—</div>
+      <div class="ind-meta" id="btcSmaMeta">—</div>
+      <div class="ind-bar"><div class="ind-bar-fill" id="btcSmaBar" style="width:0;background:var(--green);"></div></div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-label">Suport (4w)</div>
+      <div class="ind-val" id="btcSuport">—</div>
+      <div class="ind-meta" id="btcSupMeta">—</div>
+    </div>
+  </div>
+  <div class="ind-grid">
+    <div class="ind-card">
+      <div class="ind-label">RSI (14)</div>
+      <div class="ind-val" id="btcRsi">—</div>
+      <div class="ind-bar"><div class="ind-bar-fill" id="btcRsiBar" style="width:0;background:var(--green);"></div></div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-label">MFI (5w)</div>
+      <div class="ind-val" id="btcMfi">—</div>
+      <div class="ind-bar"><div class="ind-bar-fill" id="btcMfiBar" style="width:0;background:var(--green);"></div></div>
+    </div>
+  </div>
+
+  <!-- DCA Card -->
+  <div class="mode-card" id="btcDcaCard">
+    <span class="mode-badge def" id="btcDcaBadge">DCA</span>
+    <span class="mode-text" id="btcDcaText">€500/mes dia 1 · Extra: EXCEL·LENT +€10K | M.BONA +€3K</span>
+  </div>
+
+  <!-- Signal Action Card -->
+  <div id="btcSignalCard" class="btc-signal-card" style="display:none;">
+    <div class="btc-sig-icon" id="btcSigIcon">🟢</div>
+    <div class="btc-sig-body">
+      <div class="btc-sig-title" id="btcSigTitle">—</div>
+      <div class="btc-sig-detail" id="btcSigDetail">—</div>
+      <div class="btc-sig-extra" id="btcSigExtra">—</div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="etf-controls">
+    <button class="etf-btn primary" id="runBtcBtn" onclick="runBtcScreener()">▶ Executar Screener</button>
+  </div>
+
+  <!-- Position Card -->
+  <div id="btcPosSection" style="display:none;">
+    <div class="section-title"><span class="icon">📈</span> Posició Oberta</div>
+    <div class="btc-pos-card" id="btcPosCard"></div>
+  </div>
+
+  <!-- Benchmark -->
+  <div class="section-title"><span class="icon">📊</span> Benchmark</div>
+  <div class="rank-wrap">
+    <table class="rank-tbl" id="btcBenchTable">
+      <thead><tr><th style="text-align:left">Actiu</th><th>Preu</th><th>1M</th><th>3M</th><th>YTD</th><th>1Y</th></tr></thead>
+      <tbody id="btcBenchBody">
+        <tr><td colspan="6" style="text-align:center;color:var(--tx3);padding:16px;">Executa l'screener per veure benchmark</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Strategy Info -->
+  <div class="btc-strat-info">
+    <div class="section-title"><span class="icon">📋</span> Estratègia</div>
+    <div class="btc-strat-grid">
+      <div class="btc-strat-item"><span class="btc-s-label">Base</span><span class="btc-s-val">DCA €500/mes (dia 1)</span></div>
+      <div class="btc-strat-item"><span class="btc-s-label">EXCEL·LENT</span><span class="btc-s-val green">+€10.000 (rebot al suport + zona barata)</span></div>
+      <div class="btc-strat-item"><span class="btc-s-label">MOLT BONA</span><span class="btc-s-val yellow">+€3.000 (prop suport + zona barata)</span></div>
+      <div class="btc-strat-item"><span class="btc-s-label">Zona barata</span><span class="btc-s-val">Preu < SMA150 × 0.90</span></div>
+      <div class="btc-strat-item"><span class="btc-s-label">Stop-Loss</span><span class="btc-s-val red">-20% → trailing SMA200</span></div>
+      <div class="btc-strat-item"><span class="btc-s-label">Cooldown</span><span class="btc-s-val">8 setmanes post-SL</span></div>
+    </div>
+  </div>
+
+  <div class="etf-footer" id="btcFooter">
+    Screener BTC · DCA + Senyals Escalonades · SMA150 + Suport 4w
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
 <!-- GUANYS (COMPARISON) PANE -->
 <!-- ═══════════════════════════════════════════════════ -->
 <div id="paneGuanys" class="main-pane">
@@ -1253,6 +1380,7 @@ function switchMain(tab){
     stocks:['mainTabStocks','paneStocks'],
     sqar:['mainTabSqar','paneSqar'],
     sma:['mainTabSma','paneSma'],
+    btc:['mainTabBtc','paneBtc'],
     guanys:['mainTabGuanys','paneGuanys']
   };
   const m=map[tab]||map.stocks;
@@ -2907,6 +3035,246 @@ function renderSmaData(d){
   try{
     const r=await fetch('data/sma1300_latest.json?t='+Date.now());
     if(r.ok){const j=await r.json();if(j.generatedAt){SMA_lastGen=j.generatedAt;SMA_data=j;renderSmaData(j);}}
+  }catch(e){}
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// BTC SCREENER TAB
+// ═══════════════════════════════════════════════════════════════
+const BTC_GH_REPO='diordes/screener-dashboard';
+const BTC_GH_WORKFLOW='btc_screener.yml';
+let BTC_data=null;
+let BTC_lastGen=null;
+
+function fM2(n){
+  if(n==null)return'—';
+  if(Math.abs(n)>=1000)return n.toLocaleString('ca-ES',{maximumFractionDigits:0});
+  return n.toLocaleString('ca-ES',{maximumFractionDigits:2});
+}
+
+async function runBtcScreener(){
+  let token=localStorage.getItem(GH_TOKEN_KEY);
+  if(!token){
+    token=prompt('GitHub Personal Access Token:\n\nCrea\'l a: github.com/settings/tokens\nPermisos: repo o actions:write');
+    if(!token)return;
+    localStorage.setItem(GH_TOKEN_KEY,token);
+  }
+  const btn=document.getElementById('runBtcBtn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Llançant…';
+  try{
+    const r=await fetch(`https://api.github.com/repos/${BTC_GH_REPO}/actions/workflows/${BTC_GH_WORKFLOW}/dispatches`,{
+      method:'POST',headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({ref:'main'})});
+    if(r.status===204){
+      toast('✅ BTC Screener llançat!');
+      btn.innerHTML='⏳ Executant… (~2 min)';
+      let polls=0;const poll=setInterval(async()=>{
+        polls++;if(polls>30){clearInterval(poll);btn.disabled=false;btn.innerHTML='▶ Executar Screener';toast('⏱️ Temps exhaurit — torna-ho a provar');return;}
+        try{
+          const r2=await fetch('data/btc_latest.json?t='+Date.now());if(!r2.ok)return;
+          const j=await r2.json();if(!j.data)return;
+          const jd=new Date(j.data).getTime(),ld=BTC_lastGen?new Date(BTC_lastGen).getTime():0;
+          if(jd>ld){clearInterval(poll);
+            BTC_lastGen=j.data;BTC_data=j;
+            toast('✅ Dades BTC actualitzades!');
+            btn.disabled=false;btn.innerHTML='▶ Executar Screener';
+            renderBtcData(j);}
+        }catch(e){}
+      },10000);
+    }else if(r.status===401||r.status===403){
+      localStorage.removeItem(GH_TOKEN_KEY);
+      toast('❌ Token invàlid','err');btn.disabled=false;btn.innerHTML='▶ Executar Screener';
+    }else if(r.status===404){
+      toast('❌ Workflow btc_screener.yml no trobat','err');
+      btn.disabled=false;btn.innerHTML='▶ Executar Screener';
+    }else{
+      toast('❌ Error: '+r.status,'err');btn.disabled=false;btn.innerHTML='▶ Executar Screener';
+    }
+  }catch(e){toast('❌ Error de connexió','err');btn.disabled=false;btn.innerHTML='▶ Executar Screener';}
+}
+
+function renderBtcData(d){
+  try{
+    const b=d.btc;const s=d.senyals;const r=d.resum;const cfg=d.config;
+
+    // Signal Banner
+    const banner=document.getElementById('btcSignalBanner');
+    const title=document.getElementById('btcBannerTitle');
+    const sub=document.getElementById('btcBannerSub');
+    banner.className='phase-banner';
+
+    if(s.tier==='EXCELLENT'){
+      banner.classList.add('safe');
+      title.textContent='🟢 SENYAL EXCEL·LENT — COMPRA';
+      sub.textContent='Rebot confirmat al suport en zona barata';
+    }else if(s.tier==='MOLT_BONA'){
+      banner.className='phase-banner danger';
+      title.textContent='🟡 SENYAL MOLT BONA — VIGILAR';
+      sub.textContent='Prop del suport en zona barata, pendent rebot';
+    }else if(s.venda){
+      banner.className='phase-banner crash';
+      title.textContent='🔴 '+s.venda.motiu;
+      sub.textContent='P&L: '+(s.venda.pl>=0?'+':'')+s.venda.pl+'%';
+    }else if(b.barat){
+      banner.className='phase-banner danger';
+      title.textContent='🟠 Zona barata — sense rebot';
+      sub.textContent='Preu sota SMA150×0.90, esperant confirmació';
+    }else{
+      banner.classList.add('safe');
+      title.textContent='💤 Sense senyal — Només DCA base';
+      sub.textContent='Preu €'+fM2(b.preu)+' | SMA150: '+(b.pct_sma>=0?'+':'')+b.pct_sma+'%';
+    }
+
+    // Price indicators
+    document.getElementById('btcPreu').textContent='€'+fM2(b.preu);
+    document.getElementById('btcPreuMeta').textContent=
+      (b.above_sma?'↑':'↓')+' SMA150 · Vol: '+b.vol_30d+'%';
+    document.getElementById('btcPreu').className='ind-val'+(b.barat?' red':' green');
+
+    document.getElementById('btcSma150').textContent='€'+fM2(b.sma150);
+    document.getElementById('btcSmaMeta').textContent=(b.pct_sma>=0?'+':'')+b.pct_sma+'% vs preu';
+    const smaBarW=Math.min(100,Math.max(5,50+b.pct_sma));
+    const smaBarEl=document.getElementById('btcSmaBar');
+    smaBarEl.style.width=smaBarW+'%';
+    smaBarEl.style.background=b.pct_sma<-10?'var(--red)':b.pct_sma<0?'var(--yellow)':'var(--green)';
+
+    if(b.support){
+      const distSup=((b.preu/b.support-1)*100).toFixed(1);
+      document.getElementById('btcSuport').textContent='€'+fM2(b.support);
+      document.getElementById('btcSupMeta').textContent=(distSup>=0?'+':'')+distSup+'% vs preu';
+    }else{
+      document.getElementById('btcSuport').textContent='—';
+      document.getElementById('btcSupMeta').textContent='';
+    }
+
+    // RSI
+    document.getElementById('btcRsi').textContent=b.rsi.toFixed(1);
+    document.getElementById('btcRsi').className='ind-val'+(b.rsi<30?' green':b.rsi>70?' red':'');
+    const rsiBar=document.getElementById('btcRsiBar');
+    rsiBar.style.width=b.rsi+'%';
+    rsiBar.style.background=b.rsi<30?'var(--green)':b.rsi>70?'var(--red)':'var(--yellow)';
+
+    // MFI
+    document.getElementById('btcMfi').textContent=b.mfi.toFixed(0);
+    document.getElementById('btcMfi').className='ind-val'+(b.mfi<20?' green':b.mfi>80?' red':'');
+    const mfiBar=document.getElementById('btcMfiBar');
+    mfiBar.style.width=b.mfi+'%';
+    mfiBar.style.background=b.mfi<20?'var(--green)':b.mfi>80?'var(--red)':'var(--yellow)';
+
+    // DCA Card
+    const dcaBadge=document.getElementById('btcDcaBadge');
+    const dcaText=document.getElementById('btcDcaText');
+    if(cfg.es_dia_dca){
+      dcaBadge.textContent='🗓️ DCA AVUI';
+      dcaBadge.className='mode-badge exp';
+      const btcQ=(cfg.aportacio_mes/b.preu).toFixed(6);
+      dcaText.textContent='Compra €'+fM2(cfg.aportacio_mes)+' ('+btcQ+' BTC)';
+    }else{
+      dcaBadge.textContent='DCA';
+      dcaBadge.className='mode-badge def';
+      dcaText.textContent='€'+fM2(cfg.aportacio_mes)+'/mes dia '+cfg.dca_dia+' · Extra: EXCEL·LENT +€10K | M.BONA +€3K';
+    }
+
+    // Signal Action Card
+    const sigCard=document.getElementById('btcSignalCard');
+    if(s.compra||s.vigilar||s.venda||s.mantenir){
+      sigCard.style.display='flex';
+      sigCard.className='btc-signal-card';
+      if(s.compra&&s.compra.accio==='COMPRA'){
+        sigCard.classList.add('excellent');
+        document.getElementById('btcSigIcon').textContent='🟢';
+        document.getElementById('btcSigTitle').textContent='EXCEL·LENT — COMPRA';
+        document.getElementById('btcSigDetail').textContent=s.compra.motiu||'';
+        document.getElementById('btcSigExtra').textContent='💰 Extra recomanat: €'+fM2(s.extra_recomanat);
+        document.getElementById('btcSigExtra').style.color='var(--green)';
+      }else if(s.compra&&s.compra.accio==='COOLDOWN'){
+        sigCard.classList.add('mantenir');
+        document.getElementById('btcSigIcon').textContent='⏳';
+        document.getElementById('btcSigTitle').textContent='COOLDOWN';
+        document.getElementById('btcSigDetail').textContent=s.compra.motiu||'';
+        document.getElementById('btcSigExtra').textContent='Cooldown: '+s.cooldown_rest+' set restants';
+        document.getElementById('btcSigExtra').style.color='var(--tx2)';
+      }else if(s.vigilar){
+        sigCard.classList.add('molt-bona');
+        document.getElementById('btcSigIcon').textContent='🟡';
+        document.getElementById('btcSigTitle').textContent='MOLT BONA — VIGILAR';
+        document.getElementById('btcSigDetail').textContent=s.vigilar.motiu||'';
+        document.getElementById('btcSigExtra').textContent='💰 Extra si rebota: €'+fM2(s.extra_recomanat);
+        document.getElementById('btcSigExtra').style.color='var(--yellow)';
+      }else if(s.venda){
+        sigCard.classList.add('venda');
+        document.getElementById('btcSigIcon').textContent='🔴';
+        document.getElementById('btcSigTitle').textContent=s.venda.accio||'VENDRE';
+        document.getElementById('btcSigDetail').textContent=s.venda.motiu||'';
+        document.getElementById('btcSigExtra').textContent='P&L: '+(s.venda.pl>=0?'+':'')+s.venda.pl+'%';
+        document.getElementById('btcSigExtra').style.color='var(--red)';
+      }else if(s.mantenir){
+        sigCard.classList.add('mantenir');
+        document.getElementById('btcSigIcon').textContent='📈';
+        document.getElementById('btcSigTitle').textContent='MANTENIR';
+        document.getElementById('btcSigDetail').textContent=s.mantenir.estat||'';
+        document.getElementById('btcSigExtra').textContent=s.mantenir.sl_accio||'';
+        document.getElementById('btcSigExtra').style.color='var(--acc)';
+      }
+    }else{
+      sigCard.style.display='none';
+    }
+
+    // Position
+    const posSection=document.getElementById('btcPosSection');
+    const posCard=document.getElementById('btcPosCard');
+    if(r.te_posicio&&cfg.posicio){
+      posSection.style.display='block';
+      const p=cfg.posicio;
+      const pl=r.pl_pct;const plCol=pl>=0?'var(--green)':'var(--red)';
+      const plSign=pl>=0?'+':'';
+      posCard.innerHTML=
+        '<div class="btc-pos-row"><span class="btc-pos-label">BTC</span><span class="btc-pos-val">'+p.btc.toFixed(4)+' BTC</span></div>'+
+        '<div class="btc-pos-row"><span class="btc-pos-label">Preu compra</span><span class="btc-pos-val">€'+fM2(p.preu)+'</span></div>'+
+        '<div class="btc-pos-row"><span class="btc-pos-label">Data entrada</span><span class="btc-pos-val">'+escH(p.data)+'</span></div>'+
+        '<div class="btc-pos-row"><span class="btc-pos-label">Valor actual</span><span class="btc-pos-val">€'+fM2(r.valor_pos_usd)+'</span></div>'+
+        '<div class="btc-pos-row"><span class="btc-pos-label">P&L</span><span class="btc-pos-val" style="color:'+plCol+'">'+plSign+pl.toFixed(1)+'% (€'+fM2(r.valor_pos_usd-r.cost_pos_usd)+')</span></div>'+
+        '<div class="btc-pos-row"><span class="btc-pos-label">SL</span><span class="btc-pos-val" style="color:var(--red)">€'+fM2(p.sl)+'</span></div>';
+      if(p.trailing_sl>0){
+        posCard.innerHTML+='<div class="btc-pos-row"><span class="btc-pos-label">Trailing SL</span><span class="btc-pos-val" style="color:var(--orange)">€'+fM2(p.trailing_sl)+'</span></div>';
+      }
+    }else{
+      posSection.style.display='none';
+    }
+
+    // Benchmark
+    const benchBody=document.getElementById('btcBenchBody');
+    benchBody.innerHTML='';
+    if(d.bench){
+      Object.entries(d.bench).forEach(([tk,bk])=>{
+        const sym=tk.includes('EUR')?'€':'$';
+        benchBody.innerHTML+=
+          '<tr>'+
+          '<td style="font-weight:600;">'+escH(bk.nom)+'</td>'+
+          '<td style="font-family:var(--mono);">'+sym+fM2(bk.preu)+'</td>'+
+          '<td class="'+(bk.ret_1m>=0?'pos':'neg')+'">'+fP(bk.ret_1m)+'</td>'+
+          '<td class="'+(bk.ret_3m>=0?'pos':'neg')+'">'+fP(bk.ret_3m)+'</td>'+
+          '<td class="'+(bk.ret_ytd>=0?'pos':'neg')+'">'+fP(bk.ret_ytd)+'</td>'+
+          '<td class="'+(bk.ret_1y>=0?'pos':'neg')+'">'+fP(bk.ret_1y)+'</td>'+
+          '</tr>';
+      });
+    }
+
+    // Footer
+    const updStr=(d.data||'').slice(0,16).replace('T',' ');
+    document.getElementById('btcFooter').textContent=
+      'Screener BTC · Actualitzat '+updStr+' · EUR/USD: '+(d.eurUsd||'—');
+
+  }catch(e){console.error('BTC render error:',e);}
+}
+
+// Auto-load BTC data on page load
+(async function(){
+  try{
+    const r=await fetch('data/btc_latest.json?t='+Date.now());
+    if(!r.ok)return;
+    const j=await r.json();
+    if(j.data){BTC_data=j;BTC_lastGen=j.data;renderBtcData(j);}
   }catch(e){}
 })();
 
