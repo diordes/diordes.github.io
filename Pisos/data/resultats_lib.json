@@ -1,5 +1,5 @@
 {
-  "generatEl": "2026-11-22 09:07",
+  "generatEl": "2026-11-21 22:06",
   "config": {
     "preuMin": 30000,
     "preuMax": 70000,
@@ -13,7 +13,8 @@
       "Mollerussa",
       "Tàrrega",
       "Fraga",
-      "Cervera"
+      "Cervera",
+      "alcampell"
     ]
   },
   "resum": {
