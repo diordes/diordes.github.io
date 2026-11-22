@@ -180,29 +180,43 @@ def pausa(a=3, b=7):
     time.sleep(random.uniform(a, b))
 
 def crear_driver():
-    from selenium import webdriver
-    from selenium.webdriver.chrome.options import Options
-    
-    opts = Options()
-    opts.add_argument('--headless=new')
-    opts.add_argument('--no-sandbox')
-    opts.add_argument('--disable-dev-shm-usage')
-    opts.add_argument('--disable-gpu')
-    opts.add_argument('--window-size=1920,1080')
-    opts.add_argument('--lang=es-ES')
-    opts.add_argument('--disable-blink-features=AutomationControlled')
-    opts.add_experimental_option("excludeSwitches", ["enable-automation"])
-    opts.add_experimental_option('useAutomationExtension', False)
-    
-    # User agent real de Chrome Windows
-    opts.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36')
-    
-    driver = webdriver.Chrome(options=opts)
-    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-    driver.execute_cdp_cmd('Network.setUserAgentOverride', {
-        "userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
-    })
-    return driver
+    """Usa undetected-chromedriver per evitar bloqueigs anti-bot"""
+    try:
+        import undetected_chromedriver as uc
+        opts = uc.ChromeOptions()
+        # Chrome VISIBLE (no headless) — els portals no el detecten
+        # La finestra es minimitza sola, no molesta
+        opts.add_argument('--window-size=1920,1080')
+        opts.add_argument('--lang=es-ES')
+        opts.add_argument('--no-sandbox')
+        opts.add_argument('--start-minimized')
+        # Detectar versió de Chrome instal·lada
+        import subprocess as sp
+        try:
+            r = sp.run(['reg', 'query', r'HKEY_CURRENT_USER\Software\Google\Chrome\BLBeacon', '/v', 'version'], capture_output=True, text=True)
+            ver = int(re.search(r'(\d+)\.', r.stdout).group(1))
+        except:
+            ver = None
+        driver = uc.Chrome(options=opts, use_subprocess=True, version_main=ver)
+        log("   (undetected-chromedriver)")
+        return driver
+    except ImportError:
+        log("   ⚠️ undetected-chromedriver no instal·lat, usant selenium normal")
+        log("   Instal·la'l: pip install undetected-chromedriver")
+        from selenium import webdriver
+        from selenium.webdriver.chrome.options import Options
+        opts = Options()
+        opts.add_argument('--headless=new')
+        opts.add_argument('--no-sandbox')
+        opts.add_argument('--disable-dev-shm-usage')
+        opts.add_argument('--window-size=1920,1080')
+        opts.add_argument('--lang=es-ES')
+        opts.add_argument('--disable-blink-features=AutomationControlled')
+        opts.add_experimental_option("excludeSwitches", ["enable-automation"])
+        opts.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36')
+        driver = webdriver.Chrome(options=opts)
+        driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+        return driver
 
 # ═══════════════════════════════════════════════════════════════════
 # SCRAPERS
@@ -221,14 +235,85 @@ def acceptar_cookies(driver):
         except: pass
 
 # ── IDEALISTA ───────────────────────────────────────────────────────
+def _parsejar_idealista(driver, articles, nom, ccaa):
+    """Parseja articles d'Idealista i afegeix a pisos[]. Retorna count."""
+    from selenium.webdriver.common.by import By
+    count = 0
+    for art in articles:
+        try:
+            le = art.find_element(By.CSS_SELECTOR, 'a.item-link')
+            titol = le.text.strip()
+            href = le.get_attribute('href')
+            pe = art.find_element(By.CSS_SELECTOR, '.item-price')
+            p = int(re.sub(r'[^\d]', '', pe.text) or '0')
+            if p < PREU_MIN or p > PREU_MAX or p == 0: continue
+            h = 0; m2 = 0; pl = ''
+            for d in art.find_elements(By.CSS_SELECTOR, '.item-detail'):
+                t = d.text
+                hm = re.search(r'(\d+)\s*hab', t)
+                if hm: h = int(hm.group(1))
+                mm = re.search(r'(\d+)\s*m²', t)
+                if mm: m2 = int(mm.group(1))
+                if any(x in t.lower() for x in ['planta','bajo','exterior','interior']): pl = t
+            zona = ''
+            parts = titol.split(',')
+            if len(parts) >= 3: zona = parts[-2].strip()
+            elif len(parts) >= 2: zona = parts[-1].strip()
+            try: desc = art.find_element(By.CSS_SELECTOR, '.item-description').text[:150]
+            except: desc = ''
+            if any(x in desc.lower() for x in ['ocupada ilegalmente','cesión de remate','proindiviso','sin posesión','nuda propiedad']): continue
+            alquilat = 'alquilada' in desc.lower() or 'alquilada' in titol.lower()
+            renda = RENDES.get(min(max(h, 1), 4), 420)
+            met = calc_lib(p, m2, h, renda, ccaa, zona)
+            pisos.append({**{k:v for k,v in met.items() if k != 'pts'},
+                'nom': titol, 'preu': p, 'm2': m2, 'habs': h,
+                'renda': renda, 'ciutat': nom, 'zona': zona,
+                'planta': pl, 'portal': 'Idealista', 'url': href,
+                'alquilat': alquilat, 'notes': desc,})
+            count += 1
+        except: continue
+    return count
+
 def buscar_idealista(driver, ciutat):
     from selenium.webdriver.common.by import By
     nom = ciutat['nom']; ccaa = ciutat['ccaa']
     s = slug(nom)
     
+    # Slugs coneguts per evitar provar (molt més ràpid)
+    SLUGS_CONEGUTS = {
+        'lleida':'lleida-lleida','binefar':'binefar-huesca','manresa':'manresa-barcelona',
+        'balaguer':'balaguer-lleida','mollerussa':'mollerussa-lleida','tarrega':'tarrega-lleida',
+        'fraga':'fraga-huesca','cervera':'cervera-lleida','solsona':'solsona-lleida',
+        'tremp':'tremp-lleida','barbastro':'barbastro-huesca','monzon':'monzon-huesca',
+        'huesca':'huesca-huesca','zaragoza':'zaragoza-zaragoza','teruel':'teruel-teruel',
+        'barcelona':'barcelona-barcelona','tarragona':'tarragona-tarragona',
+        'girona':'girona-girona','reus':'reus-tarragona','vic':'vic-barcelona',
+        'igualada':'igualada-barcelona','martorell':'martorell-barcelona',
+        'madrid':'madrid-madrid','valencia':'valencia-valencia',
+        'sevilla':'sevilla-sevilla','malaga':'malaga-malaga',
+        'lepe':'lepe-huelva','tortosa':'tortosa-tarragona','amposta':'amposta-tarragona',
+    }
+
+    slug_conegut = SLUGS_CONEGUTS.get(s)
+    if slug_conegut:
+        # Provar directament el slug conegut
+        url = f"https://www.idealista.com/venta-viviendas/{slug_conegut}/con-precio-hasta_{PREU_MAX},precio-desde_{PREU_MIN}/"
+        log(f"  🔍 Idealista {nom} ({slug_conegut})...")
+        try:
+            driver.get(url)
+            pausa(4, 8)
+            acceptar_cookies(driver)
+            articles = driver.find_elements(By.CSS_SELECTOR, 'article.item')
+            if articles:
+                log(f"     ✅ Trobat! {len(articles)} anuncis")
+                count = _parsejar_idealista(driver, articles, nom, ccaa)
+                log(f"     📊 {count} pisos vàlids")
+                return
+        except: pass
+
     # Trobar slug correcte provant províncies
     provincias = {
-        'Cataluña':['barcelona','lleida','tarragona','girona'],
+        'Cataluña':['lleida','barcelona','tarragona','girona'],
         'Aragón':['huesca','zaragoza','teruel'],
         'Comunidad de Madrid':['madrid'],
         'Comunidad Valenciana':['valencia','alicante','castellon'],
