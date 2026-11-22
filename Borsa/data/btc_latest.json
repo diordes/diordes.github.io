@@ -1,35 +1,26 @@
 {
-  "data": "2026-11-22T13:20:19.261191",
+  "data": "2026-11-22T16:45:32.712385",
   "eurUsd": 1.097,
   "ticker": "BTC-EUR",
   "config": {
-    "cash": 0,
+    "cash": 5000,
     "aportacio_mes": 500,
     "dca_dia": 1,
-    "es_dia_dca": false,
-    "posicio": null
+    "es_dia_dca": false
   },
   "btc": {
-    "preu": 55412.25,
-    "sma150": 64070.27,
-    "sma200": 63270.41,
-    "pct_sma": -13.5,
+    "preu": 55915.67,
+    "sma150": 64073.62,
+    "pct_sma": -12.7,
     "support": 52622.25,
     "resist": 73346.62,
-    "rsi": 19.7,
+    "rsi": 21.8,
     "mfi": 0.0,
-    "vol_30d": 46.3,
-    "barat": true,
-    "above_sma": false
+    "vol_30d": 46.9,
+    "barat": true
   },
   "resum": {
-    "patrimoni_eur": 0,
-    "cash": 0,
-    "valor_pos_usd": 0,
-    "cost_pos_usd": 0,
-    "pl_pct": 0,
-    "per_entrada": "\u2014",
-    "te_posicio": false
+    "cash": 5000
   },
   "senyals": {
     "tier": "MOLT_BONA",
@@ -38,22 +29,19 @@
     "compra": null,
     "vigilar": {
       "accio": "VIGILAR",
-      "motiu": "Prop del suport \u20ac52,622 (+5.3%), pendent rebot"
-    },
-    "venda": null,
-    "mantenir": null,
-    "cooldown": false,
-    "cooldown_rest": 0
+      "motiu": "\ud83d\udfe1 MOLT BONA \u2014 Prop del suport \u20ac52,622 (+6.3%), pendent rebot",
+      "extra": 3000
+    }
   },
   "bench": {
     "BTC-EUR": {
       "nom": "Bitcoin (\u20ac)",
-      "preu": 55412.25,
-      "sma200": 63270.41,
-      "ret_1m": -21.0,
-      "ret_3m": -21.3,
-      "ret_ytd": -26.6,
-      "ret_1y": -14.9
+      "preu": 55915.67,
+      "sma200": 63272.93,
+      "ret_1m": -20.3,
+      "ret_3m": -20.6,
+      "ret_ytd": -25.9,
+      "ret_1y": -14.1
     },
     "SPY": {
       "nom": "SPY (S&P 500)",
