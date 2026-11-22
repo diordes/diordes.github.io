@@ -1,5 +1,5 @@
 {
-  "generatEl": "2026-11-22 15:42",
+  "generatEl": "2026-11-22 15:45",
   "config": {
     "preuMin": 30000,
     "preuMax": 70000,
@@ -20,26 +20,7 @@
     "total": 0,
     "comprar": 0,
     "estudiar": 0,
-    "passar": 0,
-    "nous": 0
-  },
-  "portals": {
-    "Idealista": {
-      "trobats": 0,
-      "ok": false
-    },
-    "Fotocasa": {
-      "trobats": 0,
-      "ok": false
-    },
-    "Habitaclia": {
-      "trobats": 0,
-      "ok": false
-    },
-    "Bancs": {
-      "trobats": 0,
-      "ok": false
-    }
+    "passar": 0
   },
   "pisos": []
 }
