@@ -261,7 +261,10 @@ def _parsejar_idealista(driver, articles, nom, ccaa):
             elif len(parts) >= 2: zona = parts[-1].strip()
             try: desc = art.find_element(By.CSS_SELECTOR, '.item-description').text[:150]
             except: desc = ''
-            if any(x in desc.lower() for x in ['ocupada ilegalmente','cesión de remate','proindiviso','sin posesión','nuda propiedad']): continue
+            text_lower = (titol + ' ' + desc).lower()
+            if any(x in text_lower for x in ['ocupada ilegalmente','cesión de remate','proindiviso','sin posesión','nuda propiedad',
+                'a reformar','para reformar','necesita reforma','reforma integral','reformar completamente',
+                'para rehabilitar','a rehabilitar','en ruinas','semi-derruido','derruido']): continue
             alquilat = 'alquilada' in desc.lower() or 'alquilada' in titol.lower()
             renda = RENDES.get(min(max(h, 1), 4), 420)
             met = calc_lib(p, m2, h, renda, ccaa, zona)
