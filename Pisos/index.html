@@ -60,6 +60,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .chk.f{background:rgba(239,68,68,.08);color:var(--red);}
 .chk.w{background:rgba(234,179,8,.08);color:var(--yellow);}
 .nt{font-size:.78em;color:var(--muted);margin-top:5px;padding-top:5px;border-top:1px solid var(--border);}
+.nou-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.7em;font-weight:600;background:rgba(59,130,246,.15);color:var(--blue);margin-left:4px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.6;}}
+.portal-status{background:var(--card);border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:.8em;border:1px solid var(--border);display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.ps-item{display:flex;align-items:center;gap:3px;}
+.ps-ok{color:var(--green);}.ps-fail{color:var(--red);}
 .lnk{display:inline-block;margin-top:5px;padding:4px 10px;border-radius:5px;text-decoration:none;font-size:.8em;font-weight:500;color:#fff;}
 .lnk.idealista{background:#1daf17;}.lnk.fotocasa{background:#e7430a;}.lnk.bank{background:#4a5568;}
 .zt{display:inline-block;padding:1px 6px;border-radius:7px;font-size:.68em;font-weight:600;margin-left:4px;}
@@ -98,7 +103,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="hdr">
   <h1>🏠 Semàfor LIB</h1>
   <p>Mètode Libertad Inmobiliaria (Carlos Galán) · Cerca automàtica multi-portal</p>
-  <div class="ver">v10.1 — 2026-11-21</div>
+  <div class="ver">v12 — 2026-11-22</div>
 </div>
 
 <!-- Run Action bar -->
@@ -123,22 +128,52 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="tabs">
   <div class="tab on" data-tab="pisos">🏠 Pisos <span class="cnt" id="cntPisos">0</span></div>
   <div class="tab fav-tab" data-tab="favorits">❤️ Favorits <span class="cnt" id="cntFavs">0</span></div>
-  <div class="tab" data-tab="config">⚙️ Ciutats</div>
+  <div class="tab" data-tab="config">⚙️ Configuració</div>
 </div>
 
 <!-- Config tab -->
 <div id="panelConfig" style="display:none;">
-  <div style="background:var(--card);border-radius:10px;padding:14px;border:1px solid var(--border);">
-    <p style="font-size:.85em;color:var(--muted);margin-bottom:10px;">Tria les ciutats que vols que es busquin <strong>cada dia automàticament</strong>. Es guarden al fitxer del repo.</p>
-    <div id="ciutatsList" style="margin-bottom:12px;"></div>
+  <div style="background:var(--card);border-radius:10px;padding:14px;border:1px solid var(--border);margin-bottom:10px;">
+    <p style="font-size:.85em;color:var(--muted);margin-bottom:10px;">Aquests paràmetres s'usen a la <strong>cerca automàtica</strong> (script PC, cada matí). Canvia'ls aquí i guarda — la propera cerca els agafarà.</p>
+
+    <div style="font-size:.82em;font-weight:600;color:var(--blue);margin:12px 0 6px;">💰 Preus i hipoteca</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:12px;">
+      <div class="fg"><label>Preu mínim (€)</label><input id="cfgPreuMin" type="number" value="30000"></div>
+      <div class="fg"><label>Preu màxim (€)</label><input id="cfgPreuMax" type="number" value="70000"></div>
+      <div class="fg"><label>Hipoteca %</label><input id="cfgHipo" type="number" value="80"></div>
+      <div class="fg"><label>Interès fix %</label><input id="cfgInteres" type="number" value="3.50" step="0.01"></div>
+      <div class="fg"><label>Anys hipoteca</label><input id="cfgAnys" type="number" value="25"></div>
+      <div class="fg"><label>Comunitat €/mes</label><input id="cfgComunitat" type="number" value="50"></div>
+    </div>
+
+    <div style="font-size:.82em;font-weight:600;color:var(--blue);margin:12px 0 6px;">📍 Ciutats a buscar</div>
+    <div id="ciutatsList" style="margin-bottom:8px;"></div>
     <div style="display:flex;gap:6px;align-items:end;flex-wrap:wrap;">
-      <div class="fg" style="flex:1;min-width:200px;"><label style="font-size:.68em;color:var(--muted);display:block;margin-bottom:2px;">Afegir ciutat</label><input id="newCiutat" type="text" placeholder="Lepe, Martorell, Vigo..." style="width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.83em;" onkeypress="if(event.key==='Enter')afegirCiutat()"></div>
+      <div class="fg" style="flex:1;min-width:200px;"><label>Afegir ciutat (pots posar vàries amb comes)</label><input id="newCiutat" type="text" placeholder="Lepe, Martorell, Vigo..." onkeypress="if(event.key==='Enter')afegirCiutat()"></div>
       <button onclick="afegirCiutat()" style="padding:7px 14px;border:none;border-radius:6px;background:var(--green);color:#fff;font-size:.85em;cursor:pointer;">+ Afegir</button>
     </div>
-    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
-      <button onclick="guardarCiutatsAlRepo()" id="btnGuardarCiutats" style="padding:8px 18px;border:none;border-radius:8px;background:var(--blue);color:#fff;font-weight:600;font-size:.9em;cursor:pointer;">💾 Guardar al repo (s'aplicarà a la propera cerca)</button>
-      <span id="ciutatsSaveMsg" style="font-size:.8em;margin-left:8px;color:var(--green);display:none;"></span>
+
+    <div style="font-size:.82em;font-weight:600;color:var(--blue);margin:16px 0 6px;">📍 Zones (Telegram Lleida)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div class="fg"><label>🟢 Zones bones (separades per comes)</label><textarea id="cfgZonesBones" rows="2" style="width:100%;padding:6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.82em;resize:vertical;"></textarea></div>
+      <div class="fg"><label>🔴 Zones a evitar (separades per comes)</label><textarea id="cfgZonesEvitar" rows="2" style="width:100%;padding:6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.82em;resize:vertical;"></textarea></div>
     </div>
+
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <button onclick="guardarConfigAlRepo()" id="btnGuardarConfig" style="padding:8px 20px;border:none;border-radius:8px;background:var(--blue);color:#fff;font-weight:600;font-size:.9em;cursor:pointer;">💾 Guardar configuració</button>
+      <span id="cfgSaveMsg" style="font-size:.8em;color:var(--green);display:none;"></span>
+      <span style="font-size:.75em;color:var(--muted);margin-left:auto;">Es guarda al repo GitHub → el script del PC l'agafa automàticament</span>
+    </div>
+  </div>
+
+  <div style="background:var(--card);border-radius:10px;padding:14px;border:1px solid var(--border);">
+    <div style="font-size:.82em;font-weight:600;color:var(--blue);margin-bottom:6px;">🔑 Token GitHub</div>
+    <p style="font-size:.78em;color:var(--muted);margin-bottom:6px;">Per guardar la config al repo. <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" style="color:var(--blue);">Crear token</a> (repo + actions).</p>
+    <div style="display:flex;gap:6px;">
+      <input id="ghToken" type="password" placeholder="github_pat_xxxxxxxxxxxx" style="flex:1;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.83em;">
+      <button onclick="guardarToken()" style="padding:6px 14px;border:none;border-radius:6px;background:var(--green);color:#fff;font-size:.83em;cursor:pointer;">Guardar</button>
+    </div>
+    <div id="tokenMsg" style="font-size:.75em;margin-top:4px;color:var(--green);display:none;"></div>
   </div>
 </div>
 
@@ -151,6 +186,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="fg"><label>Habitacions</label><select id="fHabs"><option value="">Totes</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option></select></div>
     <div class="fg"><label>Portal</label><select id="fPortal"><option value="">Tots</option></select></div>
   </div>
+  <div id="portalStatus"></div>
   <div class="stats" id="statsBar"></div>
   <div id="results"></div>
   <div class="upsmall">
@@ -236,7 +272,7 @@ function renderCard(p, showFavDate){
   
   return`<div class="card ${p.semfor}">
 <div class="top-row">
-  <h3>${p.nom}<span class="zt ${p.zonaClass||'neutra'}">${p.zona||p.ciutat}</span><span class="ptag">${p.portal}</span></h3>
+  <h3>${p.nom}<span class="zt ${p.zonaClass||'neutra'}">${p.zona||p.ciutat}</span><span class="ptag">${p.portal}</span>${p.nou?'<span class="nou-badge">🆕 NOU</span>':''}${p.conservat?'<span class="ptag" style="color:var(--yellow)">📦 d\'ahir</span>':''}</h3>
   ${heart}
   <span class="badge">${semLabel[p.semfor]}</span>
 </div>
@@ -323,6 +359,19 @@ function loadData(data){
   document.getElementById('fPortal').innerHTML='<option value="">Tots</option>'+portals.map(p=>`<option value="${p}">${p} (${allPisos.filter(x=>x.portal===p).length})</option>`).join('');
   
   const cfg=data.config||{};
+  const r=data.resum||{};
+  const nNous=r.nous||allPisos.filter(p=>p.nou).length;
+
+  // Portal status bar
+  const ps=data.portals||{};
+  if(Object.keys(ps).length){
+    document.getElementById('portalStatus').innerHTML=`<div class="portal-status">
+      <span style="color:var(--muted);">📡 Portals:</span>
+      ${Object.entries(ps).map(([k,v])=>`<span class="ps-item ${v.ok?'ps-ok':'ps-fail'}">${v.ok?'✅':'⚠️'} ${k}: ${v.trobats}</span>`).join('')}
+      ${nNous>0?`<span style="color:var(--blue);margin-left:auto;">🆕 ${nNous} nous</span>`:''}
+    </div>`;
+  }
+
   document.getElementById('infoBar').innerHTML=`Última cerca: ${data.generatEl||'—'} · Ciutats: ${cfg.ciutats?.join(', ')||'—'} · ${(cfg.preuMin||30000).toLocaleString('ca')}–${(cfg.preuMax||70000).toLocaleString('ca')}€`;
   
   // Filter listeners
@@ -453,90 +502,129 @@ function detectarCCAA(nom){
 const TOTES_CCAA=['Cataluña','Aragón','Andalucía','Comunidad de Madrid','Comunidad Valenciana','Castilla y León','Castilla-La Mancha','Galicia','País Vasco','Murcia','Canarias','Navarra','Extremadura','Asturias','Cantabria','La Rioja','Baleares'];
 
 async function afegirCiutat(){
-  const nom=document.getElementById('newCiutat').value.trim();
-  if(!nom){alert('Escriu el nom de la ciutat');return;}
-  if(mevesCiutats.some(c=>c.nom.toLowerCase()===nom.toLowerCase())){alert('Ja existeix');return;}
-  const ccaa=detectarCCAA(nom);
-
-  // Mostrar confirmació amb opció de canviar CCAA
-  const opts=TOTES_CCAA.map(c=>`<option value="${c}"${c===ccaa?' selected':''}>${c}</option>`).join('');
-
-  document.getElementById('confirmText').innerHTML=`
-    Afegir <strong>${nom}</strong>?<br>
-    <span style="font-size:.85em;color:var(--muted);">Comunitat detectada:</span><br>
-    <select id="confirmCCAA" style="margin-top:6px;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.9em;width:100%;">${opts}</select>
-  `;
+  const input=document.getElementById('newCiutat').value.trim();
+  if(!input){alert('Escriu el nom de la ciutat');return;}
+  
+  const noms=input.split(',').map(s=>s.trim()).filter(s=>s.length>0);
+  const noves=[];
+  for(const nom of noms){
+    if(mevesCiutats.some(c=>c.nom.toLowerCase()===nom.toLowerCase())) continue;
+    noves.push({nom, ccaa:detectarCCAA(nom)});
+  }
+  if(noves.length===0){alert('Totes ja existeixen');return;}
+  
+  const rows=noves.map((c,i)=>`
+    <div style="display:flex;align-items:center;gap:6px;margin:4px 0;">
+      <strong style="min-width:100px;">${c.nom}</strong>
+      <select id="ccSel${i}" style="flex:1;padding:4px 6px;border-radius:5px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.85em;">
+        ${TOTES_CCAA.map(cc=>`<option value="${cc}"${cc===c.ccaa?' selected':''}>${cc}</option>`).join('')}
+      </select>
+    </div>`).join('');
+  
+  document.getElementById('confirmText').innerHTML=`Afegir ${noves.length} ciutat${noves.length>1?'s':''}?<br><span style="font-size:.8em;color:var(--muted);">Comprova les comunitats:</span><div style="margin-top:6px;">${rows}</div>`;
   document.getElementById('confirmModal').style.display='flex';
-
   const ok=await new Promise(resolve=>{confirmCb=resolve;});
   if(!ok) return;
-
-  const ccaaFinal=document.getElementById('confirmCCAA')?.value||ccaa;
-
-  if(ccaaFinal!==ccaa){
-    const ok2=await showConfirm(`⚠️ Has canviat la comunitat de "${nom}" de ${ccaa} a ${ccaaFinal}. L'ITP serà diferent (${({'Cataluña':'10%','Aragón':'8%','Andalucía':'7%','Comunidad de Madrid':'6%','Comunidad Valenciana':'10%','País Vasco':'4%'}[ccaaFinal])||'variable'}). Estàs segur?`);
-    if(!ok2) return;
+  
+  for(let i=0;i<noves.length;i++){
+    const sel=document.getElementById('ccSel'+i);
+    const ccaaFinal=sel?sel.value:noves[i].ccaa;
+    if(ccaaFinal!==noves[i].ccaa){
+      const ok2=await showConfirm(`\u26a0\ufe0f Has canviat ${noves[i].nom} de ${noves[i].ccaa} a ${ccaaFinal}. Continuar?`);
+      if(!ok2) continue;
+    }
+    mevesCiutats.push({nom:noves[i].nom, ccaa:ccaaFinal});
   }
-
-  mevesCiutats.push({nom,ccaa:ccaaFinal});
   localStorage.setItem('pisos_ciutats',JSON.stringify(mevesCiutats));
   document.getElementById('newCiutat').value='';
   renderCiutats();
 }
 
-async function guardarCiutatsAlRepo(){
-  const token=localStorage.getItem('gh_token');
-  if(!token){alert('Primer configura el token de GitHub (⚙️ al botó de dalt)');return;}
 
-  const btn=document.getElementById('btnGuardarCiutats');
-  const msg=document.getElementById('ciutatsSaveMsg');
+// ══ CARREGAR CONFIG ════════════════════════════════════════════════
+let currentConfig = null;
+
+function carregarConfigUI(cfg){
+  currentConfig = cfg;
+  document.getElementById('cfgPreuMin').value = cfg.preuMin || 30000;
+  document.getElementById('cfgPreuMax').value = cfg.preuMax || 70000;
+  document.getElementById('cfgHipo').value = cfg.hipotecaPct || 80;
+  document.getElementById('cfgInteres').value = cfg.interesFix || 3.50;
+  document.getElementById('cfgAnys').value = cfg.anysMortgage || 25;
+  document.getElementById('cfgComunitat').value = cfg.comunitat_mes || 50;
+  if(cfg.ciutats) mevesCiutats = cfg.ciutats;
+  document.getElementById('cfgZonesBones').value = (cfg.zones?.bona || []).join(', ');
+  document.getElementById('cfgZonesEvitar').value = (cfg.zones?.evitar || []).join(', ');
+  renderCiutats();
+}
+
+function recollirConfig(){
+  return {
+    preuMin: parseInt(document.getElementById('cfgPreuMin').value) || 30000,
+    preuMax: parseInt(document.getElementById('cfgPreuMax').value) || 70000,
+    hipotecaPct: parseInt(document.getElementById('cfgHipo').value) || 80,
+    interesFix: parseFloat(document.getElementById('cfgInteres').value) || 3.50,
+    anysMortgage: parseInt(document.getElementById('cfgAnys').value) || 25,
+    comunitat_mes: parseInt(document.getElementById('cfgComunitat').value) || 50,
+    ciutats: mevesCiutats,
+    zones: {
+      bona: document.getElementById('cfgZonesBones').value.split(',').map(s=>s.trim()).filter(s=>s),
+      evitar: document.getElementById('cfgZonesEvitar').value.split(',').map(s=>s.trim()).filter(s=>s),
+    }
+  };
+}
+
+async function guardarConfigAlRepo(){
+  const token=localStorage.getItem('gh_token');
+  if(!token){alert('Primer posa el token de GitHub (a baix de tot en aquesta pestanya)');return;}
+
+  const btn=document.getElementById('btnGuardarConfig');
+  const msg=document.getElementById('cfgSaveMsg');
   btn.textContent='💾 Guardant...';
   btn.disabled=true;
 
-  // Build the new buscador_action.py CIUTATS list
-  const ciutatsCode=mevesCiutats.map(c=>`    {'nom': '${c.nom}', 'ccaa': '${c.ccaa}'},`).join('\n');
+  const cfg = recollirConfig();
 
   try{
-    // 1. Get current file content
-    const getResp=await fetch('https://api.github.com/repos/diordes/diordes.github.io/contents/Pisos/data/ciutats_config.json',{
+    const getResp=await fetch('https://api.github.com/repos/diordes/diordes.github.io/contents/Pisos/data/config.json',{
       headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}
     });
-
     let sha='';
-    if(getResp.ok){
-      const data=await getResp.json();
-      sha=data.sha;
-    }
+    if(getResp.ok){ sha=(await getResp.json()).sha; }
 
-    // 2. Write config file
-    const content=btoa(unescape(encodeURIComponent(JSON.stringify(mevesCiutats,null,2))));
-    const putResp=await fetch('https://api.github.com/repos/diordes/diordes.github.io/contents/Pisos/data/ciutats_config.json',{
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify(cfg,null,2))));
+    const putResp=await fetch('https://api.github.com/repos/diordes/diordes.github.io/contents/Pisos/data/config.json',{
       method:'PUT',
       headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify({message:'Actualitzar ciutats cerca LIB',content:content,...(sha?{sha}:{})})
+      body:JSON.stringify({message:'Actualitzar config Pisos LIB',content,...(sha?{sha}:{})})
     });
 
     if(putResp.ok||putResp.status===201){
-      msg.textContent='✅ Guardat! La propera cerca usarà aquestes ciutats.';
+      msg.textContent='✅ Guardat! La propera cerca usarà aquesta config.';
+      msg.style.color='var(--green)';
       msg.style.display='inline';
+      localStorage.setItem('pisos_ciutats',JSON.stringify(mevesCiutats));
       setTimeout(()=>{msg.style.display='none';},4000);
     } else {
-      const err=await putResp.text();
-      msg.textContent='❌ Error: '+err.slice(0,80);
+      msg.textContent='❌ Error: '+(await putResp.text()).slice(0,80);
       msg.style.color='var(--red)';
       msg.style.display='inline';
     }
   }catch(e){
-    msg.textContent='❌ Error: '+e.message;
+    msg.textContent='❌ '+e.message;
     msg.style.color='var(--red)';
     msg.style.display='inline';
   }
 
-  btn.textContent='💾 Guardar al repo';
+  btn.textContent='💾 Guardar configuració';
   btn.disabled=false;
 }
 
-// Tab: config
+// Carregar config del repo
+fetch('data/config.json').then(r=>{if(r.ok)return r.json();throw'';}).then(cfg=>carregarConfigUI(cfg)).catch(()=>{
+  carregarConfigUI({preuMin:30000,preuMax:70000,hipotecaPct:80,interesFix:3.50,anysMortgage:25,comunitat_mes:50,ciutats:mevesCiutats,zones:{bona:['universitat','ricard vinyes','clot','cappont','centre historic'],evitar:['mariola','joan carles']}});
+});
+
 renderCiutats();
 
 // ══ GITHUB ACTIONS ═════════════════════════════════════════════════
