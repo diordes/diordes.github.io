@@ -1,5 +1,5 @@
 {
-  "data": "2026-11-22T16:45:32.712385",
+  "data": "2026-11-24T19:45:34.496031",
   "eurUsd": 1.097,
   "ticker": "BTC-EUR",
   "config": {
@@ -9,14 +9,14 @@
     "es_dia_dca": false
   },
   "btc": {
-    "preu": 55915.67,
-    "sma150": 64073.62,
-    "pct_sma": -12.7,
+    "preu": 54467.73,
+    "sma150": 64107.65,
+    "pct_sma": -15.0,
     "support": 52622.25,
     "resist": 73346.62,
-    "rsi": 21.8,
+    "rsi": 21.4,
     "mfi": 0.0,
-    "vol_30d": 46.9,
+    "vol_30d": 47.5,
     "barat": true
   },
   "resum": {
@@ -29,28 +29,28 @@
     "compra": null,
     "vigilar": {
       "accio": "VIGILAR",
-      "motiu": "\ud83d\udfe1 MOLT BONA \u2014 Prop del suport \u20ac52,622 (+6.3%), pendent rebot",
+      "motiu": "\ud83d\udfe1 MOLT BONA \u2014 Prop del suport \u20ac52,622 (+3.5%), pendent rebot",
       "extra": 3000
     }
   },
   "bench": {
     "BTC-EUR": {
       "nom": "Bitcoin (\u20ac)",
-      "preu": 55915.67,
-      "sma200": 63272.93,
-      "ret_1m": -20.3,
-      "ret_3m": -20.6,
-      "ret_ytd": -25.9,
-      "ret_1y": -14.1
+      "preu": 54467.73,
+      "sma200": 63144.01,
+      "ret_1m": -21.1,
+      "ret_3m": -22.9,
+      "ret_ytd": -27.9,
+      "ret_1y": -12.4
     },
     "SPY": {
       "nom": "SPY (S&P 500)",
-      "preu": 689.81,
-      "sma200": 730.29,
-      "ret_1m": -9.7,
-      "ret_3m": -9.3,
-      "ret_ytd": 1.8,
-      "ret_1y": 6.9
+      "preu": 717.66,
+      "sma200": 730.62,
+      "ret_1m": -6.2,
+      "ret_3m": -5.8,
+      "ret_ytd": 5.9,
+      "ret_1y": 8.5
     }
   }
 }
