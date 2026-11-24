@@ -2,21 +2,54 @@
   "preuMin": 30000,
   "preuMax": 70000,
   "hipotecaPct": 80,
-  "interesFix": 3.50,
+  "interesFix": 3.5,
   "anysMortgage": 25,
   "comunitat_mes": 50,
   "ciutats": [
-    {"nom": "Lleida", "ccaa": "Cataluña"},
-    {"nom": "Binèfar", "ccaa": "Aragón"},
-    {"nom": "Manresa", "ccaa": "Cataluña"},
-    {"nom": "Balaguer", "ccaa": "Cataluña"},
-    {"nom": "Mollerussa", "ccaa": "Cataluña"},
-    {"nom": "Tàrrega", "ccaa": "Cataluña"},
-    {"nom": "Fraga", "ccaa": "Aragón"},
-    {"nom": "Cervera", "ccaa": "Cataluña"}
+    {
+      "nom": "Lleida",
+      "ccaa": "Cataluña"
+    },
+    {
+      "nom": "Binèfar",
+      "ccaa": "Aragón"
+    },
+    {
+      "nom": "Manresa",
+      "ccaa": "Cataluña"
+    },
+    {
+      "nom": "Balaguer",
+      "ccaa": "Cataluña"
+    },
+    {
+      "nom": "Fraga",
+      "ccaa": "Aragón"
+    },
+    {
+      "nom": "Cervera",
+      "ccaa": "Cataluña"
+    },
+    {
+      "nom": "tremp",
+      "ccaa": "Cataluña"
+    }
   ],
   "zones": {
-    "bona": ["universitat","ricard vinyes","clot","princep de viana","escola del treball","cappont","centre historic","centre històric"],
-    "evitar": ["mariola","bloques juan carlos","joan carles"]
+    "bona": [
+      "universitat",
+      "ricard vinyes",
+      "clot",
+      "princep de viana",
+      "escola del treball",
+      "cappont",
+      "centre historic",
+      "centre històric"
+    ],
+    "evitar": [
+      "mariola",
+      "bloques juan carlos",
+      "joan carles"
+    ]
   }
 }
