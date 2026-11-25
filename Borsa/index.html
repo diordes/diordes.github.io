@@ -160,16 +160,56 @@ a{color:var(--acc);text-decoration:none;}
 .btc-s-val.yellow{color:var(--yellow);}
 .btc-s-val.red{color:var(--red);}
 
-/* ═══ TOP 250 STYLES (from existing) ═══ */
-.s250-hero{text-align:center;padding:18px 16px 10px;}
-.s250-hero h1{font-size:1.15rem;font-weight:700;letter-spacing:-.02em;}
-.s250-hero .upd{font-size:.72rem;color:var(--tx3);margin-top:2px;}
-.s250-tabs{display:flex;gap:2px;overflow-x:auto;padding:0 16px 8px;border-bottom:1px solid var(--brd);margin:0 -16px;}
-.s250-tab{background:none;border:none;color:var(--tx3);font-family:var(--font);font-size:.78rem;font-weight:600;padding:7px 14px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:.15s;}
-.s250-tab:hover{color:var(--tx2);}
-.s250-tab.active{color:var(--acc);border-bottom-color:var(--acc);}
-.s250-pane{display:none;padding-top:14px;}
-.s250-pane.active{display:block;}
+/* ═══ CONFIG E STYLES ═══ */
+.ce-hero{text-align:center;padding:18px 16px 10px;}
+.ce-hero h1{font-size:1.5rem;font-weight:800;margin:0;color:var(--tx);}
+.ce-hero h1 span{color:var(--acc);}
+.ce-hero .sub{color:var(--tx3);font-size:.78rem;margin-top:4px;}
+.ce-params{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px;}
+.ce-param{background:var(--bg3);border:1px solid var(--brd);border-radius:6px;padding:3px 10px;font-size:.7rem;color:var(--tx2);font-family:var(--mono);}
+.ce-controls{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;}
+.ce-tabs{display:flex;gap:2px;overflow-x:auto;padding:0 16px 8px;border-bottom:1px solid var(--brd);margin:0 -16px;}
+.ce-tab{background:none;border:none;color:var(--tx3);font-family:var(--font);font-size:.78rem;font-weight:600;padding:7px 14px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:.15s;}
+.ce-tab:hover{color:var(--tx2);}
+.ce-tab.active{color:var(--acc);border-bottom-color:var(--acc);}
+.ce-pane{display:none;padding-top:14px;}
+.ce-pane.active{display:block;}
+.ce-regime{display:flex;gap:8px;align-items:center;justify-content:center;margin:8px 0;}
+.ce-regime-badge{padding:4px 12px;border-radius:6px;font-size:.72rem;font-weight:700;font-family:var(--mono);}
+.ce-regime-badge.bull{background:rgba(52,211,153,.15);color:var(--green);border:1px solid rgba(52,211,153,.3);}
+.ce-regime-badge.bear{background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.3);}
+.ce-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin:12px 0;}
+.ce-mc{background:var(--card);border:1px solid var(--brd);border-radius:var(--radius);padding:10px;text-align:center;}
+.ce-mc .lbl{font-size:.65rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em;}
+.ce-mc .val{font-size:1.1rem;font-weight:700;margin-top:2px;font-family:var(--mono);}
+.ce-mc .val.green{color:var(--green);}
+.ce-mc .val.red{color:var(--red);}
+.ce-mc .val.acc{color:var(--acc);}
+.ce-tbl-wrap{overflow-x:auto;margin:8px 0;}
+.ce-tbl{width:100%;border-collapse:collapse;font-size:.75rem;}
+.ce-tbl th{text-align:left;color:var(--tx3);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--brd2);font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;}
+.ce-tbl td{padding:6px 8px;border-bottom:1px solid var(--brd);color:var(--tx2);}
+.ce-tbl tr:hover td{background:var(--bg3);}
+.ce-tbl .sym{color:var(--acc);font-weight:700;font-family:var(--mono);}
+.ce-tbl .pos{color:var(--green);}
+.ce-tbl .neg{color:var(--red);}
+.ce-tbl .mono{font-family:var(--mono);font-size:.72rem;}
+.ce-section{margin:16px 0;padding:14px;background:var(--card);border:1px solid var(--brd);border-radius:var(--radius2);}
+.ce-section h3{font-size:.82rem;font-weight:700;color:var(--tx);margin:0 0 10px;}
+.ce-sig-grid{display:grid;gap:8px;}
+.ce-sig{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--radius);padding:10px 12px;display:flex;align-items:center;gap:12px;}
+.ce-sig .sym-col{min-width:60px;}
+.ce-sig .sym-name{font-size:.72rem;font-weight:700;color:var(--acc);font-family:var(--mono);}
+.ce-sig .sym-sector{font-size:.62rem;color:var(--tx3);}
+.ce-sig .details{flex:1;display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.68rem;color:var(--tx2);font-family:var(--mono);}
+.ce-sig .details .tag{padding:2px 6px;border-radius:4px;font-size:.62rem;font-weight:600;}
+.ce-sig .details .tag-ok{background:rgba(52,211,153,.12);color:var(--green);}
+.ce-sig .details .tag-warn{background:rgba(251,191,36,.12);color:var(--yellow);}
+.ce-trade-win{border-left:3px solid var(--green);}
+.ce-trade-loss{border-left:3px solid var(--red);}
+.ce-empty{text-align:center;padding:30px 16px;color:var(--tx3);font-size:.82rem;}
+.ce-sl-bar{height:4px;background:var(--bg3);border-radius:2px;margin-top:4px;position:relative;overflow:hidden;}
+.ce-sl-fill{height:100%;border-radius:2px;transition:width .3s;}
 
 /* signal sub-tabs */
 .stabs{display:flex;gap:2px;flex-wrap:wrap;margin-bottom:10px;}
@@ -377,9 +417,8 @@ a{color:var(--acc);text-decoration:none;}
   </div>
   <div class="top-tabs">
     <button class="top-tab active" onclick="switchMain('etf')" id="mainTabEtf">📊 ETF</button>
-    <button class="top-tab" onclick="switchMain('stocks')" id="mainTabStocks">📈 Top 250</button>
+    <button class="top-tab" onclick="switchMain('confige')" id="mainTabConfige">🏆 Config E</button>
     <button class="top-tab" onclick="switchMain('sqar')" id="mainTabSqar">🎯 SQAR</button>
-    <button class="top-tab" onclick="switchMain('sma')" id="mainTabSma">⚡ SMA1300</button>
     <button class="top-tab" onclick="switchMain('btc')" id="mainTabBtc">₿ BTC</button>
     <button class="top-tab" onclick="switchMain('guanys')" id="mainTabGuanys">💰 Guanys</button>
   </div>
@@ -465,307 +504,161 @@ a{color:var(--acc);text-decoration:none;}
 </div>
 
 <!-- ═══════════════════════════════════════════════════ -->
-<!-- TOP 250 STOCKS PANE -->
+<!-- CONFIG E PANE -->
 <!-- ═══════════════════════════════════════════════════ -->
-<div id="paneStocks" class="main-pane">
+<div id="paneConfige" class="main-pane">
 
   <!-- Hero -->
-  <div class="s250-hero">
-    <h1>Top 250 <span style="color:var(--acc)">Screener</span></h1>
-    <div class="upd" id="s250upd">—</div>
-  </div>
-
-  <!-- Tabs -->
-  <div class="s250-tabs">
-    <button class="s250-tab active" onclick="goTab('sig')">Senyals</button>
-    <button class="s250-tab" onclick="goTab('pos')">Posicions</button>
-    <button class="s250-tab" onclick="goTab('hist')">Historial</button>
-    <button class="s250-tab" onclick="goTab('ret')">Rendibilitat</button>
-  </div>
-
-  <!-- Senyals -->
-  <div id="tSig" class="s250-pane active">
-    <div class="stabs" id="sTabs"></div>
-    <div class="con" id="sigCon"></div>
-  </div>
-
-  <!-- Posicions -->
-  <div id="tPos" class="s250-pane">
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
-      <button class="etf-btn secondary" onclick="document.getElementById('mPos').classList.add('show')">+ Posició</button>
-      <button class="etf-btn secondary" onclick="openMov()">💶 Moviment</button>
-      <button class="etf-btn secondary" onclick="runScreener()">▶ Executar</button>
+  <div class="ce-hero">
+    <h1>🏆 Config <span>E</span></h1>
+    <div class="sub">Sistema de senyals — Acumulació S&P 500 individual</div>
+    <div class="ce-params" id="ceParams">
+      <span class="ce-param">SMA200 rising 20d</span>
+      <span class="ce-param">Price &gt; SMA200</span>
+      <span class="ce-param">Pullback ≥1%</span>
+      <span class="ce-param">ATR20 &lt; 1.5× MA50</span>
+      <span class="ce-param">LdC 1.4× trailing stop</span>
+      <span class="ce-param">8 posicions</span>
     </div>
-    <div id="posTbl"></div>
-    <div id="posSummary" style="margin-top:10px;font-size:.82rem;color:var(--tx2);"></div>
+    <div class="ce-regime" id="ceRegime"></div>
+    <div class="sub" id="ceUpd">Actualitzat: —</div>
   </div>
 
-  <!-- Historial -->
-  <div id="tHist" class="s250-pane">
-    <div id="closedTbl"></div>
-    <div id="movTbl" style="margin-top:16px;"></div>
+  <!-- Controls -->
+  <div class="ce-controls">
+    <button class="etf-btn primary" id="runConfigeBtn" onclick="runConfigeScreener()">▶ Executar</button>
   </div>
 
-  <!-- Rendibilitat -->
-  <div id="tRet" class="s250-pane">
-    <div class="chart-ct"><canvas id="retChart"></canvas></div>
-    <div id="retTbl"></div>
+  <!-- Metric cards -->
+  <div class="ce-metrics" id="ceMetrics">
+    <div class="ce-mc"><div class="lbl">Posicions</div><div class="val acc" id="ceNPos">—</div></div>
+    <div class="ce-mc"><div class="lbl">Cash</div><div class="val" id="ceCash">—</div></div>
+    <div class="ce-mc"><div class="lbl">Win Rate</div><div class="val green" id="ceWR">—</div></div>
+    <div class="ce-mc"><div class="lbl">YTD Real.</div><div class="val" id="ceYTD">—</div></div>
+    <div class="ce-mc"><div class="lbl">No Real.</div><div class="val" id="ceUnreal">—</div></div>
+    <div class="ce-mc"><div class="lbl">Trades</div><div class="val" id="ceTrades">—</div></div>
   </div>
-</div>
 
-<!-- ═══════════════════════════════════════════════════ -->
-<!-- MODALS -->
-<!-- ═══════════════════════════════════════════════════ -->
+  <!-- Sub-tabs -->
+  <div class="ce-tabs">
+    <button class="ce-tab active" onclick="ceGoTab('sig')">📡 Senyals</button>
+    <button class="ce-tab" onclick="ceGoTab('pos')">💼 Posicions</button>
+    <button class="ce-tab" onclick="ceGoTab('hist')">📜 Historial</button>
+    <button class="ce-tab" onclick="ceGoTab('ret')">📊 Rendiment</button>
+  </div>
 
-<!-- Settings Modal -->
-<div class="mo" id="mSt">
-<div class="mo-c">
-  <h3>⚙️ Configuració</h3>
-  <label>Efectiu disponible (€)</label>
-  <input type="number" id="stCash" step="100">
-  <label>Aportació mensual DCA (€)</label>
-  <input type="number" id="stAport" step="100">
-  <label>Valor inici any (€)</label>
-  <input type="number" id="stVal" step="100">
-  <label>EUR/USD manual</label>
-  <input type="number" id="stEur" step="0.001" placeholder="auto">
-  <div class="btn-row">
-    <button class="btn btn-p" onclick="saveSettings()">Desar</button>
-    <button class="btn btn-s" onclick="cmo('mSt')">Tancar</button>
-  </div>
-  <div style="margin-top:14px;border-top:1px solid var(--brd);padding-top:12px;">
-    <button class="btn btn-s" style="width:100%;margin-bottom:6px;" onclick="expAll()">📦 Exportar backup</button>
-    <label for="impFile" class="btn btn-s" style="width:100%;display:block;text-align:center;cursor:pointer;padding:9px;border-radius:8px;font-size:.82rem;font-weight:600;">📥 Importar backup</label>
-    <input type="file" id="impFile" accept=".json" style="display:none;">
-    <button class="btn btn-d" style="width:100%;margin-top:6px;" onclick="resAll()">🗑️ Reset total</button>
-  </div>
-</div>
-</div>
-
-<!-- Add Position Modal -->
-<div class="mo" id="mPos">
-<div class="mo-c">
-  <h3>Afegir Posició</h3>
-  <label>Ticker</label><input type="text" id="pSym" placeholder="AAPL" style="text-transform:uppercase;">
-  <label>Nom</label><input type="text" id="pNom">
-  <label>Preu compra (USD)</label><input type="number" id="pPreu" step="0.01">
-  <label>Accions</label><input type="number" id="pShares" step="1">
-  <label>Data compra</label><input type="date" id="pData">
-  <label>Stop Loss (%)</label><input type="number" id="pSL" step="1" value="15">
-  <label>Tipus</label>
-  <select id="pTipus"><option value="full">Full</option><option value="mig">Mig</option></select>
-  <div class="btn-row">
-    <button class="btn btn-p" onclick="aPos()">Afegir</button>
-    <button class="btn btn-s" onclick="cmo('mPos')">Tancar</button>
-  </div>
-</div>
-</div>
-
-<!-- Edit Position Modal -->
-<div class="mo" id="mEdit">
-<div class="mo-c">
-  <h3 id="editTitle">Editar Posició</h3>
-  <label>Preu compra (USD)</label><input type="number" id="ePreu" step="0.01">
-  <label>Accions</label><input type="number" id="eShares" step="1">
-  <label>Stop Loss (%)</label><input type="number" id="eSL" step="1">
-  <label>Trailing SL màx (%)</label><input type="number" id="eTSL" step="0.1">
-  <label>Tipus</label>
-  <select id="eTipus"><option value="full">Full</option><option value="mig">Mig</option></select>
-  <div class="btn-row">
-    <button class="btn btn-p" onclick="sEdit()">Desar</button>
-    <button class="btn btn-d" onclick="dPos()">Eliminar</button>
-    <button class="btn btn-s" onclick="cmo('mEdit')">Tancar</button>
-  </div>
-</div>
-</div>
-
-<!-- Close Position Modal -->
-<div class="mo" id="mClose">
-<div class="mo-c">
-  <h3 id="closeTitle">Tancar Posició</h3>
-  <label>Preu venda (USD)</label><input type="number" id="cPreu" step="0.01">
-  <label>Data venda</label><input type="date" id="cData">
-  <label>Motiu</label>
-  <select id="cMotiu"><option value="sl">Stop Loss</option><option value="senyal">Senyal venda</option><option value="manual">Manual</option></select>
-  <div class="btn-row">
-    <button class="btn btn-p" onclick="closePos()">Tancar posició</button>
-    <button class="btn btn-s" onclick="cmo('mClose')">Cancel·lar</button>
-  </div>
-</div>
-</div>
-
-<!-- Movement Modal -->
-<div class="mo" id="mMv">
-<div class="mo-c">
-  <h3>Registrar Moviment</h3>
-  <label>Tipus</label>
-  <select id="mvT"><option value="aportacio">Aportació</option><option value="retirada">Retirada</option></select>
-  <label>Import (€)</label><input type="number" id="mvI" step="100">
-  <label>Data</label><input type="date" id="mvD">
-  <label>Nota</label><input type="text" id="mvN">
-  <div class="btn-row">
-    <button class="btn btn-p" onclick="aMov()">Afegir</button>
-    <button class="btn btn-s" onclick="cmo('mMv')">Tancar</button>
-  </div>
-</div>
-</div>
-
-<!-- ETF Settings Modal -->
-<div class="mo" id="mEtfSt">
-<div class="mo-c">
-  <h3>💶 DCA ETF</h3>
-  <label>Aportació mensual DCA (€)</label>
-  <input type="number" id="etfDcaInput" step="500" value="10000">
-  <div class="btn-row">
-    <button class="btn btn-p" onclick="saveEtfDca()">Desar</button>
-    <button class="btn btn-s" onclick="cmo('mEtfSt')">Tancar</button>
-  </div>
-</div>
-</div>
-
-<!-- ETF Buy Modal -->
-<div class="mo" id="mEtfBuy">
-<div class="mo-c">
-  <h3>💰 Registrar Compra</h3>
-  <div id="buyEtfInfo" style="background:var(--bg3);border-radius:8px;padding:10px;margin-bottom:12px;font-size:.82rem;">
-    <div id="buyEtfName" style="font-weight:700;"></div>
-    <div id="buyEtfUcits" style="font-size:.72rem;color:var(--tx2);font-family:var(--mono);margin-top:2px;"></div>
-  </div>
-  <input type="hidden" id="buyEtf"><input type="hidden" id="buyTicker">
-  <input type="hidden" id="buyUcits"><input type="hidden" id="buyIsin">
-  <input type="hidden" id="buyEtfFullName">
-  <label>Data compra</label>
-  <input type="date" id="buyDate">
-  <label>Preu per acció (€)</label>
-  <input type="number" id="buyPrice" step="0.01" placeholder="Ex: 45.32">
-  <label>Nombre d'accions</label>
-  <input type="number" id="buyShares" step="0.001" placeholder="Ex: 73">
-  <div id="buyTotal" style="margin-top:8px;font-size:.85rem;font-weight:600;color:var(--green);"></div>
-  <div class="btn-row">
-    <button class="btn btn-p" onclick="doRecordBuy()">Registrar</button>
-    <button class="btn btn-s" onclick="cmo('mEtfBuy')">Cancel·lar</button>
-  </div>
-</div>
-</div>
-
-<!-- ETF Sell Modal -->
-<div class="mo" id="mEtfSell">
-<div class="mo-c">
-  <h3 id="sellEtfTitle">💸 Tancar Posició ETF</h3>
-  <input type="hidden" id="sellTradeId">
-  <label>Data venda</label>
-  <input type="date" id="sellDate">
-  <label>Preu per acció (€)</label>
-  <input type="number" id="sellPrice" step="0.01" placeholder="Preu de venda">
-  <div class="btn-row">
-    <button class="btn btn-p" onclick="doSellEtf()">Tancar posició</button>
-    <button class="btn btn-s" onclick="cmo('mEtfSell')">Cancel·lar</button>
-  </div>
-</div>
-</div>
-
-<!-- ETF Price Update Modal -->
-<div class="mo" id="mEtfPrices">
-<div class="mo-c">
-  <h3>📊 Actualitzar Preus</h3>
-  <p style="font-size:.78rem;color:var(--tx2);margin-bottom:12px;">Introdueix els preus actuals dels ETFs UCITS (€)</p>
-  <div id="priceUpdateList"></div>
-  <div class="btn-row">
-    <button class="btn btn-p" onclick="doUpdatePrices()">Actualitzar</button>
-    <button class="btn btn-s" onclick="cmo('mEtfPrices')">Tancar</button>
-  </div>
-</div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════ -->
-<!-- LOGIN OVERLAY -->
-<!-- ═══════════════════════════════════════════════════ -->
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-box" style="position:relative;">
-    <button onclick="cancelLogin()" style="position:absolute;top:8px;right:12px;background:none;border:none;font-size:1.2rem;color:var(--tx2);cursor:pointer;">✕</button>
-    <h2>📊 Screener Híbrid</h2>
-    <div class="sub">Selecciona el teu perfil</div>
-    <div class="user-list" id="loginUserList"></div>
-    <div class="login-pass" id="loginPassSection">
-      <input type="password" id="loginPassInput" placeholder="Contrasenya" onkeydown="if(event.key==='Enter')doLogin()">
-      <div class="login-error" id="loginError">Contrasenya incorrecta</div>
-      <div class="login-btn-row">
-        <button class="login-btn login-btn-p" onclick="doLogin()">Entrar</button>
-        <button class="login-btn login-btn-s" onclick="cancelLogin()">Cancel·lar</button>
+  <!-- Tab: Senyals -->
+  <div id="ceSig" class="ce-pane active">
+    <div class="ce-section">
+      <h3>🟢 Entrades avui</h3>
+      <div id="ceEntriesToday" class="ce-sig-grid">
+        <div class="ce-empty">Cap entrada avui</div>
       </div>
     </div>
-    <div id="loginLogoutSection" style="margin-top:12px;display:none;">
-      <button class="login-btn login-btn-s" style="width:100%;border:1px solid var(--brd)" onclick="logoutUser()">🚪 Tancar sessió</button>
+    <div class="ce-section">
+      <h3>🔴 Sortides avui</h3>
+      <div id="ceExitsToday" class="ce-sig-grid">
+        <div class="ce-empty">Cap sortida avui</div>
+      </div>
     </div>
-    <div id="loginAdminSection" style="margin-top:8px;border-top:1px solid var(--brd);padding-top:12px;display:none;">
-      <button class="login-btn login-btn-s" style="width:100%" onclick="openUserMgmt()">👥 Gestionar usuaris</button>
+    <div class="ce-section">
+      <h3>📡 Senyals d'entrada disponibles (<span id="ceSigCount">0</span>)</h3>
+      <div id="ceSignals" class="ce-sig-grid">
+        <div class="ce-empty">No hi ha senyals</div>
+      </div>
+    </div>
+    <div class="ce-section">
+      <h3>⏳ Cooldowns actius</h3>
+      <div id="ceCooldowns">
+        <div class="ce-empty">Cap cooldown</div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ═══════════════════════════════════════════════════ -->
-<!-- SETUP WIZARD (first time) -->
-<!-- ═══════════════════════════════════════════════════ -->
-<div class="mo" id="mSetup">
-<div class="mo-c">
-  <h3>🔧 Configuració inicial</h3>
-  <p style="font-size:.82rem;color:var(--tx2);margin-bottom:12px;">Crea el teu perfil d'administrador.</p>
-  <label>El teu nom</label>
-  <input type="text" id="setupName" placeholder="Diorde" value="Diorde">
-  <label>Contrasenya</label>
-  <input type="password" id="setupPass" placeholder="La teva contrasenya">
-  <label>Contrasenya mestra (per resetejar altres usuaris)</label>
-  <input type="password" id="setupMaster" placeholder="Contrasenya mestra">
-  <label>DCA mensual ETF (€)</label>
-  <input type="number" id="setupDca" step="500" value="10000">
-  <div class="btn-row">
-    <button class="btn btn-p" onclick="doSetup()">Crear perfil</button>
-    <button class="btn" onclick="cmo('mSetup')">Cancel·lar</button>
+  <!-- Tab: Posicions -->
+  <div id="cePos" class="ce-pane">
+    <div class="ce-section">
+      <h3>💼 Posicions obertes (<span id="cePosCount">0</span>/8)</h3>
+      <div class="ce-tbl-wrap">
+        <table class="ce-tbl" id="cePosTbl">
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>Nom</th>
+              <th>Entrada</th>
+              <th>Preu</th>
+              <th>Actual</th>
+              <th>P&L</th>
+              <th>Stop</th>
+              <th>Dies</th>
+            </tr>
+          </thead>
+          <tbody id="cePosBody">
+            <tr><td colspan="8" class="ce-empty">Cap posicio oberta</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-</div>
-</div>
 
-<!-- ═══════════════════════════════════════════════════ -->
-<!-- USER MANAGEMENT MODAL -->
-<!-- ═══════════════════════════════════════════════════ -->
-<div class="mo" id="mUserMgmt">
-<div class="mo-c">
-  <h3>👥 Gestionar Usuaris</h3>
-  <div id="umUserList" class="um-list"></div>
-  <div class="um-add">
-    <h4 style="font-size:.82rem;margin-bottom:8px;">Afegir usuari</h4>
-    <input type="text" id="umNewName" placeholder="Nom">
-    <input type="password" id="umNewPass" placeholder="Contrasenya">
-    <input type="number" id="umNewDca" step="500" value="5000" placeholder="DCA mensual (€)">
-    <button class="btn btn-p" style="width:100%" onclick="addUser()">Afegir</button>
+  <!-- Tab: Historial -->
+  <div id="ceHist" class="ce-pane">
+    <div class="ce-section">
+      <h3>📜 Ultims trades</h3>
+      <div class="ce-tbl-wrap">
+        <table class="ce-tbl" id="ceHistTbl">
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>Entrada</th>
+              <th>Sortida</th>
+              <th>Preu E.</th>
+              <th>Preu S.</th>
+              <th>P&L</th>
+              <th>Dies</th>
+              <th>Motiu</th>
+            </tr>
+          </thead>
+          <tbody id="ceHistBody">
+            <tr><td colspan="8" class="ce-empty">Cap trade registrat</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="margin-top:14px;border-top:1px solid var(--brd);padding-top:10px;">
-    <label style="font-size:.78rem;color:var(--tx3);">Canviar contrasenya mestra</label>
-    <input type="password" id="umNewMaster" placeholder="Nova contrasenya mestra">
-    <button class="btn btn-s" style="width:100%;margin-top:4px;" onclick="changeMaster()">Canviar</button>
-  </div>
-  <div class="btn-row">
-    <button class="btn btn-s" onclick="cmo('mUserMgmt')">Tancar</button>
-  </div>
-</div>
-</div>
 
-<!-- ═══════════════════════════════════════════════════ -->
-<!-- RESET PASSWORD MODAL -->
-<!-- ═══════════════════════════════════════════════════ -->
-<div class="mo" id="mResetPass">
-<div class="mo-c">
-  <h3 id="resetPassTitle">Resetejar contrasenya</h3>
-  <label>Contrasenya mestra</label>
-  <input type="password" id="resetMasterInput" placeholder="Contrasenya mestra">
-  <label>Nova contrasenya per l'usuari</label>
-  <input type="password" id="resetNewPass" placeholder="Nova contrasenya">
-  <div id="resetError" style="color:var(--red);font-size:.78rem;display:none;margin-top:4px;"></div>
-  <div class="btn-row">
-    <button class="btn btn-p" onclick="doResetPass()">Resetejar</button>
-    <button class="btn btn-s" onclick="cmo('mResetPass')">Cancel·lar</button>
+  <!-- Tab: Rendiment -->
+  <div id="ceRet" class="ce-pane">
+    <div class="ce-section">
+      <h3>📊 Metriques de rendiment</h3>
+      <div class="ce-metrics" id="ceRetMetrics">
+        <div class="ce-mc"><div class="lbl">Total trades</div><div class="val" id="ceRetTrades">—</div></div>
+        <div class="ce-mc"><div class="lbl">Win Rate</div><div class="val green" id="ceRetWR">—</div></div>
+        <div class="ce-mc"><div class="lbl">Avg Win</div><div class="val green" id="ceRetAvgW">—</div></div>
+        <div class="ce-mc"><div class="lbl">Avg Loss</div><div class="val red" id="ceRetAvgL">—</div></div>
+        <div class="ce-mc"><div class="lbl">Recent WR</div><div class="val" id="ceRetRecWR">—</div></div>
+        <div class="ce-mc"><div class="lbl">YTD Real.</div><div class="val" id="ceRetYTD">—</div></div>
+      </div>
+    </div>
+    <div class="ce-section">
+      <h3>ℹ️ Backtest Config E (1996-2024)</h3>
+      <div style="font-size:.75rem;color:var(--tx2);line-height:1.6;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;">
+          <span>CAGR: <b style="color:var(--green)">20.3%</b></span>
+          <span>Final: <b style="color:var(--green)">2,261,200€</b></span>
+          <span>Anys positius alpha: <b>12/17</b></span>
+          <span>Alpha mitja: <b style="color:var(--green)">+6.8%</b></span>
+          <span>Max Drawdown: <b style="color:var(--red)">-55.2%</b></span>
+          <span>Sharpe estimat: <b>~0.8</b></span>
+        </div>
+        <div style="margin-top:8px;padding:8px;background:var(--bg3);border-radius:6px;font-size:.7rem;">
+          📌 5 anys alpha negatiu estructurals (mega-cap concentration): 2011, 2017, 2021, 2023, 2024.
+          Nomes 2011 perd en absolut; la resta guanya pero menys que SPY.
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+
 </div>
 
 <!-- ═══════════════════════════════════════════════════ -->
@@ -841,81 +734,6 @@ a{color:var(--acc);text-decoration:none;}
   </div>
 
   <div class="sqar-note" id="sqarNote"></div>
-
-</div>
-
-<!-- ═══════════════════════════════════════════════════ -->
-<!-- SMA1300 + MFI PANE -->
-<!-- ═══════════════════════════════════════════════════ -->
-<div id="paneSma" class="main-pane">
-
-  <div class="sqar-hero">
-    <h1>⚡ <span>SMA1300</span> + MFI</h1>
-    <div class="sub">Mean-reversion · Comprar accions castigades amb acumulació</div>
-    <div class="sqar-params">
-      <span class="sqar-param">SMA 1300</span>
-      <span class="sqar-param">MFI(5) Entry ≤ 15</span>
-      <span class="sqar-param">MFI(5) Exit ≥ 88</span>
-      <span class="sqar-param" style="background:rgba(239,68,68,.15);color:#f87171;">TS -3%</span>
-      <span class="sqar-param">Sizing 10%</span>
-    </div>
-    <div class="sub" id="smaUpd" style="margin-top:6px;">—</div>
-    <button class="etf-btn primary" id="runSmaBtn" onclick="runSmaScreener()" style="margin-top:10px;">▶ Executar</button>
-  </div>
-
-  <!-- Summary cards -->
-  <div class="sqar-meta" id="smaMeta">
-    <div class="m-card"><div class="m-label">Stocks</div><div class="m-val acc" id="smaN">—</div></div>
-    <div class="m-card"><div class="m-label">Senyals Compra</div><div class="m-val green" id="smaBuyC">—</div></div>
-    <div class="m-card"><div class="m-label">Pos. Obertes</div><div class="m-val" id="smaOpenC">—</div></div>
-    <div class="m-card"><div class="m-label">CAGR (BT)</div><div class="m-val green" id="smaCagr">—</div></div>
-  </div>
-
-  <!-- Buy signals -->
-  <div class="sqar-section">🟢 Senyals Compra <span class="badge badge-buy" id="smaBuyN">0</span></div>
-  <div class="sqar-list" id="smaBuyList"></div>
-
-  <!-- Sell signals -->
-  <div class="sqar-section">🔴 Senyals Venda <span class="badge badge-sell" id="smaSellN">0</span></div>
-  <div class="sqar-list" id="smaSellList"></div>
-
-  <!-- Open positions -->
-  <div class="sqar-section">📊 Posicions Obertes <span class="badge badge-keep" id="smaOpenN">0</span></div>
-  <div class="sqar-list" id="smaPosList"></div>
-
-  <!-- Recent trades -->
-  <div class="sqar-section">🔄 Últims Trades <span class="badge" style="background:var(--bg3);color:var(--tx2);border:1px solid var(--brd);" id="smaTradeN">0</span></div>
-  <div class="rank-wrap" style="overflow-x:auto;">
-    <table class="sqar-yr-table" id="smaTradesTable" style="min-width:400px;">
-      <thead><tr><th style="text-align:left">Ticker</th><th>Entrada</th><th>Sortida</th><th>P&L</th><th>Dies</th><th>Motiu</th></tr></thead>
-      <tbody id="smaTradesBody">
-        <tr><td colspan="6" class="sqar-yr-empty">Executa l'screener per veure resultats</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Backtest year-by-year -->
-  <div class="sqar-bt" id="smaBt">
-    <h3>📈 Backtest any per any</h3>
-    <table class="sqar-yr-table" id="smaYrTable">
-      <thead><tr><th>Any</th><th>Retorn</th></tr></thead>
-      <tbody id="smaYrBody">
-        <tr><td colspan="2" class="sqar-yr-empty">Executa l'screener per veure resultats</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Backtest summary -->
-  <div class="sqar-sum" id="smaSumBox">
-    <div class="sqar-sum-grid">
-      <span class="lbl">CAGR</span><span class="val" id="smsBtCagr">—</span>
-      <span class="lbl">Max Drawdown</span><span class="val" id="smsBtDD">—</span>
-      <span class="lbl">Calmar Ratio</span><span class="val" id="smsBtCalm">—</span>
-      <span class="lbl">Total Trades</span><span class="val" id="smsBtTrades">—</span>
-      <span class="lbl">Win Rate</span><span class="val" id="smsBtWR">—</span>
-      <span class="lbl">Avg Win / Avg Loss</span><span class="val" id="smsBtWL">—</span>
-    </div>
-  </div>
 
 </div>
 
@@ -1036,7 +854,6 @@ a{color:var(--acc);text-decoration:none;}
   <div class="sqar-meta" id="guanysMeta">
     <div class="m-card"><div class="m-label">ETF CAGR</div><div class="m-val green" id="gEtfCagr">—</div></div>
     <div class="m-card"><div class="m-label">SQAR CAGR</div><div class="m-val green" id="gSqarCagr">—</div></div>
-    <div class="m-card"><div class="m-label">SMA1300 CAGR</div><div class="m-val green" id="gSmaCagr">—</div></div>
   </div>
 
   <!-- Chart -->
@@ -1050,7 +867,7 @@ a{color:var(--acc);text-decoration:none;}
     <h3>📅 Comparativa any per any (%)</h3>
     <div style="overflow-x:auto;">
       <table class="sqar-yr-table" id="guanysTable">
-        <thead><tr><th>Any</th><th>ETF</th><th>SQAR</th><th>SMA1300</th></tr></thead>
+        <thead><tr><th>Any</th><th>ETF</th><th>SQAR</th></tr></thead>
         <tbody id="guanysBody">
           <tr><td colspan="4" class="sqar-yr-empty">Carregant dades...</td></tr>
         </tbody>
@@ -1060,17 +877,17 @@ a{color:var(--acc);text-decoration:none;}
 
   <!-- Backtest summary comparison -->
   <div class="sqar-sum">
-    <div class="sqar-sum-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;">
-      <span class="lbl"></span><span class="lbl" style="text-align:center;font-weight:700;">ETF</span><span class="lbl" style="text-align:center;font-weight:700;">SQAR</span><span class="lbl" style="text-align:center;font-weight:700;">SMA1300</span>
-      <span class="lbl">CAGR</span><span class="val" id="gcEtfCagr">—</span><span class="val" id="gcSqarCagr">—</span><span class="val" id="gcSmaCagr">—</span>
-      <span class="lbl">Max DD</span><span class="val" id="gcEtfDD">—</span><span class="val" id="gcSqarDD">—</span><span class="val" id="gcSmaDD">—</span>
-      <span class="lbl">Calmar</span><span class="val" id="gcEtfCalm">—</span><span class="val" id="gcSqarCalm">—</span><span class="val" id="gcSmaCalm">—</span>
+    <div class="sqar-sum-grid" style="grid-template-columns:1fr 1fr 1fr;">
+      <span class="lbl"></span><span class="lbl" style="text-align:center;font-weight:700;">ETF</span><span class="lbl" style="text-align:center;font-weight:700;">SQAR</span>
+      <span class="lbl">CAGR</span><span class="val" id="gcEtfCagr">—</span><span class="val" id="gcSqarCagr">—</span>
+      <span class="lbl">Max DD</span><span class="val" id="gcEtfDD">—</span><span class="val" id="gcSqarDD">—</span>
+      <span class="lbl">Calmar</span><span class="val" id="gcEtfCalm">—</span><span class="val" id="gcSqarCalm">—</span>
     </div>
   </div>
 
   <div class="sqar-note">
     La comparativa mostra el rendiment de backtest de cada estratègia.
-    ETF = ETF Momentum (real si disponible), SQAR = rebalanceig anual, SMA1300 = mean-reversion.
+    ETF = ETF Momentum (real si disponible), SQAR = rebalanceig anual.
   </div>
 
 </div>
@@ -1377,17 +1194,17 @@ function switchMain(tab){
   document.querySelectorAll('.main-pane').forEach(p=>p.classList.remove('active'));
   const map={
     etf:['mainTabEtf','paneEtf'],
-    stocks:['mainTabStocks','paneStocks'],
+    confige:['mainTabConfige','paneConfige'],
     sqar:['mainTabSqar','paneSqar'],
-    sma:['mainTabSma','paneSma'],
     btc:['mainTabBtc','paneBtc'],
     guanys:['mainTabGuanys','paneGuanys']
   };
-  const m=map[tab]||map.stocks;
+  const m=map[tab]||map.etf;
   document.getElementById(m[0]).classList.add('active');
   document.getElementById(m[1]).classList.add('active');
   localStorage.setItem('scr_main_tab',tab);
   if(tab==='guanys')loadGuanysData();
+  if(tab==='confige')loadConfigeData();
 }
 // Restore last tab
 const _lastMain=localStorage.getItem('scr_main_tab');
@@ -2879,166 +2696,6 @@ function renderSqarData(d){
 })();
 
 // ═══════════════════════════════════════════════════════════════
-// SMA1300: GitHub Actions trigger + render
-// ═══════════════════════════════════════════════════════════════
-const SMA_GH_REPO='diordes/screener-dashboard';
-const SMA_GH_WORKFLOW='sma1300_screener.yml';
-let SMA_lastGen=null;
-let SMA_data=null;
-
-async function runSmaScreener(){
-  let token=localStorage.getItem(GH_TOKEN_KEY);
-  if(!token){
-    token=prompt('GitHub Personal Access Token:\n\nCrea\'l a: github.com/settings/tokens\nPermisos: repo o actions:write');
-    if(!token)return;
-    localStorage.setItem(GH_TOKEN_KEY,token);
-  }
-  const btn=document.getElementById('runSmaBtn');
-  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Llançant…';
-  try{
-    const r=await fetch(`https://api.github.com/repos/${SMA_GH_REPO}/actions/workflows/${SMA_GH_WORKFLOW}/dispatches`,{
-      method:'POST',headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify({ref:'main'})});
-    if(r.status===204){
-      toast('✅ SMA1300 Screener llançat!');
-      btn.innerHTML='⏳ Executant… (~8 min)';
-      let polls=0;const poll=setInterval(async()=>{
-        polls++;if(polls>50){clearInterval(poll);btn.disabled=false;btn.innerHTML='▶ Executar';toast('⏱️ Temps exhaurit — torna-ho a provar');return;}
-        try{
-          const r2=await fetch('data/sma1300_latest.json?t='+Date.now());if(!r2.ok)return;
-          const j=await r2.json();if(!j.generatedAt)return;
-          const jd=new Date(j.generatedAt).getTime(),ld=SMA_lastGen?new Date(SMA_lastGen).getTime():0;
-          if(jd>ld){clearInterval(poll);
-            SMA_lastGen=j.generatedAt;SMA_data=j;
-            toast('✅ Dades SMA1300 actualitzades!');
-            btn.disabled=false;btn.innerHTML='▶ Executar';
-            renderSmaData(j);}
-        }catch(e){}
-      },15000);
-    }else if(r.status===401||r.status===403){
-      localStorage.removeItem(GH_TOKEN_KEY);
-      toast('❌ Token invàlid','err');btn.disabled=false;btn.innerHTML='▶ Executar';
-    }else if(r.status===404){
-      toast('❌ Workflow sma1300_screener.yml no trobat','err');
-      btn.disabled=false;btn.innerHTML='▶ Executar';
-    }else{
-      toast('❌ Error: '+r.status,'err');btn.disabled=false;btn.innerHTML='▶ Executar';
-    }
-  }catch(e){toast('❌ Error de connexió','err');btn.disabled=false;btn.innerHTML='▶ Executar';}
-}
-
-function renderSmaData(d){
-  try{
-    const s=d.summary;const p=d.params;
-    // Header
-    document.getElementById('smaUpd').textContent=
-      'Actualitzat '+(d.generatedAt||'').slice(0,16).replace('T',' ')+' · '+s.totalStocks+' stocks analitzats';
-
-    // Summary cards
-    document.getElementById('smaN').textContent=s.totalStocks||'—';
-    document.getElementById('smaBuyC').textContent=s.buySignals||'0';
-    document.getElementById('smaOpenC').textContent=s.openPositions||'0';
-    document.getElementById('smaCagr').textContent=s.backtestCagr!=null?s.backtestCagr+'%':'—';
-
-    // Buy signals
-    const buyList=document.getElementById('smaBuyList');
-    buyList.innerHTML='';
-    document.getElementById('smaBuyN').textContent=d.buySignals.length;
-    const tsPct=d.params&&d.params.trailingStopPct?d.params.trailingStopPct:-3;
-    d.buySignals.forEach(sig=>{
-      const tsLvl=(sig.price*(1+tsPct/100)).toFixed(2);
-      buyList.innerHTML+=
-        '<div class="sqar-item buy">'+
-        '<div class="sqar-tk">'+escH(sig.sym)+'</div>'+
-        '<div class="sqar-details">Preu: $'+sig.price+' · SMA: $'+sig.sma+' · MFI: '+sig.mfi+' (prev: '+sig.prevMfi+')'+
-        '<div style="font-size:.75rem;margin-top:2px;color:var(--tx3)">🛡️ TS inicial: $'+tsLvl+'</div></div>'+
-        '<div class="sqar-mov" style="color:var(--tx2)">'+sig.distSma+'%</div>'+
-        '</div>';
-    });
-    if(!d.buySignals.length)buyList.innerHTML='<div style="color:var(--tx3);font-size:.82rem;padding:8px;">Cap senyal de compra actiu</div>';
-
-    // Sell signals
-    const sellList=document.getElementById('smaSellList');
-    sellList.innerHTML='';
-    document.getElementById('smaSellN').textContent=d.sellSignals.length;
-    d.sellSignals.forEach(sig=>{
-      sellList.innerHTML+=
-        '<div class="sqar-item sell">'+
-        '<div class="sqar-tk">'+escH(sig.sym)+'</div>'+
-        '<div class="sqar-details">Preu: $'+sig.price+' · SMA: $'+sig.sma+' · MFI: '+sig.mfi+' (prev: '+sig.prevMfi+')</div>'+
-        '<div class="sqar-mov" style="color:var(--tx2)">+'+sig.distSma+'%</div>'+
-        '</div>';
-    });
-    if(!d.sellSignals.length)sellList.innerHTML='<div style="color:var(--tx3);font-size:.82rem;padding:8px;">Cap senyal de venda actiu</div>';
-
-    // Open positions
-    const posList=document.getElementById('smaPosList');
-    posList.innerHTML='';
-    document.getElementById('smaOpenN').textContent=d.openPositions.length;
-    d.openPositions.forEach(pos=>{
-      const plCls=pos.pl>=0?'pos':'';
-      const plSign=pos.pl>=0?'+':'';
-      const tsInfo=pos.tsLevel?'<div style="font-size:.75rem;margin-top:2px;color:'+(pos.distTs!=null&&pos.distTs<2?'#f87171':'var(--tx3)')+'">🛡️ TS: $'+pos.tsLevel+(pos.distTs!=null?' ('+pos.distTs.toFixed(1)+'% marge)':'')+' · Peak: $'+pos.peakPrice+'</div>':'';
-      posList.innerHTML+=
-        '<div class="sqar-item keep">'+
-        '<div class="sqar-tk">'+escH(pos.ticker)+'</div>'+
-        '<div class="sqar-details">Entrada: $'+pos.entryPrice+' ('+pos.entryDate+') · Actual: $'+pos.currentPrice+' · MFI: '+(pos.mfi||'—')+' · '+pos.days+'d'+tsInfo+'</div>'+
-        '<div class="sqar-mov '+(pos.pl>=0?'pos':'')+'">'+plSign+pos.pl+'%</div>'+
-        '</div>';
-    });
-    if(!d.openPositions.length)posList.innerHTML='<div style="color:var(--tx3);font-size:.82rem;padding:8px;">Cap posició oberta</div>';
-
-    // Recent trades
-    const tradesBody=document.getElementById('smaTradesBody');
-    tradesBody.innerHTML='';
-    document.getElementById('smaTradeN').textContent=d.recentTrades.length;
-    d.recentTrades.forEach(t=>{
-      const cls=t.pl>=0?'sqar-pos':'sqar-neg';
-      const sign=t.pl>=0?'+':'';
-      const reasonBadge=t.reason==='TS'?'<span style="background:rgba(239,68,68,.15);color:#f87171;padding:1px 6px;border-radius:4px;font-size:.75rem;">TS</span>':'<span style="background:rgba(52,211,153,.15);color:#34d399;padding:1px 6px;border-radius:4px;font-size:.75rem;">MFI</span>';
-      tradesBody.innerHTML+=
-        '<tr><td style="text-align:left;font-weight:700">'+escH(t.sym)+'</td>'+
-        '<td>'+t.entry+'</td><td>'+t.exit+'</td>'+
-        '<td class="'+cls+'">'+sign+t.pl+'%</td>'+
-        '<td>'+t.days+'d</td><td>'+reasonBadge+'</td></tr>';
-    });
-    if(!d.recentTrades.length)tradesBody.innerHTML='<tr><td colspan="6" class="sqar-yr-empty">Sense trades recents</td></tr>';
-
-    // Yearly returns
-    const yrBody=document.getElementById('smaYrBody');
-    yrBody.innerHTML='';
-    if(d.yearlyReturns&&d.yearlyReturns.length){
-      d.yearlyReturns.forEach(yr=>{
-        const cls=yr['return']>=0?'sqar-pos':'sqar-neg';
-        const sign=yr['return']>=0?'+':'';
-        yrBody.innerHTML+=
-          '<tr><td>'+yr.year+'</td><td class="'+cls+'">'+sign+yr['return']+'%</td></tr>';
-      });
-    }else{
-      yrBody.innerHTML='<tr><td colspan="2" class="sqar-yr-empty">Sense dades de backtest</td></tr>';
-    }
-
-    // Backtest summary
-    document.getElementById('smsBtCagr').textContent=s.backtestCagr!=null?s.backtestCagr+'%':'—';
-    document.getElementById('smsBtDD').textContent=s.backtestMaxDD!=null?s.backtestMaxDD+'%':'—';
-    document.getElementById('smsBtCalm').textContent=s.backtestCalmar!=null?s.backtestCalmar:'—';
-    document.getElementById('smsBtTrades').textContent=s.totalTrades||'—';
-    document.getElementById('smsBtWR').textContent=s.winRate!=null?s.winRate+'%':'—';
-    document.getElementById('smsBtWL').textContent=
-      (s.avgWin!=null?'+'+s.avgWin+'%':'—')+' / '+(s.avgLoss!=null?s.avgLoss+'%':'—');
-
-  }catch(e){console.error('SMA render error:',e);}
-}
-
-// Auto-load SMA data on page load
-(async()=>{
-  try{
-    const r=await fetch('data/sma1300_latest.json?t='+Date.now());
-    if(r.ok){const j=await r.json();if(j.generatedAt){SMA_lastGen=j.generatedAt;SMA_data=j;renderSmaData(j);}}
-  }catch(e){}
-})();
-
-// ═══════════════════════════════════════════════════════════════
 // BTC SCREENER TAB
 // ═══════════════════════════════════════════════════════════════
 const BTC_GH_REPO='diordes/screener-dashboard';
@@ -3289,10 +2946,10 @@ async function loadGuanysData(){
   _guanysLoaded=true;
 
   // Collect yearly returns from each strategy
-  const etfYr={}, sqarYr={}, smaYr={};
-  let etfCagr=null, sqarCagr=null, smaCagr=null;
-  let etfDD=null, sqarDD=null, smaDD=null;
-  let etfCalm=null, sqarCalm=null, smaCalm=null;
+  const etfYr={}, sqarYr={};
+  let etfCagr=null, sqarCagr=null;
+  let etfDD=null, sqarDD=null;
+  let etfCalm=null, sqarCalm=null;
 
   // ── ETF: from stored portfolio data or etf_latest.json ──
   try{
@@ -3342,60 +2999,37 @@ async function loadGuanysData(){
     }
   }catch(e){}
 
-  // ── SMA1300: from sma1300_latest.json or cached ──
-  try{
-    let smaJ=SMA_data;
-    if(!smaJ){
-      const r=await fetch('data/sma1300_latest.json?t='+Date.now());
-      if(r.ok)smaJ=await r.json();
-    }
-    if(smaJ){
-      if(smaJ.yearlyReturns){
-        smaJ.yearlyReturns.forEach(yr=>{
-          if(yr.year&&yr['return']!=null)smaYr[yr.year]=yr['return'];
-        });
-      }
-      if(smaJ.summary){
-        smaCagr=smaJ.summary.backtestCagr;
-        smaDD=smaJ.summary.backtestMaxDD;
-        smaCalm=smaJ.summary.backtestCalmar;
-      }
-    }
-  }catch(e){}
+
 
   // ── Build combined table ──
-  const allYears=new Set([...Object.keys(etfYr),...Object.keys(sqarYr),...Object.keys(smaYr)]);
+  const allYears=new Set([...Object.keys(etfYr),...Object.keys(sqarYr)]);
   const sortedYears=[...allYears].map(Number).sort();
 
   const tbody=document.getElementById('guanysBody');
   tbody.innerHTML='';
   sortedYears.forEach(yr=>{
-    const e=etfYr[yr],q=sqarYr[yr],s=smaYr[yr];
+    const e=etfYr[yr],q=sqarYr[yr];
     const fc=(v)=>{
       if(v==null)return '<td class="sqar-yr-empty">—</td>';
       const cls=v>=0?'sqar-pos':'sqar-neg';
       const sign=v>=0?'+':'';
       return '<td class="'+cls+'">'+sign+v.toFixed(1)+'%</td>';
     };
-    tbody.innerHTML+='<tr><td>'+yr+'</td>'+fc(e)+fc(q)+fc(s)+'</tr>';
+    tbody.innerHTML+='<tr><td>'+yr+'</td>'+fc(e)+fc(q)+'</tr>';
   });
-  if(!sortedYears.length)tbody.innerHTML='<tr><td colspan="4" class="sqar-yr-empty">Sense dades — executa els screeners primer</td></tr>';
+  if(!sortedYears.length)tbody.innerHTML='<tr><td colspan="3" class="sqar-yr-empty">Sense dades — executa els screeners primer</td></tr>';
 
   // ── Summary cards ──
   document.getElementById('gEtfCagr').textContent=etfCagr!=null?etfCagr+'%':'—';
   document.getElementById('gSqarCagr').textContent=sqarCagr!=null?sqarCagr+'%':'—';
-  document.getElementById('gSmaCagr').textContent=smaCagr!=null?smaCagr+'%':'—';
 
   // Detail comparison
   document.getElementById('gcEtfCagr').textContent=etfCagr!=null?etfCagr+'%':'—';
   document.getElementById('gcSqarCagr').textContent=sqarCagr!=null?sqarCagr+'%':'—';
-  document.getElementById('gcSmaCagr').textContent=smaCagr!=null?smaCagr+'%':'—';
   document.getElementById('gcEtfDD').textContent=etfDD!=null?etfDD+'%':'—';
   document.getElementById('gcSqarDD').textContent=sqarDD!=null?sqarDD+'%':'—';
-  document.getElementById('gcSmaDD').textContent=smaDD!=null?smaDD+'%':'—';
   document.getElementById('gcEtfCalm').textContent=etfCalm!=null?etfCalm:'—';
   document.getElementById('gcSqarCalm').textContent=sqarCalm!=null?sqarCalm:'—';
-  document.getElementById('gcSmaCalm').textContent=smaCalm!=null?smaCalm:'—';
 
   // ── Chart: cumulative growth ──
   if(sortedYears.length>0&&typeof Chart!=='undefined'){
@@ -3409,7 +3043,6 @@ async function loadGuanysData(){
     };
     const etfCumul=mkCumul(etfYr);
     const sqarCumul=mkCumul(sqarYr);
-    const smaCumul=mkCumul(smaYr);
 
     const ctx=document.getElementById('guanysChart').getContext('2d');
     if(_guanysChart)_guanysChart.destroy();
@@ -3420,7 +3053,6 @@ async function loadGuanysData(){
         datasets:[
           {label:'ETF Momentum',data:etfCumul,borderColor:'#6c8cff',backgroundColor:'rgba(108,140,255,.08)',fill:true,tension:.3,pointRadius:2},
           {label:'SQAR',data:sqarCumul,borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,.08)',fill:true,tension:.3,pointRadius:2},
-          {label:'SMA1300',data:smaCumul,borderColor:'#34d399',backgroundColor:'rgba(52,211,153,.08)',fill:true,tension:.3,pointRadius:2}
         ]
       },
       options:{
@@ -3438,6 +3070,164 @@ async function loadGuanysData(){
     });
   }
 }
+
+// ═══════════════════════════════════════════════════════════════
+// CONFIG E: Signal System
+// ═══════════════════════════════════════════════════════════════
+const CE_GH_REPO='diordes/screener-dashboard';
+const CE_GH_WORKFLOW='confige_screener.yml';
+let CE_data=null;
+
+function ceGoTab(t){
+  document.querySelectorAll('.ce-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.ce-pane').forEach(p=>p.classList.remove('active'));
+  const idx=['sig','pos','hist','ret'].indexOf(t);
+  document.querySelectorAll('.ce-tab')[idx].classList.add('active');
+  document.getElementById({sig:'ceSig',pos:'cePos',hist:'ceHist',ret:'ceRet'}[t]).classList.add('active');
+}
+
+async function runConfigeScreener(){
+  let token=localStorage.getItem(GH_TOKEN_KEY);
+  if(!token){
+    token=prompt('GitHub Personal Access Token:\n\nCrea\'l a: github.com/settings/tokens\nPermisos: repo o actions:write');
+    if(!token)return;
+    localStorage.setItem(GH_TOKEN_KEY,token);
+  }
+  const btn=document.getElementById('runConfigeBtn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Llan\u00e7ant\u2026';
+  try{
+    const r=await fetch('https://api.github.com/repos/'+CE_GH_REPO+'/actions/workflows/'+CE_GH_WORKFLOW+'/dispatches',{
+      method:'POST',headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({ref:'main'})});
+    if(r.status===204){
+      toast('\u2705 Config E llan\u00e7at!');
+      btn.innerHTML='\u23f3 Executant\u2026';
+      let polls=0;const poll=setInterval(async()=>{
+        polls++;if(polls>40){clearInterval(poll);btn.disabled=false;btn.innerHTML='\u25b6 Executar';toast('\u23f1\ufe0f Temps exhaurit \u2014 refresca manualment');return;}
+        try{
+          const cr=await fetch('https://api.github.com/repos/'+CE_GH_REPO+'/actions/workflows/'+CE_GH_WORKFLOW+'/runs?per_page=1',
+            {headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github.v3+json'}});
+          const cd=await cr.json();
+          if(cd.workflow_runs&&cd.workflow_runs[0]){
+            const run=cd.workflow_runs[0];
+            if(run.status==='completed'){
+              clearInterval(poll);btn.disabled=false;btn.innerHTML='\u25b6 Executar';
+              if(run.conclusion==='success'){toast('\u2705 Config E completat!');setTimeout(loadConfigeData,3000);}
+              else{toast('\u274c Error: '+run.conclusion,'err');}
+            }
+          }
+        }catch(e){}
+      },15000);
+    }else if(r.status===401||r.status===403){
+      localStorage.removeItem(GH_TOKEN_KEY);toast('\u274c Token invalid \u2014 torna-ho a provar','err');btn.disabled=false;btn.innerHTML='\u25b6 Executar';
+    }else{toast('\u274c Error HTTP '+r.status,'err');btn.disabled=false;btn.innerHTML='\u25b6 Executar';}
+  }catch(e){toast('\u274c Error: '+e.message,'err');btn.disabled=false;btn.innerHTML='\u25b6 Executar';}
+}
+
+async function loadConfigeData(){
+  try{
+    const r=await fetch('data/confige_latest.json?t='+Date.now());
+    if(!r.ok)return;
+    const d=await r.json();CE_data=d;renderConfigeData(d);
+  }catch(e){console.warn('Config E data not loaded:',e);}
+}
+
+function renderConfigeData(d){
+  var upd=document.getElementById('ceUpd');
+  if(d.generatedAt)upd.textContent='Actualitzat: '+d.generatedAt.replace('T',' ').substring(0,19);
+
+  var regDiv=document.getElementById('ceRegime');
+  if(d.regime&&d.regime.spy_price){
+    var bull=d.regime.spy_above_sma;
+    regDiv.innerHTML='<span class="ce-regime-badge '+(bull?'bull':'bear')+'">'+(bull?'\U0001f7e2 BULLISH':'\U0001f534 BEARISH')+'</span>'+
+      '<span style="font-size:.7rem;color:var(--tx3);font-family:var(--mono)">SPY $'+d.regime.spy_price+' | SMA200 $'+d.regime.spy_sma200+'</span>';
+  }
+
+  var m=d.metrics||{};
+  ceTxt('ceNPos',m.n_positions+'/'+m.max_positions);
+  ceTxt('ceCash',m.cash_pct+'%');
+  ceTxt('ceWR',m.win_rate+'%');
+  ceCol('ceYTD',ceFmtPL(m.ytd_realized_pct));
+  ceCol('ceUnreal',ceFmtPL(m.unrealized_pct));
+  ceTxt('ceTrades',m.total_trades);
+  ceTxt('ceRetTrades',m.total_trades);
+  ceTxt('ceRetWR',m.win_rate+'%');
+  ceTxt('ceRetAvgW','+'+m.avg_win_pct+'%');
+  ceTxt('ceRetAvgL',m.avg_loss_pct+'%');
+  ceTxt('ceRetRecWR',m.recent_win_rate+'%');
+  ceCol('ceRetYTD',ceFmtPL(m.ytd_realized_pct));
+
+  ceRenderEntries(d.entries_today||[]);
+  ceRenderExits(d.exits_today||[]);
+  ceRenderSignals(d.signals||[],d.signals_total||0);
+  ceRenderCooldowns(d.cooldowns||{});
+  ceRenderPositions(d.positions||[]);
+  ceRenderHistory(d.history||[]);
+}
+
+function ceTxt(id,val){var el=document.getElementById(id);if(el)el.textContent=val!=null?val:'\u2014';}
+function ceCol(id,html){var el=document.getElementById(id);if(el)el.innerHTML=html||'\u2014';}
+function ceFmtPL(v){if(v==null)return'\u2014';var cls=v>=0?'green':'red';var sign=v>=0?'+':'';return'<span style="color:var(--'+cls+')">'+sign+v.toFixed(2)+'%</span>';}
+function ceFmtPLt(v){if(v==null)return'\u2014';return(v>=0?'+':'')+v.toFixed(2)+'%';}
+
+function ceRenderEntries(entries){
+  var div=document.getElementById('ceEntriesToday');
+  if(!entries.length){div.innerHTML='<div class="ce-empty">Cap entrada avui</div>';return;}
+  div.innerHTML=entries.map(function(e){
+    return'<div class="ce-sig ce-trade-win"><div class="sym-col"><div class="sym-name">'+e.sym+'</div><div class="sym-sector">'+(e.sector||'')+'</div></div><div class="details"><span>\U0001f7e2 COMPRA @ $'+e.entry_price+'</span><span>Stop: $'+e.stop_loss+'</span><span>ATR: '+e.atr20+'</span></div></div>';
+  }).join('');
+}
+
+function ceRenderExits(exits){
+  var div=document.getElementById('ceExitsToday');
+  if(!exits.length){div.innerHTML='<div class="ce-empty">Cap sortida avui</div>';return;}
+  div.innerHTML=exits.map(function(x){
+    var cls=x.pl_pct>=0?'ce-trade-win':'ce-trade-loss';
+    return'<div class="ce-sig '+cls+'"><div class="sym-col"><div class="sym-name">'+x.sym+'</div><div class="sym-sector" style="font-size:.62rem">'+x.days_held+'d</div></div><div class="details"><span>\U0001f534 VENDA @ $'+x.exit_price+'</span><span>Entrada: $'+x.entry_price+'</span><span class="tag '+(x.pl_pct>=0?'tag-ok':'tag-warn')+'">'+ceFmtPLt(x.pl_pct)+'</span></div></div>';
+  }).join('');
+}
+
+function ceRenderSignals(signals,total){
+  document.getElementById('ceSigCount').textContent=total;
+  var div=document.getElementById('ceSignals');
+  if(!signals.length){div.innerHTML='<div class="ce-empty">No hi ha senyals d\'entrada</div>';return;}
+  div.innerHTML=signals.map(function(s){
+    return'<div class="ce-sig"><div class="sym-col"><div class="sym-name">'+s.sym+'</div><div class="sym-sector">'+(s.sector||'')+'</div></div><div class="details"><span>$'+s.price+'</span><span>vs SMA200: '+(s.px_vs_sma200_pct>=0?'+':'')+s.px_vs_sma200_pct+'%</span><span>Pullback: '+s.pullback_pct+'%</span><span>ATR ratio: '+s.atr_vol_ratio+'</span></div></div>';
+  }).join('');
+}
+
+function ceRenderCooldowns(cooldowns){
+  var div=document.getElementById('ceCooldowns');
+  var keys=Object.keys(cooldowns);
+  if(!keys.length){div.innerHTML='<div class="ce-empty">Cap cooldown actiu</div>';return;}
+  div.innerHTML='<div style="display:flex;flex-wrap:wrap;gap:6px;">'+keys.map(function(sym){
+    return'<span class="ce-param" style="border-color:var(--red)">'+sym+' \u2192 '+cooldowns[sym]+'</span>';
+  }).join('')+'</div>';
+}
+
+function ceRenderPositions(positions){
+  document.getElementById('cePosCount').textContent=positions.length;
+  var tbody=document.getElementById('cePosBody');
+  if(!positions.length){tbody.innerHTML='<tr><td colspan="8" class="ce-empty">Cap posicio oberta</td></tr>';return;}
+  positions.sort(function(a,b){return(b.pl_pct||0)-(a.pl_pct||0);});
+  tbody.innerHTML=positions.map(function(p){
+    var plCls=(p.pl_pct||0)>=0?'pos':'neg';
+    return'<tr><td class="sym">'+p.sym+'</td><td style="font-size:.72rem;color:var(--tx2)">'+(p.nom||'')+'</td><td class="mono">'+p.entry_date+'</td><td class="mono">$'+p.entry_price+'</td><td class="mono">$'+(p.current_price||'\u2014')+'</td><td class="'+plCls+' mono">'+ceFmtPLt(p.pl_pct)+'</td><td class="mono" style="color:var(--red)">$'+(p.stop_loss||'\u2014')+'</td><td class="mono">'+(p.days_held||0)+'d</td></tr>';
+  }).join('');
+}
+
+function ceRenderHistory(history){
+  var tbody=document.getElementById('ceHistBody');
+  if(!history.length){tbody.innerHTML='<tr><td colspan="8" class="ce-empty">Cap trade registrat</td></tr>';return;}
+  var sorted=history.slice().reverse();
+  tbody.innerHTML=sorted.map(function(t){
+    var plCls=(t.pl_pct||0)>=0?'pos':'neg';
+    return'<tr class="'+((t.pl_pct||0)>=0?'ce-trade-win':'ce-trade-loss')+'"><td class="sym">'+t.sym+'</td><td class="mono">'+t.entry_date+'</td><td class="mono">'+t.exit_date+'</td><td class="mono">$'+t.entry_price+'</td><td class="mono">$'+t.exit_price+'</td><td class="'+plCls+' mono">'+ceFmtPLt(t.pl_pct)+'</td><td class="mono">'+(t.days_held||0)+'d</td><td style="font-size:.65rem;color:var(--tx3)">'+(t.exit_reason||'')+'</td></tr>';
+  }).join('');
+}
+
+// Auto-load Config E data
+loadConfigeData();
 
 </script>
 </body>
