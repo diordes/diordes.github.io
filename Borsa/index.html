@@ -178,6 +178,10 @@ a{color:var(--acc);text-decoration:none;}
 .ce-regime-badge{padding:4px 12px;border-radius:6px;font-size:.72rem;font-weight:700;font-family:var(--mono);}
 .ce-regime-badge.bull{background:rgba(52,211,153,.15);color:var(--green);border:1px solid rgba(52,211,153,.3);}
 .ce-regime-badge.bear{background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.3);}
+.ce-config{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:8px 0;padding:8px;background:var(--bg2);border-radius:8px;}
+.ce-config label{font-size:.72rem;color:var(--tx2);}
+.ce-config input{width:90px;padding:4px 8px;border:1px solid var(--brd);border-radius:4px;font-size:.78rem;background:var(--bg);color:var(--tx);font-family:var(--mono);}
+.ce-config-info{font-size:.72rem;color:var(--acc);font-family:var(--mono);}
 .ce-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin:12px 0;}
 .ce-mc{background:var(--card);border:1px solid var(--brd);border-radius:var(--radius);padding:10px;text-align:center;}
 .ce-mc .lbl{font-size:.65rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em;}
@@ -520,6 +524,13 @@ a{color:var(--acc);text-decoration:none;}
       <span class="ce-param">8 posicions</span>
     </div>
     <div class="ce-regime" id="ceRegime"></div>
+    <div class="ce-config" id="ceConfig">
+      <label>Capital ($)</label>
+      <input type="number" id="ceCapital" placeholder="100000" onchange="ceUpdateConfig()">
+      <label>Mensual ($)</label>
+      <input type="number" id="ceMonthly" placeholder="1000" onchange="ceUpdateConfig()">
+      <span class="ce-config-info" id="ceConfigInfo"></span>
+    </div>
     <div class="sub" id="ceUpd">Actualitzat: —</div>
   </div>
 
@@ -2830,7 +2841,7 @@ function renderConfigeData(d){
   var regDiv=document.getElementById('ceRegime');
   if(d.regime&&d.regime.spy_price){
     var bull=d.regime.spy_above_sma;
-    regDiv.innerHTML='<span class="ce-regime-badge '+(bull?'bull':'bear')+'">'+(bull?'\U0001f7e2 BULLISH':'\U0001f534 BEARISH')+'</span>'+
+    regDiv.innerHTML='<span class="ce-regime-badge '+(bull?'bull':'bear')+'">'+(bull?'🟢 BULLISH':'🔴 BEARISH')+'</span>'+
       '<span style="font-size:.7rem;color:var(--tx3);font-family:var(--mono)">SPY $'+d.regime.spy_price+' | SMA200 $'+d.regime.spy_sma200+'</span>';
   }
 
@@ -2861,11 +2872,30 @@ function ceCol(id,html){var el=document.getElementById(id);if(el)el.innerHTML=ht
 function ceFmtPL(v){if(v==null)return'\u2014';var cls=v>=0?'green':'red';var sign=v>=0?'+':'';return'<span style="color:var(--'+cls+')">'+sign+v.toFixed(2)+'%</span>';}
 function ceFmtPLt(v){if(v==null)return'\u2014';return(v>=0?'+':'')+v.toFixed(2)+'%';}
 
+function ceUpdateConfig(){
+  var cap=parseFloat(document.getElementById('ceCapital').value)||0;
+  var mon=parseFloat(document.getElementById('ceMonthly').value)||0;
+  localStorage.setItem('ce_config',JSON.stringify({capital:cap,monthly:mon}));
+  var info=document.getElementById('ceConfigInfo');
+  if(cap>0){info.textContent='$'+(cap/8).toFixed(0)+' per posició (12.5%)';}else{info.textContent='';}
+  if(CE_data)ceRenderEntries(CE_data.entries_today||[]);
+  if(CE_data)ceRenderSignals(CE_data.signals||[],CE_data.signals_total||0);
+}
+function ceLoadConfig(){
+  try{var c=JSON.parse(localStorage.getItem('ce_config')||'{}');
+  if(c.capital)document.getElementById('ceCapital').value=c.capital;
+  if(c.monthly)document.getElementById('ceMonthly').value=c.monthly;
+  ceUpdateConfig();}catch(e){}
+}
 function ceRenderEntries(entries){
   var div=document.getElementById('ceEntriesToday');
   if(!entries.length){div.innerHTML='<div class="ce-empty">Cap entrada avui</div>';return;}
+  var cfg;try{cfg=JSON.parse(localStorage.getItem('ce_config')||'{}');}catch(x){cfg={};}
+  var perPos=cfg.capital?cfg.capital/8:0;
   div.innerHTML=entries.map(function(e){
-    return'<div class="ce-sig ce-trade-win"><div class="sym-col"><div class="sym-name">'+e.sym+'</div><div class="sym-sector">'+(e.sector||'')+'</div></div><div class="details"><span>\U0001f7e2 COMPRA @ $'+e.entry_price+'</span><span>Stop: $'+e.stop_loss+'</span><span>ATR: '+e.atr20+'</span></div></div>';
+    var sizing='';
+    if(perPos>0){var sh=Math.floor(perPos/e.entry_price);sizing='<span class="tag tag-ok">'+sh+' acc × $'+e.entry_price+' = $'+(sh*e.entry_price).toFixed(0)+'</span>';}
+    return'<div class="ce-sig ce-trade-win"><div class="sym-col"><div class="sym-name">'+e.sym+'</div><div class="sym-sector">'+(e.sector||'')+'</div></div><div class="details"><span>🟢 COMPRA @ $'+e.entry_price+'</span><span>T.Stop: $'+e.stop_loss+'</span><span>ATR: '+e.atr20+'</span>'+sizing+'</div></div>';
   }).join('');
 }
 
@@ -2874,16 +2904,21 @@ function ceRenderExits(exits){
   if(!exits.length){div.innerHTML='<div class="ce-empty">Cap sortida avui</div>';return;}
   div.innerHTML=exits.map(function(x){
     var cls=x.pl_pct>=0?'ce-trade-win':'ce-trade-loss';
-    return'<div class="ce-sig '+cls+'"><div class="sym-col"><div class="sym-name">'+x.sym+'</div><div class="sym-sector" style="font-size:.62rem">'+x.days_held+'d</div></div><div class="details"><span>\U0001f534 VENDA @ $'+x.exit_price+'</span><span>Entrada: $'+x.entry_price+'</span><span class="tag '+(x.pl_pct>=0?'tag-ok':'tag-warn')+'">'+ceFmtPLt(x.pl_pct)+'</span></div></div>';
+    return'<div class="ce-sig '+cls+'"><div class="sym-col"><div class="sym-name">'+x.sym+'</div><div class="sym-sector" style="font-size:.62rem">'+x.days_held+'d</div></div><div class="details"><span>🔴 VENDA @ $'+x.exit_price+'</span><span>Entrada: $'+x.entry_price+'</span><span class="tag '+(x.pl_pct>=0?'tag-ok':'tag-warn')+'">'+ceFmtPLt(x.pl_pct)+'</span></div></div>';
   }).join('');
 }
 
 function ceRenderSignals(signals,total){
-  document.getElementById('ceSigCount').textContent=total;
+  document.getElementById('ceSigCount').textContent=signals.length+' de '+total;
   var div=document.getElementById('ceSignals');
   if(!signals.length){div.innerHTML='<div class="ce-empty">No hi ha senyals d\'entrada</div>';return;}
+  var cfg;try{cfg=JSON.parse(localStorage.getItem('ce_config')||'{}');}catch(x){cfg={};}
+  var perPos=cfg.capital?cfg.capital/8:0;
   div.innerHTML=signals.map(function(s){
-    return'<div class="ce-sig"><div class="sym-col"><div class="sym-name">'+s.sym+'</div><div class="sym-sector">'+(s.sector||'')+'</div></div><div class="details"><span>$'+s.price+'</span><span>vs SMA200: '+(s.px_vs_sma200_pct>=0?'+':'')+s.px_vs_sma200_pct+'%</span><span>Pullback: '+s.pullback_pct+'%</span><span>ATR ratio: '+s.atr_vol_ratio+'</span></div></div>';
+    var stop=(s.price-1.4*s.atr20).toFixed(2);
+    var sizing='';
+    if(perPos>0){var sh=Math.floor(perPos/s.price);sizing='<span class="tag tag-ok">'+sh+' acc × $'+s.price+' = $'+(sh*s.price).toFixed(0)+'</span>';}
+    return'<div class="ce-sig"><div class="sym-col"><div class="sym-name">'+s.sym+'</div><div class="sym-sector">'+(s.sector||'')+'</div></div><div class="details"><span>$'+s.price+'</span><span>Pullback: '+s.pullback_pct+'%</span><span>T.Stop: $'+stop+'</span><span>vs SMA200: '+(s.px_vs_sma200_pct>=0?'+':'')+s.px_vs_sma200_pct+'%</span><span>ATR: '+s.atr_vol_ratio+'</span>'+sizing+'</div></div>';
   }).join('');
 }
 
@@ -2919,6 +2954,7 @@ function ceRenderHistory(history){
 
 // Auto-load Config E data
 loadConfigeData();
+ceLoadConfig();
 
 </script>
 </body>
