@@ -1,5 +1,5 @@
 {
-  "generatEl": "2026-11-24 23:30",
+  "generatEl": "2026-11-25 09:08",
   "config": {
     "preuMin": 30000,
     "preuMax": 70000,
@@ -17,15 +17,15 @@
     ]
   },
   "resum": {
-    "total": 90,
-    "comprar": 74,
+    "total": 85,
+    "comprar": 69,
     "estudiar": 12,
     "passar": 4,
-    "nous": 28
+    "nous": 3
   },
   "portals": {
     "Idealista": {
-      "trobats": 89,
+      "trobats": 84,
       "ok": true
     },
     "Fotocasa": {
@@ -70,7 +70,7 @@
       "url": "https://www.idealista.com/inmueble/112926876/",
       "alquilat": false,
       "notes": "NO COBRAMOS COMISIÓN DE INTERMEDIACIÓN AL COMPRADOR Excelente oportunidad de adquirir esta propiedad ubicada en Fraga, en la provincia de Huesca. Disp",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 20.6,
@@ -100,7 +100,7 @@
       "url": "https://www.idealista.com/inmueble/111122833/",
       "alquilat": false,
       "notes": "Casa en venta en Fraga con una superficie construida de 165 m2, distribuida en cuatro plantas. La vivienda se compone de salón-comedor, cocina indepen",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 19.3,
@@ -130,7 +130,7 @@
       "url": "https://www.idealista.com/inmueble/96562389/",
       "alquilat": false,
       "notes": "Casa de 200 m² ubicada en Cervera, Lleida. Se trata de una casa de 200 m² distribuidos en salón-comedor, cocina, 4 dormitorios y 2 baños. Casa situada",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 18.9,
@@ -160,7 +160,7 @@
       "url": "https://www.idealista.com/inmueble/102501104/",
       "alquilat": false,
       "notes": "Piso situado en la tercera planta de un edificio de viviendas plurifamiliares de cuatro plantas sobre rasante, sito en el municipio de Fraga, en la pr",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 17.8,
@@ -190,7 +190,7 @@
       "url": "https://www.idealista.com/inmueble/107536625/",
       "alquilat": false,
       "notes": "NO COBRAMOS COMISIÓN DE INTERMEDIACIÓN AL COMPRADOR Excelente oportunidad de adquirir en propiedad esta casa que cuenta con una superficie de 152m², b",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 16.4,
@@ -250,36 +250,6 @@
       "url": "https://www.idealista.com/inmueble/107240269/",
       "alquilat": false,
       "notes": "Vivienda piso situada en edificio de cinco plantas sobre rasante en el municipio de Manresa, provincia de Barcelona. Tiene una superficie aproximada d",
-      "nou": false
-    },
-    {
-      "bruta": 16.0,
-      "neta": 8.8,
-      "per": 6.2,
-      "cf": 177,
-      "rentCap": 28.1,
-      "quota": 156,
-      "capInv": 14200,
-      "checks": [
-        "✅ Bruta",
-        "✅ Neta",
-        "✅ PER",
-        "✅ CF"
-      ],
-      "semfor": "comprar",
-      "zonaClass": "neutra",
-      "nom": "Chalet adosado en Calle Daunois, Balafia, Lleida",
-      "preu": 39000,
-      "m2": 90,
-      "habs": 3,
-      "renda": 520,
-      "ciutat": "Lleida",
-      "zona": "Balafia",
-      "planta": "",
-      "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/111846334/",
-      "alquilat": false,
-      "notes": "Casa de Pueblo, para reformar completamente por su alto grado de deterioro en su interior principalmente, se trata de una vivienda unifamiliar adosada",
       "nou": false
     },
     {
@@ -460,7 +430,7 @@
       "url": "https://www.idealista.com/inmueble/107554989/",
       "alquilat": false,
       "notes": "CERVERA: Casa en venta en la comarca de la Segarra. Tiene una superficie construida de 152 m2. Se compone por un salón-comedor, cocina, 3 dormitorios ",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 15.2,
@@ -508,18 +478,18 @@
       ],
       "semfor": "comprar",
       "zonaClass": "neutra",
-      "nom": "Chalet pareado en Calle Sant Domènec, Balaguer",
+      "nom": "Casa o chalet en Calle Quarter, Balaguer",
       "preu": 42000,
-      "m2": 167,
+      "m2": 108,
       "habs": 3,
       "renda": 520,
       "ciutat": "Balaguer",
       "zona": "Balaguer",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/104825394/",
+      "url": "https://www.idealista.com/inmueble/104230998/",
       "alquilat": false,
-      "notes": "Vivienda unifamiliar que consta de cuatro plantas sobre rasante, compuesta por tres dormitorios y dos cuartos de baño, con una superficie construida d",
+      "notes": "Oportunidad sólo para inversores. El activo se encuentra ocupado por persona sin justo título. Debido al estado ocupacional del activo, no se pueden r",
       "nou": true
     },
     {
@@ -538,18 +508,18 @@
       ],
       "semfor": "comprar",
       "zonaClass": "neutra",
-      "nom": "Chalet pareado en Calle Sant Domènec, Balaguer",
+      "nom": "Casa o chalet en Calle Quarter, Balaguer",
       "preu": 42000,
-      "m2": 167,
+      "m2": 108,
       "habs": 3,
       "renda": 520,
       "ciutat": "Balaguer",
       "zona": "Balaguer",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/104361077/",
+      "url": "https://www.idealista.com/inmueble/104891901/",
       "alquilat": false,
-      "notes": "Vivienda unifamiliar que consta de cuatro plantas sobre rasante, compuesta por tres dormitorios y dos cuartos de baño, con una superficie construida d",
+      "notes": "Oportunidad sólo para inversores. El activo se encuentra ocupado por persona sin justo título. Debido al estado ocupacional del activo, no se pueden r",
       "nou": true
     },
     {
@@ -637,10 +607,10 @@
       "zona": "Tárrega",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/109692218/",
+      "url": "https://www.idealista.com/inmueble/104913308/",
       "alquilat": false,
       "notes": "Oportunidad sólo para inversores. El activo se encuentra ocupado por persona sin justo título. Debido al estado ocupacional del activo, no se pueden r",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 14.2,
@@ -667,10 +637,10 @@
       "zona": "Tárrega",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/104913308/",
+      "url": "https://www.idealista.com/inmueble/109692218/",
       "alquilat": false,
       "notes": "Oportunidad sólo para inversores. El activo se encuentra ocupado por persona sin justo título. Debido al estado ocupacional del activo, no se pueden r",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 13.9,
@@ -700,7 +670,7 @@
       "url": "https://www.idealista.com/inmueble/112075022/",
       "alquilat": false,
       "notes": "Casa al casc antic de Cervera per reformar íntegrament. L'habitatge es distribueix en tres plantes més una quarta planta amb terrassa. Una excel·lent ",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 13.5,
@@ -941,7 +911,7 @@
       "url": "https://www.idealista.com/inmueble/105599337/",
       "alquilat": false,
       "notes": "",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 12.5,
@@ -971,7 +941,7 @@
       "url": "https://www.idealista.com/inmueble/111217095/",
       "alquilat": false,
       "notes": "100 m² construidos 3 habitaciones 1 baño Vivienda ubicada en Tàrrega, municipio con todos los servicios necesarios: Comercios y supermercados Centros ",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 12.4,
@@ -1148,10 +1118,10 @@
       "zona": "Mollerussa",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/103866154/",
+      "url": "https://www.idealista.com/inmueble/104891866/",
       "alquilat": false,
       "notes": "Vivienda situada en un edificio de cinco alturas sobre rasante, ubicado en la calle Del Molí, en la localidad de Mollerussa, en la provincia de Lleida",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 11.6,
@@ -1178,10 +1148,10 @@
       "zona": "Mollerussa",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/104891866/",
+      "url": "https://www.idealista.com/inmueble/103866154/",
       "alquilat": false,
       "notes": "Vivienda situada en un edificio de cinco alturas sobre rasante, ubicado en la calle Del Molí, en la localidad de Mollerussa, en la provincia de Lleida",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 11.3,
@@ -1238,10 +1208,10 @@
       "zona": "Fraga",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/110446288/",
+      "url": "https://www.idealista.com/inmueble/109693726/",
       "alquilat": false,
       "notes": "Casa de 243 m² ubicada en Fraga, Huesca. Se trata de una casa de 243 m² desarrollados en varias alturas y distribuidos en salón-comedor, cocina, garaj",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 11.3,
@@ -1268,10 +1238,10 @@
       "zona": "Fraga",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/109693726/",
+      "url": "https://www.idealista.com/inmueble/110446288/",
       "alquilat": false,
       "notes": "Casa de 243 m² ubicada en Fraga, Huesca. Se trata de una casa de 243 m² desarrollados en varias alturas y distribuidos en salón-comedor, cocina, garaj",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 10.9,
@@ -1301,7 +1271,7 @@
       "url": "https://www.idealista.com/inmueble/112132770/",
       "alquilat": false,
       "notes": "Descubre esta casa adosada ubicada en la ciudad de Cervera, ideal para aquellos que buscan una inversión o un hogar espacioso. Con una superficie cons",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 10.8,
@@ -1331,7 +1301,7 @@
       "url": "https://www.idealista.com/inmueble/112926967/",
       "alquilat": false,
       "notes": "NO COBRAMOS COMISIÓN DE INTERMEDIACIÓN AL COMPRADOR Excelente oportunidad de adquirir esta vivienda en propiedad ubicada en esta localidad. Disponemos",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 10.7,
@@ -1454,37 +1424,6 @@
       "nou": false
     },
     {
-      "bruta": 10.1,
-      "neta": 5.5,
-      "per": 9.9,
-      "cf": 75,
-      "rentCap": 18.4,
-      "quota": 248,
-      "capInv": 21100,
-      "checks": [
-        "✅ Bruta",
-        "✅ Neta",
-        "✅ PER",
-        "✅ CF",
-        "✅ Zona bona"
-      ],
-      "semfor": "comprar",
-      "zonaClass": "bona",
-      "nom": "Piso en Ronda de la Seu Vella, 1, Centre Històric, Lleida",
-      "preu": 62000,
-      "m2": 62,
-      "habs": 3,
-      "renda": 520,
-      "ciutat": "Lleida",
-      "zona": "Centre Històric",
-      "planta": "2ª planta",
-      "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/112140016/",
-      "alquilat": false,
-      "notes": "Piso en Lleida de 62 m2 construidos, sin ascensor y a reformar. Dispone de 3 habitaciones, comedor, cocina y 1 baño, luminoso, exterior, orientacion o",
-      "nou": false
-    },
-    {
       "bruta": 9.9,
       "neta": 5.6,
       "per": 10.1,
@@ -1512,66 +1451,6 @@
       "url": "https://www.idealista.com/inmueble/113102906/",
       "alquilat": false,
       "notes": "Piso céntrico de 4 habitaciones en Balaguer Superficie: 82,97 m² (zona céntrica de la parte nueva). Distribución: 4 habitaciones, 1 baño completo, coc",
-      "nou": false
-    },
-    {
-      "bruta": 9.8,
-      "neta": 4.9,
-      "per": 10.2,
-      "cf": 32,
-      "rentCap": 15.9,
-      "quota": 186,
-      "capInv": 16420,
-      "checks": [
-        "✅ Bruta",
-        "✅ Neta",
-        "✅ PER",
-        "✅ CF"
-      ],
-      "semfor": "comprar",
-      "zonaClass": "neutra",
-      "nom": "Piso en Calle del Collbaix, Mion - Puigberenguer, Manresa",
-      "preu": 46400,
-      "m2": 25,
-      "habs": 1,
-      "renda": 380,
-      "ciutat": "Manresa",
-      "zona": "Mion - Puigberenguer",
-      "planta": "2ª planta sin ascensor",
-      "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/113115771/",
-      "alquilat": false,
-      "notes": "Estudio de 25 m² ubicado en Manresa, Barcelona. Se trata de un piso de 25 m² distribuidos en salón-comedor, cocina, 1 dormitorio y 1 baño. Cuenta con ",
-      "nou": false
-    },
-    {
-      "bruta": 9.8,
-      "neta": 4.9,
-      "per": 10.2,
-      "cf": 32,
-      "rentCap": 15.9,
-      "quota": 186,
-      "capInv": 16420,
-      "checks": [
-        "✅ Bruta",
-        "✅ Neta",
-        "✅ PER",
-        "✅ CF"
-      ],
-      "semfor": "comprar",
-      "zonaClass": "neutra",
-      "nom": "Piso en Calle del Collbaix, Mion - Puigberenguer, Manresa",
-      "preu": 46400,
-      "m2": 25,
-      "habs": 1,
-      "renda": 380,
-      "ciutat": "Manresa",
-      "zona": "Mion - Puigberenguer",
-      "planta": "2ª planta sin ascensor",
-      "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/113115584/",
-      "alquilat": false,
-      "notes": "Estudio de 25 m² ubicado en Manresa, Barcelona. Se trata de un piso de 25 m² distribuidos en salón-comedor, cocina, 1 dormitorio y 1 baño. Cuenta con ",
       "nou": false
     },
     {
@@ -1632,7 +1511,7 @@
       "url": "https://www.idealista.com/inmueble/111963458/",
       "alquilat": false,
       "notes": "Pisos con plaza de garaje de segunda mano en el municipio de Tárrega, provincia de Lleida. Se encuentran en edificio construido en 2010, las viviendas",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 9.8,
@@ -1662,7 +1541,7 @@
       "url": "https://www.idealista.com/inmueble/111963626/",
       "alquilat": false,
       "notes": "Pisos con plaza de garaje de segunda mano en el municipio de Tárrega, provincia de Lleida. Se encuentran en edificio construido en 2010, las viviendas",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 9.5,
@@ -1749,10 +1628,10 @@
       "zona": "Tárrega",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/111974222/",
+      "url": "https://www.idealista.com/inmueble/111974003/",
       "alquilat": false,
       "notes": "Oportunidad sólo para inversores. Debido al estado ocupacional del activo, no se pueden realizar visitas al mismo.Casa de 131 m² ubicada en Tàrrega, L",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 9.5,
@@ -1779,10 +1658,10 @@
       "zona": "Tárrega",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/111974003/",
+      "url": "https://www.idealista.com/inmueble/111974222/",
       "alquilat": false,
       "notes": "Oportunidad sólo para inversores. Debido al estado ocupacional del activo, no se pueden realizar visitas al mismo.Casa de 131 m² ubicada en Tàrrega, L",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 9.3,
@@ -1995,36 +1874,6 @@
       "nou": false
     },
     {
-      "bruta": 9.1,
-      "neta": 4.5,
-      "per": 10.9,
-      "cf": 17,
-      "rentCap": 14.9,
-      "quota": 200,
-      "capInv": 17470,
-      "checks": [
-        "✅ Bruta",
-        "✅ Neta",
-        "✅ PER",
-        "✅ CF"
-      ],
-      "semfor": "comprar",
-      "zonaClass": "neutra",
-      "nom": "Ático en Rambla de Ferran - Estaciò, Lleida",
-      "preu": 49900,
-      "m2": 70,
-      "habs": 0,
-      "renda": 380,
-      "ciutat": "Lleida",
-      "zona": "Lleida",
-      "planta": "5ª planta exterior sin ascensor",
-      "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/113152020/",
-      "alquilat": false,
-      "notes": "Particular, venta directa. Se vende ático de 69,89 m² construidos en la calle del Carme, en pleno centro de Lleida. El ático está para reformar por co",
-      "nou": false
-    },
-    {
       "bruta": 9.0,
       "neta": 4.7,
       "per": 11.1,
@@ -2112,37 +1961,6 @@
       "url": "https://www.idealista.com/inmueble/112669249/",
       "alquilat": false,
       "notes": "FINANCIACIÓN BANCARIA AL 100 % - SOLO APORTAS IMPUESTOS Y GASTOS DE NOTARÍA - NO ALQUILES MÁS - CUOTAS MENORES A UN ALQUILER HASTA 30 AÑOS. ¿Buscas un",
-      "nou": true
-    },
-    {
-      "bruta": 8.3,
-      "neta": 4.3,
-      "per": 12.0,
-      "cf": 6,
-      "rentCap": 14.5,
-      "quota": 260,
-      "capInv": 22000,
-      "checks": [
-        "✅ Bruta",
-        "✅ Neta",
-        "✅ PER",
-        "✅ CF",
-        "✅ Zona bona"
-      ],
-      "semfor": "comprar",
-      "zonaClass": "bona",
-      "nom": "Piso en Calle Major, Centre Històric, Lleida",
-      "preu": 65000,
-      "m2": 52,
-      "habs": 2,
-      "renda": 450,
-      "ciutat": "Lleida",
-      "zona": "Centre Històric",
-      "planta": "1ª planta exterior con ascensor",
-      "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/104814143/",
-      "alquilat": false,
-      "notes": "Apartamento de 50m2 distribuidos en 2 habitaciones, una doble y una individual, un baño completo y cocina independiente. Los suelos son de gres. La fi",
       "nou": false
     },
     {
@@ -2174,6 +1992,37 @@
       "url": "https://www.idealista.com/inmueble/104814176/",
       "alquilat": false,
       "notes": "Piso de 50m2 distribuidos en 2 habitaciones, una doble y una individual, un baño completo y cocina independiente. Los suelos son de gres. La finca dis",
+      "nou": false
+    },
+    {
+      "bruta": 8.3,
+      "neta": 4.3,
+      "per": 12.0,
+      "cf": 6,
+      "rentCap": 14.5,
+      "quota": 260,
+      "capInv": 22000,
+      "checks": [
+        "✅ Bruta",
+        "✅ Neta",
+        "✅ PER",
+        "✅ CF",
+        "✅ Zona bona"
+      ],
+      "semfor": "comprar",
+      "zonaClass": "bona",
+      "nom": "Piso en Calle Major, Centre Històric, Lleida",
+      "preu": 65000,
+      "m2": 52,
+      "habs": 2,
+      "renda": 450,
+      "ciutat": "Lleida",
+      "zona": "Centre Històric",
+      "planta": "1ª planta exterior con ascensor",
+      "portal": "Idealista",
+      "url": "https://www.idealista.com/inmueble/104814143/",
+      "alquilat": false,
+      "notes": "Apartamento de 50m2 distribuidos en 2 habitaciones, una doble y una individual, un baño completo y cocina independiente. Los suelos son de gres. La fi",
       "nou": false
     },
     {
@@ -2269,6 +2118,37 @@
       "nou": false
     },
     {
+      "bruta": 16.4,
+      "neta": 9.0,
+      "per": 6.1,
+      "cf": 181,
+      "rentCap": 28.8,
+      "quota": 152,
+      "capInv": 13900,
+      "checks": [
+        "✅ Bruta",
+        "✅ Neta",
+        "✅ PER",
+        "✅ CF",
+        "🔴 Zona evitar"
+      ],
+      "semfor": "estudiar",
+      "zonaClass": "evitar",
+      "nom": "Piso en Calle Joan Carles, Mariola, Lleida",
+      "preu": 38000,
+      "m2": 75,
+      "habs": 3,
+      "renda": 520,
+      "ciutat": "Lleida",
+      "zona": "Mariola",
+      "planta": "",
+      "portal": "Idealista",
+      "url": "https://www.idealista.com/inmueble/104891795/",
+      "alquilat": false,
+      "notes": "Oportunidad sólo para inversores. El activo se encuentra ocupado por persona sin justo título. Debido al estado ocupacional del activo, no se pueden r",
+      "nou": true
+    },
+    {
       "bruta": 15.4,
       "neta": 8.2,
       "per": 6.5,
@@ -2298,37 +2178,6 @@
       "alquilat": false,
       "notes": "GRAN OPORTUNIDAD INVERSOR! COMPRE MUY POR DEBAJO DE PRECIO DE MERCADO. LEA CONDICIONES ESPECIALES QUE LE DESCRIBIMOS: COMPRA DE CESION DE REMATE, DEUD",
       "nou": false
-    },
-    {
-      "bruta": 13.1,
-      "neta": 7.2,
-      "per": 7.6,
-      "cf": 139,
-      "rentCap": 23.6,
-      "quota": 190,
-      "capInv": 16750,
-      "checks": [
-        "✅ Bruta",
-        "✅ Neta",
-        "✅ PER",
-        "✅ CF",
-        "🔴 Zona evitar"
-      ],
-      "semfor": "estudiar",
-      "zonaClass": "evitar",
-      "nom": "Piso en Calle Joan Carles, Mariola, Lleida",
-      "preu": 47500,
-      "m2": 75,
-      "habs": 3,
-      "renda": 520,
-      "ciutat": "Lleida",
-      "zona": "Mariola",
-      "planta": "3ª planta sin ascensor",
-      "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/112887573/",
-      "alquilat": false,
-      "notes": "Piso de 76 m² ubicado en Lleida. Se trata de un piso de 76 m² distribuidos en salón-comedor, cocina, 3 dormitorios y 1 baño. Se sitúa en el núcleo urb",
-      "nou": true
     },
     {
       "bruta": 12.9,
@@ -2448,7 +2297,7 @@
       "zona": "La Bordeta",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/112611247/",
+      "url": "https://www.idealista.com/inmueble/112609493/",
       "alquilat": false,
       "notes": "Piso de 44 m² ubicado en Lleida. Se trata de un piso de 44 m² distribuidos en salón-comedor, cocina, 1 dormitorio y 1 baño. El piso se sitúa en el bar",
       "nou": false
@@ -2478,7 +2327,7 @@
       "zona": "La Bordeta",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/112609493/",
+      "url": "https://www.idealista.com/inmueble/112611247/",
       "alquilat": false,
       "notes": "Piso de 44 m² ubicado en Lleida. Se trata de un piso de 44 m² distribuidos en salón-comedor, cocina, 1 dormitorio y 1 baño. El piso se sitúa en el bar",
       "nou": false
@@ -2568,10 +2417,10 @@
       "zona": "Mollerussa",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/104913020/",
+      "url": "https://www.idealista.com/inmueble/109691509/",
       "alquilat": false,
       "notes": "Oportunidad sólo para inversores. El activo se encuentra ocupado. Debido al estado ocupacional del activo, no se pueden realizar visitas al mismo.Piso",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 7.5,
@@ -2598,10 +2447,10 @@
       "zona": "Mollerussa",
       "planta": "",
       "portal": "Idealista",
-      "url": "https://www.idealista.com/inmueble/109691509/",
+      "url": "https://www.idealista.com/inmueble/104913020/",
       "alquilat": false,
       "notes": "Oportunidad sólo para inversores. El activo se encuentra ocupado. Debido al estado ocupacional del activo, no se pueden realizar visitas al mismo.Piso",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 7.0,
@@ -2661,7 +2510,7 @@
       "url": "https://www.idealista.com/inmueble/113135007/",
       "alquilat": false,
       "notes": "¡ PISO PARA ENTRAR A VIVIR! ¡OPORTUNIDAD! PISO DE 1 HABITACIÓN, LISTO PARA ENTRAR A VIVIR Se vende acogedor piso de 37 m², ideal como primera vivienda",
-      "nou": true
+      "nou": false
     },
     {
       "bruta": 6.6,
