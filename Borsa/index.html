@@ -892,6 +892,275 @@ a{color:var(--acc);text-decoration:none;}
 
 </div>
 
+<!-- ═══ LOGIN OVERLAY ═══ -->
+<div id="loginOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;align-items:center;justify-content:center;padding:16px;">
+  <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:var(--radius2);padding:24px;width:100%;max-width:380px;max-height:85vh;overflow-y:auto;">
+    <h3 style="margin-bottom:16px;">Selecciona usuari</h3>
+    <div id="loginUserList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;"></div>
+    <div id="loginPassSection" style="display:none;">
+      <label style="font-size:.78rem;font-weight:600;margin:10px 0 4px;display:block;color:var(--tx2);">Contrasenya</label>
+      <input type="password" id="loginPassInput" style="width:100%;padding:8px 10px;border:1px solid var(--brd);border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-size:.85rem;" onkeydown="if(event.key==='Enter')doLogin()">
+      <div id="loginError" style="display:none;color:var(--red);font-size:.75rem;margin-top:4px;">Contrasenya incorrecta</div>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="doLogin()">Entrar</button>
+        <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="cancelLogin()">Cancel·lar</button>
+      </div>
+    </div>
+    <div id="loginLogoutSection" style="display:none;margin-top:12px;border-top:1px solid var(--brd);padding-top:12px;">
+      <button style="width:100%;padding:9px;border:none;border-radius:8px;background:var(--red);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="logoutUser()">Tancar sessio</button>
+    </div>
+    <div id="loginAdminSection" style="display:none;margin-top:8px;">
+      <button style="width:100%;padding:8px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx2);font-family:var(--font);font-size:.75rem;cursor:pointer;" onclick="cancelLogin();openUserMgmt()">Gestio usuaris</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SETUP WIZARD MODAL ═══ -->
+<div id="mSetup" class="mo">
+  <div class="mo-c">
+    <h3>Configuracio inicial</h3>
+    <label>Nom</label>
+    <input type="text" id="setupName" placeholder="El teu nom">
+    <label>Contrasenya</label>
+    <input type="password" id="setupPass" placeholder="Contrasenya">
+    <label>Contrasenya mestra (admin)</label>
+    <input type="password" id="setupMaster" placeholder="Contrasenya mestra">
+    <label>DCA mensual (EUR)</label>
+    <input type="number" id="setupDca" value="10000">
+    <div class="btn-row" style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="doSetup()">Crear perfil</button>
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="cmo('mSetup')">Cancel·lar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ USER MANAGEMENT MODAL ═══ -->
+<div id="mUserMgmt" class="mo">
+  <div class="mo-c" style="max-width:500px;">
+    <h3>Gestio d'usuaris</h3>
+    <div id="umUserList" style="margin-bottom:16px;"></div>
+    <div style="border-top:1px solid var(--brd);padding-top:12px;margin-top:8px;">
+      <div style="font-size:.78rem;font-weight:600;margin-bottom:8px;color:var(--tx2);">Afegir usuari</div>
+      <input type="text" id="umNewName" placeholder="Nom">
+      <input type="password" id="umNewPass" placeholder="Contrasenya">
+      <input type="number" id="umNewDca" value="5000" placeholder="DCA mensual">
+      <button class="btn" style="width:100%;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;margin-top:8px;" onclick="addUser()">Afegir</button>
+    </div>
+    <div style="border-top:1px solid var(--brd);padding-top:12px;margin-top:12px;">
+      <div style="font-size:.78rem;font-weight:600;margin-bottom:8px;color:var(--tx2);">Canviar contrasenya mestra</div>
+      <input type="password" id="umNewMaster" placeholder="Nova contrasenya mestra">
+      <button class="btn" style="width:100%;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;margin-top:8px;" onclick="changeMaster()">Canviar</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="cmo('mUserMgmt')">Tancar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RESET PASSWORD MODAL ═══ -->
+<div id="mResetPass" class="mo">
+  <div class="mo-c">
+    <h3 id="resetPassTitle">Resetejar contrasenya</h3>
+    <label>Contrasenya mestra</label>
+    <input type="password" id="resetMasterInput" placeholder="Contrasenya mestra">
+    <label>Nova contrasenya</label>
+    <input type="password" id="resetNewPass" placeholder="Nova contrasenya">
+    <div id="resetError" style="display:none;color:var(--red);font-size:.75rem;margin-top:4px;"></div>
+    <div class="btn-row" style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="doResetPass()">Resetejar</button>
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="cmo('mResetPass')">Cancel·lar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SETTINGS MODAL ═══ -->
+<div id="mSt" class="mo">
+  <div class="mo-c">
+    <h3>Configuracio</h3>
+    <label>Cash disponible (EUR)</label>
+    <input type="number" id="stCash" step="100" placeholder="0">
+    <label>Aportacio mensual (EUR)</label>
+    <input type="number" id="stAport" step="100" placeholder="0">
+    <label>Valor inici d'any (EUR)</label>
+    <input type="number" id="stVal" step="100" placeholder="0">
+    <label>EUR/USD</label>
+    <input type="number" id="stEur" step="0.0001" placeholder="1.08">
+    <div class="btn-row" style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="saveSettings()">Desar</button>
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="cmo('mSt')">Cancel·lar</button>
+    </div>
+    <div style="border-top:1px solid var(--brd);padding-top:12px;margin-top:16px;">
+      <div style="font-size:.78rem;font-weight:600;margin-bottom:8px;color:var(--tx2);">Backup</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="expAll()">Exportar</button>
+        <label class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;text-align:center;">
+          Importar
+          <input type="file" id="impFile" accept=".json" style="display:none;">
+        </label>
+        <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--red);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="resAll()">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MOVEMENTS MODAL ═══ -->
+<div id="mMv" class="mo">
+  <div class="mo-c">
+    <h3>Registrar moviment</h3>
+    <label>Tipus</label>
+    <select id="mvT" style="width:100%;padding:8px 10px;border:1px solid var(--brd);border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-size:.85rem;">
+      <option value="aportacio">Aportacio</option>
+      <option value="retirada">Retirada</option>
+    </select>
+    <label>Import (EUR)</label>
+    <input type="number" id="mvI" step="100" placeholder="0">
+    <label>Data</label>
+    <input type="date" id="mvD">
+    <label>Nota</label>
+    <input type="text" id="mvN" placeholder="Opcional">
+    <div class="btn-row" style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="aMov()">Afegir</button>
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="cmo('mMv')">Cancel·lar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ EDIT POSITION MODAL ═══ -->
+<div id="mEdit" class="mo">
+  <div class="mo-c">
+    <h3 id="editTitle">Editar posicio</h3>
+    <label>Preu compra ($)</label>
+    <input type="number" id="ePreu" step="0.01">
+    <label>Accions</label>
+    <input type="number" id="eShares">
+    <label>Stop Loss (%)</label>
+    <input type="number" id="eSL" step="1">
+    <label>Trailing Stop ($)</label>
+    <input type="number" id="eTSL" step="0.01">
+    <label>Tipus</label>
+    <select id="eTipus" style="width:100%;padding:8px 10px;border:1px solid var(--brd);border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-size:.85rem;">
+      <option value="full">Full</option>
+      <option value="mig">Mig</option>
+    </select>
+    <div class="btn-row" style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="sEdit()">Desar</button>
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="openCloseModal()">Tancar posicio</button>
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--red);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="dPos()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CLOSE POSITION MODAL ═══ -->
+<div id="mClose" class="mo">
+  <div class="mo-c">
+    <h3 id="closeTitle">Tancar posicio</h3>
+    <label>Preu venda ($)</label>
+    <input type="number" id="cPreu" step="0.01">
+    <label>Data</label>
+    <input type="date" id="cData">
+    <label>Motiu</label>
+    <input type="text" id="cMotiu" placeholder="SL, trailing, manual...">
+    <div class="btn-row" style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="closePos()">Tancar</button>
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="cmo('mClose')">Cancel·lar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ADD POSITION MODAL ═══ -->
+<div id="mPos" class="mo">
+  <div class="mo-c">
+    <h3>Afegir posicio</h3>
+    <label>Ticker</label>
+    <input type="text" id="pSym" placeholder="AAPL" style="text-transform:uppercase;">
+    <label>Nom</label>
+    <input type="text" id="pNom" placeholder="Apple Inc.">
+    <label>Preu compra ($)</label>
+    <input type="number" id="pPreu" step="0.01">
+    <label>Accions</label>
+    <input type="number" id="pShares">
+    <label>Data compra</label>
+    <input type="date" id="pData">
+    <label>Stop Loss (%)</label>
+    <input type="number" id="pSL" step="1" value="15">
+    <label>Tipus</label>
+    <select id="pTipus" style="width:100%;padding:8px 10px;border:1px solid var(--brd);border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-size:.85rem;">
+      <option value="full">Full</option>
+      <option value="mig">Mig</option>
+    </select>
+    <div class="btn-row" style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="aPos()">Afegir</button>
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="cmo('mPos')">Cancel·lar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ETF BUY MODAL ═══ -->
+<div id="mEtfBuy" class="mo">
+  <div class="mo-c">
+    <h3>Registrar compra ETF</h3>
+    <input type="hidden" id="buyEtf">
+    <input type="hidden" id="buyTicker">
+    <input type="hidden" id="buyUcits">
+    <input type="hidden" id="buyIsin">
+    <input type="hidden" id="buyEtfFullName">
+    <div style="font-weight:600;margin-bottom:4px;" id="buyEtfName"></div>
+    <div style="font-size:.72rem;color:var(--tx2);margin-bottom:12px;" id="buyEtfUcits"></div>
+    <label>Data</label>
+    <input type="date" id="buyDate">
+    <label>Preu per participacio (EUR)</label>
+    <input type="number" id="buyPrice" step="0.01">
+    <label>Participacions</label>
+    <input type="number" id="buyShares" step="0.001">
+    <div style="font-size:.78rem;color:var(--tx2);margin-top:8px;" id="buyTotal"></div>
+    <div class="btn-row" style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="doRecordBuy()">Registrar compra</button>
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="cmo('mEtfBuy')">Cancel·lar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ETF SELL MODAL ═══ -->
+<div id="mEtfSell" class="mo">
+  <div class="mo-c">
+    <h3 id="sellEtfTitle">Tancar posicio ETF</h3>
+    <input type="hidden" id="sellTradeId">
+    <label>Data venda</label>
+    <input type="date" id="sellDate">
+    <label>Preu venda per participacio (EUR)</label>
+    <input type="number" id="sellPrice" step="0.01">
+    <div class="btn-row" style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="doSellEtf()">Tancar posicio</button>
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="cmo('mEtfSell')">Cancel·lar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ETF PRICE UPDATE MODAL ═══ -->
+<div id="mEtfPrices" class="mo">
+  <div class="mo-c">
+    <h3>Actualitzar preus ETF</h3>
+    <div id="priceUpdateList"></div>
+    <div class="btn-row" style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="doUpdatePrices()">Actualitzar</button>
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="cmo('mEtfPrices')">Cancel·lar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ETF SETTINGS MODAL ═══ -->
+<div id="mEtfSt" class="mo">
+  <div class="mo-c">
+    <h3>Configuracio ETF</h3>
+    <label>DCA mensual (EUR)</label>
+    <input type="number" id="etfDcaInput" step="100">
+    <div class="btn-row" style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="saveEtfDca()">Desar</button>
+      <button class="btn" style="flex:1;padding:9px;border:none;border-radius:8px;background:var(--bg3);color:var(--tx);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;" onclick="cmo('mEtfSt')">Cancel·lar</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
@@ -902,7 +1171,7 @@ function escH(s){return(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').repl
 function fM(n){return n==null?'—':n.toLocaleString('ca-ES',{maximumFractionDigits:0})+'€';}
 function fP(n){return n==null?'—':(n>=0?'+':'')+n.toFixed(1)+'%';}
 function fN(n,d){return n==null?'—':n.toFixed(d||2);}
-function cmo(id){document.getElementById(id).classList.remove('show');}
+function cmo(id){var el=document.getElementById(id);if(el)el.classList.remove('show');}
 
 // ═══════════════════════════════════════════════════════════════
 // USER SYSTEM
@@ -1823,6 +2092,7 @@ function goSTab(st){
 // Hero
 function rH(){
   const u=document.getElementById('s250upd');
+  if(!u)return;
   if(S.lastUpd)u.textContent='Últim: '+S.lastUpd;
   else if(S._fetching)u.textContent='Carregant dades...';
   else u.textContent='Sense dades — executa l\'screener';
@@ -1831,6 +2101,7 @@ function rH(){
 // Signals
 function rS(){
   // Sub-tabs
+  if(!document.getElementById('sTabs'))return;
   let stHtml='';
   _stabs.forEach(s=>{stHtml+=`<button class="stab${_stab===s.id?' active':''}" data-st="${s.id}" onclick="goSTab('${s.id}')">${s.label}</button>`;});
   document.getElementById('sTabs').innerHTML=stHtml;
@@ -1913,6 +2184,7 @@ function tot(){
 
 function rP(){
   const el=document.getElementById('posTbl');
+  if(!el)return;
   if(!S.positions.length){el.innerHTML='<div style="text-align:center;color:var(--tx3);padding:20px;">Sense posicions obertes</div>';document.getElementById('posSummary').innerHTML='';return;}
   const rate=S.eurUsd||1.08;
   let html='<div class="rank-wrap"><table class="ptbl"><thead><tr><th>Ticker</th><th>Nom</th><th>Preu</th><th>Actual</th><th>P&L</th><th>SL</th><th>Valor</th></tr></thead><tbody>';
@@ -1944,6 +2216,7 @@ function rP(){
 // Closed positions
 function rC(){
   const el=document.getElementById('closedTbl');
+  if(!el)return;
   if(!S.closed||!S.closed.length){el.innerHTML='<div style="text-align:center;color:var(--tx3);padding:20px;">Sense posicions tancades</div>';return;}
   let html='<div class="section-title">Posicions tancades</div><div class="rank-wrap"><table class="ptbl"><thead><tr><th>Ticker</th><th>Compra</th><th>Venda</th><th>P&L</th><th>Motiu</th></tr></thead><tbody>';
   S.closed.slice().reverse().forEach(c=>{
@@ -1957,6 +2230,7 @@ function rC(){
 // Movements
 function rM(){
   const el=document.getElementById('movTbl');
+  if(!el)return;
   if(!S.moviments||!S.moviments.length){el.innerHTML='';return;}
   let html='<div class="section-title">Moviments</div><div class="rank-wrap"><table class="ptbl"><thead><tr><th>Data</th><th>Tipus</th><th>Import</th><th>Nota</th></tr></thead><tbody>';
   S.moviments.slice().reverse().forEach(m=>{
@@ -1970,6 +2244,7 @@ function rM(){
 let _chart=null;
 function rR(){
   const el=document.getElementById('retTbl');
+  if(!el)return;
   if(!S.valorInici||!Object.keys(S.valorInici).length){
     el.innerHTML='<div style="text-align:center;color:var(--tx3);padding:20px;">Configura el valor d\'inici d\'any a ⚙️ per veure rendibilitat</div>';
     return;
@@ -2077,7 +2352,7 @@ function aMov(){const tp=document.getElementById('mvT').value,imp=parseFloat(doc
 // Export/Import/Reset
 function expAll(){const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='screener_backup.json';a.click();}
-document.getElementById('impFile').addEventListener('change',function(ev){
+var _impEl=document.getElementById('impFile');if(_impEl)_impEl.addEventListener('change',function(ev){
   const f=ev.target.files[0];if(!f)return;
   const r=new FileReader();r.onload=function(e){
     try{
