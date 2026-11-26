@@ -2959,7 +2959,7 @@ function ceShowBuyModal(sym,price,stop,atr,pb,nom,sector){
     +'<div class="ce-modal-row"><label>Comissio sortida ($)</label><input id="cmCommExit" type="number" step="0.01" value="0"></div>'
     +'<div class="ce-modal-row"><label>Total invertit</label><span id="cmTotal" style="font-weight:600">$'+inv.toFixed(2)+'</span></div>'
     +'<div class="ce-modal-actions"><button class="ce-btn-cancel" onclick="ceCloseBuyModal()">Cancel</button>'
-    +'<button class="ce-btn-confirm" onclick="ceConfirmBuy(\\''+esc(sym)+'\\','+atr+','+(pb||0)+',\\''+esc(nom)+'\\',\\''+esc(sector)+'\\')">Confirmar</button></div></div>';
+    +'<button class="ce-btn-confirm" onclick="ceConfirmBuy(\''+esc(sym)+'\','+atr+','+(pb||0)+',\''+esc(nom)+'\',\''+esc(sector)+'\')">Confirmar</button></div></div>';
   document.body.appendChild(o);
   var updT=function(){var s=parseFloat(document.getElementById('cmShares').value)||0;var p=parseFloat(document.getElementById('cmBuyPrice').value)||0;var c=parseFloat(document.getElementById('cmCommEntry').value)||0;document.getElementById('cmTotal').textContent='$'+(s*p+c).toFixed(2);};
   document.getElementById('cmShares').addEventListener('input',updT);
@@ -3001,7 +3001,7 @@ function ceShowSellModal(sym){
     +'<div class="ce-modal-row"><label>Preu venda ($)</label><input id="cmSellPrice" type="number" step="0.01" value="0"></div>'
     +'<div class="ce-modal-row"><label>Comissio sortida ($)</label><input id="cmSellComm" type="number" step="0.01" value="'+(pos2.comm_exit||0)+'"></div>'
     +'<div class="ce-modal-actions"><button class="ce-btn-cancel" onclick="ceCloseSellModal()">Cancel</button>'
-    +'<button class="ce-btn-confirm" onclick="ceConfirmSell(\\''+esc(sym)+'\\')">Confirmar Venda</button></div></div>';
+    +'<button class="ce-btn-confirm" onclick="ceConfirmSell(\''+esc(sym)+'\')">Confirmar Venda</button></div></div>';
   document.body.appendChild(o);
 }
 function ceCloseSellModal(){var o=document.getElementById('ceSellModalOverlay');if(o)o.remove();}
