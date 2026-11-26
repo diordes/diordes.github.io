@@ -637,7 +637,7 @@ a{color:var(--acc);text-decoration:none;}
               <th>Preu</th>
               <th>Actual</th>
               <th>P&L</th>
-              <th>Stop</th>
+              <th>T.Stop</th>
               <th>Dies</th>
             </tr>
           </thead>
@@ -3027,7 +3027,7 @@ function ceRenderPortfolio(){
     return'<div class="ce-port-item"><div style="min-width:55px"><div class="sym-name">'+p.sym+'</div><div style="font-size:.6rem;color:var(--tx3)">'+p.date+'</div></div>'+
     '<div class="port-details"><span>'+p.shares+' acc @ $'+p.entry_price+'</span><span>= $'+p.invested+'</span>'+
     (p.pullback_pct?'<span class="tag tag-warn">PB '+p.pullback_pct+'%</span>':'')+
-    '<span style="color:var(--red)">Stop $'+p.stop_loss+'</span></div>'+
+    '<span style="color:var(--red)">T.Stop $'+p.stop_loss+'</span></div>'+
     '<button class="ce-btn-sell" onclick="ceShowSellModal(\''+esc(p.sym)+'\')">VENDRE</button></div>';
   }).join('');
 }
