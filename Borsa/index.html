@@ -592,12 +592,12 @@ a{color:var(--acc);text-decoration:none;}
       <div id="ceTradeHistory"><div class="ce-empty" style="padding:12px">Cap trade registrat</div></div>
     </div>
     <div class="ce-section" id="ceModelPortfolio" style="border-left:3px solid var(--green);">
-      <h3>📋 Posicions actives — Compres a executar (<span id="ceModelCount">0</span>/8)</h3>
+      <h3>🛒 Compres noves a executar (<span id="ceModelCount">0</span>)</h3>
       <div id="ceModelGrid" class="ce-sig-grid">
         <div class="ce-empty">Cap posició activa</div>
       </div>
     </div>
-    <div class="ce-section">
+    <div class="ce-section" style="display:none;">
       <h3>🟢 Entrades avui</h3>
       <div id="ceEntriesToday" class="ce-sig-grid">
         <div class="ce-empty">Cap entrada avui</div>
@@ -2897,7 +2897,7 @@ function renderConfigeData(d){
   ceTxt('ceRetRecWR',m.recent_win_rate+'%');
   ceCol('ceRetYTD',ceFmtPL(m.ytd_realized_pct));
 
-  ceRenderModelPositions(d.positions||[]);
+  ceRenderModelPositions(d.entries_today||[]);
   ceRenderEntries(d.entries_today||[]);
   ceRenderExits(d.exits_today||[]);
   ceRenderSignals(d.recommendations||d.signals||[],d.signals_total||0);
@@ -3049,18 +3049,19 @@ function ceRenderHistory(){
   });
   div.innerHTML=rows.join('');
 }
-function ceRenderModelPositions(positions){
-  document.getElementById('ceModelCount').textContent=positions.length;
+function ceRenderModelPositions(entries){
+  document.getElementById('ceModelCount').textContent=entries.length;
   var div=document.getElementById('ceModelGrid');
-  if(!positions.length){div.innerHTML='<div class="ce-empty">Cap posició activa</div>';return;}
+  if(!entries.length){div.innerHTML='<div class="ce-empty">Cap nova compra al model avui</div>';return;}
   var cfg;try{cfg=JSON.parse(localStorage.getItem('ce_config')||'{}')}catch(x){cfg={};}
   var perPos=cfg.capital?cfg.capital/8:0;
-  div.innerHTML=positions.map(function(p){
-    var plCls=(p.pl_pct||0)>=0?'ce-trade-win':'ce-trade-loss';
+  div.innerHTML=entries.map(function(e){
     var sizing='';
-    if(perPos>0){var sh=Math.floor(perPos/p.entry_price);sizing='<span class="tag tag-ok">'+sh+' acc \u00d7 $'+p.entry_price+' = $'+(sh*p.entry_price).toFixed(0)+'</span>';}
-    var buyBtn=typeof ceMakeBuyBtn==='function'?ceMakeBuyBtn(p.sym,p.entry_price,p.stop_loss,p.atr20||0,0,p.nom||p.sym,p.sector||''):'';
-    return'<div class="ce-sig '+plCls+'"><div class="sym-col"><div class="sym-name">'+p.sym+'</div><div class="sym-sector">'+(p.sector||'')+'</div></div><div class="details"><span>\ud83d\udfe2 COMPRA @ $'+p.entry_price+'</span><span>T.Stop: $'+(p.stop_loss||'\u2014')+'</span>'+(p.pb_pct?'<span class="tag tag-warn">PB '+p.pb_pct.toFixed(1)+'%</span>':'')+'<span>Entrada: '+p.entry_date+'</span><span>Dies: '+(p.days_held||0)+'d</span>'+(p.pl_pct!=null?'<span class="'+ ((p.pl_pct||0)>=0?'pos':'neg')+'">'+((p.pl_pct||0)>=0?'+':'')+  (p.pl_pct||0).toFixed(1)+'%</span>':'')+sizing+'</div>'+(buyBtn?'<div>'+buyBtn+'</div>':'')+'</div>';
+    if(perPos>0){var sh=Math.floor(perPos/e.entry_price);sizing='<span class="tag tag-ok">'+sh+' acc \u00d7 $'+e.entry_price+' = $'+(sh*e.entry_price).toFixed(0)+'</span>';}
+    var pb=e.pullback_pct?'<span class="tag tag-warn">PB '+(+e.pullback_pct).toFixed(1)+'%</span>':'';
+    var pf=ceGetPortfolio();var alreadyBought=pf.some(function(p){return p.sym===e.sym;});
+    var buyBtn=(!alreadyBought&&typeof ceMakeBuyBtn==='function')?ceMakeBuyBtn(e.sym,e.entry_price,e.stop_loss,e.atr20||0,e.pullback_pct||0,e.nom||e.sym,e.sector||''):'';
+    return'<div class="ce-sig ce-trade-win"><div class="sym-col"><div class="sym-name">'+e.sym+'</div><div class="sym-sector">'+(e.sector||'')+'</div></div><div class="details"><span>\ud83d\udfe2 COMPRA @ $'+e.entry_price+'</span>'+pb+'<span>T.Stop: $'+(e.stop_loss||'\u2014')+'</span><span>ATR: '+(e.atr20||'')+'</span>'+sizing+'</div>'+(buyBtn?'<div>'+buyBtn+'</div>':(alreadyBought?'<div><span class="tag" style="background:var(--green);color:#fff;font-size:.75em;padding:2px 8px;border-radius:4px">\u2713 Comprada</span></div>':''  ))+'</div>';
   }).join('');
 }
 
