@@ -2957,7 +2957,7 @@ function ceRenderModelPositions(positions){
     var sizing='';
     if(perPos>0){var sh=Math.floor(perPos/p.entry_price);sizing='<span class="tag tag-ok">'+sh+' acc \u00d7 $'+p.entry_price+' = $'+(sh*p.entry_price).toFixed(0)+'</span>';}
     var buyBtn=typeof ceMakeBuyBtn==='function'?ceMakeBuyBtn(p.sym,p.entry_price,p.stop_loss,p.atr20||0,0,p.nom||p.sym,p.sector||''):'';
-    return'<div class="ce-sig '+plCls+'"><div class="sym-col"><div class="sym-name">'+p.sym+'</div><div class="sym-sector">'+(p.sector||'')+'</div></div><div class="details"><span>\ud83d\udfe2 COMPRA @ $'+p.entry_price+'</span><span>T.Stop: $'+(p.stop_loss||'\u2014')+'</span><span>Entrada: '+p.entry_date+'</span><span>Dies: '+(p.days_held||0)+'d</span>'+(p.pl_pct!=null?'<span class="'+ ((p.pl_pct||0)>=0?'pos':'neg')+'">'+((p.pl_pct||0)>=0?'+':'')+  (p.pl_pct||0).toFixed(1)+'%</span>':'')+sizing+'</div>'+(buyBtn?'<div>'+buyBtn+'</div>':'')+'</div>';
+    return'<div class="ce-sig '+plCls+'"><div class="sym-col"><div class="sym-name">'+p.sym+'</div><div class="sym-sector">'+(p.sector||'')+'</div></div><div class="details"><span>\ud83d\udfe2 COMPRA @ $'+p.entry_price+'</span><span>T.Stop: $'+(p.stop_loss||'\u2014')+'</span>'+(p.pb_pct?'<span class="tag tag-warn">PB '+p.pb_pct.toFixed(1)+'%</span>':'')+'<span>Entrada: '+p.entry_date+'</span><span>Dies: '+(p.days_held||0)+'d</span>'+(p.pl_pct!=null?'<span class="'+ ((p.pl_pct||0)>=0?'pos':'neg')+'">'+((p.pl_pct||0)>=0?'+':'')+  (p.pl_pct||0).toFixed(1)+'%</span>':'')+sizing+'</div>'+(buyBtn?'<div>'+buyBtn+'</div>':'')+'</div>';
   }).join('');
 }
 
