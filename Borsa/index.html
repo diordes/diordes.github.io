@@ -3122,7 +3122,7 @@ function ceRenderPositions(positions){
   }).join('');
 }
 
-function ceRenderHistory(history){
+function ceRenderHistory(history){history=history||ceGetHistory();
   var tbody=document.getElementById('ceHistBody');
   if(!history.length){tbody.innerHTML='<tr><td colspan="8" class="ce-empty">Cap trade registrat</td></tr>';return;}
   var sorted=history.slice().reverse();
