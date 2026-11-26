@@ -2900,7 +2900,7 @@ function renderConfigeData(d){
   ceRenderModelPositions(d.positions||[]);
   ceRenderEntries(d.entries_today||[]);
   ceRenderExits(d.exits_today||[]);
-  ceRenderSignals(d.signals||[],d.signals_total||0);
+  ceRenderSignals(d.recommendations||d.signals||[],d.signals_total||0);
   ceRenderCooldowns(d.cooldowns||{});
   ceRenderPositions(d.positions||[]);
   ceRenderHistory(d.history||[]);
@@ -3094,11 +3094,11 @@ function ceRenderSignals(signals,total){
   var cfg;try{cfg=JSON.parse(localStorage.getItem('ce_config')||'{}');}catch(x){cfg={};}
   var perPos=cfg.capital?cfg.capital/8:0;
   div.innerHTML=signals.map(function(s,idx){
-    var stop=(s.price-1.4*s.atr20).toFixed(2);
+    var stop=s.stop_loss?(+s.stop_loss).toFixed(2):(s.price-1.4*s.atr20).toFixed(2);
     var sizing='';
     if(perPos>0){var sh=Math.floor(perPos/s.price);sizing='<span class="tag tag-ok">'+sh+' acc × $'+s.price+' = $'+(sh*s.price).toFixed(0)+'</span>';}
-    var buyBtn=idx<15?ceMakeBuyBtn(s.sym,s.price,+stop,s.atr20,s.pullback_pct||0,s.nom||s.sym,s.sector||''):'';
-    return'<div class="ce-sig"><div class="sym-col"><div class="sym-name">'+s.sym+'</div><div class="sym-sector">'+(s.sector||'')+'</div></div><div class="details"><span>$'+s.price+'</span><span class="tag tag-warn">PB '+s.pullback_pct+'%</span><span>T.Stop: $'+stop+'</span><span>vs SMA200: '+(s.px_vs_sma200_pct>=0?'+':'')+s.px_vs_sma200_pct+'%</span><span>ATR: '+s.atr_vol_ratio+'</span>'+sizing+'</div>'+(buyBtn?'<div>'+buyBtn+'</div>':'')+'</div>';
+    var pf=ceGetPortfolio();var alreadyBought=pf.some(function(p){return p.sym===s.sym;});var buyBtn=(!alreadyBought&&idx<15)?ceMakeBuyBtn(s.sym,s.price,+stop,s.atr20,s.pullback_pct||0,s.nom||s.sym,s.sector||''):'';
+    return'<div class="ce-sig"><div class="sym-col"><div class="sym-name">'+s.sym+(s.in_model?' <span style="color:var(--acc);font-size:.7em">📊</span>':'')+'</div><div class="sym-sector">'+(s.sector||'')+'</div></div><div class="details"><span>$'+s.price+'</span><span class="tag tag-warn">PB '+s.pullback_pct+'%</span><span>T.Stop: $'+stop+'</span><span>vs SMA200: '+(s.px_vs_sma200_pct>=0?'+':'')+s.px_vs_sma200_pct+'%</span><span>ATR: '+s.atr_vol_ratio+'</span>'+sizing+'</div>'+(buyBtn?'<div>'+buyBtn+'</div>':'')+'</div>';
   }).join('');
 }
 
