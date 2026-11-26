@@ -3123,7 +3123,7 @@ function ceRenderCooldowns(cooldowns){
 
 function ceRenderPositions(){
   var pf=ceGetPortfolio();
-  document.getElementById("cePosCount").textContent=pf.length+"/8";
+  document.getElementById("cePosCount").textContent=pf.length;
   var tb=document.getElementById("cePosBody");
   if(!pf.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text-muted)">Cap posici\u00f3 \u2014 clica COMPRAR a Senyals per afegir</td></tr>';return;}
   var today=new Date();
