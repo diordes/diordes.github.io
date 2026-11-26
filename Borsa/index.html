@@ -409,6 +409,21 @@ a{color:var(--acc);text-decoration:none;}
   .user-btn{font-size:.95rem;padding:14px 16px;}
   .login-box{padding:24px 20px;}
 }
+/* Modal compra/venda */
+.ce-modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:center;justify-content:center}
+.ce-modal{background:var(--bg2,#1a1a2e);border:1px solid var(--bd,#333);border-radius:12px;padding:20px;width:90%;max-width:420px;color:var(--tx,#eee)}
+.ce-modal h3{margin:0 0 12px;font-size:1.1rem}
+.ce-modal-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.ce-modal-row label{font-size:.8rem;color:var(--tx2,#aaa)}
+.ce-modal-row input{width:120px;padding:4px 8px;border:1px solid var(--bd,#444);border-radius:6px;background:var(--bg3,#111);color:var(--tx,#eee);text-align:right;font-size:.85rem}
+.ce-modal-actions{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}
+.ce-modal-actions button{padding:8px 16px;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:.85rem}
+.ce-btn-confirm{background:var(--green,#00c853);color:#000}
+.ce-btn-cancel{background:var(--bg3,#333);color:var(--tx,#eee)}
+.ce-history-item{display:flex;align-items:center;gap:8px;padding:6px 10px;border-bottom:1px solid var(--bd,#222);font-size:.7rem}
+.ce-hist-buy{color:var(--green,#00c853)}
+.ce-hist-sell{color:var(--red,#ff5252)}
+.ce-hist-profit{font-weight:700}
 </style>
 </head>
 <body>
@@ -571,6 +586,10 @@ a{color:var(--acc);text-decoration:none;}
     <div class="ce-section" id="cePortfolioSection" style="border-left:3px solid var(--acc);">
       <h3>💼 La Meva Cartera (<span id="cePortCount">0</span>)</h3>
       <div id="ceMyPortfolio"><div class="ce-empty" style="padding:12px">Cap posició manual — clica COMPRAR per afegir</div></div>
+    </div>
+        <div class="ce-section" style="border-left:3px solid var(--warn,#ff9800);">
+      <h3>📊 Historial de Trades (<span id="ceHistCount">0</span>)</h3>
+      <div id="ceTradeHistory"><div class="ce-empty" style="padding:12px">Cap trade registrat</div></div>
     </div>
     <div class="ce-section" id="ceModelPortfolio" style="border-left:3px solid var(--green);">
       <h3>📋 Posicions actives — Compres a executar (<span id="ceModelCount">0</span>/8)</h3>
@@ -2911,6 +2930,9 @@ function ceLoadConfig(){
 function ceGetPortfolio(){try{return JSON.parse(localStorage.getItem('ce_my_portfolio')||'[]');}catch(x){return[];}}
 function ceSavePortfolio(p){try{localStorage.setItem('ce_my_portfolio',JSON.stringify(p));}catch(x){}}
 function ceIsInPortfolio(sym){return ceGetPortfolio().some(function(p){return p.sym===sym;});}
+function ceGetHistory(){try{return JSON.parse(localStorage.getItem('ce_trade_history')||'[]');}catch(x){return[];}}
+function ceSaveHistory(h){try{localStorage.setItem('ce_trade_history',JSON.stringify(h));}catch(x){}}
+
 function ceBuyStock(sym,price,stop,atr,pb,nom,sector){
   var pf=ceGetPortfolio();
   if(pf.some(function(p){return p.sym===sym;}))return;
@@ -2921,9 +2943,78 @@ function ceBuyStock(sym,price,stop,atr,pb,nom,sector){
   ceSavePortfolio(pf);ceRenderPortfolio();
   if(CE_data){ceRenderEntries(CE_data.entries_today||[]);ceRenderSignals(CE_data.signals||[],CE_data.signals_total||0);}
 }
+function ceShowBuyModal(sym,price,stop,atr,pb,nom,sector){
+  var cfg;try{cfg=JSON.parse(localStorage.getItem('ce_config')||'{}')}catch(x){cfg={};}
+  var perPos=cfg.capital?cfg.capital/8:0;
+  var sh=perPos>0?Math.floor(perPos/price):0;
+  var inv=+(sh*price).toFixed(2);
+  var esc=function(s){return(s||'').replace(/'/g,"\\'");};
+  var o=document.createElement('div');o.className='ce-modal-overlay';o.id='ceBuyModalOverlay';
+  o.innerHTML='<div class="ce-modal"><h3>COMPRAR '+sym+'</h3>'
+    +'<div style="font-size:.75rem;color:var(--tx2);margin-bottom:12px">'+(nom||sym)+' &mdash; '+(sector||'')+'</div>'
+    +'<div class="ce-modal-row"><label>Accions</label><input id="cmShares" type="number" value="'+sh+'"></div>'
+    +'<div class="ce-modal-row"><label>Preu compra ($)</label><input id="cmBuyPrice" type="number" step="0.01" value="'+price.toFixed(2)+'"></div>'
+    +'<div class="ce-modal-row"><label>Stop / Venda ($)</label><input id="cmStopPrice" type="number" step="0.01" value="'+stop.toFixed(2)+'"></div>'
+    +'<div class="ce-modal-row"><label>Comissio entrada ($)</label><input id="cmCommEntry" type="number" step="0.01" value="0"></div>'
+    +'<div class="ce-modal-row"><label>Comissio sortida ($)</label><input id="cmCommExit" type="number" step="0.01" value="0"></div>'
+    +'<div class="ce-modal-row"><label>Total invertit</label><span id="cmTotal" style="font-weight:600">$'+inv.toFixed(2)+'</span></div>'
+    +'<div class="ce-modal-actions"><button class="ce-btn-cancel" onclick="ceCloseBuyModal()">Cancel</button>'
+    +'<button class="ce-btn-confirm" onclick="ceConfirmBuy(\\''+esc(sym)+'\\','+atr+','+(pb||0)+',\\''+esc(nom)+'\\',\\''+esc(sector)+'\\')">Confirmar</button></div></div>';
+  document.body.appendChild(o);
+  var updT=function(){var s=parseFloat(document.getElementById('cmShares').value)||0;var p=parseFloat(document.getElementById('cmBuyPrice').value)||0;var c=parseFloat(document.getElementById('cmCommEntry').value)||0;document.getElementById('cmTotal').textContent='$'+(s*p+c).toFixed(2);};
+  document.getElementById('cmShares').addEventListener('input',updT);
+  document.getElementById('cmBuyPrice').addEventListener('input',updT);
+  document.getElementById('cmCommEntry').addEventListener('input',updT);
+}
+function ceCloseBuyModal(){var o=document.getElementById('ceBuyModalOverlay');if(o)o.remove();}
+function ceConfirmBuy(sym,atr,pb,nom,sector){
+  var sh=parseFloat(document.getElementById('cmShares').value)||0;
+  var bp=parseFloat(document.getElementById('cmBuyPrice').value)||0;
+  var sp=parseFloat(document.getElementById('cmStopPrice').value)||0;
+  var ce2=parseFloat(document.getElementById('cmCommEntry').value)||0;
+  var cx=parseFloat(document.getElementById('cmCommExit').value)||0;
+  if(sh<=0||bp<=0)return;
+  var inv=+(sh*bp).toFixed(2);
+  var pf=ceGetPortfolio();
+  if(pf.some(function(p){return p.sym===sym;})){ceCloseBuyModal();return;}
+  pf.push({sym:sym,nom:nom||sym,sector:sector||'',entry_price:bp,stop_loss:sp,atr20:atr,pullback_pct:pb,shares:sh,invested:inv,comm_entry:ce2,comm_exit:cx,date:new Date().toISOString().split('T')[0]});
+  ceSavePortfolio(pf);
+  var h=ceGetHistory();h.push({type:'BUY',sym:sym,nom:nom||sym,shares:sh,price:bp,stop:sp,comm:ce2,total:+(inv+ce2).toFixed(2),date:new Date().toISOString().split('T')[0]});ceSaveHistory(h);
+  ceCloseBuyModal();ceRenderPortfolio();ceRenderHistory();
+  if(CE_data){ceRenderEntries(CE_data.entries_today||[]);ceRenderSignals(CE_data.signals||[],CE_data.signals_total||0);}
+}
 function ceSellStock(sym){
   var pf=ceGetPortfolio().filter(function(p){return p.sym!==sym;});
   ceSavePortfolio(pf);ceRenderPortfolio();
+  if(CE_data){ceRenderEntries(CE_data.entries_today||[]);ceRenderSignals(CE_data.signals||[],CE_data.signals_total||0);}
+}
+function ceShowSellModal(sym){
+  var pf=ceGetPortfolio();var pos2=null;
+  for(var i=0;i<pf.length;i++){if(pf[i].sym===sym){pos2=pf[i];break;}}
+  if(!pos2)return;
+  var esc=function(s){return(s||'').replace(/'/g,"\\'");};
+  var o=document.createElement('div');o.className='ce-modal-overlay';o.id='ceSellModalOverlay';
+  o.innerHTML='<div class="ce-modal"><h3>VENDRE '+sym+'</h3>'
+    +'<div style="font-size:.75rem;color:var(--tx2);margin-bottom:12px">'+(pos2.nom||sym)+'</div>'
+    +'<div class="ce-modal-row"><label>Accions</label><span>'+pos2.shares+'</span></div>'
+    +'<div class="ce-modal-row"><label>Preu compra</label><span>$'+pos2.entry_price+'</span></div>'
+    +'<div class="ce-modal-row"><label>Preu venda ($)</label><input id="cmSellPrice" type="number" step="0.01" value="0"></div>'
+    +'<div class="ce-modal-row"><label>Comissio sortida ($)</label><input id="cmSellComm" type="number" step="0.01" value="'+(pos2.comm_exit||0)+'"></div>'
+    +'<div class="ce-modal-actions"><button class="ce-btn-cancel" onclick="ceCloseSellModal()">Cancel</button>'
+    +'<button class="ce-btn-confirm" onclick="ceConfirmSell(\\''+esc(sym)+'\\')">Confirmar Venda</button></div></div>';
+  document.body.appendChild(o);
+}
+function ceCloseSellModal(){var o=document.getElementById('ceSellModalOverlay');if(o)o.remove();}
+function ceConfirmSell(sym){
+  var sp2=parseFloat(document.getElementById('cmSellPrice').value)||0;
+  var cx2=parseFloat(document.getElementById('cmSellComm').value)||0;
+  var pf=ceGetPortfolio();var pos2=null;var idx=-1;
+  for(var i=0;i<pf.length;i++){if(pf[i].sym===sym){pos2=pf[i];idx=i;break;}}
+  if(!pos2){ceCloseSellModal();return;}
+  var profit=+(((sp2-pos2.entry_price)*pos2.shares)-(pos2.comm_entry||0)-cx2).toFixed(2);
+  var h=ceGetHistory();h.push({type:'SELL',sym:sym,nom:pos2.nom,shares:pos2.shares,buy_price:pos2.entry_price,sell_price:sp2,comm_entry:pos2.comm_entry||0,comm_exit:cx2,profit:profit,date_buy:pos2.date,date_sell:new Date().toISOString().split('T')[0]});ceSaveHistory(h);
+  pf.splice(idx,1);ceSavePortfolio(pf);
+  ceCloseSellModal();ceRenderPortfolio();ceRenderHistory();
   if(CE_data){ceRenderEntries(CE_data.entries_today||[]);ceRenderSignals(CE_data.signals||[],CE_data.signals_total||0);}
 }
 function ceRenderPortfolio(){
@@ -2937,15 +3028,27 @@ function ceRenderPortfolio(){
     '<div class="port-details"><span>'+p.shares+' acc @ $'+p.entry_price+'</span><span>= $'+p.invested+'</span>'+
     (p.pullback_pct?'<span class="tag tag-warn">PB '+p.pullback_pct+'%</span>':'')+
     '<span style="color:var(--red)">Stop $'+p.stop_loss+'</span></div>'+
-    '<button class="ce-btn-sell" onclick="ceSellStock(\''+esc(p.sym)+'\')">VENDRE</button></div>';
+    '<button class="ce-btn-sell" onclick="ceShowSellModal(\''+esc(p.sym)+'\')">VENDRE</button></div>';
   }).join('');
 }
 function ceMakeBuyBtn(sym,price,stop,atr,pb,nom,sector){
   if(ceIsInPortfolio(sym))return'<span class="ce-btn-bought">✓ Comprat</span>';
   var esc=function(s){return(s||'').replace(/'/g,"\\'");};
-  return'<button class="ce-btn-buy" onclick="ceBuyStock(\''+esc(sym)+'\','+price+','+stop+','+atr+','+(pb||0)+',\''+esc(nom)+'\',\''+esc(sector)+'\')">COMPRAR</button>';
+  return'<button class="ce-btn-buy" onclick="ceShowBuyModal(\''+esc(sym)+'\','+price+','+stop+','+atr+','+(pb||0)+',\''+esc(nom)+'\',\''+esc(sector)+'\')">COMPRAR</button>';
 }
 
+function ceRenderHistory(){
+  var div=document.getElementById('ceTradeHistory');if(!div)return;
+  var h=ceGetHistory();
+  var cnt=document.getElementById('ceHistCount');if(cnt)cnt.textContent=h.length;
+  if(!h.length){div.innerHTML='<div class="ce-empty" style="padding:12px">Cap trade registrat</div>';return;}
+  var rows=h.slice().reverse().map(function(t){
+    if(t.type==='BUY')return'<div class="ce-history-item"><span class="ce-hist-buy">BUY</span><span style="min-width:50px;font-weight:600">'+t.sym+'</span><span>'+t.shares+' acc</span><span>@ $'+t.price+'</span><span>Com $'+t.comm+'</span><span style="color:var(--tx2)">'+t.date+'</span></div>';
+    if(t.type==='SELL'){var cl=t.profit>=0?'ce-hist-buy':'ce-hist-sell';return'<div class="ce-history-item"><span class="ce-hist-sell">SELL</span><span style="min-width:50px;font-weight:600">'+t.sym+'</span><span>'+t.shares+' acc</span><span>@ $'+t.sell_price+'</span><span class="'+cl+' ce-hist-profit">'+((t.profit>=0?'+':'')+t.profit)+'</span><span style="color:var(--tx2)">'+t.date_sell+'</span></div>';}
+    return'';
+  });
+  div.innerHTML=rows.join('');
+}
 function ceRenderModelPositions(positions){
   document.getElementById('ceModelCount').textContent=positions.length;
   var div=document.getElementById('ceModelGrid');
@@ -3033,6 +3136,7 @@ function ceRenderHistory(history){
 loadConfigeData();
 ceLoadConfig();
 ceRenderPortfolio();
+ceRenderHistory();
 
 </script>
 </body>
