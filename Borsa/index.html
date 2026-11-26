@@ -3095,7 +3095,7 @@ function ceRenderExits(exits){
 }
 
 function ceRenderSignals(signals,total){
-  document.getElementById("ceSigCount").textContent=signals.length+" de "+total;
+  document.getElementById("ceSigCount").textContent="1 a "+signals.length+" de "+total;
   var div=document.getElementById("ceSignals");
   if(!signals.length){div.innerHTML='<div class="ce-empty">No hi ha senyals d\'entrada</div>';return;}
   var cfg;try{cfg=JSON.parse(localStorage.getItem("ce_config")||"{}");}catch(x){cfg={};}
