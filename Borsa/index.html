@@ -2841,7 +2841,7 @@ async function runConfigeScreener(){
       body:JSON.stringify({ref:'main'})});
     if(r.status===204){
       toast('\u2705 Config E llan\u00e7at!');
-      btn.innerHTML='\u23f3 Executant\u2026';
+      btn.innerHTML='<span class="spinner"></span> Executant\u2026';
       let polls=0;const poll=setInterval(async()=>{
         polls++;if(polls>40){clearInterval(poll);btn.disabled=false;btn.innerHTML='\u25b6 Executar';toast('\u23f1\ufe0f Temps exhaurit \u2014 refresca manualment');return;}
         try{
@@ -2852,7 +2852,7 @@ async function runConfigeScreener(){
             const run=cd.workflow_runs[0];
             if(run.status==='completed'){
               clearInterval(poll);
-              if(run.conclusion==='success'){btn.innerHTML='\u23f3 Desplegant...';toast('\u2705 Workflow completat! Esperant desplegament...');(function _w(og,n){setTimeout(async function(){try{var r2=await fetch('data/confige_latest.json?t='+Date.now());if(!r2.ok){if(n<18)_w(og,n+1);return;}var d2=await r2.json();if(d2.generatedAt&&d2.generatedAt!==og){CE_data=d2;renderConfigeData(d2);toast('\u2705 Dades actualitzades!');btn.disabled=false;btn.innerHTML='\u25b6 Executar';}else if(n<18){_w(og,n+1);}else{toast('\u23f1\ufe0f Refresca manualment en 1 min');btn.disabled=false;btn.innerHTML='\u25b6 Executar';}}catch(e){if(n<18)_w(og,n+1);}},10000);})(CE_data?CE_data.generatedAt:null,0);}
+              if(run.conclusion==='success'){btn.innerHTML='<span class="spinner"></span> Desplegant...';toast('\u2705 Workflow completat! Esperant desplegament...');(function _w(og,n){setTimeout(async function(){try{var r2=await fetch('data/confige_latest.json?t='+Date.now());if(!r2.ok){if(n<18)_w(og,n+1);return;}var d2=await r2.json();if(d2.generatedAt&&d2.generatedAt!==og){CE_data=d2;renderConfigeData(d2);toast('\u2705 Dades actualitzades!');btn.disabled=false;btn.innerHTML='\u25b6 Executar';}else if(n<18){_w(og,n+1);}else{toast('\u23f1\ufe0f Refresca manualment en 1 min');btn.disabled=false;btn.innerHTML='\u25b6 Executar';}}catch(e){if(n<18)_w(og,n+1);}},10000);})(CE_data?CE_data.generatedAt:null,0);}
               else{btn.disabled=false;btn.innerHTML='\u25b6 Executar';toast('\u274c Error: '+run.conclusion,'err');}
             }
           }
