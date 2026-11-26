@@ -2503,11 +2503,11 @@ function renderBtcData(d){
     if(s.tier==='EXCELLENT'){
       banner.classList.add('safe');
       title.textContent='🟢 SENYAL EXCEL·LENT — COMPRA';
-      sub.textContent='Rebot confirmat al suport en zona barata';
+      sub.textContent='Doble terra confirmat al suport amb rebot, zona barata';
     }else if(s.tier==='MOLT_BONA'){
       banner.className='phase-banner danger';
-      title.textContent='🟡 SENYAL MOLT BONA — VIGILAR';
-      sub.textContent='Prop del suport en zona barata, pendent rebot';
+      title.textContent='🟡 SENYAL MOLT BONA — COMPRA';
+      sub.textContent='Prop del suport en zona barata — compra directa';
     }else if(s.venda){
       banner.className='phase-banner crash';
       title.textContent='🔴 '+s.venda.motiu;
@@ -2594,9 +2594,9 @@ function renderBtcData(d){
       }else if(s.vigilar){
         sigCard.classList.add('molt-bona');
         document.getElementById('btcSigIcon').textContent='🟡';
-        document.getElementById('btcSigTitle').textContent='MOLT BONA — VIGILAR';
+        document.getElementById('btcSigTitle').textContent='MOLT BONA — COMPRA';
         document.getElementById('btcSigDetail').textContent=s.vigilar.motiu||'';
-        document.getElementById('btcSigExtra').textContent='💰 Extra si rebota: €'+fM2(s.extra_recomanat);
+        document.getElementById('btcSigExtra').textContent='💰 EXTRA recomanat: €'+fM2(s.extra_recomanat);
         document.getElementById('btcSigExtra').style.color='var(--yellow)';
       }else if(s.venda){
         sigCard.classList.add('venda');
