@@ -572,6 +572,12 @@ a{color:var(--acc);text-decoration:none;}
       <h3>💼 La Meva Cartera (<span id="cePortCount">0</span>)</h3>
       <div id="ceMyPortfolio"><div class="ce-empty" style="padding:12px">Cap posició manual — clica COMPRAR per afegir</div></div>
     </div>
+    <div class="ce-section" id="ceModelPortfolio" style="border-left:3px solid var(--green);">
+      <h3>📋 Posicions actives — Compres a executar (<span id="ceModelCount">0</span>/8)</h3>
+      <div id="ceModelGrid" class="ce-sig-grid">
+        <div class="ce-empty">Cap posició activa</div>
+      </div>
+    </div>
     <div class="ce-section">
       <h3>🟢 Entrades avui</h3>
       <div id="ceEntriesToday" class="ce-sig-grid">
@@ -2872,6 +2878,7 @@ function renderConfigeData(d){
   ceTxt('ceRetRecWR',m.recent_win_rate+'%');
   ceCol('ceRetYTD',ceFmtPL(m.ytd_realized_pct));
 
+  ceRenderModelPositions(d.positions||[]);
   ceRenderEntries(d.entries_today||[]);
   ceRenderExits(d.exits_today||[]);
   ceRenderSignals(d.signals||[],d.signals_total||0);
@@ -2937,6 +2944,21 @@ function ceMakeBuyBtn(sym,price,stop,atr,pb,nom,sector){
   if(ceIsInPortfolio(sym))return'<span class="ce-btn-bought">✓ Comprat</span>';
   var esc=function(s){return(s||'').replace(/'/g,"\\'");};
   return'<button class="ce-btn-buy" onclick="ceBuyStock(\''+esc(sym)+'\','+price+','+stop+','+atr+','+(pb||0)+',\''+esc(nom)+'\',\''+esc(sector)+'\')">COMPRAR</button>';
+}
+
+function ceRenderModelPositions(positions){
+  document.getElementById('ceModelCount').textContent=positions.length;
+  var div=document.getElementById('ceModelGrid');
+  if(!positions.length){div.innerHTML='<div class="ce-empty">Cap posició activa</div>';return;}
+  var cfg;try{cfg=JSON.parse(localStorage.getItem('ce_config')||'{}')}catch(x){cfg={};}
+  var perPos=cfg.capital?cfg.capital/8:0;
+  div.innerHTML=positions.map(function(p){
+    var plCls=(p.pl_pct||0)>=0?'ce-trade-win':'ce-trade-loss';
+    var sizing='';
+    if(perPos>0){var sh=Math.floor(perPos/p.entry_price);sizing='<span class="tag tag-ok">'+sh+' acc \u00d7 $'+p.entry_price+' = $'+(sh*p.entry_price).toFixed(0)+'</span>';}
+    var buyBtn=typeof ceMakeBuyBtn==='function'?ceMakeBuyBtn(p.sym,p.entry_price,p.stop_loss,p.atr20||0,0,p.nom||p.sym,p.sector||''):'';
+    return'<div class="ce-sig '+plCls+'"><div class="sym-col"><div class="sym-name">'+p.sym+'</div><div class="sym-sector">'+(p.sector||'')+'</div></div><div class="details"><span>\ud83d\udfe2 COMPRA @ $'+p.entry_price+'</span><span>T.Stop: $'+(p.stop_loss||'\u2014')+'</span><span>Entrada: '+p.entry_date+'</span><span>Dies: '+(p.days_held||0)+'d</span>'+(p.pl_pct!=null?'<span class="'+ ((p.pl_pct||0)>=0?'pos':'neg')+'">'+((p.pl_pct||0)>=0?'+':'')+  (p.pl_pct||0).toFixed(1)+'%</span>':'')+sizing+'</div>'+(buyBtn?'<div>'+buyBtn+'</div>':'')+'</div>';
+  }).join('');
 }
 
 function ceRenderEntries(entries){
