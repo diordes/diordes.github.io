@@ -629,18 +629,7 @@ a{color:var(--acc);text-decoration:none;}
       <h3>💼 Posicions obertes (<span id="cePosCount">0</span>/8)</h3>
       <div class="ce-tbl-wrap">
         <table class="ce-tbl" id="cePosTbl">
-          <thead>
-            <tr>
-              <th>Ticker</th>
-              <th>Nom</th>
-              <th>Entrada</th>
-              <th>Preu</th>
-              <th>Actual</th>
-              <th>P&L</th>
-              <th>T.Stop</th>
-              <th>Dies</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Ticker</th><th>Sector</th><th>Entrada</th><th>Stop</th><th>Acc</th><th>Dies</th></tr></thead>
           <tbody id="cePosBody">
             <tr><td colspan="8" class="ce-empty">Cap posicio oberta</td></tr>
           </tbody>
@@ -2902,7 +2891,7 @@ function renderConfigeData(d){
   ceRenderExits(d.exits_today||[]);
   ceRenderSignals(d.recommendations||d.signals||[],d.signals_total||0);
   ceRenderCooldowns(d.cooldowns||{});
-  ceRenderPositions(d.positions||[]);
+  ceRenderPositions();
   ceRenderHistory(d.history||[]);
 }
 
@@ -2941,6 +2930,7 @@ function ceBuyStock(sym,price,stop,atr,pb,nom,sector){
   var sh=perPos>0?Math.floor(perPos/price):0;
   pf.push({sym:sym,nom:nom||sym,sector:sector||'',entry_price:price,stop_loss:stop,atr20:atr,pullback_pct:pb,shares:sh,invested:+(sh*price).toFixed(0),date:new Date().toISOString().split('T')[0]});
   ceSavePortfolio(pf);ceRenderPortfolio();
+  ceRenderPositions();
   if(CE_data){ceRenderEntries(CE_data.entries_today||[]);ceRenderSignals(CE_data.signals||[],CE_data.signals_total||0);}
 }
 function ceShowBuyModal(sym,price,stop,atr,pb,nom,sector){
@@ -2980,7 +2970,8 @@ function ceConfirmBuy(sym,atr,pb,nom,sector){
   pf.push({sym:sym,nom:nom||sym,sector:sector||'',entry_price:bp,stop_loss:sp,atr20:atr,pullback_pct:pb,shares:sh,invested:inv,comm_entry:ce2,comm_exit:cx,date:new Date().toISOString().split('T')[0]});
   ceSavePortfolio(pf);
   var h=ceGetHistory();h.push({type:'BUY',sym:sym,nom:nom||sym,shares:sh,price:bp,stop:sp,comm:ce2,total:+(inv+ce2).toFixed(2),date:new Date().toISOString().split('T')[0]});ceSaveHistory(h);
-  ceCloseBuyModal();ceRenderPortfolio();ceRenderHistory();
+  ceCloseBuyModal();ceRenderPortfolio();
+  ceRenderPositions();ceRenderHistory();
   if(CE_data){ceRenderEntries(CE_data.entries_today||[]);ceRenderSignals(CE_data.signals||[],CE_data.signals_total||0);}
 }
 function ceSellStock(sym){
@@ -3130,15 +3121,17 @@ function ceRenderCooldowns(cooldowns){
   }).join('')+'</div>';
 }
 
-function ceRenderPositions(positions){
-  document.getElementById('cePosCount').textContent=positions.length;
-  var tbody=document.getElementById('cePosBody');
-  if(!positions.length){tbody.innerHTML='<tr><td colspan="8" class="ce-empty">Cap posicio oberta</td></tr>';return;}
-  positions.sort(function(a,b){return(b.pl_pct||0)-(a.pl_pct||0);});
-  tbody.innerHTML=positions.map(function(p){
-    var plCls=(p.pl_pct||0)>=0?'pos':'neg';
-    return'<tr><td class="sym">'+p.sym+'</td><td style="font-size:.72rem;color:var(--tx2)">'+(p.nom||'')+'</td><td class="mono">'+p.entry_date+'</td><td class="mono">$'+p.entry_price+'</td><td class="mono">$'+(p.current_price||'\u2014')+'</td><td class="'+plCls+' mono">'+ceFmtPLt(p.pl_pct)+'</td><td class="mono" style="color:var(--red)">$'+(p.stop_loss||'\u2014')+'</td><td class="mono">'+(p.days_held||0)+'d</td></tr>';
-  }).join('');
+function ceRenderPositions(){
+  var pf=ceGetPortfolio();
+  document.getElementById("cePosCount").textContent=pf.length+"/8";
+  var tb=document.getElementById("cePosBody");
+  if(!pf.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text-muted)">Cap posici\u00f3 \u2014 clica COMPRAR a Senyals per afegir</td></tr>';return;}
+  var today=new Date();
+  tb.innerHTML=pf.map(function(p){
+    var days=0;
+    if(p.date){var d=new Date(p.date);days=Math.floor((today-d)/(1000*60*60*24));}
+    return '<tr><td><strong>'+p.sym+'</strong></td><td>'+(p.sector||"")+'</td><td>$'+(+p.entry_price).toFixed(2)+'</td><td>$'+(+p.stop_loss).toFixed(2)+'</td><td>'+(p.shares||"-")+'</td><td>'+days+'d</td></tr>';
+  }).join("");
 }
 
 function ceRenderHistory(history){history=history||ceGetHistory();
