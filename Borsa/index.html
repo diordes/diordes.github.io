@@ -629,7 +629,7 @@ a{color:var(--acc);text-decoration:none;}
       <h3>💼 Posicions obertes (<span id="cePosCount">0</span>/8)</h3>
       <div class="ce-tbl-wrap">
         <table class="ce-tbl" id="cePosTbl">
-          <thead><tr><th>Ticker</th><th>Sector</th><th>Entrada</th><th>Stop</th><th>Acc</th><th>Dies</th></tr></thead>
+          <thead><tr><th>Ticker</th><th>Sector</th><th>Entrada</th><th>Stop</th><th>Acc</th><th>Dies</th><th></th></tr></thead>
           <tbody id="cePosBody">
             <tr><td colspan="8" class="ce-empty">Cap posicio oberta</td></tr>
           </tbody>
@@ -2862,6 +2862,7 @@ async function loadConfigeData(){
 }
 
 function renderConfigeData(d){
+  window._ceLastData=d;
   var upd=document.getElementById('ceUpd');
   if(d.generatedAt)upd.textContent='Actualitzat: '+d.generatedAt.replace('T',' ').substring(0,19);
 
@@ -3125,13 +3126,24 @@ function ceRenderPositions(){
   var pf=ceGetPortfolio();
   document.getElementById("cePosCount").textContent=pf.length;
   var tb=document.getElementById("cePosBody");
-  if(!pf.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text-muted)">Cap posici\u00f3 \u2014 clica COMPRAR a Senyals per afegir</td></tr>';return;}
+  if(!pf.length){tb.innerHTML='<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text-muted)">Cap posici\u00f3 \u2014 clica COMPRAR a Senyals per afegir</td></tr>';return;}
   var today=new Date();
   tb.innerHTML=pf.map(function(p){
     var days=0;
     if(p.date){var d=new Date(p.date);days=Math.floor((today-d)/(1000*60*60*24));}
-    return '<tr><td><strong>'+p.sym+'</strong></td><td>'+(p.sector||"")+'</td><td>$'+(+p.entry_price).toFixed(2)+'</td><td>$'+(+p.stop_loss).toFixed(2)+'</td><td>'+(p.shares||"-")+'</td><td>'+days+'d</td></tr>';
+    return '<tr><td><strong>'+p.sym+'</strong></td><td>'+(p.sector||"")+'</td><td>$'+(+p.entry_price).toFixed(2)+'</td><td>$'+(+p.stop_loss).toFixed(2)+'</td><td>'+(p.shares||"-")+'</td><td>'+days+'d</td><td><button onclick="ceRemoveFromPortfolio(\''+p.sym+'\')" style="background:none;border:none;cursor:pointer;font-size:1.1em;padding:2px 6px" title="Eliminar">\u274c</button></td></tr>';
   }).join("");
+}
+function ceRemoveFromPortfolio(sym){
+  if(!confirm("Eliminar "+sym+" del portfolio?")) return;
+  var pf=ceGetPortfolio().filter(function(p){return p.sym!==sym;});
+  ceSavePortfolio(pf);
+  ceRenderPositions();
+  ceRenderPortfolio();
+  if(typeof ceRenderSignals==="function"){
+    var d=window._ceLastData;
+    if(d&&d.recommendations) ceRenderSignals(d.recommendations,d.signals_total||0);
+  }
 }
 
 function ceRenderHistory(history){history=history||ceGetHistory();
