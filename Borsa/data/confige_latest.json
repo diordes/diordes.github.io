@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-27T19:32:51",
+  "generatedAt": "2026-11-27T19:40:24",
   "date": "2026-11-27",
   "params": {
     "sma_period": 200,
@@ -148,7 +148,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "MRNA",
-      "nom": "MRNA",
+      "nom": "Moderna, Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 202.85
@@ -166,7 +166,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "PLTR",
-      "nom": "PLTR",
+      "nom": "Palantir Technologies Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 146.68
@@ -184,7 +184,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "PSX",
-      "nom": "PSX",
+      "nom": "Phillips 66",
       "sector": "",
       "in_model": false,
       "stop_loss": 223.33
@@ -202,7 +202,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "URI",
-      "nom": "URI",
+      "nom": "United Rentals, Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 957.51
@@ -220,7 +220,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "XOM",
-      "nom": "XOM",
+      "nom": "ExxonMobil Holdings Corporation",
       "sector": "",
       "in_model": false,
       "stop_loss": 152.18
@@ -238,7 +238,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "CNC",
-      "nom": "CNC",
+      "nom": "Centene Corporation",
       "sector": "",
       "in_model": false,
       "stop_loss": 59.21
@@ -256,7 +256,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "APA",
-      "nom": "APA",
+      "nom": "APA Corporation",
       "sector": "",
       "in_model": false,
       "stop_loss": 42.18
@@ -274,7 +274,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "VEEV",
-      "nom": "VEEV",
+      "nom": "Veeva Systems Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 259.71
@@ -292,7 +292,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "PM",
-      "nom": "PM",
+      "nom": "Philip Morris International Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 176.45
@@ -310,7 +310,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "ELV",
-      "nom": "ELV",
+      "nom": "Elevance Health, Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 369.11
@@ -328,7 +328,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "GDDY",
-      "nom": "GDDY",
+      "nom": "GoDaddy Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 95.21
@@ -346,7 +346,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "HUM",
-      "nom": "HUM",
+      "nom": "Humana Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 372.19
@@ -364,7 +364,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "COP",
-      "nom": "COP",
+      "nom": "ConocoPhillips",
       "sector": "",
       "in_model": false,
       "stop_loss": 128.83
@@ -382,7 +382,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "CRL",
-      "nom": "CRL",
+      "nom": "Charles River Laboratories International, Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 311.66
@@ -400,7 +400,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "MSFT",
-      "nom": "MSFT",
+      "nom": "Microsoft Corporation",
       "sector": "",
       "in_model": false,
       "stop_loss": 469.54
@@ -418,7 +418,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "WST",
-      "nom": "WST",
+      "nom": "West Pharmaceutical Services, Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 370.11
@@ -436,7 +436,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "WDAY",
-      "nom": "WDAY",
+      "nom": "Workday, Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 167.89
@@ -454,7 +454,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "NUE",
-      "nom": "NUE",
+      "nom": "Nucor Corporation",
       "sector": "",
       "in_model": false,
       "stop_loss": 233.94
@@ -472,7 +472,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "EOG",
-      "nom": "EOG",
+      "nom": "EOG Resources, Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 140.15
@@ -490,7 +490,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "HAS",
-      "nom": "HAS",
+      "nom": "Hasbro, Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 107.8
@@ -618,7 +618,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "MRNA",
-      "nom": "MRNA",
+      "nom": "Moderna, Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 202.85
@@ -636,7 +636,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "PLTR",
-      "nom": "PLTR",
+      "nom": "Palantir Technologies Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 146.68
@@ -654,7 +654,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "PSX",
-      "nom": "PSX",
+      "nom": "Phillips 66",
       "sector": "",
       "in_model": false,
       "stop_loss": 223.33
@@ -690,7 +690,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "URI",
-      "nom": "URI",
+      "nom": "United Rentals, Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 957.51
@@ -708,7 +708,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "XOM",
-      "nom": "XOM",
+      "nom": "ExxonMobil Holdings Corporation",
       "sector": "",
       "in_model": false,
       "stop_loss": 152.18
@@ -726,7 +726,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "CNC",
-      "nom": "CNC",
+      "nom": "Centene Corporation",
       "sector": "",
       "in_model": false,
       "stop_loss": 59.21
@@ -744,7 +744,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "APA",
-      "nom": "APA",
+      "nom": "APA Corporation",
       "sector": "",
       "in_model": false,
       "stop_loss": 42.18
@@ -762,7 +762,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "VEEV",
-      "nom": "VEEV",
+      "nom": "Veeva Systems Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 259.71
@@ -780,7 +780,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "PM",
-      "nom": "PM",
+      "nom": "Philip Morris International Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 176.45
@@ -798,7 +798,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "ELV",
-      "nom": "ELV",
+      "nom": "Elevance Health, Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 369.11
@@ -816,7 +816,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "GDDY",
-      "nom": "GDDY",
+      "nom": "GoDaddy Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 95.21
@@ -834,7 +834,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "HUM",
-      "nom": "HUM",
+      "nom": "Humana Inc.",
       "sector": "",
       "in_model": false,
       "stop_loss": 372.19
@@ -852,7 +852,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "COP",
-      "nom": "COP",
+      "nom": "ConocoPhillips",
       "sector": "",
       "in_model": false,
       "stop_loss": 128.83
