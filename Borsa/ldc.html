@@ -319,23 +319,27 @@ async function fetchProxy(yahooUrl) {
   var url2 = yahooUrl.replace('query1.finance.yahoo.com','query2.finance.yahoo.com');
   var enc2 = encodeURIComponent(url2);
   var attempts = [
-    { u: "https://api.allorigins.win/get?url=" + enc, wrap: true },
-    { u: "https://api.allorigins.win/raw?url=" + enc, wrap: false },
-    { u: "https://corsproxy.io/?" + enc, wrap: false },
-    { u: "https://api.codetabs.com/v1/proxy?quest=" + enc, wrap: false },
     { u: "https://api.allorigins.win/get?url=" + enc2, wrap: true },
-    { u: "https://corsproxy.io/?" + enc2, wrap: false }
+    { u: "https://api.allorigins.win/get?url=" + enc, wrap: true },
+    { u: "https://corsproxy.io/?" + enc2, wrap: false },
+    { u: "https://api.allorigins.win/raw?url=" + enc2, wrap: false },
+    { u: "https://corsproxy.io/?" + enc, wrap: false },
+    { u: "https://api.codetabs.com/v1/proxy?quest=" + enc, wrap: false }
   ];
   var lastErr = null;
   for (var i = 0; i < attempts.length; i++) {
+    var ctrl = new AbortController();
+    var tid = setTimeout(function() { ctrl.abort(); }, 8000);
     try {
-      var r = await fetch(attempts[i].u);
+      var r = await fetch(attempts[i].u, { signal: ctrl.signal });
+      clearTimeout(tid);
       if (r.ok) {
         var d = await r.json();
         return attempts[i].wrap ? JSON.parse(d.contents) : d;
       }
       lastErr = new Error('Proxy ' + (i+1) + ': HTTP ' + r.status);
     } catch(e) {
+      clearTimeout(tid);
       lastErr = e;
     }
   }
