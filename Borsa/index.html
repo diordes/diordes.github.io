@@ -204,6 +204,7 @@ a{color:var(--acc);text-decoration:none;}
 .ce-sig{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--radius);padding:10px 12px;display:flex;align-items:center;gap:12px;}
 .ce-sig .sym-col{min-width:60px;}
 .ce-sig .sym-name{font-size:.72rem;font-weight:700;color:var(--acc);font-family:var(--mono);}
+.ce-sig .sym-nom{font-size:.65rem;color:var(--tx2);line-height:1.2;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .ce-sig .sym-sector{font-size:.62rem;color:var(--tx3);}
 .ce-sig .details{flex:1;display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.68rem;color:var(--tx2);font-family:var(--mono);}
 .ce-sig .details .tag{padding:2px 6px;border-radius:4px;font-size:.62rem;font-weight:600;}
@@ -630,7 +631,7 @@ a{color:var(--acc);text-decoration:none;}
       <h3>💼 Posicions obertes (<span id="cePosCount">0</span>/8)</h3>
       <div class="ce-tbl-wrap">
         <table class="ce-tbl" id="cePosTbl">
-          <thead><tr><th>Ticker</th><th>Sector</th><th>Entrada</th><th>Stop</th><th>Acc</th><th>Dies</th><th></th></tr></thead>
+          <thead><tr><th>Ticker</th><th>Nom</th><th>Sector</th><th>Entrada</th><th>Stop</th><th>Acc</th><th>Dies</th><th></th></tr></thead>
           <tbody id="cePosBody">
             <tr><td colspan="8" class="ce-empty">Cap posicio oberta</td></tr>
           </tbody>
@@ -3017,7 +3018,7 @@ function ceRenderPortfolio(){
   if(!pf.length){div.innerHTML='<div class="ce-empty" style="padding:12px">Cap posició manual — clica COMPRAR per afegir</div>';return;}
   div.innerHTML=pf.map(function(p){
     var esc=function(s){return(s||'').replace(/'/g,"\\'");};
-    return'<div class="ce-port-item"><div style="min-width:55px"><div class="sym-name">'+p.sym+'</div><div style="font-size:.6rem;color:var(--tx3)">'+p.date+'</div></div>'+
+    return'<div class="ce-port-item"><div style="min-width:55px"><div class="sym-name">'+p.sym+'</div>'+(p.nom&&p.nom!==p.sym?'<div style="font-size:.62rem;color:var(--tx2);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+p.nom+'</div>':'')+'<div style="font-size:.6rem;color:var(--tx3)">'+p.date+'</div></div>'+
     '<div class="port-details"><span>'+p.shares+' acc @ $'+p.entry_price+'</span><span>= $'+p.invested+'</span>'+
     (p.pullback_pct?'<span class="tag tag-warn">PB '+p.pullback_pct+'%</span>':'')+
     '<span style="color:var(--red)">T.Stop $'+p.stop_loss+'</span></div>'+
@@ -3054,7 +3055,7 @@ function ceRenderModelPositions(entries){
     var pb=e.pullback_pct?'<span class="tag tag-warn">PB '+(+e.pullback_pct).toFixed(1)+'%</span>':'';
     var pf=ceGetPortfolio();var alreadyBought=pf.some(function(p){return p.sym===e.sym;});
     var buyBtn=(!alreadyBought&&typeof ceMakeBuyBtn==='function')?ceMakeBuyBtn(e.sym,e.entry_price,e.stop_loss,e.atr20||0,e.pullback_pct||0,e.nom||e.sym,e.sector||''):'';
-    return'<div class="ce-sig ce-trade-win"><div class="sym-col"><div class="sym-name">'+e.sym+'</div><div class="sym-sector">'+(e.sector||'')+'</div></div><div class="details"><span>\ud83d\udfe2 COMPRA @ $'+e.entry_price+'</span>'+pb+'<span>T.Stop: $'+(e.stop_loss||'\u2014')+'</span><span>ATR: '+(e.atr20||'')+'</span>'+sizing+'</div>'+(buyBtn?'<div>'+buyBtn+'</div>':(alreadyBought?'<div><span class="tag" style="background:var(--green);color:#fff;font-size:.75em;padding:2px 8px;border-radius:4px">\u2713 Comprada</span></div>':''  ))+'</div>';
+    return'<div class="ce-sig ce-trade-win"><div class="sym-col"><div class="sym-name">'+e.sym+'</div><div class="sym-nom">'+(e.nom&&e.nom!==e.sym?e.nom:'')+'</div><div class="sym-sector">'+(e.sector||'')+'</div></div><div class="details"><span>\ud83d\udfe2 COMPRA @ $'+e.entry_price+'</span>'+pb+'<span>T.Stop: $'+(e.stop_loss||'\u2014')+'</span><span>ATR: '+(e.atr20||'')+'</span>'+sizing+'</div>'+(buyBtn?'<div>'+buyBtn+'</div>':(alreadyBought?'<div><span class="tag" style="background:var(--green);color:#fff;font-size:.75em;padding:2px 8px;border-radius:4px">\u2713 Comprada</span></div>':''  ))+'</div>';
   }).join('');
 }
 
@@ -3068,7 +3069,7 @@ function ceRenderEntries(entries){
     if(perPos>0){var sh=Math.floor(perPos/e.entry_price);sizing='<span class="tag tag-ok">'+sh+' acc × $'+e.entry_price+' = $'+(sh*e.entry_price).toFixed(0)+'</span>';}
     var pb=e.pullback_pct?'<span class="tag tag-warn">PB '+e.pullback_pct+'%</span>':'';
     var buyBtn=ceMakeBuyBtn(e.sym,e.entry_price,e.stop_loss,e.atr20,e.pullback_pct||0,e.nom||e.sym,e.sector||'');
-    return'<div class="ce-sig ce-trade-win"><div class="sym-col"><div class="sym-name">'+e.sym+'</div><div class="sym-sector">'+(e.sector||'')+'</div></div><div class="details"><span>🟢 COMPRA @ $'+e.entry_price+'</span>'+pb+'<span>T.Stop: $'+e.stop_loss+'</span><span>ATR: '+e.atr20+'</span>'+sizing+'</div><div>'+buyBtn+'</div></div>';
+    return'<div class="ce-sig ce-trade-win"><div class="sym-col"><div class="sym-name">'+e.sym+'</div><div class="sym-nom">'+(e.nom&&e.nom!==e.sym?e.nom:'')+'</div><div class="sym-sector">'+(e.sector||'')+'</div></div><div class="details"><span>🟢 COMPRA @ $'+e.entry_price+'</span>'+pb+'<span>T.Stop: $'+e.stop_loss+'</span><span>ATR: '+e.atr20+'</span>'+sizing+'</div><div>'+buyBtn+'</div></div>';
   }).join('');
 }
 
@@ -3092,7 +3093,7 @@ function ceRenderExits(exits){
   if(!stored.length){div.innerHTML='<div class="ce-empty">No hi ha sortides pendents</div>';return;}
   div.innerHTML=stored.map(function(e){
     var dt=e.exit_date||e.date||"";
-    return'<div class="ce-sig ce-trade-lose"><div class="sym-col"><div class="sym-name">'+e.sym+'</div><div class="sym-sector">'+(e.sector||"")+'</div></div><div class="details"><span>Sortida @ $'+(e.exit_price||"--")+'</span><span>P/L: '+(e.pl_pct>=0?"+":"")+e.pl_pct+'%</span><span>Dies: '+(e.days_held||"--")+'</span>'+(dt?'<span>\ud83d\udcc5 '+dt+'</span>':"")+'</div><div><button onclick="ceMarkDone(\''+e.sym+'\')" style="background:var(--green);color:#fff;border:none;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:.8em">\u2713 Fet</button></div></div>';
+    return'<div class="ce-sig ce-trade-lose"><div class="sym-col"><div class="sym-name">'+e.sym+'</div><div class="sym-nom">'+(e.nom&&e.nom!==e.sym?e.nom:'')+'</div><div class="sym-sector">'+(e.sector||"")+'</div></div><div class="details"><span>Sortida @ $'+(e.exit_price||"--")+'</span><span>P/L: '+(e.pl_pct>=0?"+":"")+e.pl_pct+'%</span><span>Dies: '+(e.days_held||"--")+'</span>'+(dt?'<span>\ud83d\udcc5 '+dt+'</span>':"")+'</div><div><button onclick="ceMarkDone(\''+e.sym+'\')" style="background:var(--green);color:#fff;border:none;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:.8em">\u2713 Fet</button></div></div>';
   }).join("");
 }
 
@@ -3110,7 +3111,7 @@ function ceRenderSignals(signals,total){
     if(perPos>0){var sh=Math.floor(perPos/s.price);sizing='<span class="tag tag-ok">'+sh+' acc \u00d7 $'+s.price+' = $'+(sh*s.price).toFixed(0)+'</span>';}
     var alreadyBought=pf.some(function(p){return p.sym===s.sym;});
     var buyBtn=(!alreadyBought)?ceMakeBuyBtn(s.sym,s.price,+stop,s.atr20,s.pullback_pct||0,s.nom||s.sym,s.sector||""):"";
-    return'<div class="ce-sig"><div class="sym-col"><div class="sym-name">'+num+". "+s.sym+'</div><div class="sym-sector">'+(s.sector||"")+'</div></div><div class="details"><span>$'+s.price+'</span><span class="tag tag-warn">PB '+s.pullback_pct+'%</span><span>T.Stop: $'+stop+'</span><span>vs SMA200: '+(s.px_vs_sma200_pct>=0?"+":"")+s.px_vs_sma200_pct+'%</span><span>ATR: '+s.atr_vol_ratio+'</span>'+sizing+'</div>'+(buyBtn?'<div>'+buyBtn+'</div>':(alreadyBought?'<div><span class="tag" style="background:var(--green);color:#fff;font-size:.75em;padding:2px 8px;border-radius:4px">\u2713 Ja comprada</span></div>':""))+'</div>';
+    return'<div class="ce-sig"><div class="sym-col"><div class="sym-name">'+num+". "+s.sym+'</div><div class="sym-nom">'+(s.nom&&s.nom!==s.sym?s.nom:'')+'</div><div class="sym-sector">'+(s.sector||"")+'</div></div><div class="details"><span>$'+s.price+'</span><span class="tag tag-warn">PB '+s.pullback_pct+'%</span><span>T.Stop: $'+stop+'</span><span>vs SMA200: '+(s.px_vs_sma200_pct>=0?"+":"")+s.px_vs_sma200_pct+'%</span><span>ATR: '+s.atr_vol_ratio+'</span>'+sizing+'</div>'+(buyBtn?'<div>'+buyBtn+'</div>':(alreadyBought?'<div><span class="tag" style="background:var(--green);color:#fff;font-size:.75em;padding:2px 8px;border-radius:4px">\u2713 Ja comprada</span></div>':""))+'</div>';
   }).join("");
 }
 
@@ -3127,12 +3128,12 @@ function ceRenderPositions(){
   var pf=ceGetPortfolio();
   document.getElementById("cePosCount").textContent=pf.length;
   var tb=document.getElementById("cePosBody");
-  if(!pf.length){tb.innerHTML='<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text-muted)">Cap posici\u00f3 \u2014 clica COMPRAR a Senyals per afegir</td></tr>';return;}
+  if(!pf.length){tb.innerHTML='<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text-muted)">Cap posici\u00f3 \u2014 clica COMPRAR a Senyals per afegir</td></tr>';return;}
   var today=new Date();
   tb.innerHTML=pf.map(function(p){
     var days=0;
     if(p.date){var d=new Date(p.date);days=Math.floor((today-d)/(1000*60*60*24));}
-    return '<tr><td><strong>'+p.sym+'</strong></td><td>'+(p.sector||"")+'</td><td>$'+(+p.entry_price).toFixed(2)+'</td><td>$'+(+p.stop_loss).toFixed(2)+'</td><td>'+(p.shares||"-")+'</td><td>'+days+'d</td><td><button onclick="ceRemoveFromPortfolio(\''+p.sym+'\')" style="background:none;border:none;cursor:pointer;font-size:1.1em;padding:2px 6px" title="Eliminar">\u274c</button></td></tr>';
+    return '<tr><td><strong>'+p.sym+'</strong></td><td style="font-size:.72rem;color:var(--tx2);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(p.nom&&p.nom!==p.sym?p.nom:'')+'</td><td>'+(p.sector||"")+'</td><td>$'+(+p.entry_price).toFixed(2)+'</td><td>$'+(+p.stop_loss).toFixed(2)+'</td><td>'+(p.shares||"-")+'</td><td>'+days+'d</td><td><button onclick="ceRemoveFromPortfolio(\''+p.sym+'\')" style="background:none;border:none;cursor:pointer;font-size:1.1em;padding:2px 6px" title="Eliminar">\u274c</button></td></tr>';
   }).join("");
 }
 function ceRemoveFromPortfolio(sym){
