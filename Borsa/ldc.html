@@ -82,6 +82,16 @@ button:disabled{opacity:.5;cursor:not-allowed;}
   </div>
   <div style="text-align:right;margin:-12px 0 8px;">
     <button id="btnUpdate" onclick="updateStockList()" style="width:auto;padding:3px 8px;font-size:.65rem;background:transparent;border:1px solid var(--brd);color:var(--tx3);opacity:.4;cursor:pointer;">Actualitzar llista</button>
+    <button id="btnApiToggle" onclick="toggleApiConfig()" style="width:auto;padding:3px 8px;font-size:.65rem;background:transparent;border:1px solid var(--brd);color:var(--tx3);opacity:.4;cursor:pointer;margin-left:6px;" title="Configurar font de dades">&#9881; API</button>
+  </div>
+  <div id="apiConfig" class="card" style="display:none;padding:14px 16px;margin-bottom:12px;">
+    <label>TwelveData API Key <span style="font-weight:400;color:var(--tx3);">(gratis: 800 consultes/dia)</span></label>
+    <div class="row" style="margin-bottom:0;">
+      <input type="text" id="tdKey" placeholder="La teva API key de twelvedata.com" style="font-size:.85rem;">
+      <button onclick="saveTdKey()" style="width:auto;padding:8px 16px;margin-top:0;font-size:.82rem;">Desar</button>
+    </div>
+    <p style="font-size:.68rem;color:var(--tx3);margin-top:8px;">Registra't gratis a <a href="https://twelvedata.com" target="_blank" style="color:var(--acc);">twelvedata.com</a> per obtenir la clau. Sense clau, s'usa Yahoo Finance via proxy (pot fallar).</p>
+    <div id="apiStatus" style="font-size:.72rem;margin-top:6px;display:none;"></div>
   </div>
 
   <div class="card">
@@ -346,6 +356,104 @@ async function fetchProxy(yahooUrl) {
   throw lastErr || new Error('Cap proxy disponible. Torna-ho a provar en uns minuts.');
 }
 
+/* ---- TwelveData API config ---- */
+function toggleApiConfig() {
+  var el = document.getElementById('apiConfig');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  if (el.style.display === 'block') {
+    try { document.getElementById('tdKey').value = localStorage.getItem('td_key') || ''; } catch(e) {}
+  }
+}
+function saveTdKey() {
+  var key = document.getElementById('tdKey').value.trim();
+  var status = document.getElementById('apiStatus');
+  try {
+    if (key) {
+      localStorage.setItem('td_key', key);
+      status.textContent = '✓ Clau desada correctament';
+      status.style.color = 'var(--green)';
+    } else {
+      localStorage.removeItem('td_key');
+      status.textContent = "Clau eliminada (s'usarà Yahoo proxy)";
+      status.style.color = 'var(--yellow)';
+    }
+    status.style.display = 'block';
+    setTimeout(function(){ status.style.display = 'none'; }, 3000);
+  } catch(e) {
+    status.textContent = 'Error: ' + e.message;
+    status.style.color = 'var(--red)';
+    status.style.display = 'block';
+  }
+}
+
+/* ---- Data fetching abstraction ---- */
+async function getData(ticker) {
+  var tdKey = null;
+  try { tdKey = localStorage.getItem('td_key'); } catch(e) {}
+
+  /* Try TwelveData first if API key is configured */
+  if (tdKey) {
+    try {
+      var url = 'https://api.twelvedata.com/time_series?symbol='
+        + encodeURIComponent(ticker)
+        + '&interval=1day&outputsize=252&apikey='
+        + encodeURIComponent(tdKey);
+      var ctrl = new AbortController();
+      var tid = setTimeout(function(){ ctrl.abort(); }, 15000);
+      var r = await fetch(url, { signal: ctrl.signal });
+      clearTimeout(tid);
+      if (r.ok) {
+        var json = await r.json();
+        if (json.status === 'ok' && json.values && json.values.length > 0) {
+          /* TwelveData returns newest-first; reverse to oldest-first */
+          var vals = json.values.slice().reverse();
+          var highs = [], lows = [], closes = [];
+          for (var i = 0; i < vals.length; i++) {
+            highs.push(parseFloat(vals[i].high));
+            lows.push(parseFloat(vals[i].low));
+            closes.push(parseFloat(vals[i].close));
+          }
+          return { highs: highs, lows: lows, closes: closes, companyName: '', source: 'twelvedata' };
+        }
+        if (json.code === 401 || json.code === 403) {
+          throw new Error('API key invàlida. Revisa-la a ⚙ API.');
+        }
+        if (json.code === 429) {
+          throw new Error("Límit diari assolit (800/dia). Torna demà o treu la clau per usar Yahoo proxy.");
+        }
+        /* Other TwelveData error (e.g. unknown symbol) — fall through to Yahoo */
+      }
+    } catch(e) {
+      /* Re-throw auth/rate errors, swallow network errors to try Yahoo */
+      if (e.message && (e.message.indexOf('invàlida') >= 0 || e.message.indexOf('mit') >= 0)) throw e;
+    }
+  }
+
+  /* Fallback: Yahoo Finance via CORS proxies */
+  try {
+    var yahooUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/'
+      + encodeURIComponent(ticker) + '?interval=1d&range=1y';
+    var data = await fetchProxy(yahooUrl);
+    var result = data.chart && data.chart.result && data.chart.result[0];
+    if (!result) throw new Error('Ticker no trobat');
+    var meta = result.meta || {};
+    var cName = meta.shortName || meta.longName || '';
+    var q = result.indicators && result.indicators.quote && result.indicators.quote[0];
+    if (!q) throw new Error('Sense dades');
+    var yHighs = q.high.filter(function(v){ return v != null; });
+    var yLows = q.low.filter(function(v){ return v != null; });
+    var yCloses = q.close.filter(function(v){ return v != null; });
+    return { highs: yHighs, lows: yLows, closes: yCloses, companyName: cName, source: 'yahoo' };
+  } catch(e) {
+    var hasTdKey = false;
+    try { hasTdKey = !!localStorage.getItem('td_key'); } catch(ex) {}
+    if (!hasTdKey) {
+      throw new Error("No s'han pogut obtenir dades. Configura una API key gratuïta a ⚙ API (botó dalt) per usar TwelveData.");
+    }
+    throw e;
+  }
+}
+
 async function calcular() {
   var ticker = document.getElementById('ticker').value.trim().toUpperCase();
   var companyName = document.getElementById('ticker').getAttribute('data-company') || '';
@@ -362,20 +470,11 @@ async function calcular() {
   btn.innerHTML = '<span class="spinner"></span> Analitzant...';
 
   try {
-    var yahooUrl = "https://query1.finance.yahoo.com/v8/finance/chart/" + encodeURIComponent(ticker) + "?interval=1d&range=1y";
-    var data = await fetchProxy(yahooUrl);
-
-    var result = data.chart && data.chart.result && data.chart.result[0];
-    if (!result) throw new Error('Ticker no trobat');
-    var meta = result.meta || {};
-    if (!companyName && meta.shortName) companyName = meta.shortName;
-    if (!companyName && meta.longName) companyName = meta.longName;
-    var q = result.indicators && result.indicators.quote && result.indicators.quote[0];
-    if (!q) throw new Error('Sense dades');
-
-    var highs = q.high.filter(function(v){ return v != null; });
-    var lows = q.low.filter(function(v){ return v != null; });
-    var closes = q.close.filter(function(v){ return v != null; });
+    var d = await getData(ticker);
+    var highs = d.highs;
+    var lows = d.lows;
+    var closes = d.closes;
+    if (!companyName && d.companyName) companyName = d.companyName;
     if (closes.length < 220) throw new Error('Dades insuficients (cal 220+ dies)');
 
     var price = closes[closes.length - 1];
