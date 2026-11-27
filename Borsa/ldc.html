@@ -15,7 +15,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--font);background:var(--bg);color:var(--tx);line-height:1.5;min-height:100vh;padding:20px;}
-.container{max-width:640px;margin:0 auto;}
+.container{max-width:720px;margin:0 auto;}
 .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
 .header a{color:var(--acc);text-decoration:none;font-size:.85rem;}
 h1{font-size:1.5rem;margin-bottom:4px;}
@@ -47,6 +47,28 @@ button:disabled{opacity:.5;cursor:not-allowed;}
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .section-title{font-size:.88rem;font-weight:700;margin:16px 0 8px;}
+/* History */
+.hist-title{display:flex;justify-content:space-between;align-items:center;}
+.hist-title button{width:auto;padding:4px 10px;font-size:.72rem;margin:0;background:transparent;border:1px solid var(--brd);color:var(--tx3);}
+.hist-title button:hover{color:var(--tx);border-color:var(--tx3);}
+.hist-row{font-family:var(--mono);font-size:.72rem;padding:6px 0;border-bottom:1px solid var(--brd);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;color:var(--tx2);}
+.hist-row:last-child{border:none;}
+.hist-row .tk{color:var(--acc);font-weight:700;min-width:48px;}
+.hist-row .ok{color:var(--green);}
+.hist-row .no{color:var(--red);}
+.hist-row .warn{color:var(--yellow);}
+.hist-row .del{cursor:pointer;color:var(--tx3);margin-left:auto;}
+.hist-row .del:hover{color:var(--red);}
+/* Autocomplete */
+.input-wrap{position:relative;flex:1;}
+.input-wrap input{width:100%;}
+.ac-list{position:absolute;top:100%;left:0;right:0;background:var(--bg2);border:1px solid var(--brd);border-top:none;border-radius:0 0 8px 8px;max-height:220px;overflow-y:auto;z-index:100;display:none;}
+.ac-item{padding:8px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:.88rem;border-bottom:1px solid var(--brd);}
+.ac-item:last-child{border:none;}
+.ac-item:hover,.ac-item.sel{background:var(--bg3);}
+.ac-item .sym{font-weight:700;color:var(--acc);font-family:var(--mono);}
+.ac-item .nm{color:var(--tx2);font-size:.78rem;text-align:right;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ac-item .ex{font-size:.68rem;color:var(--tx3);margin-left:4px;}
 </style>
 </head>
 <body>
@@ -56,22 +78,23 @@ button:disabled{opacity:.5;cursor:not-allowed;}
       <h1>Buscador <span>LdC</span></h1>
       <p class="sub">Trailing stop + condicions d'entrada</p>
     </div>
-    <a href="./">← Tornar a Borsa</a>
+    <a href="./">&#8592; Tornar a Borsa</a>
   </div>
 
   <div class="card">
     <div class="row">
-      <div>
-        <label>Ticker</label>
-        <input type="text" id="ticker" placeholder="AAPL, MSFT, NVDA..." value="AAPL" autocomplete="off">
+      <div class="input-wrap">
+        <label>Ticker o nom d'empresa</label>
+        <input type="text" id="ticker" placeholder="AAPL, Microsoft, Tesla..." value="" autocomplete="off">
+        <div class="ac-list" id="acList"></div>
       </div>
       <div>
         <label>Multiplicador LdC</label>
         <select id="mult">
-          <option value="1.2">1.2×</option>
-          <option value="1.3">1.3×</option>
-          <option value="1.4" selected>1.4× (recomanat)</option>
-          <option value="1.5">1.5×</option>
+          <option value="1.2">1.2&#215;</option>
+          <option value="1.3">1.3&#215;</option>
+          <option value="1.4" selected>1.4&#215; (recomanat)</option>
+          <option value="1.5">1.5&#215;</option>
         </select>
       </div>
     </div>
@@ -80,136 +103,339 @@ button:disabled{opacity:.5;cursor:not-allowed;}
   </div>
 
   <div id="result" class="card" style="display:none;">
-    <div class="section-title">Trailing Stop (LdC)</div>
-    <div class="metric"><span class="label">Preu actual</span><span class="val" id="rPrice">—</span></div>
-    <div class="metric"><span class="label">ATR(20)</span><span class="val" id="rAtr">—</span></div>
-    <div class="metric"><span class="label">LdC avui</span><span class="val acc" id="rLdc">—</span></div>
-    <div class="metric"><span class="label">Distància al stop</span><span class="val" id="rDist">—</span></div>
+    <div class="section-title" id="resultTitle">Trailing Stop (LdC)</div>
+    <div class="metric"><span class="label">Preu actual</span><span class="val" id="rPrice">&#8212;</span></div>
+    <div class="metric"><span class="label">ATR(20)</span><span class="val" id="rAtr">&#8212;</span></div>
+    <div class="metric"><span class="label">LdC avui</span><span class="val acc" id="rLdc">&#8212;</span></div>
+    <div class="metric"><span class="label">Dist&#224;ncia al stop</span><span class="val" id="rDist">&#8212;</span></div>
 
     <div class="section-title">Condicions d'entrada (Config E)</div>
-    <div class="metric"><span class="label">Preu vs SMA200</span><span class="val" id="rSma">—</span></div>
-    <div class="metric"><span class="label">SMA200 inclinació</span><span class="val" id="rSlope">—</span></div>
-    <div class="metric"><span class="label">Pullback (20d)</span><span class="val" id="rPull">—</span></div>
-    <div class="metric"><span class="label">ATR filter</span><span class="val" id="rAtrF">—</span></div>
+    <div class="metric"><span class="label">Preu vs SMA200</span><span class="val" id="rSma">&#8212;</span></div>
+    <div class="metric"><span class="label">SMA200 inclinaci&#243;</span><span class="val" id="rSlope">&#8212;</span></div>
+    <div class="metric"><span class="label">Pullback (20d)</span><span class="val" id="rPull">&#8212;</span></div>
+    <div class="metric"><span class="label">ATR filter</span><span class="val" id="rAtrF">&#8212;</span></div>
 
     <div id="statusBadge"></div>
     <p class="note" id="recentNote"></p>
-    <p class="note">El stop real és el <strong>màxim</strong> entre el LdC d'avui i el que ja tenies. Només es mou a l'alça.</p>
+    <p class="note">El stop real &#233;s el <strong>m&#224;xim</strong> entre el LdC d'avui i el que ja tenies. Nom&#233;s es mou a l'al&#231;a.</p>
+  </div>
+
+  <div id="histCard" class="card" style="display:none;">
+    <div class="hist-title">
+      <div class="section-title" style="margin:0;">Historial</div>
+      <button onclick="clearHistory()">Esborrar</button>
+    </div>
+    <div id="histBody" style="margin-top:8px;"></div>
   </div>
 </div>
 
 <script>
+var history = [];
+try { history = JSON.parse(localStorage.getItem('ldc_history') || '[]'); } catch(e) {}
+renderHistory();
+
+function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+/* ---- Autocomplete ---- */
+var acTimer = null;
+var acSel = -1;
+var tickerInput = document.getElementById('ticker');
+var acList = document.getElementById('acList');
+
+tickerInput.addEventListener('input', function() {
+  clearTimeout(acTimer);
+  var q = this.value.trim();
+  if (q.length < 1) { acList.style.display = 'none'; return; }
+  acTimer = setTimeout(function(){ searchTickers(q); }, 300);
+});
+
+tickerInput.addEventListener('keydown', function(e) {
+  var items = acList.querySelectorAll('.ac-item');
+  if (acList.style.display === 'none' || items.length === 0) {
+    if (e.key === 'Enter') { e.preventDefault(); calcular(); }
+    return;
+  }
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    acSel = Math.min(acSel + 1, items.length - 1);
+    updateAcSel(items);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    acSel = Math.max(acSel - 1, 0);
+    updateAcSel(items);
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (acSel >= 0 && acSel < items.length) {
+      items[acSel].click();
+    } else {
+      acList.style.display = 'none';
+      calcular();
+    }
+  } else if (e.key === 'Escape') {
+    acList.style.display = 'none';
+    acSel = -1;
+  }
+});
+
+function updateAcSel(items) {
+  for (var i = 0; i < items.length; i++) {
+    items[i].classList.toggle('sel', i === acSel);
+  }
+  if (acSel >= 0 && items[acSel]) items[acSel].scrollIntoView({block:'nearest'});
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.input-wrap')) acList.style.display = 'none';
+});
+
+async function searchTickers(q) {
+  var searchUrl = "https://query2.finance.yahoo.com/v1/finance/search?q=" + encodeURIComponent(q) + "&quotesCount=8&newsCount=0&enableFuzzyQuery=false&quotesQueryId=tss_match_phrase_query";
+  try {
+    var data = await fetchProxy(searchUrl);
+    if (!data || !data.quotes || !data.quotes.length) { acList.style.display = 'none'; return; }
+    acSel = -1;
+    acList.innerHTML = '';
+    var seen = {};
+    for (var i = 0; i < data.quotes.length; i++) {
+      var item = data.quotes[i];
+      if (!item.symbol) continue;
+      var qtype = item.quoteType || '';
+      if (qtype !== 'EQUITY' && qtype !== 'ETF') continue;
+      if (seen[item.symbol]) continue;
+      seen[item.symbol] = true;
+      var div = document.createElement('div');
+      div.className = 'ac-item';
+      var exch = item.exchDisp || item.exchange || '';
+      div.innerHTML = '<span class="sym">' + esc(item.symbol) + (exch ? '<span class="ex">' + esc(exch) + '</span>' : '') + '</span><span class="nm">' + esc(item.shortname || item.longname || '') + '</span>';
+      div.setAttribute('data-sym', item.symbol);
+      div.setAttribute('data-name', item.shortname || item.longname || '');
+      div.addEventListener('click', function() {
+        tickerInput.value = this.getAttribute('data-sym');
+        tickerInput.setAttribute('data-company', this.getAttribute('data-name'));
+        acList.style.display = 'none';
+        calcular();
+      });
+      acList.appendChild(div);
+    }
+    if (acList.children.length > 0) acList.style.display = 'block';
+    else acList.style.display = 'none';
+  } catch(e) {
+    acList.style.display = 'none';
+  }
+}
+
+/* ---- History ---- */
+function saveHistory() {
+  try { localStorage.setItem('ldc_history', JSON.stringify(history)); } catch(e) {}
+}
+function clearHistory() {
+  history = [];
+  saveHistory();
+  renderHistory();
+}
+function removeHistItem(i) {
+  history.splice(i, 1);
+  saveHistory();
+  renderHistory();
+}
+function renderHistory() {
+  var card = document.getElementById('histCard');
+  var body = document.getElementById('histBody');
+  if (!history.length) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+  body.innerHTML = '';
+  for (var i = 0; i < history.length; i++) {
+    var h = history[i];
+    var sma_cls = h.aboveSma ? 'ok' : 'no';
+    var slope_cls = h.smaRising ? 'ok' : 'no';
+    var pb_cls = (h.pullback >= 1 && h.pullback <= 15) ? 'ok' : 'warn';
+    var atr_cls = h.atrOk ? 'ok' : 'no';
+    var entry_cls = h.meetsNow ? 'ok' : (h.metRecently ? 'warn' : 'no');
+    var entry_txt = h.meetsNow ? 'ENTRADA ARA' : (h.metRecently ? 'fa ' + h.daysAgo + 'd' : 'No compleix');
+    var dist_cls = parseFloat(h.dist) > 6 ? 'ok' : 'warn';
+    var nameStr = h.name ? esc(h.name) : '';
+
+    var row = document.createElement('div');
+    row.className = 'hist-row';
+    row.innerHTML = '<span class="tk">' + esc(h.ticker) + '</span>' +
+      (nameStr ? '<span style="color:var(--tx3);font-size:.65rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + nameStr + '</span>' : '') +
+      '<span>' + h.mult + 'x</span>' +
+      '<span>$' + h.price + '</span>' +
+      '<span>LdC <span class="' + (parseFloat(h.dist) > 0 ? 'ok' : '') + '">' + h.ldc + '</span></span>' +
+      '<span class="' + dist_cls + '">' + h.dist + '%</span>' +
+      '<span>SMA<span class="' + sma_cls + '">' + (h.aboveSma ? "â" : "â") + '</span></span>' +
+      '<span>Incl<span class="' + slope_cls + '">' + (h.smaRising ? "â" : "â") + '</span></span>' +
+      '<span>PB<span class="' + pb_cls + '">' + h.pullback + '%</span></span>' +
+      '<span>ATR<span class="' + atr_cls + '">' + (h.atrOk ? "â" : "â") + '</span></span>' +
+      '<span class="' + entry_cls + '" style="font-weight:700">' + entry_txt + '</span>' +
+      '<span class="del" onclick="removeHistItem(' + i + ')">â</span>';
+    body.appendChild(row);
+  }
+}
+
+function addToHistory(data) {
+  for (var i = history.length - 1; i >= 0; i--) {
+    if (history[i].ticker === data.ticker && history[i].mult === data.mult) {
+      history.splice(i, 1);
+    }
+  }
+  history.unshift(data);
+  if (history.length > 50) history.pop();
+  saveHistory();
+  renderHistory();
+}
+
+/* ---- Calculations ---- */
 function sma(arr, period) {
   if (arr.length < period) return null;
-  return arr.slice(-period).reduce((a,b) => a+b, 0) / period;
+  return arr.slice(-period).reduce(function(a,b){ return a+b; }, 0) / period;
 }
 function atr(highs, lows, closes, period) {
   if (closes.length < period + 1) return null;
-  let sum = 0;
-  for (let i = closes.length - period; i < closes.length; i++) {
-    const tr = Math.max(highs[i]-lows[i], Math.abs(highs[i]-closes[i-1]), Math.abs(lows[i]-closes[i-1]));
+  var sum = 0;
+  for (var i = closes.length - period; i < closes.length; i++) {
+    var tr = Math.max(highs[i]-lows[i], Math.abs(highs[i]-closes[i-1]), Math.abs(lows[i]-closes[i-1]));
     sum += tr;
   }
   return sum / period;
 }
 
+async function fetchProxy(yahooUrl) {
+  var proxies = [
+    "https://api.allorigins.win/raw?url=",
+    "https://corsproxy.io/?"
+  ];
+  var lastErr = null;
+  for (var i = 0; i < proxies.length; i++) {
+    try {
+      var r = await fetch(proxies[i] + encodeURIComponent(yahooUrl));
+      if (r.ok) return await r.json();
+      lastErr = new Error('HTTP ' + r.status);
+    } catch(e) {
+      lastErr = e;
+    }
+  }
+  throw lastErr || new Error('Error de connexiÃ³');
+}
+
 async function calcular() {
-  const ticker = document.getElementById("ticker").value.trim().toUpperCase();
-  const mult = parseFloat(document.getElementById("mult").value);
-  const btn = document.getElementById("btn");
-  const err = document.getElementById("error");
-  const res = document.getElementById("result");
+  var ticker = document.getElementById('ticker').value.trim().toUpperCase();
+  var companyName = document.getElementById('ticker').getAttribute('data-company') || '';
+  var mult = parseFloat(document.getElementById('mult').value);
+  var btn = document.getElementById('btn');
+  var err = document.getElementById('error');
+  var res = document.getElentById('result');
 
-  if (!ticker) { showError("Escriu un ticker"); return; }
+  if (!ticker) { showError("Escriu un ticker o nom d'empresa"); return; }
 
-  err.style.display = "none";
-  res.style.display = "none";
+  err.style.display = 'none';
+  res.style.display = 'none';
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"><\/span> Analitzant...';
+  btn.innerHTML = '<span class="spinner"></span> Analitzant...';
 
   try {
-    const yahooUrl = "https://query1.finance.yahoo.com/v8/finance/chart/" + encodeURIComponent(ticker) + "?interval=1d&range=1y";
-    const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(yahooUrl);
-    const r = await fetch(proxyUrl);
-    if (!r.ok) throw new Error("Error de connexi\u00f3");
-    const data = await r.json();
+    var yahooUrl = "https://query1.finance.yahoo.com/v8/finance/chart/" + encodeURIComponent(ticker) + "?interval=1d&range=1y";
+    var data = await fetchProxy(yahooUrl);
 
-    const result = data.chart?.result?.[0];
-    if (!result) throw new Error("Ticker no trobat");
-    const q = result.indicators?.quote?.[0];
-    if (!q) throw new Error("Sense dades");
+    var result = data.chart && data.chart.result && data.chart.result[0];
+    if (!result) throw new Error('Ticker no trobat');
+    var meta = result.meta || {};
+    if (!companyName && meta.shortName) companyName = meta.shortName;
+    if (!companyName && meta.longName) companyName = meta.longName;
+    var q = result.indicators && result.indicators.quote && result.indicators.quote[0];
+    if (!q) throw new Error('Sense dades');
 
-    const highs = q.high.filter(v => v != null);
-    const lows = q.low.filter(v => v != null);
-    const closes = q.close.filter(v => v != null);
-    if (closes.length < 220) throw new Error("Dades insuficients");
+    var highs = q.high.filter(function(v){ return v != null; });
+    var lows = q.low.filter(function(v){ return v != null; });
+    var closes = q.close.filter(function(v){ return v != null; });
+    if (closes.length < 220) throw new Error('Dades insuficients (cal 220+ dies)');
 
-    const price = closes[closes.length - 1];
-    const atr20 = atr(highs, lows, closes, 20);
-    const sma200 = sma(closes, 200);
-    const sma200_prev = sma(closes.slice(0, -5), 200);
-    const recentHigh20 = Math.max(...highs.slice(-20));
-    const ldc = recentHigh20 - (mult * atr20);
-    const dist = ((price - ldc) / price * 100);
+    var price = closes[closes.length - 1];
+    var atr20 = atr(highs, lows, closes, 20);
+    var sma200 = sma(closes, 200);
+    var sma200_prev = sma(closes.slice(0, -5), 200);
+    var recentHigh20 = Math.max.apply(null, highs.slice(-20));
+    var ldc = recentHigh20 - (mult * atr20);
+    var dist = ((price - ldc) / price * 100);
 
-    const aboveSma = price > sma200;
-    const smaRising = sma200 > sma200_prev;
-    const pullback = ((recentHigh20 - price) / recentHigh20 * 100);
-    const atrOk = atr20 < (sma200 * 0.03);
-    const meetsNow = aboveSma && smaRising && pullback >= 1 && pullback <= 15 && atrOk;
+    var aboveSma = price > sma200;
+    var smaRising = sma200 > sma200_prev;
+    var pullback = ((recentHigh20 - price) / recentHigh20 * 100);
+    var atrOk = atr20 < (sma200 * 0.03);
+    var meetsNow = aboveSma && smaRising && pullback >= 1 && pullback <= 15 && atrOk;
 
-    let metRecently = false, daysAgo = null;
-    for (let d = 1; d <= 10; d++) {
-      const idx = closes.length - 1 - d;
+    var metRecently = false, daysAgo = null;
+    for (var d = 1; d <= 10; d++) {
+      var idx = closes.length - 1 - d;
       if (idx < 200) break;
-      const p = closes[idx];
-      const s200 = sma(closes.slice(0, idx+1), 200);
-      const s200p = sma(closes.slice(0, idx-4), 200);
-      const rh = Math.max(...highs.slice(Math.max(0, idx-19), idx+1));
-      const pb = ((rh - p) / rh * 100);
-      const a = atr(highs.slice(0, idx+1), lows.slice(0, idx+1), closes.slice(0, idx+1), 20);
+      var p = closes[idx];
+      var s200 = sma(closes.slice(0, idx+1), 200);
+      var s200p = sma(closes.slice(0, idx-4), 200);
+      var rh = Math.max.apply(null, highs.slice(Math.max(0, idx-19), idx+1));
+      var pb = ((rh - p) / rh * 100);
+      var a = atr(highs.slice(0, idx+1), lows.slice(0, idx+1), closes.slice(0, idx+1), 20);
       if (p > s200 && s200 > s200p && pb >= 1 && pb <= 15 && a < s200 * 0.03) {
         metRecently = true; daysAgo = d; break;
       }
     }
 
-    document.getElementById("rPrice").textContent = price.toFixed(2);
-    document.getElementById("rAtr").textContent = atr20.toFixed(2);
-    document.getElementById("rLdc").textContent = ldc.toFixed(2);
-    document.getElementById("rDist").textContent = dist.toFixed(1) + "%";
-    document.getElementById("rDist").className = "val " + (dist > 6 ? "green" : "yellow");
+    var titleEl = document.getElementById('resultTitle');
+    titleEl.textContent = ticker + (companyName ? ' â ' + companyName : '') + ' â Trailing Stop (LdC)';
 
-    document.getElementById("rSma").textContent = aboveSma ? "Per sobre" : "Per sota";
-    document.getElementById("rSma").className = "val " + (aboveSma ? "green" : "red");
-    document.getElementById("rSlope").textContent = smaRising ? "A l'al\u00e7a" : "A la baixa / plana";
-    document.getElementById("rSlope").className = "val " + (smaRising ? "green" : "red");
-    document.getElementById("rPull").textContent = pullback.toFixed(1) + "%";
-    document.getElementById("rPull").className = "val " + (pullback >= 1 ? "green" : "yellow");
-    document.getElementById("rAtrF").textContent = atrOk ? "OK" : "Alta";
-    document.getElementById("rAtrF").className = "val " + (atrOk ? "green" : "red");
+    document.getElementById('rPrice').textContent = price.toFixed(2);
+    document.getElementById('rAtr').textContent = atr20.toFixed(2);
+    document.getElementById('rLdc').textContent = ldc.toFixed(2);
+    document.getElementById('rDist').textContent = dist.toFixed(1) + '%';
+    document.getElementById('rDist').className = 'val ' + (dist > 6 ? 'green' : 'yellow');
 
-    const badge = document.getElementById("statusBadge");
-    if (meetsNow) badge.innerHTML = '<div class="badge ok">Compleix entrada ARA<\/div>';
-    else if (metRecently) badge.innerHTML = '<div class="badge recent">Complia fa ' + daysAgo + ' dies<\/div>';
-    else badge.innerHTML = '<div class="badge no">No compleix<\/div>';
+    document.getElementById('rSma').textContent = aboveSma ? 'Per sobre' : 'Per sota';
+    document.getElementById('rSma').className = 'val ' + (aboveSma ? 'green' : 'red');
+    document.getElementById('rSlope').textContent = smaRising ? "A l'alÃ§a" : 'A la baixa / plana';
+    document.getElementById('rSlope').className = 'val ' + (smaRising ? 'green' : 'red');
+    document.getElementById('rPull').textContent = pullback.toFixed(1) + '%';
+    document.getElementById('rPull').className = 'val ' + (pullback >= 1 ? 'green' : 'yellow');
+    document.getElementById('rAtrF').textContent = atrOk ? 'OK' : 'Alta';
+    document.getElementById('rAtrF').className = 'val ' + (atrOk ? 'green' : 'red');
 
-    document.getElementById("recentNote").textContent = metRecently && !meetsNow
-      ? "Fa " + daysAgo + " dies s\u00ed que complia les condicions." : "";
+    var badge = document.getElementById('statusBadge');
+    if (meetsNow) badge.innerHTML = '<div class="badge ok">Compleix entrada ARA</div>';
+    else if (metRecently) badge.innerHTML = '<div class="badge recent">Complia fa ' + daysAgo + ' dies</div>';
+    else badge.innerHTML = '<div class="badge no">No compleix</div>';
 
-    res.style.display = "block";
+    document.getElementById('recentNote').textContent = metRecently && !meetsNow
+      ? 'Fa ' + daysAgo + ' dies sÃ­ que complia les condicions.' : '';
+
+    res.style.display = 'block';
+
+    addToHistory({
+      ticker: ticker,
+      name: companyName,
+      mult: mult,
+      price: price.toFixed(2),
+      ldc: ldc.toFixed(2),
+      dist: dist.toFixed(1),
+      aboveSma: aboveSma,
+      smaRising: smaRising,
+      pullback: pullback.toFixed(1),
+      atrOk: atrOk,
+      meetsNow: meetsNow,
+      metRecently: metRecently,
+      daysAgo: daysAgo
+    });
+
+    document.getElementById('ticker').removeAttribute('data-company');
   } catch (e) {
-    showError(e.message || "Error");
+    showError(e.message || 'Error');
   } finally {
     btn.disabled = false;
-    btn.innerHTML = "Analitzar";
+    btn.innerHTML = 'Analitzar';
   }
 }
 function showError(msg) {
-  const err = document.getElementById("error");
+  var err = document.getElementById('error');
   err.textContent = msg;
-  err.style.display = "block";
+  err.style.display = 'block';
 }
-document.getElementById("ticker").addEventListener("keydown", function(e) { if (e.key === "Enter") calcular(); });
 </script>
 </body>
 </html>
