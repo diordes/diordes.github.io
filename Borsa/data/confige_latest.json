@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-27T18:21:29",
+  "generatedAt": "2026-11-27T19:08:37",
   "date": "2026-11-27",
   "params": {
     "sma_period": 200,
@@ -23,7 +23,7 @@
   "positions": [
     {
       "sym": "P",
-      "nom": "P",
+      "nom": "Everpure, Inc.",
       "sector": "",
       "entry_date": "2026-11-25",
       "entry_price": 92.2,
@@ -37,7 +37,7 @@
     },
     {
       "sym": "ILMN",
-      "nom": "ILMN",
+      "nom": "Illumina, Inc.",
       "sector": "",
       "entry_date": "2026-11-25",
       "entry_price": 204.52,
@@ -51,7 +51,7 @@
     },
     {
       "sym": "NTAP",
-      "nom": "NTAP",
+      "nom": "NetApp, Inc.",
       "sector": "",
       "entry_date": "2026-11-25",
       "entry_price": 163.0,
@@ -65,7 +65,7 @@
     },
     {
       "sym": "FTNT",
-      "nom": "FTNT",
+      "nom": "Fortinet, Inc.",
       "sector": "",
       "entry_date": "2026-11-25",
       "entry_price": 132.5,
@@ -79,7 +79,7 @@
     },
     {
       "sym": "CRWD",
-      "nom": "CRWD",
+      "nom": "CrowdStrike Holdings, Inc.",
       "sector": "",
       "entry_date": "2026-11-25",
       "entry_price": 210.86,
@@ -93,7 +93,7 @@
     },
     {
       "sym": "MPC",
-      "nom": "MPC",
+      "nom": "Marathon Petroleum Corporation",
       "sector": "",
       "entry_date": "2026-11-25",
       "entry_price": 355.16,
@@ -107,7 +107,7 @@
     },
     {
       "sym": "VLO",
-      "nom": "VLO",
+      "nom": "Valero Energy Corporation",
       "sector": "",
       "entry_date": "2026-11-25",
       "entry_price": 324.67,
@@ -121,7 +121,7 @@
     },
     {
       "sym": "ZBRA",
-      "nom": "ZBRA",
+      "nom": "Zebra Technologies Corporation",
       "sector": "",
       "entry_date": "2026-11-25",
       "entry_price": 314.97,
@@ -510,7 +510,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "P",
-      "nom": "P",
+      "nom": "Everpure, Inc.",
       "sector": "",
       "in_model": true,
       "stop_loss": 76.9
@@ -528,7 +528,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "ILMN",
-      "nom": "ILMN",
+      "nom": "Illumina, Inc.",
       "sector": "",
       "in_model": true,
       "stop_loss": 183.71
@@ -546,7 +546,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "NTAP",
-      "nom": "NTAP",
+      "nom": "NetApp, Inc.",
       "sector": "",
       "in_model": true,
       "stop_loss": 146.54
@@ -564,7 +564,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "MPC",
-      "nom": "MPC",
+      "nom": "Marathon Petroleum Corporation",
       "sector": "",
       "in_model": true,
       "stop_loss": 328.79
@@ -582,7 +582,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "CRWD",
-      "nom": "CRWD",
+      "nom": "CrowdStrike Holdings, Inc.",
       "sector": "",
       "in_model": true,
       "stop_loss": 188.53
@@ -600,7 +600,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "VLO",
-      "nom": "VLO",
+      "nom": "Valero Energy Corporation",
       "sector": "",
       "in_model": true,
       "stop_loss": 302.44
@@ -672,7 +672,7 @@
       "pullback_ok": true,
       "vol_ok": true,
       "sym": "ZBRA",
-      "nom": "ZBRA",
+      "nom": "Zebra Technologies Corporation",
       "sector": "",
       "in_model": true,
       "stop_loss": 292.31
