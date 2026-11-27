@@ -128,6 +128,9 @@ button:disabled{opacity:.5;cursor:not-allowed;}
       <div class="section-title" style="margin:0;">Historial</div>
       <button onclick="clearHistory()">Esborrar</button>
     </div>
+    <div style="font-size:.65rem;color:var(--tx3);margin-top:6px;line-height:1.6;">
+      <strong>Llegenda:</strong> SMA = Preu vs SMA200 · Incl = Inclinació SMA200 (5d) · PB = Pullback des del màxim 20d · ATR = Filtre volatilitat (ATR &lt; 3% SMA) · LdC = Trailing Stop · <span style="color:var(--green)">✓ = Compleix</span> · <span style="color:var(--red)">✗ = No compleix</span>
+    </div>
     <div id="histBody" style="margin-top:8px;"></div>
   </div>
 </div>
@@ -312,21 +315,31 @@ function atr(highs, lows, closes, period) {
 }
 
 async function fetchProxy(yahooUrl) {
-  var proxies = [
-    "https://api.allorigins.win/raw?url=",
-    "https://corsproxy.io/?"
+  var enc = encodeURIComponent(yahooUrl);
+  var url2 = yahooUrl.replace('query1.finance.yahoo.com','query2.finance.yahoo.com');
+  var enc2 = encodeURIComponent(url2);
+  var attempts = [
+    { u: "https://api.allorigins.win/get?url=" + enc, wrap: true },
+    { u: "https://api.allorigins.win/raw?url=" + enc, wrap: false },
+    { u: "https://corsproxy.io/?" + enc, wrap: false },
+    { u: "https://api.codetabs.com/v1/proxy?quest=" + enc, wrap: false },
+    { u: "https://api.allorigins.win/get?url=" + enc2, wrap: true },
+    { u: "https://corsproxy.io/?" + enc2, wrap: false }
   ];
   var lastErr = null;
-  for (var i = 0; i < proxies.length; i++) {
+  for (var i = 0; i < attempts.length; i++) {
     try {
-      var r = await fetch(proxies[i] + encodeURIComponent(yahooUrl));
-      if (r.ok) return await r.json();
-      lastErr = new Error('HTTP ' + r.status);
+      var r = await fetch(attempts[i].u);
+      if (r.ok) {
+        var d = await r.json();
+        return attempts[i].wrap ? JSON.parse(d.contents) : d;
+      }
+      lastErr = new Error('Proxy ' + (i+1) + ': HTTP ' + r.status);
     } catch(e) {
       lastErr = e;
     }
   }
-  throw lastErr || new Error('Error de connexió');
+  throw lastErr || new Error('Cap proxy disponible. Torna-ho a provar en uns minuts.');
 }
 
 async function calcular() {
