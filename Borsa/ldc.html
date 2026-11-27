@@ -512,8 +512,8 @@ async function calcular() {
     document.getElementById('rPrice').textContent = price.toFixed(2);
     document.getElementById('rAtr').textContent = atr20.toFixed(2);
     document.getElementById('rLdc').textContent = ldc.toFixed(2);
-    document.getElementById('rDist').textContent = dist.toFixed(1) + '%';
-    document.getElementById('rDist').className = 'val ' + (dist > 6 ? 'green' : 'yellow');
+    document.getElementById('rDist').textContent = dist.toFixed(1) + '%' + (dist < 0 ? ' — Sota LdC!' : '');
+    document.getElementById('rDist').className = 'val ' + (dist < 0 ? 'red' : dist > 6 ? 'green' : 'yellow');
 
     document.getElementById('rSma').textContent = aboveSma ? 'Per sobre' : 'Per sota';
     document.getElementById('rSma').className = 'val ' + (aboveSma ? 'green' : 'red');
@@ -525,7 +525,8 @@ async function calcular() {
     document.getElementById('rAtrF').className = 'val ' + (atrOk ? 'green' : 'red');
 
     var badge = document.getElementById('statusBadge');
-    if (meetsNow) badge.innerHTML = '<div class="badge ok">Compleix entrada ARA</div>';
+    if (dist < 0) badge.innerHTML = '<div class="badge no">Preu SOTA el LdC — zona de sortida</div>';
+    else if (meetsNow) badge.innerHTML = '<div class="badge ok">Compleix entrada ARA</div>';
     else if (metRecently) badge.innerHTML = '<div class="badge recent">Complia fa ' + daysAgo + ' dies</div>';
     else badge.innerHTML = '<div class="badge no">No compleix</div>';
 
@@ -576,13 +577,39 @@ try {
 
 async function updateStockList() {
   var btn = document.getElementById('btnUpdate');
-  btn.textContent = 'Actualitzant...';
+  btn.textContent = 'Actualitzant des de Wikipedia...';
   btn.disabled = true;
   try {
-    var r = await fetch('stocks.json?v=' + Date.now());
+    var url = 'https://en.wikipedia.org/w/api.php?action=parse&page=List_of_S%26P_500_companies&prop=text&format=json&origin=*';
+    var ctrl = new AbortController();
+    var tid = setTimeout(function(){ ctrl.abort(); }, 20000);
+    var r = await fetch(url, { signal: ctrl.signal });
+    clearTimeout(tid);
     if (!r.ok) throw new Error('HTTP ' + r.status);
-    var data = await r.json();
-    if (!Array.isArray(data) || data.length < 10) throw new Error('Format incorrecte');
+    var json = await r.json();
+    var html = json.parse.text['*'];
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(html, 'text/html');
+    var table = doc.querySelector('table.wikitable');
+    if (!table) throw new Error('Taula no trobada');
+    var rows = table.querySelectorAll('tbody tr');
+    var data = [];
+    for (var i = 0; i < rows.length; i++) {
+      var cells = rows[i].querySelectorAll('td');
+      if (cells.length >= 2) {
+        var ticker = cells[0].textContent.trim().replace(/\n/g, '');
+        var name = cells[1].textContent.trim().replace(/\n/g, '');
+        if (ticker && name) data.push([ticker, name]);
+      }
+    }
+    if (data.length < 400) throw new Error('Poques empreses (' + data.length + ')');
+    /* Afegir ETFs populars que no estan a la llista S&P 500 */
+    var etfs = [["SPY","SPDR S&P 500"],["QQQ","Invesco QQQ"],["IWM","iShares Russell 2000"],["VOO","Vanguard S&P 500"],["VTI","Vanguard Total Stock"],["IVV","iShares Core S&P 500"],["DIA","SPDR Dow Jones"],["VGK","Vanguard FTSE Europe"],["EFA","iShares MSCI EAFE"],["EEM","iShares MSCI Emerging"],["VWO","Vanguard FTSE Emerging"],["AGG","iShares US Agg Bond"],["BND","Vanguard Total Bond"],["TLT","iShares 20+ Year Treasury"],["HYG","iShares High Yield Bond"],["LQD","iShares IG Corp Bond"],["GLD","SPDR Gold"],["SLV","iShares Silver"],["IAU","iShares Gold"],["XLE","Energy SPDR"],["XLK","Technology SPDR"],["XLF","Financial SPDR"],["XLV","Health Care SPDR"],["XLI","Industrial SPDR"],["XLP","Consumer Staples SPDR"],["XLY","Consumer Discret SPDR"],["XLU","Utilities SPDR"],["XLB","Materials SPDR"],["XLRE","Real Estate SPDR"],["XLC","Communication SPDR"],["VNQ","Vanguard Real Estate"],["ARKK","ARK Innovation"],["SCHD","Schwab US Dividend"],["VIG","Vanguard Dividend"],["SMH","VanEck Semiconductor"],["SOXX","iShares Semiconductor"],["XBI","SPDR Biotech"],["RSP","Invesco S&P 500 EW"],["VEA","Vanguard Developed"],["VXUS","Vanguard Total Intl"],["IBIT","iShares Bitcoin"],["FBTC","Fidelity Bitcoin"],["XHB","SPDR Homebuilders"],["KRE","SPDR Regional Banking"],["XOP","SPDR Oil & Gas"],["VTV","Vanguard Value"],["VUG","Vanguard Growth"],["IWF","iShares Russell Growth"],["IWD","iShares Russell Value"],["MGK","Vanguard Mega Growth"],["COWZ","Pacer Cash Cows"]];
+    var existing = {};
+    for (var j = 0; j < data.length; j++) existing[data[j][0]] = true;
+    for (var k = 0; k < etfs.length; k++) {
+      if (!existing[etfs[k][0]]) data.push(etfs[k]);
+    }
     STOCKS = data;
     try { localStorage.setItem('ldc_stocks', JSON.stringify(data)); } catch(e) {}
     btn.textContent = 'Llista actualitzada (' + data.length + ')';
