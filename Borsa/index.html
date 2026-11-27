@@ -2908,7 +2908,7 @@ function ceUpdateConfig(){
   var info=document.getElementById('ceConfigInfo');
   if(cap>0){info.textContent='$'+(cap/8).toFixed(0)+' per posició (12.5%)';}else{info.textContent='';}
   if(CE_data)ceRenderEntries(CE_data.entries_today||[]);
-  if(CE_data)ceRenderSignals(CE_data.signals||[],CE_data.signals_total||0);
+  if(CE_data)ceRenderSignals(CE_data.recommendations||[],CE_data.signals_total||0);
 }
 function ceLoadConfig(){
   try{var c=JSON.parse(localStorage.getItem('ce_config')||'{}');
