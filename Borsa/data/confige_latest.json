@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-26T23:11:34",
-  "date": "2026-11-26",
+  "generatedAt": "2026-11-27T00:33:32",
+  "date": "2026-11-27",
   "params": {
     "sma_period": 200,
     "atr_period": 20,
@@ -31,7 +31,7 @@
       "stop_loss": 86.04,
       "atr20": 10.93,
       "pl_pct": 2.7,
-      "days_held": 1,
+      "days_held": 2,
       "date": "2026-11-25",
       "pb_pct": 30.98
     },
@@ -45,7 +45,7 @@
       "stop_loss": 184.12,
       "atr20": 14.87,
       "pl_pct": -2.02,
-      "days_held": 1,
+      "days_held": 2,
       "date": "2026-11-25",
       "pb_pct": 30.91
     },
@@ -59,7 +59,7 @@
       "stop_loss": 155.46,
       "atr20": 11.76,
       "pl_pct": 1.23,
-      "days_held": 1,
+      "days_held": 2,
       "date": "2026-11-25",
       "pb_pct": 24.46
     },
@@ -73,7 +73,7 @@
       "stop_loss": 120.46,
       "atr20": 8.6,
       "pl_pct": 1.86,
-      "days_held": 1,
+      "days_held": 2,
       "date": "2026-11-25",
       "pb_pct": 2.98
     },
@@ -87,7 +87,7 @@
       "stop_loss": 188.53,
       "atr20": 15.95,
       "pl_pct": -0.74,
-      "days_held": 1,
+      "days_held": 2,
       "date": "2026-11-25",
       "pb_pct": 19.85
     },
@@ -101,7 +101,7 @@
       "stop_loss": 331.77,
       "atr20": 18.83,
       "pl_pct": -2.5,
-      "days_held": 1,
+      "days_held": 2,
       "date": "2026-11-25",
       "pb_pct": 21.92
     },
@@ -115,7 +115,7 @@
       "stop_loss": 305.81,
       "atr20": 15.88,
       "pl_pct": -0.51,
-      "days_held": 1,
+      "days_held": 2,
       "date": "2026-11-25",
       "pb_pct": 18.89
     },
@@ -129,7 +129,7 @@
       "stop_loss": 298.54,
       "atr20": 16.19,
       "pl_pct": 1.08,
-      "days_held": 1,
+      "days_held": 2,
       "date": "2026-11-25",
       "pb_pct": 15.64
     }
