@@ -2973,7 +2973,7 @@ function ceConfirmBuy(sym,atr,pb,nom,sector){
   var h=ceGetHistory();h.push({type:'BUY',sym:sym,nom:nom||sym,shares:sh,price:bp,stop:sp,comm:ce2,total:+(inv+ce2).toFixed(2),date:new Date().toISOString().split('T')[0]});ceSaveHistory(h);
   ceCloseBuyModal();ceRenderPortfolio();
   ceRenderPositions();ceRenderHistory();
-  if(CE_data){ceRenderEntries(CE_data.entries_today||[]);ceRenderSignals(CE_data.signals||[],CE_data.signals_total||0);}
+  if(CE_data){ceRenderEntries(CE_data.entries_today||[]);ceRenderSignals(CE_data.recommendations||[],CE_data.signals_total||0);}
 }
 function ceSellStock(sym){
   var pf=ceGetPortfolio().filter(function(p){return p.sym!==sym;});
